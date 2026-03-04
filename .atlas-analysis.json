@@ -1,0 +1,251 @@
+{
+  "projectType": "frontend",
+  "projectName": "Paste",
+  "projectDescription": "A design system for designing and building consistent, accessible experiences at Twilio",
+  "theme": "willow",
+  "primaryColor": "#f43249",
+  "lightColor": "#fc94a4",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction",
+              "getting-started",
+              "installation"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/design-tokens",
+              "concepts/theming",
+              "concepts/customization",
+              "concepts/accessibility"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Components",
+        "groups": [
+          {
+            "group": "Layout",
+            "pages": [
+              "components/layout/box",
+              "components/layout/flex",
+              "components/layout/grid",
+              "components/layout/stack",
+              "components/layout/separator",
+              "components/layout/media-object"
+            ]
+          },
+          {
+            "group": "Form Elements",
+            "pages": [
+              "components/form/input",
+              "components/form/textarea",
+              "components/form/select",
+              "components/form/checkbox",
+              "components/form/radio-group",
+              "components/form/combobox",
+              "components/form/date-picker",
+              "components/form/time-picker",
+              "components/form/file-picker",
+              "components/form/file-uploader",
+              "components/form/switch",
+              "components/form/slider",
+              "components/form/label",
+              "components/form/help-text"
+            ]
+          },
+          {
+            "group": "Navigation",
+            "pages": [
+              "components/navigation/breadcrumb",
+              "components/navigation/tabs",
+              "components/navigation/pagination",
+              "components/navigation/in-page-navigation",
+              "components/navigation/anchor"
+            ]
+          },
+          {
+            "group": "Actions",
+            "pages": [
+              "components/actions/button",
+              "components/actions/button-group",
+              "components/actions/menu"
+            ]
+          },
+          {
+            "group": "Data Display",
+            "pages": [
+              "components/data-display/table",
+              "components/data-display/data-grid",
+              "components/data-display/list",
+              "components/data-display/description-list",
+              "components/data-display/card",
+              "components/data-display/avatar",
+              "components/data-display/badge",
+              "components/data-display/status",
+              "components/data-display/timeline",
+              "components/data-display/code-block",
+              "components/data-display/inline-code"
+            ]
+          },
+          {
+            "group": "Typography",
+            "pages": [
+              "components/typography/heading",
+              "components/typography/display-heading",
+              "components/typography/paragraph",
+              "components/typography/text",
+              "components/typography/blockquote",
+              "components/typography/detail-text",
+              "components/typography/example-text"
+            ]
+          },
+          {
+            "group": "Feedback",
+            "pages": [
+              "components/feedback/alert",
+              "components/feedback/callout",
+              "components/feedback/toast",
+              "components/feedback/spinner",
+              "components/feedback/skeleton-loader",
+              "components/feedback/progress-bar",
+              "components/feedback/progress-steps",
+              "components/feedback/meter"
+            ]
+          },
+          {
+            "group": "Overlays",
+            "pages": [
+              "components/overlays/modal",
+              "components/overlays/alert-dialog",
+              "components/overlays/popover",
+              "components/overlays/tooltip",
+              "components/overlays/disclosure",
+              "components/overlays/side-modal",
+              "components/overlays/minimizable-dialog"
+            ]
+          },
+          {
+            "group": "Communication",
+            "pages": [
+              "components/communication/chat-log",
+              "components/communication/chat-composer",
+              "components/communication/ai-chat-log"
+            ]
+          },
+          {
+            "group": "Application",
+            "pages": [
+              "components/application/topbar",
+              "components/application/sidebar",
+              "components/application/page-header",
+              "components/application/account-switcher",
+              "components/application/product-switcher",
+              "components/application/user-dialog",
+              "components/application/side-panel"
+            ]
+          },
+          {
+            "group": "Utilities",
+            "pages": [
+              "components/utilities/screen-reader-only",
+              "components/utilities/truncate",
+              "components/utilities/visual-picker",
+              "components/utilities/display-pill-group",
+              "components/utilities/form-pill-group"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Customization",
+        "groups": [
+          {
+            "group": "Theming",
+            "pages": [
+              "customization/theme-provider",
+              "customization/customization-provider",
+              "customization/design-tokens-overview",
+              "customization/creating-custom-themes"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "customization/custom-components",
+              "customization/style-props",
+              "customization/theme-designer"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Icons",
+        "groups": [
+          {
+            "group": "Icon Library",
+            "pages": [
+              "icons/overview",
+              "icons/usage",
+              "icons/icon-list"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Utilities",
+        "groups": [
+          {
+            "group": "Packages",
+            "pages": [
+              "utilities/codemods",
+              "utilities/color-contrast-utils",
+              "utilities/uid-library"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "81+ accessible React components",
+    "Design tokens system",
+    "Customizable theming",
+    "Comprehensive icon library",
+    "TypeScript support",
+    "Storybook documentation"
+  ],
+  "publicApiSurface": [
+    "@twilio-paste/core",
+    "@twilio-paste/design-tokens",
+    "@twilio-paste/theme",
+    "@twilio-paste/customization",
+    "@twilio-paste/icons",
+    "Button",
+    "Alert",
+    "Modal",
+    "Table",
+    "Input",
+    "Select",
+    "Checkbox",
+    "RadioGroup",
+    "Tabs",
+    "Menu",
+    "Card",
+    "Avatar",
+    "Badge",
+    "Spinner",
+    "Toast",
+    "Popover",
+    "Tooltip"
+  ]
+}
