@@ -1,0 +1,103 @@
+---
+title: List
+description: List components for displaying ordered and unordered lists with customizable styling.
+---
+
+# List
+
+The List component provides ordered and unordered list elements with consistent styling.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/list
+```
+
+## Usage
+
+### Unordered List
+
+```jsx
+import { UnorderedList, ListItem } from '@twilio-paste/list';
+
+<UnorderedList>
+  <ListItem>First item</ListItem>
+  <ListItem>Second item</ListItem>
+  <ListItem>Third item</ListItem>
+</UnorderedList>
+```
+
+### Ordered List
+
+```jsx
+import { OrderedList, ListItem } from '@twilio-paste/list';
+
+<OrderedList>
+  <ListItem>First item</ListItem>
+  <ListItem>Second item</ListItem>
+  <ListItem>Third item</ListItem>
+</OrderedList>
+```
+
+### Ordered Display List
+
+```jsx
+import { OrderedDisplayList, OrderedDisplayListItem, OrderedDisplayListHeading } from '@twilio-paste/list';
+
+<OrderedDisplayList variant="heading20">
+  <OrderedDisplayListItem>
+    <OrderedDisplayListHeading>Step 1</OrderedDisplayListHeading>
+    Complete the first task
+  </OrderedDisplayListItem>
+  <OrderedDisplayListItem>
+    <OrderedDisplayListHeading>Step 2</OrderedDisplayListHeading>
+    Complete the second task
+  </OrderedDisplayListItem>
+</OrderedDisplayList>
+```
+
+## Props
+
+### List (Base)
+
+<ResponseField name="as" type="'ol' | 'ul'" required>
+  The HTML element type to render.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="LIST">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="listStyleType" type="ListStyleType">
+  Sets the list-style-type of the list. This is a shorthand for the CSS property.
+</ResponseField>
+
+<ResponseField name="marginTop" type="Space">
+  Sets the top margin spacing.
+</ResponseField>
+
+<ResponseField name="marginBottom" type="Space">
+  Sets the bottom margin spacing.
+</ResponseField>
+
+### ListItem
+
+<ResponseField name="element" type="string" default="LIST_ITEM">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### OrderedDisplayList
+
+<ResponseField name="variant" type="'heading20' | 'heading30' | 'heading40' | 'heading50' | 'heading60'">
+  Sets the heading variant for the ordered display list.
+</ResponseField>
+
+### OrderedDisplayListHeading
+
+<ResponseField name="element" type="string" default="ORDERED_DISPLAY_LIST_HEADING">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="as" type="HeadingProps['as']">
+  The HTML heading element to render.
+</ResponseField>

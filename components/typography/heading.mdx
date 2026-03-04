@@ -1,0 +1,154 @@
+---
+title: Heading
+description: The Heading component provides semantic heading levels with predefined typographic styles.
+---
+
+# Heading
+
+The Heading component provides semantic heading levels with predefined typographic styles. Use Heading to create a clear typographic hierarchy for content organization.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/heading
+```
+
+## Usage
+
+```jsx
+import { Heading } from '@twilio-paste/heading';
+
+const MyComponent = () => (
+  <Heading as="h1" variant="heading10">
+    I am a Very Large Heading
+  </Heading>
+);
+```
+
+## Props
+
+### Heading Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `as` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6' \| 'div' \| 'label' \| 'span' \| 'header'` | - | **Required.** The HTML element to render. |
+| `variant` | `'heading10' \| 'heading20' \| 'heading30' \| 'heading40' \| 'heading50' \| 'heading60'` | `'heading20'` | **Required.** Style variant to apply to the heading, affects the visual appearance. |
+| `element` | `string` | `'HEADING'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+| `id` | `string` | - | Same as the HTML `id` attribute. |
+| `marginBottom` | `'space0'` | - | Currently we only allow `space0` to remove bottom margin. |
+| `display` | `TextProps['display']` | `'block'` | CSS display property. |
+
+## Variants
+
+The Heading component provides six variants with different sizes and spacing:
+
+- **heading10**: Largest heading (fontSize90, lineHeight90, marginBottom space70)
+- **heading20**: Default, very large (fontSize70, lineHeight70, marginBottom space60)
+- **heading30**: Large (fontSize60, lineHeight60, marginBottom space50)
+- **heading40**: Medium (fontSize40, lineHeight40, marginBottom space30)
+- **heading50**: Small (fontSize30, lineHeight30, marginBottom space30)
+- **heading60**: Smallest (fontSize20, lineHeight20, marginBottom space30)
+
+All variants use `fontWeightSemibold` and `-0.02em` letter spacing.
+
+## Examples
+
+### Basic Heading Variants
+
+```jsx
+<Heading as="h1" variant="heading10">
+  I am a Very Large Heading
+</Heading>
+
+<Heading as="h2" variant="heading20">
+  I am a Very Large Heading
+</Heading>
+
+<Heading as="h3" variant="heading30">
+  I am a Very Large Heading
+</Heading>
+
+<Heading as="h4" variant="heading40">
+  I am a Very Large Heading
+</Heading>
+
+<Heading as="h5" variant="heading50">
+  I am a Very Large Heading
+</Heading>
+
+<Heading as="h6" variant="heading60">
+  I am a Very Large Heading
+</Heading>
+```
+
+### Removing Bottom Margin
+
+Use `marginBottom="space0"` to remove the default bottom margin:
+
+```jsx
+<Card>
+  <Heading as="h1" marginBottom="space0" variant="heading10">
+    I am a Very Large Heading
+  </Heading>
+</Card>
+```
+
+## Customization
+
+The Heading component can be customized using the Customization Provider:
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    HEADING: {
+      backgroundColor: 'colorBackgroundPrimaryWeaker',
+      color: 'colorTextError',
+      padding: 'space40',
+      textDecoration: 'underline',
+      variants: {
+        heading10: {
+          color: 'colorTextError',
+        },
+        heading20: {
+          color: 'colorTextLink',
+          textDecoration: 'none',
+        },
+      },
+    },
+  }}
+>
+  <Heading as="h1" variant="heading10">
+    Customized heading
+  </Heading>
+  <Heading as="h2" variant="heading20">
+    Customized heading variant
+  </Heading>
+</CustomizationProvider>
+```
+
+You can also use a custom element name:
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    NEW_HEADING: {
+      backgroundColor: 'colorBackgroundTrial',
+      color: 'colorTextLink',
+      padding: 'space60',
+    },
+  }}
+>
+  <Heading as="h1" variant="heading10" element="NEW_HEADING">
+    Customized element heading
+  </Heading>
+</CustomizationProvider>
+```
+
+## Accessibility
+
+- Use semantic HTML heading tags (`h1` through `h6`) to create a logical document outline
+- Don't skip heading levels (e.g., don't jump from `h1` to `h3`)
+- Use headings to organize content, not just for visual styling
+- Each page should have one `h1` element

@@ -1,0 +1,107 @@
+---
+title: Badge
+description: A small label component for displaying status, counts, or categorical information.
+---
+
+# Badge
+
+The Badge component is used to display status, counts, or categorical information in a compact format.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/badge
+```
+
+## Usage
+
+### Basic Badge
+
+```jsx
+import { Badge } from '@twilio-paste/badge';
+
+<Badge as="span" variant="success">Active</Badge>
+```
+
+### Button Badge
+
+```jsx
+<Badge as="button" variant="neutral" onClick={() => console.log('clicked')}>
+  Clickable
+</Badge>
+```
+
+### Link Badge
+
+```jsx
+<Badge as="a" variant="new" href="https://example.com">
+  New Feature
+</Badge>
+```
+
+### Counter Badges
+
+```jsx
+<Badge as="span" variant="neutral_counter">5</Badge>
+<Badge as="span" variant="error_counter">12</Badge>
+<Badge as="span" variant="notification_counter">3</Badge>
+```
+
+## Props
+
+### Badge
+
+<ResponseField name="as" type="'span' | 'button' | 'a'" required>
+  Underlying HTML element to render. Can be "span", "button", or "a".
+</ResponseField>
+
+<ResponseField name="variant" type="BadgeVariant" required>
+  Sets the visual style of the badge. Available variants:
+  - `neutral`
+  - `warning`
+  - `error`
+  - `success`
+  - `new`
+  - `subaccount`
+  - `decorative10`, `decorative20`, `decorative30`, `decorative40`
+  - `brand10`, `brand20`, `brand30`
+  - `neutral_counter`, `error_counter`, `notification_counter`
+  - `default`
+  - `info` (deprecated)
+</ResponseField>
+
+<ResponseField name="size" type="'default' | 'small'" default="default">
+  Sets the size of the badge.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="BADGE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="onClick" type="function">
+  Click handler (required when `as="button"`).
+</ResponseField>
+
+<ResponseField name="href" type="string">
+  Link URL (required when `as="a"`).
+</ResponseField>
+
+## Variants
+
+### Status Badges
+- **neutral**: Neutral or informational status
+- **success**: Successful or positive status
+- **warning**: Warning or attention needed
+- **error**: Error or critical status
+- **new**: New feature or item
+
+### Counter Badges
+- **neutral_counter**: Neutral count with error icon
+- **error_counter**: Error count with error icon
+- **notification_counter**: Notification count
+
+### Decorative Badges
+- **decorative10**, **decorative20**, **decorative30**, **decorative40**: Color variants for categorization
+
+### Brand Badges
+- **brand10**, **brand20**, **brand30**: Brand color variants

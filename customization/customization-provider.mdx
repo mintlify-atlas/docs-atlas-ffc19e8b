@@ -1,0 +1,505 @@
+---
+title: Customization Provider
+description: Customize Paste components with theme overrides and element-level styling using the Customization Provider.
+slug: /customization/customization-provider
+---
+
+The Customization Provider is a powerful wrapper that extends the Theme Provider, allowing you to customize Paste's look and feel without building components from scratch.
+
+## Overview
+
+While `Theme.Provider` offers pre-built themes, `CustomizationProvider` enables you to:
+
+- Override specific design tokens
+- Customize individual component styles using element names
+- Create brand-specific variations
+- Merge custom tokens with base themes
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+# or
+yarn add @twilio-paste/core
+```
+
+## Basic Usage
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function App() {
+  return (
+    <CustomizationProvider baseTheme="default">
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+## Props
+
+### baseTheme
+
+- **Type:** `'default' | 'dark'`
+- **Default:** `'default'`
+
+Choose the base theme your customizations will extend:
+
+```jsx
+<CustomizationProvider baseTheme="dark">
+  <App />
+</CustomizationProvider>
+```
+
+### theme
+
+- **Type:** `Partial<GenericThemeShape>`
+
+Provide partial theme overrides that merge with the base theme:
+
+```jsx
+<CustomizationProvider
+  baseTheme="default"
+  theme={{
+    fonts: {
+      fontFamilyText: '"Inter", sans-serif',
+    },
+    radii: {
+      borderRadius20: '8px',
+      borderRadius30: '12px',
+    },
+    backgroundColors: {
+      colorBackgroundPrimary: '#0263E0',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### elements
+
+- **Type:** `{ [key: string]: PasteCustomCSS }`
+
+Customize specific component elements using their element names:
+
+```jsx
+<CustomizationProvider
+  elements={{
+    BUTTON: {
+      borderRadius: 'borderRadius30',
+      fontWeight: 'fontWeightBold',
+    },
+    HEADING: {
+      fontFamily: 'fontFamilyText',
+      color: 'colorTextBrandHighlight',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### customBreakpoints
+
+- **Type:** `string[]`
+
+Define custom responsive breakpoints:
+
+```jsx
+<CustomizationProvider
+  customBreakpoints={['640px', '768px', '1024px', '1280px']}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### disableAnimations
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Disable all animations:
+
+```jsx
+<CustomizationProvider disableAnimations>
+  <App />
+</CustomizationProvider>
+```
+
+## Theme Overrides
+
+### Typography
+
+Customize fonts, sizes, and weights:
+
+```jsx
+<CustomizationProvider
+  theme={{
+    fonts: {
+      fontFamilyText: '"Roboto", sans-serif',
+      fontFamilyCode: '"Fira Code", monospace',
+    },
+    fontSizes: {
+      fontSize20: '13px',
+      fontSize30: '15px',
+      fontSize40: '17px',
+    },
+    fontWeights: {
+      fontWeightNormal: '400',
+      fontWeightMedium: '500',
+      fontWeightBold: '700',
+    },
+    lineHeights: {
+      lineHeight20: '18px',
+      lineHeight30: '22px',
+      lineHeight40: '26px',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### Colors
+
+Override background, text, and border colors:
+
+```jsx
+<CustomizationProvider
+  theme={{
+    backgroundColors: {
+      colorBackgroundPrimary: '#0263E0',
+      colorBackgroundPrimaryStrong: '#0050C5',
+      colorBackgroundPrimaryStronger: '#003DA5',
+    },
+    textColors: {
+      colorText: '#1F1F1F',
+      colorTextWeak: '#606060',
+      colorTextLink: '#0263E0',
+    },
+    borderColors: {
+      colorBorder: '#D1D5DB',
+      colorBorderStrong: '#9CA3AF',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### Spacing & Sizing
+
+Adjust spacing scale and component sizes:
+
+```jsx
+<CustomizationProvider
+  theme={{
+    space: {
+      space30: '6px',
+      space40: '10px',
+      space50: '14px',
+      space60: '18px',
+      space70: '22px',
+    },
+    sizes: {
+      sizeIcon10: '14px',
+      sizeIcon20: '18px',
+      sizeIcon30: '22px',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### Borders & Shadows
+
+Customize border radii, widths, and shadows:
+
+```jsx
+<CustomizationProvider
+  theme={{
+    radii: {
+      borderRadius10: '2px',
+      borderRadius20: '6px',
+      borderRadius30: '10px',
+    },
+    borderWidths: {
+      borderWidth10: '1px',
+      borderWidth20: '2px',
+    },
+    shadows: {
+      shadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+      shadowCard: '0 2px 8px rgba(0, 0, 0, 0.08)',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+## Element Customization
+
+Each Paste component exposes element names for granular styling.
+
+### Button Customization
+
+```jsx
+<CustomizationProvider
+  elements={{
+    BUTTON: {
+      // Base styles
+      borderRadius: 'borderRadius30',
+      fontWeight: 'fontWeightBold',
+      paddingX: 'space60',
+      paddingY: 'space30',
+      // Variant-specific styles
+      variants: {
+        primary: {
+          backgroundColor: 'colorBackgroundBrandStrongest',
+          color: 'colorTextInverse',
+          ':hover': {
+            backgroundColor: 'colorBackgroundBrandStronger',
+          },
+        },
+        secondary: {
+          borderColor: 'colorBorderStrong',
+          ':hover': {
+            backgroundColor: 'colorBackgroundStrong',
+          },
+        },
+      },
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### Input Customization
+
+```jsx
+<CustomizationProvider
+  elements={{
+    INPUT: {
+      borderRadius: 'borderRadius20',
+      borderColor: 'colorBorder',
+      fontSize: 'fontSize30',
+      paddingX: 'space40',
+      paddingY: 'space30',
+      ':focus': {
+        borderColor: 'colorBorderPrimary',
+        boxShadow: 'shadowFocus',
+      },
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### Card Customization
+
+```jsx
+<CustomizationProvider
+  elements={{
+    CARD: {
+      borderRadius: 'borderRadius30',
+      boxShadow: 'shadowCard',
+      padding: 'space70',
+      backgroundColor: 'colorBackgroundBody',
+      ':hover': {
+        boxShadow: 'shadow',
+      },
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+### Multiple Elements
+
+Customize multiple components at once:
+
+```jsx
+<CustomizationProvider
+  elements={{
+    BUTTON: {
+      borderRadius: 'borderRadius30',
+      fontWeight: 'fontWeightBold',
+    },
+    INPUT: {
+      borderRadius: 'borderRadius20',
+      fontSize: 'fontSize30',
+    },
+    CARD: {
+      borderRadius: 'borderRadius30',
+      padding: 'space70',
+    },
+    HEADING: {
+      fontFamily: 'fontFamilyText',
+      fontWeight: 'fontWeightBold',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+## Style Props in Elements
+
+Elements support all Paste style props:
+
+```jsx
+<CustomizationProvider
+  elements={{
+    ALERT: {
+      // Layout
+      padding: 'space50',
+      marginBottom: 'space60',
+      
+      // Background & Border
+      backgroundColor: 'colorBackgroundNeutralWeakest',
+      borderLeftWidth: 'borderWidth20',
+      borderLeftColor: 'colorBorderNeutral',
+      borderRadius: 'borderRadius20',
+      
+      // Typography
+      fontSize: 'fontSize30',
+      lineHeight: 'lineHeight30',
+      
+      // Pseudo-classes
+      ':hover': {
+        backgroundColor: 'colorBackgroundNeutralWeaker',
+      },
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+## Advanced Patterns
+
+### Brand-Specific Theme
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function BrandedApp() {
+  const currentTheme = useTheme();
+
+  const brandTheme = {
+    ...currentTheme,
+    fonts: {
+      fontFamilyText: '"Your Brand Font", sans-serif',
+    },
+    backgroundColors: {
+      ...currentTheme.backgroundColors,
+      colorBackgroundPrimary: '#FF5733',
+      colorBackgroundPrimaryStrong: '#E04527',
+    },
+  };
+
+  return (
+    <CustomizationProvider
+      theme={brandTheme}
+      elements={{
+        BUTTON: {
+          borderRadius: 'borderRadius30',
+          fontWeight: 'fontWeightBold',
+          textTransform: 'uppercase',
+        },
+      }}
+    >
+      <App />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Nested Customization
+
+Apply different customizations to different sections:
+
+```jsx
+<CustomizationProvider baseTheme="default">
+  <Header />
+  
+  <CustomizationProvider
+    theme={{
+      backgroundColors: {
+        colorBackgroundBody: '#F9FAFB',
+      },
+    }}
+  >
+    <MainContent />
+  </CustomizationProvider>
+  
+  <Footer />
+</CustomizationProvider>
+```
+
+### Conditional Customization
+
+```jsx
+function App({ isPremium }) {
+  return (
+    <CustomizationProvider
+      elements={{
+        BUTTON: {
+          variants: {
+            primary: {
+              backgroundColor: isPremium
+                ? 'colorBackgroundBrandHighlight'
+                : 'colorBackgroundPrimary',
+            },
+          },
+        },
+      }}
+    >
+      <YourContent />
+    </CustomizationProvider>
+  );
+}
+```
+
+## Finding Element Names
+
+To customize a component, you need its element name. Each component's documentation includes its element names, or you can:
+
+1. Check the component's Props table
+2. Inspect the rendered HTML `data-paste-element` attribute
+3. Review the component's source code
+
+Common element names:
+- `BUTTON`, `INPUT`, `TEXTAREA`, `SELECT`
+- `CARD`, `HEADING`, `PARAGRAPH`, `TEXT`
+- `ALERT`, `MODAL`, `POPOVER`, `TOOLTIP`
+- `BOX` (used by many components internally)
+
+## Best Practices
+
+1. **Start with base theme:** Always extend a base theme rather than defining everything from scratch
+2. **Use design tokens:** Reference theme tokens in element customizations instead of hardcoded values
+3. **Test variants:** Ensure customizations work across all component variants
+4. **Maintain accessibility:** Don't override colors in ways that reduce contrast
+5. **Document customizations:** Keep track of which elements you've customized and why
+
+## Limitations
+
+- Element names are case-sensitive
+- Duplicate element names (even with different casing) will throw an error
+- Some internal component styles may not be customizable
+- Custom CSS should use Paste tokens for consistency
+
+## Next Steps
+
+- Explore [Design Tokens](/customization/design-tokens-overview) to understand available values
+- Learn about [Style Props](/customization/style-props) for element customization
+- Try the [Theme Designer](/customization/theme-designer) tool
+- Read about [Creating Custom Themes](/customization/creating-custom-themes)

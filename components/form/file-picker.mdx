@@ -1,0 +1,299 @@
+---
+title: File Picker
+description: A File Picker is a form element used to upload files.
+---
+
+File Picker allows users to select and upload a single file from their device. It provides a styled button interface with file name display.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/file-picker
+```
+
+## Usage
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Label } from '@twilio-paste/label';
+import { Button } from '@twilio-paste/button';
+
+const MyComponent = () => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+    }
+  };
+  
+  return (
+    <>
+      <Label htmlFor="file-upload">Upload file</Label>
+      <FilePicker
+        id="file-upload"
+        onChange={handleFileChange}
+      >
+        <Button variant="secondary">Choose file</Button>
+      </FilePicker>
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactElement" required>
+  Button component that triggers the file picker. Must be a single Button element.
+</ParamField>
+
+<ParamField path="id" type="string">
+  ID for the file input. Auto-generated if not provided.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="accept" type="string">
+  Specifies accepted file types. Uses MIME types or file extensions (e.g., "image/*", ".pdf,.doc").
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the file picker.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the file picker as required.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when a file is selected.
+</ParamField>
+
+<ParamField path="i18nNoSelectionText" type="string" default="'No file uploaded'">
+  Text displayed when no file is selected.
+</ParamField>
+
+<ParamField path="element" type="string" default="'FILEPICKER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic File Picker
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Label } from '@twilio-paste/label';
+import { Button } from '@twilio-paste/button';
+import { HelpText } from '@twilio-paste/help-text';
+
+<>
+  <Label htmlFor="document">Upload document</Label>
+  <FilePicker id="document">
+    <Button variant="secondary">Choose file</Button>
+  </FilePicker>
+  <HelpText>Select a file to upload</HelpText>
+</>
+```
+
+### With File Type Restrictions
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Button } from '@twilio-paste/button';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="image-upload">Upload image</Label>
+  <FilePicker
+    id="image-upload"
+    accept="image/*"
+  >
+    <Button variant="secondary">Choose image</Button>
+  </FilePicker>
+</>
+
+// Or specific file types
+<FilePicker
+  accept=".pdf,.doc,.docx"
+>
+  <Button variant="secondary">Choose document</Button>
+</FilePicker>
+```
+
+### With File Upload Handling
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Button } from '@twilio-paste/button';
+import { Stack } from '@twilio-paste/stack';
+
+const [file, setFile] = React.useState<File | null>(null);
+const [uploading, setUploading] = React.useState(false);
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFile = e.target.files?.[0];
+  if (selectedFile) {
+    setFile(selectedFile);
+  }
+};
+
+const handleUpload = async () => {
+  if (!file) return;
+  
+  setUploading(true);
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    alert('File uploaded successfully!');
+  } catch (error) {
+    alert('Upload failed');
+  } finally {
+    setUploading(false);
+  }
+};
+
+<Stack orientation="horizontal" spacing="space40">
+  <FilePicker onChange={handleFileChange}>
+    <Button variant="secondary">Choose file</Button>
+  </FilePicker>
+  <Button
+    variant="primary"
+    onClick={handleUpload}
+    disabled={!file || uploading}
+    loading={uploading}
+  >
+    Upload
+  </Button>
+</Stack>
+```
+
+### Required File Picker
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Label } from '@twilio-paste/label';
+import { Button } from '@twilio-paste/button';
+
+<>
+  <Label htmlFor="resume" required>
+    Resume
+  </Label>
+  <FilePicker
+    id="resume"
+    required
+    accept=".pdf,.doc,.docx"
+  >
+    <Button variant="secondary">Choose file</Button>
+  </FilePicker>
+</>
+```
+
+### Disabled State
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Label } from '@twilio-paste/label';
+import { Button } from '@twilio-paste/button';
+
+<>
+  <Label htmlFor="disabled-picker" disabled>
+    Attachment
+  </Label>
+  <FilePicker id="disabled-picker" disabled>
+    <Button variant="secondary" disabled>
+      Choose file
+    </Button>
+  </FilePicker>
+</>
+```
+
+### With File Validation
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Button } from '@twilio-paste/button';
+import { HelpText } from '@twilio-paste/help-text';
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const [error, setError] = React.useState('');
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  
+  if (file) {
+    if (file.size > MAX_FILE_SIZE) {
+      setError('File size must be less than 5MB');
+      e.target.value = ''; // Clear selection
+    } else {
+      setError('');
+    }
+  }
+};
+
+<>
+  <FilePicker
+    onChange={handleFileChange}
+    accept="image/*"
+  >
+    <Button variant="secondary">Choose image</Button>
+  </FilePicker>
+  {error ? (
+    <HelpText variant="error">{error}</HelpText>
+  ) : (
+    <HelpText>Maximum file size: 5MB</HelpText>
+  )}
+</>
+```
+
+### Custom No Selection Text
+
+```tsx
+import { FilePicker } from '@twilio-paste/file-picker';
+import { Button } from '@twilio-paste/button';
+
+<FilePicker
+  i18nNoSelectionText="No document selected"
+>
+  <Button variant="secondary">Browse files</Button>
+</FilePicker>
+```
+
+## Accessibility
+
+- File input is hidden but remains in DOM for screen reader access
+- Button receives focus and can be activated with keyboard
+- Selected filename is displayed and announced to screen readers
+- Use Label with `htmlFor` to properly associate label
+- Required state is properly announced
+- Disabled state prevents interaction and is announced
+- Supports full keyboard navigation
+
+## Best Practices
+
+- Always specify `accept` to guide users on allowed file types
+- Validate file type and size both client-side and server-side
+- Display selected filename clearly to users
+- Show maximum file size in help text
+- Provide clear error messages for validation failures
+- Use appropriate MIME types or file extensions in `accept`
+- For multiple file uploads, use File Uploader instead
+- Disable the picker while upload is in progress
+- Consider showing upload progress for large files
+- Sanitize and validate files on the server for security
+
+## Security Considerations
+
+- Always validate file types and sizes on the server
+- Scan uploaded files for malware
+- Store uploaded files securely
+- Use unique filenames to prevent overwrites
+- Implement rate limiting for file uploads
+- The `accept` attribute is not a security feature - validate server-side

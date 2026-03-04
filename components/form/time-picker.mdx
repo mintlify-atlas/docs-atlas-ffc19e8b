@@ -1,0 +1,297 @@
+---
+title: Time Picker
+description: A Time Picker is a form element used to select a time.
+---
+
+Time Picker is a specialized input component that provides a native browser time picker interface for selecting times.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/time-picker @twilio-paste/label @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  const [time, setTime] = React.useState('');
+  
+  return (
+    <>
+      <Label htmlFor="appointment-time">Appointment time</Label>
+      <TimePicker
+        id="appointment-time"
+        value={time}
+        onChange={(e) => setTime(e.target.value)}
+      />
+    </>
+  );
+};
+```
+
+## Props
+
+TimePicker extends all Input props with `type="time"` preset.
+
+<ParamField path="id" type="string">
+  Sets the id of the time picker. Should match the `htmlFor` of Label.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="value" type="string">
+  The selected time in HH:mm format (24-hour, controlled component).
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  Default time value for uncontrolled components.
+</ParamField>
+
+<ParamField path="min" type="string">
+  Minimum selectable time in HH:mm format.
+</ParamField>
+
+<ParamField path="max" type="string">
+  Maximum selectable time in HH:mm format.
+</ParamField>
+
+<ParamField path="step" type="number">
+  Time increment in seconds. For example, 900 = 15 minutes.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the time picker.
+</ParamField>
+
+<ParamField path="readOnly" type="boolean" default="false">
+  Makes the time picker read-only.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the time picker as required.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the time picker to an error state.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when the time changes.
+</ParamField>
+
+<ParamField path="element" type="string" default="'TIMEPICKER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic Time Picker
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [time, setTime] = React.useState('');
+
+<>
+  <Label htmlFor="meeting-time">Meeting time</Label>
+  <TimePicker
+    id="meeting-time"
+    value={time}
+    onChange={(e) => setTime(e.target.value)}
+  />
+  <HelpText>Select a time for your meeting</HelpText>
+</>
+```
+
+### With Min/Max Times
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="business-hours">Select a time</Label>
+  <TimePicker
+    id="business-hours"
+    min="09:00"
+    max="17:00"
+  />
+</>
+```
+
+### With Step Increment
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+
+// 15-minute increments
+<>
+  <Label htmlFor="appointment">Appointment time</Label>
+  <TimePicker
+    id="appointment"
+    step={900}
+  />
+</>
+```
+
+### Required Time Picker
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="start-time" required>
+    Start time
+  </Label>
+  <TimePicker
+    id="start-time"
+    required
+  />
+</>
+```
+
+### With Error State
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [time, setTime] = React.useState('');
+const [error, setError] = React.useState(false);
+
+const handleTimeChange = (e) => {
+  const selectedTime = e.target.value;
+  setTime(selectedTime);
+  
+  // Validate time is during business hours
+  const isBusinessHours = selectedTime >= '09:00' && selectedTime <= '17:00';
+  setError(!isBusinessHours);
+};
+
+<>
+  <Label htmlFor="call-time" required>
+    Preferred call time
+  </Label>
+  <TimePicker
+    id="call-time"
+    value={time}
+    onChange={handleTimeChange}
+    hasError={error}
+  />
+  {error && (
+    <HelpText variant="error">
+      Please select a time during business hours (9am - 5pm)
+    </HelpText>
+  )}
+</>
+```
+
+### Time Range Selection
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+import { Stack } from '@twilio-paste/stack';
+
+const [startTime, setStartTime] = React.useState('');
+const [endTime, setEndTime] = React.useState('');
+
+<Stack orientation="vertical" spacing="space60">
+  <div>
+    <Label htmlFor="start">Start time</Label>
+    <TimePicker
+      id="start"
+      value={startTime}
+      onChange={(e) => setStartTime(e.target.value)}
+    />
+  </div>
+  <div>
+    <Label htmlFor="end">End time</Label>
+    <TimePicker
+      id="end"
+      value={endTime}
+      onChange={(e) => setEndTime(e.target.value)}
+      min={startTime}
+    />
+  </div>
+</Stack>
+```
+
+### With Default Value
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+
+// Set default to current time
+const now = new Date();
+const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+<>
+  <Label htmlFor="current-time">Time</Label>
+  <TimePicker
+    id="current-time"
+    defaultValue={currentTime}
+  />
+</>
+```
+
+### Disabled State
+
+```tsx
+import { TimePicker } from '@twilio-paste/time-picker';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="locked-time" disabled>
+    Scheduled time
+  </Label>
+  <TimePicker
+    id="locked-time"
+    value="14:30"
+    disabled
+  />
+</>
+```
+
+## Accessibility
+
+- Always pair with a Label using matching `id` and `htmlFor`
+- Native time picker provides accessible interface
+- Keyboard accessible (arrow keys to adjust time, Enter to confirm)
+- Screen readers announce selected time and constraints
+- Use `required` prop and RequiredDot for required fields
+- Associate error messages properly
+- Disabled state is announced to assistive technologies
+
+## Best Practices
+
+- Use native time picker for consistent cross-platform experience
+- Set `step` to match your scheduling increment (e.g., 15, 30, 60 minutes)
+- Provide `min` and `max` to constrain valid time selections
+- Format times in 24-hour HH:mm format for consistency
+- Validate times both client-side and server-side
+- For time ranges, ensure end time minimum matches start time
+- Consider user's timezone when processing times
+- Show clear error messages for invalid selections
+- Use help text to clarify timezone or format expectations
+- Combine with Date Picker for complete datetime selection
+
+## Browser Support
+
+Time Picker uses the native HTML5 time input, supported in all modern browsers. For older browsers, it gracefully degrades to a text input.

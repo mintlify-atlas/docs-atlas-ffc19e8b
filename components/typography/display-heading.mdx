@@ -1,0 +1,108 @@
+---
+title: Display Heading
+description: The Display Heading component provides extra-large headings for prominent page titles and hero sections.
+---
+
+# Display Heading
+
+The Display Heading component provides extra-large headings for prominent page titles and hero sections. Use Display Heading when you need headings that are larger than standard Heading variants.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/display-heading
+```
+
+## Usage
+
+```jsx
+import { DisplayHeading } from '@twilio-paste/display-heading';
+
+const MyComponent = () => (
+  <DisplayHeading variant="displayHeading10" as="h1">
+    Display Heading 10
+  </DisplayHeading>
+);
+```
+
+## Props
+
+### DisplayHeading Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `as` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6' \| 'div' \| 'span' \| 'header'` | - | **Required.** HTML element to render. |
+| `variant` | `'displayHeading10' \| 'displayHeading20' \| 'displayHeading30'` | - | **Required.** The variant of the display heading. |
+| `element` | `string` | `'DISPLAY_HEADING'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+| `display` | `TextProps['display']` | `'block'` | CSS display property. |
+| `id` | `string` | - | Same as HTML id attribute. |
+| `marginBottom` | `'space0'` | - | Currently we only allow space0 to remove bottom margin. |
+
+## Variants
+
+The Display Heading component provides three variants:
+
+- **displayHeading10**: Largest (fontSizeDisplay30, lineHeightDisplay30, marginBottom space170)
+- **displayHeading20**: Default, large (fontSizeDisplay20, lineHeightDisplay20, marginBottom space130)
+- **displayHeading30**: Medium (fontSizeDisplay10, lineHeightDisplay10, marginBottom space90)
+
+All variants use `fontWeightExtrabold` and `fontFamilyDisplay`.
+
+## Examples
+
+### All Variants
+
+```jsx
+<DisplayHeading variant="displayHeading10" as="h1">
+  Display Heading 10
+</DisplayHeading>
+
+<DisplayHeading variant="displayHeading20" as="h1">
+  Display Heading 20
+</DisplayHeading>
+
+<DisplayHeading variant="displayHeading30" as="h1">
+  Display Heading 30
+</DisplayHeading>
+```
+
+### Removing Bottom Margin
+
+```jsx
+<DisplayHeading variant="displayHeading10" as="h1" marginBottom="space0">
+  Display Heading with no margin
+</DisplayHeading>
+```
+
+## Customization
+
+The Display Heading component can be customized using the Customization Provider:
+
+```jsx
+<CustomizationProvider 
+  theme={theme} 
+  elements={{ 
+    DISPLAY_HEADING: { 
+      color: 'colorTextDecorative20' 
+    } 
+  }}
+>
+  <DisplayHeading as="h1" variant="displayHeading10">
+    Display Heading with customization
+  </DisplayHeading>
+</CustomizationProvider>
+```
+
+## Key Differences from Heading
+
+- Uses `fontFamilyDisplay` instead of the default font family
+- Larger font sizes and spacing than standard Heading variants
+- Uses `fontWeightExtrabold` instead of `fontWeightSemibold`
+- Best suited for hero sections and prominent page titles
+
+## Accessibility
+
+- Use semantic HTML heading tags (`h1` through `h6`) to create a logical document outline
+- Don't skip heading levels (e.g., don't jump from `h1` to `h3`)
+- Each page should have one `h1` element
+- Consider that very large text may be difficult to read for users with certain cognitive disabilities

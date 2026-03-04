@@ -1,0 +1,200 @@
+---
+title: Truncate
+package: '@twilio-paste/truncate'
+description: Truncate shortens text with an ellipsis when it exceeds the available space.
+category: Utilities
+status: Production
+---
+
+import { Truncate } from '@twilio-paste/truncate';
+
+## About Truncate
+
+Truncate is a utility component that shortens text content with an ellipsis (...) when it overflows its container. It ensures text fits within constrained layouts while maintaining readability.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/truncate
+```
+
+## Usage
+
+```jsx
+import { Truncate } from '@twilio-paste/truncate';
+
+const MyComponent = () => (
+  <div style={{ width: '200px' }}>
+    <Truncate title="This is a very long text that will be truncated">
+      This is a very long text that will be truncated
+    </Truncate>
+  </div>
+);
+```
+
+## Props
+
+<PropsTable>
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Text content to truncate."
+  />
+  <PropsTableRow
+    name="title"
+    type="string"
+    required
+    description="Accessible label matching the content. Shows on hover and is read by screen readers."
+  />
+  <PropsTableRow
+    name="as"
+    type="string"
+    defaultValue="'span'"
+    description="HTML element to render as."
+  />
+</PropsTable>
+
+## Basic Example
+
+Truncate long text within a constrained container:
+
+```jsx
+<Box maxWidth="size20">
+  <Truncate title="user@example.com">
+    user@example.com
+  </Truncate>
+</Box>
+```
+
+## With Different Elements
+
+Change the underlying HTML element:
+
+```jsx
+<Truncate as="div" title="Long heading text">
+  Long heading text
+</Truncate>
+```
+
+## In Table Cells
+
+Commonly used in table cells to prevent overflow:
+
+```jsx
+<Table>
+  <TBody>
+    <Tr>
+      <Td>
+        <Truncate title="very-long-filename-that-would-break-layout.pdf">
+          very-long-filename-that-would-break-layout.pdf
+        </Truncate>
+      </Td>
+    </Tr>
+  </TBody>
+</Table>
+```
+
+## In Lists
+
+Truncate items in constrained list layouts:
+
+```jsx
+<ul>
+  <li style={{ width: '200px' }}>
+    <Truncate title="Long list item text that exceeds the container width">
+      Long list item text that exceeds the container width
+    </Truncate>
+  </li>
+</ul>
+```
+
+## With Links
+
+Combine with anchor elements:
+
+```jsx
+<a href="/page">
+  <Truncate title="Very long page title that needs truncation">
+    Very long page title that needs truncation
+  </Truncate>
+</a>
+```
+
+## Multiple Lines
+
+Truncate only works for single-line text. For multi-line truncation, use CSS directly:
+
+```jsx
+<Box
+  overflow="hidden"
+  textOverflow="ellipsis"
+  display="-webkit-box"
+  style={{
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: 'vertical'
+  }}
+>
+  Multi-line text content...
+</Box>
+```
+
+## Title Attribute
+
+The `title` prop is required and serves two purposes:
+
+1. Shows a tooltip on hover with the full text
+2. Provides the full content to screen readers
+
+Always set `title` to match the truncated content:
+
+```jsx
+const text = "Long text content";
+
+<Truncate title={text}>
+  {text}
+</Truncate>
+```
+
+## How It Works
+
+Truncate applies these CSS properties:
+
+```css
+{
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+```
+
+## Accessibility
+
+- The `title` attribute provides full text on hover
+- Screen readers announce the complete text from `title`
+- Users can still access full content via tooltip
+- Works with keyboard navigation
+
+## Best Practices
+
+### Do
+
+- Always provide a `title` that matches the content
+- Use in constrained layouts where space is limited
+- Truncate predictable content like emails, URLs, filenames
+- Provide alternative ways to see full content (modal, tooltip, etc)
+
+### Don't
+
+- Don't truncate critical information without providing access to full text
+- Don't use for multi-line content (use CSS directly)
+- Don't truncate content that must be fully visible
+- Don't forget the `title` attribute
+
+## Related components
+
+- [Text](/components/typography/text) - For standard text rendering
+- [Box](/primitives/box) - For custom text overflow styles

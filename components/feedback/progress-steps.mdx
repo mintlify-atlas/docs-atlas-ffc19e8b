@@ -1,0 +1,385 @@
+---
+title: Progress Steps
+description: Progress Steps can be a presentational or interactive component and shows users an outline of a complex multi-step task.
+---
+
+Progress Steps displays the progress of a multi-step process, showing users where they are in a sequence of steps. It can be used both as a static indicator and as interactive navigation.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/progress-steps
+```
+
+## Usage
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+  ProgressStepSeparator,
+} from '@twilio-paste/core/progress-steps';
+
+const MyComponent = () => {
+  return (
+    <ProgressSteps>
+      <ProgressStepComplete as="div">Account Info</ProgressStepComplete>
+      <ProgressStepSeparator />
+      <ProgressStepCurrent as="div">Verify Email</ProgressStepCurrent>
+      <ProgressStepSeparator />
+      <ProgressStepIncomplete as="div">Complete Profile</ProgressStepIncomplete>
+    </ProgressSteps>
+  );
+};
+```
+
+## Components
+
+### ProgressSteps
+
+Container component for the progress steps.
+
+<ParamField path="orientation" type="'horizontal' | 'vertical'" default="'horizontal'">
+  Layout direction of the progress steps.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode">
+  Progress step components and separators.
+</ParamField>
+
+<ParamField path="element" type="string" default="'PROGRESS_STEPS'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### ProgressStepComplete
+
+Represents a completed step.
+
+<ParamField path="as" type="'div' | 'button' | 'a'" required>
+  HTML element to render:
+  - `div`: Static, non-interactive step
+  - `button`: Interactive step with click handler
+  - `a`: Navigable step with href
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Step label text.
+</ParamField>
+
+<ParamField path="onClick" type="() => void">
+  Click handler (required when `as="button"`).
+</ParamField>
+
+<ParamField path="href" type="string">
+  URL (required when `as="a"`).
+</ParamField>
+
+### ProgressStepCurrent
+
+Represents the current active step.
+
+<ParamField path="as" type="'div' | 'button' | 'a'" required>
+  HTML element to render.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Step label text.
+</ParamField>
+
+### ProgressStepIncomplete
+
+Represents a step not yet reached.
+
+<ParamField path="as" type="'div' | 'button' | 'a'" required>
+  HTML element to render.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Step label text.
+</ParamField>
+
+<ParamField path="onClick" type="() => void">
+  Click handler (when `as="button"`).
+</ParamField>
+
+<ParamField path="href" type="string">
+  URL (when `as="a"`).
+</ParamField>
+
+### ProgressStepError
+
+Represents a step with an error.
+
+<ParamField path="as" type="'div' | 'button' | 'a'" required>
+  HTML element to render.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Step label text.
+</ParamField>
+
+<ParamField path="onClick" type="() => void">
+  Click handler (when `as="button"`).
+</ParamField>
+
+### ProgressStepSeparator
+
+Visual separator between steps (renders as a line).
+
+## Examples
+
+### Horizontal Progress Steps
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+  ProgressStepSeparator,
+} from '@twilio-paste/core/progress-steps';
+
+<ProgressSteps>
+  <ProgressStepComplete as="div">Step 1</ProgressStepComplete>
+  <ProgressStepSeparator />
+  <ProgressStepComplete as="div">Step 2</ProgressStepComplete>
+  <ProgressStepSeparator />
+  <ProgressStepCurrent as="div">Step 3</ProgressStepCurrent>
+  <ProgressStepSeparator />
+  <ProgressStepIncomplete as="div">Step 4</ProgressStepIncomplete>
+</ProgressSteps>
+```
+
+### Vertical Progress Steps
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+} from '@twilio-paste/core/progress-steps';
+
+<ProgressSteps orientation="vertical">
+  <ProgressStepComplete as="div">Create Account</ProgressStepComplete>
+  <ProgressStepComplete as="div">Verify Email</ProgressStepComplete>
+  <ProgressStepCurrent as="div">Add Payment</ProgressStepCurrent>
+  <ProgressStepIncomplete as="div">Complete Setup</ProgressStepIncomplete>
+</ProgressSteps>
+```
+
+### Interactive Steps (Clickable)
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+  ProgressStepSeparator,
+} from '@twilio-paste/core/progress-steps';
+import { useState } from 'react';
+
+const InteractiveSteps = () => {
+  const [currentStep, setCurrentStep] = useState(2);
+  
+  return (
+    <ProgressSteps>
+      <ProgressStepComplete
+        as="button"
+        onClick={() => setCurrentStep(0)}
+      >
+        Account Details
+      </ProgressStepComplete>
+      <ProgressStepSeparator />
+      
+      {currentStep === 1 ? (
+        <ProgressStepCurrent as="button">
+          Billing Info
+        </ProgressStepCurrent>
+      ) : (
+        <ProgressStepComplete
+          as="button"
+          onClick={() => setCurrentStep(1)}
+        >
+          Billing Info
+        </ProgressStepComplete>
+      )}
+      <ProgressStepSeparator />
+      
+      {currentStep === 2 ? (
+        <ProgressStepCurrent as="div">
+          Review & Submit
+        </ProgressStepCurrent>
+      ) : (
+        <ProgressStepIncomplete as="div">
+          Review & Submit
+        </ProgressStepIncomplete>
+      )}
+    </ProgressSteps>
+  );
+};
+```
+
+### With Links (Multi-page Flow)
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+  ProgressStepSeparator,
+} from '@twilio-paste/core/progress-steps';
+
+<ProgressSteps>
+  <ProgressStepComplete as="a" href="/setup/account">
+    Account
+  </ProgressStepComplete>
+  <ProgressStepSeparator />
+  <ProgressStepCurrent as="a" href="/setup/team">
+    Team
+  </ProgressStepCurrent>
+  <ProgressStepSeparator />
+  <ProgressStepIncomplete as="div">
+    Preferences
+  </ProgressStepIncomplete>
+</ProgressSteps>
+```
+
+### With Error State
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepError,
+  ProgressStepIncomplete,
+  ProgressStepSeparator,
+} from '@twilio-paste/core/progress-steps';
+
+<ProgressSteps>
+  <ProgressStepComplete as="div">Personal Info</ProgressStepComplete>
+  <ProgressStepSeparator />
+  <ProgressStepError as="button" onClick={() => console.log('Fix error')}>
+    Payment Method
+  </ProgressStepError>
+  <ProgressStepSeparator />
+  <ProgressStepIncomplete as="div">Confirmation</ProgressStepIncomplete>
+</ProgressSteps>
+```
+
+### With Descriptions
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+  ProgressStepSeparator,
+  ProgressStepContent,
+} from '@twilio-paste/core/progress-steps';
+
+<ProgressSteps orientation="vertical">
+  <ProgressStepComplete as="div">
+    <ProgressStepContent>
+      Account Setup
+      <div>Your account has been created</div>
+    </ProgressStepContent>
+  </ProgressStepComplete>
+  
+  <ProgressStepCurrent as="div">
+    <ProgressStepContent>
+      Email Verification
+      <div>Check your inbox for a verification link</div>
+    </ProgressStepContent>
+  </ProgressStepCurrent>
+  
+  <ProgressStepIncomplete as="div">
+    <ProgressStepContent>
+      Complete Profile
+      <div>Add your preferences and settings</div>
+    </ProgressStepContent>
+  </ProgressStepIncomplete>
+</ProgressSteps>
+```
+
+### Onboarding Flow
+
+```tsx
+import {
+  ProgressSteps,
+  ProgressStepComplete,
+  ProgressStepCurrent,
+  ProgressStepIncomplete,
+} from '@twilio-paste/core/progress-steps';
+import { Box } from '@twilio-paste/core/box';
+import { Heading } from '@twilio-paste/core/heading';
+
+const OnboardingFlow = ({ step }) => {
+  return (
+    <Box>
+      <Heading as="h2" variant="heading20">Get Started</Heading>
+      <ProgressSteps orientation="vertical">
+        <ProgressStepComplete as="div">
+          Create your account
+        </ProgressStepComplete>
+        
+        {step >= 2 ? (
+          <ProgressStepComplete as="div">
+            Set up your workspace
+          </ProgressStepComplete>
+        ) : step === 1 ? (
+          <ProgressStepCurrent as="div">
+            Set up your workspace
+          </ProgressStepCurrent>
+        ) : (
+          <ProgressStepIncomplete as="div">
+            Set up your workspace
+          </ProgressStepIncomplete>
+        )}
+        
+        {step >= 3 ? (
+          <ProgressStepComplete as="div">
+            Invite your team
+          </ProgressStepComplete>
+        ) : step === 2 ? (
+          <ProgressStepCurrent as="div">
+            Invite your team
+          </ProgressStepCurrent>
+        ) : (
+          <ProgressStepIncomplete as="div">
+            Invite your team
+          </ProgressStepIncomplete>
+        )}
+      </ProgressSteps>
+    </Box>
+  );
+};
+```
+
+## Accessibility
+
+- Progress steps use semantic list markup with `role="list"` and `role="listitem"`
+- Each step state is visually distinct through icons and colors
+- Interactive steps include proper focus states and keyboard support
+- Links and buttons include appropriate ARIA attributes
+- Step separators are decorative and hidden from screen readers
+- Current step is emphasized for screen reader users
+
+## Best Practices
+
+- Use progress steps for processes with 3-7 steps (fewer for mobile)
+- Keep step labels concise and action-oriented
+- Use horizontal orientation for shorter step lists, vertical for longer ones
+- Make completed steps clickable only when users can return to previous steps
+- Don't allow users to skip ahead to incomplete steps
+- Use ProgressStepError to highlight steps requiring attention
+- Show the current step clearly with ProgressStepCurrent
+- Consider using ProgressStepContent for additional context in vertical layouts
+- For very long processes, consider breaking into multiple sub-processes
+- Test with keyboard navigation to ensure all interactive steps are accessible
+- On mobile, consider using vertical orientation or a simplified indicator

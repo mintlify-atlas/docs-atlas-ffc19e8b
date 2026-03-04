@@ -1,0 +1,74 @@
+---
+title: Description List
+description: A component for displaying term-definition pairs in a structured list format.
+---
+
+# Description List
+
+The Description List component displays term-definition pairs, useful for glossaries, metadata, or key-value displays.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/description-list
+```
+
+## Usage
+
+```jsx
+import {
+  DescriptionList,
+  DescriptionListSet,
+  DescriptionListTerm,
+  DescriptionListDetails,
+} from '@twilio-paste/description-list';
+
+<DescriptionList>
+  <DescriptionListSet>
+    <DescriptionListTerm>Name</DescriptionListTerm>
+    <DescriptionListDetails>John Doe</DescriptionListDetails>
+  </DescriptionListSet>
+  <DescriptionListSet>
+    <DescriptionListTerm>Email</DescriptionListTerm>
+    <DescriptionListDetails>john@example.com</DescriptionListDetails>
+  </DescriptionListSet>
+  <DescriptionListSet>
+    <DescriptionListTerm>Phone</DescriptionListTerm>
+    <DescriptionListDetails>+1 234 567 8900</DescriptionListDetails>
+    <DescriptionListDetails>+1 234 567 8901</DescriptionListDetails>
+  </DescriptionListSet>
+</DescriptionList>
+```
+
+## Props
+
+### DescriptionList
+
+<ResponseField name="element" type="string" default="DESCRIPTION_LIST">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### DescriptionListSet
+
+<ResponseField name="element" type="string" default="DESCRIPTION_LIST_SET">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### DescriptionListTerm
+
+<ResponseField name="element" type="string" default="DESCRIPTION_LIST_TERM">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### DescriptionListDetails
+
+<ResponseField name="element" type="string" default="DESCRIPTION_LIST_DETAILS">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+## Features
+
+- Semantic HTML using `<dl>`, `<dt>`, and `<dd>` elements
+- Automatic spacing between sets and items
+- Support for multiple details per term
+- Consistent typography and styling

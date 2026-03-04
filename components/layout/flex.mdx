@@ -1,0 +1,391 @@
+---
+title: Flex
+description: Flex is a layout component that provides a simplified API for building flexbox layouts with design tokens.
+---
+
+## Overview
+
+Flex is a layout component built on top of Box that provides an intuitive API for creating flexbox layouts. It simplifies common flexbox patterns and provides convenient props for alignment, spacing, and responsive behavior.
+
+Use Flex when you need to:
+- Create horizontal or vertical layouts
+- Align items along a main or cross axis
+- Control how flex items grow, shrink, or maintain a basis size
+- Build responsive layouts that change direction
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+```
+
+```jsx
+import { Flex } from '@twilio-paste/core/flex';
+// or
+import { Flex } from '@twilio-paste/core';
+```
+
+## Basic Usage
+
+```jsx
+import { Flex } from '@twilio-paste/core/flex';
+import { Box } from '@twilio-paste/core/box';
+
+const MyComponent = () => (
+  <Flex hAlignContent="center" vAlignContent="center">
+    <Box>Item 1</Box>
+    <Box>Item 2</Box>
+    <Box>Item 3</Box>
+  </Flex>
+);
+```
+
+## Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="div">
+  The HTML element to render. Can be any valid HTML element.
+</ParamField>
+
+<ParamField path="element" type="string" default="FLEX">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="display" type="'flex' | 'inline-flex'" default="flex">
+  Sets the display type. Use 'inline-flex' for inline flex containers.
+</ParamField>
+
+### Alignment Props
+
+<ParamField path="hAlignContent" type="'left' | 'center' | 'right' | 'around' | 'between'">
+  Horizontal alignment of flex items. Maps to justifyContent when vertical is false, and alignItems when vertical is true.
+  
+  - `left` - Align items to the start
+  - `center` - Center items
+  - `right` - Align items to the end
+  - `around` - Distribute items with space around
+  - `between` - Distribute items with space between
+</ParamField>
+
+<ParamField path="vAlignContent" type="'top' | 'center' | 'bottom' | 'stretch'">
+  Vertical alignment of flex items. Maps to alignItems when vertical is false, and justifyContent when vertical is true.
+  
+  - `top` - Align items to the start
+  - `center` - Center items
+  - `bottom` - Align items to the end
+  - `stretch` - Stretch items to fill
+</ParamField>
+
+### Direction Props
+
+<ParamField path="vertical" type="boolean">
+  When true, sets flex direction to column (vertical stacking). When false or omitted, items flow horizontally in a row. Supports responsive values.
+</ParamField>
+
+### Flex Item Props
+
+<ParamField path="grow" type="boolean | number">
+  Controls whether flex items should grow to fill available space. Pass true for default growth (1), false for no growth (0), or a number for specific grow factor. Supports responsive values.
+</ParamField>
+
+<ParamField path="shrink" type="boolean | number">
+  Controls whether flex items should shrink when space is limited. Pass true for default shrinking (1), false for no shrinking (0), or a number for specific shrink factor. Supports responsive values.
+</ParamField>
+
+<ParamField path="basis" type="string | number">
+  Sets the initial main size of a flex item before space distribution. Can be a pixel value, percentage, or 'auto'. Supports responsive values.
+</ParamField>
+
+### Wrapping Props
+
+<ParamField path="wrap" type="boolean">
+  When true, flex items will wrap to multiple lines. When false or omitted, items stay on one line. Supports responsive values.
+</ParamField>
+
+### Spacing Props
+
+Flex supports all spacing props from Box:
+
+<ParamField path="margin" type="Space">
+  Sets margin on all sides using space design tokens.
+</ParamField>
+
+<ParamField path="marginTop" type="Space">
+  Sets top margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginRight" type="Space">
+  Sets right margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginBottom" type="Space">
+  Sets bottom margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginLeft" type="Space">
+  Sets left margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginX" type="Space">
+  Sets horizontal (left and right) margin. Cannot be used with individual margin props.
+</ParamField>
+
+<ParamField path="marginY" type="Space">
+  Sets vertical (top and bottom) margin. Cannot be used with individual margin props.
+</ParamField>
+
+<ParamField path="padding" type="Space">
+  Sets padding on all sides using space design tokens.
+</ParamField>
+
+<ParamField path="paddingTop" type="Space">
+  Sets top padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingRight" type="Space">
+  Sets right padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingBottom" type="Space">
+  Sets bottom padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingLeft" type="Space">
+  Sets left padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingX" type="Space">
+  Sets horizontal (left and right) padding. Cannot be used with individual padding props.
+</ParamField>
+
+<ParamField path="paddingY" type="Space">
+  Sets vertical (top and bottom) padding. Cannot be used with individual padding props.
+</ParamField>
+
+### Size Props
+
+<ParamField path="width" type="string">
+  Sets width using design tokens. Cannot be used with size prop.
+</ParamField>
+
+<ParamField path="minWidth" type="string" default="size0">
+  Sets minimum width using design tokens.
+</ParamField>
+
+<ParamField path="maxWidth" type="string">
+  Sets maximum width using design tokens.
+</ParamField>
+
+<ParamField path="height" type="string">
+  Sets height using design tokens. Cannot be used with size prop.
+</ParamField>
+
+<ParamField path="minHeight" type="string">
+  Sets minimum height using design tokens.
+</ParamField>
+
+<ParamField path="maxHeight" type="string">
+  Sets maximum height using design tokens.
+</ParamField>
+
+<ParamField path="size" type="string">
+  Sets both width and height to the same value. Cannot be used with width or height props.
+</ParamField>
+
+## Examples
+
+### Horizontal Row with Center Alignment
+
+```jsx
+import { Flex } from '@twilio-paste/core/flex';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const HorizontalRow = () => (
+  <Flex hAlignContent="center" vAlignContent="center">
+    <Box backgroundColor="colorBackgroundBrand" minWidth="size20" minHeight="size10" />
+    <Box backgroundColor="colorBackgroundBrandHighlight" minWidth="size20" minHeight="size10" />
+    <Box backgroundColor="colorBackgroundBrand" minWidth="size20" minHeight="size10" />
+  </Flex>
+);
+```
+
+### Vertical Stack
+
+```jsx
+<Flex vertical vAlignContent="center">
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+  <Box>Item 3</Box>
+</Flex>
+```
+
+### Space Between Items
+
+```jsx
+<Flex hAlignContent="between">
+  <Text>Left content</Text>
+  <Text>Right content</Text>
+</Flex>
+```
+
+### Growing and Shrinking Items
+
+```jsx
+<Flex>
+  <Flex grow shrink={0}>
+    <Box padding="space30" backgroundColor="colorBackgroundBrand" width="size40">
+      <Text color="colorTextInverse">I won't shrink</Text>
+    </Box>
+  </Flex>
+  <Flex>
+    <Box backgroundColor="colorBackgroundBrandHighlight" minWidth="size20" />
+  </Flex>
+</Flex>
+```
+
+### Fixed Basis
+
+```jsx
+<Flex>
+  <Flex basis={400}>
+    <Box padding="space30" backgroundColor="colorBackgroundBrand" width="100%">
+      <Text color="colorTextInverse">I will always be 400px</Text>
+    </Box>
+  </Flex>
+  <Flex>
+    <Box backgroundColor="colorBackgroundBrandHighlight" minWidth="size20" />
+  </Flex>
+</Flex>
+```
+
+### Wrapping Items
+
+```jsx
+<Flex wrap hAlignContent="center">
+  <Box margin="space20">Item 1</Box>
+  <Box margin="space20">Item 2</Box>
+  <Box margin="space20">Item 3</Box>
+  <Box margin="space20">Item 4</Box>
+  <Box margin="space20">Item 5</Box>
+</Flex>
+```
+
+### Responsive Direction
+
+```jsx
+<Flex vertical={[true, false]}>
+  <Box>On mobile: vertical, on desktop: horizontal</Box>
+  <Box>Item 2</Box>
+  <Box>Item 3</Box>
+</Flex>
+```
+
+### Responsive Alignment
+
+```jsx
+<Flex
+  hAlignContent={['center', 'left', 'right']}
+  vAlignContent={['top', 'center']}
+>
+  <Box>Alignment changes at breakpoints</Box>
+</Flex>
+```
+
+### Nested Flex Containers
+
+```jsx
+<Flex vertical>
+  <Flex hAlignContent="between" padding="space40">
+    <Text>Header Left</Text>
+    <Text>Header Right</Text>
+  </Flex>
+  <Flex grow padding="space40">
+    <Text>Main Content</Text>
+  </Flex>
+  <Flex hAlignContent="center" padding="space40">
+    <Text>Footer</Text>
+  </Flex>
+</Flex>
+```
+
+## Best Practices
+
+### Use Semantic Alignment Props
+
+Flex provides intuitive alignment props (`hAlignContent` and `vAlignContent`) that automatically map to the correct flexbox properties based on direction:
+
+```jsx
+// Good - uses semantic alignment
+<Flex hAlignContent="center" vAlignContent="center">
+  Content
+</Flex>
+
+// Avoid - directly using Box flexbox props
+<Box display="flex" justifyContent="center" alignItems="center">
+  Content
+</Box>
+```
+
+### Don't Mix marginX/Y with Individual Margins
+
+The component will log an error if you use marginX/marginY alongside individual margin props:
+
+```jsx
+// Good
+<Flex marginX="space40">Content</Flex>
+
+// Bad - will cause an error
+<Flex marginX="space40" marginLeft="space20">Content</Flex>
+```
+
+### Don't Mix size with width/height
+
+Similarly, don't use the size prop with width or height:
+
+```jsx
+// Good
+<Flex size="size20">Content</Flex>
+
+// Bad - will cause an error  
+<Flex size="size20" width="size30">Content</Flex>
+```
+
+### Use Stack for Simple Stacking
+
+For simple vertical or horizontal stacking with consistent spacing, consider using [Stack](/components/layout/stack) instead:
+
+```jsx
+// If you just need evenly spaced items
+<Stack orientation="horizontal" spacing="space40">
+  <Item />
+  <Item />
+  <Item />
+</Stack>
+```
+
+### Leverage Responsive Props
+
+Use responsive arrays to adapt layouts across breakpoints:
+
+```jsx
+<Flex
+  vertical={[true, false]}
+  hAlignContent={['center', 'left']}
+>
+  Mobile: vertical & centered, Desktop: horizontal & left-aligned
+</Flex>
+```
+
+## Accessibility
+
+- Flex is a presentational component and doesn't have specific accessibility requirements
+- Use semantic HTML via the `as` prop when appropriate (e.g., `as="nav"` for navigation)
+- Ensure reading order in the DOM matches visual order
+- Don't rely solely on visual layout to convey meaning
+
+## Related Components
+
+- [Box](/components/layout/box) - Low-level layout primitive
+- [Stack](/components/layout/stack) - Simplified stacking with spacing
+- [Grid](/components/layout/grid) - 12-column grid system
+- [Media Object](/components/layout/media-object) - Media object pattern

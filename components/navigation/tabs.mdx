@@ -1,0 +1,263 @@
+---
+title: Tabs
+description: Tabs organize related content into separate views, allowing users to switch between them without leaving the page.
+package: '@twilio-paste/tabs'
+---
+
+## Overview
+
+Tabs organize content into multiple sections and allow users to navigate between them. Only one tab panel is visible at a time. Tabs are useful when you want to reduce vertical scrolling or separate content into logical groups.
+
+Tabs come in both horizontal and vertical orientations, with multiple visual variants to suit different design needs.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/tabs
+```
+
+## Usage
+
+```jsx
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@twilio-paste/tabs';
+
+const MyTabs = () => (
+  <Tabs selectedId="tab1">
+    <TabList aria-label="My tabs">
+      <Tab id="tab1">Tab 1</Tab>
+      <Tab id="tab2">Tab 2</Tab>
+      <Tab id="tab3">Tab 3</Tab>
+    </TabList>
+    <TabPanels>
+      <TabPanel tabId="tab1">Content for Tab 1</TabPanel>
+      <TabPanel tabId="tab2">Content for Tab 2</TabPanel>
+      <TabPanel tabId="tab3">Content for Tab 3</TabPanel>
+    </TabPanels>
+  </Tabs>
+);
+```
+
+### Variants
+
+#### Fitted Tabs
+
+Fitted tabs expand to fill the width of their container.
+
+```jsx
+<Tabs variant="fitted" selectedId="tab1">
+  <TabList aria-label="Fitted tabs">
+    <Tab id="tab1">Tab 1</Tab>
+    <Tab id="tab2">Tab 2</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel tabId="tab1">Content 1</TabPanel>
+    <TabPanel tabId="tab2">Content 2</TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+#### Vertical Tabs
+
+```jsx
+<Tabs orientation="vertical" selectedId="tab1">
+  <TabList aria-label="Vertical tabs">
+    <Tab id="tab1">Tab 1</Tab>
+    <Tab id="tab2">Tab 2</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel tabId="tab1">Content 1</TabPanel>
+    <TabPanel tabId="tab2">Content 2</TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+#### Inverse Tabs
+
+```jsx
+<Tabs variant="inverse" selectedId="tab1">
+  <TabList aria-label="Inverse tabs">
+    <Tab id="tab1">Tab 1</Tab>
+    <Tab id="tab2">Tab 2</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel tabId="tab1">Content 1</TabPanel>
+    <TabPanel tabId="tab2">Content 2</TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+### Controlled Tabs
+
+Use the `useTabState` hook to control tab state externally.
+
+```jsx
+import { Tabs, TabList, Tab, TabPanels, TabPanel, useTabState } from '@twilio-paste/tabs';
+
+const ControlledTabs = () => {
+  const tab = useTabState({ selectedId: 'tab1' });
+
+  return (
+    <Tabs state={tab}>
+      <TabList aria-label="Controlled tabs">
+        <Tab id="tab1">Tab 1</Tab>
+        <Tab id="tab2">Tab 2</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel tabId="tab1">Content 1</TabPanel>
+        <TabPanel tabId="tab2">Content 2</TabPanel>
+      </TabPanels>
+    </Tabs>
+  );
+};
+```
+
+### Disabled Tab
+
+```jsx
+<Tabs selectedId="tab1">
+  <TabList aria-label="Tabs with disabled">
+    <Tab id="tab1">Tab 1</Tab>
+    <Tab id="tab2" disabled>Tab 2 (Disabled)</Tab>
+    <Tab id="tab3">Tab 3</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel tabId="tab1">Content 1</TabPanel>
+    <TabPanel tabId="tab2">Content 2</TabPanel>
+    <TabPanel tabId="tab3">Content 3</TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+## Props
+
+### Tabs
+
+<ParamField path="children" type="React.ReactNode">
+  The TabList and TabPanels components.
+</ParamField>
+
+<ParamField path="selectedId" type="string">
+  The ID of the initially selected tab.
+</ParamField>
+
+<ParamField path="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+  Whether tabs are arranged horizontally or vertically.
+</ParamField>
+
+<ParamField path="variant" type="'fitted' | 'full_width' | 'inverse' | 'inverse_fitted' | 'inverse_full_width'">
+  Changes the visual style of the tabs. Fitted variants make tabs equally fill the container width.
+</ParamField>
+
+<ParamField path="state" type="TabStateReturn">
+  When using the `useTabState` hook to control tabs externally, pass the returned state here.
+</ParamField>
+
+<ParamField path="baseId" type="string">
+  Base ID for generating tab and panel IDs.
+</ParamField>
+
+<ParamField path="element" type="string" default="HORIZONTAL_TABS or VERTICAL_TABS">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### TabList
+
+<ParamField path="children" type="React.ReactNode" required>
+  The Tab components to display.
+</ParamField>
+
+<ParamField path="aria-label" type="string" required>
+  Required accessible label for the tab list. Describes the purpose of the tabs.
+</ParamField>
+
+<ParamField path="variant" type="Variants">
+  Changes each Tab to either equally fit the width of the containing element or hug the contents of its label.
+</ParamField>
+
+<ParamField path="element" type="string" default="HORIZONTAL_TAB_LIST or VERTICAL_TAB_LIST">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### Tab
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text or content to display in the tab.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Unique identifier for the tab. Used to associate with TabPanel via tabId.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Whether the tab is disabled and cannot be selected.
+</ParamField>
+
+<ParamField path="focusable" type="boolean">
+  When an element is disabled, it may still be focusable. Works similarly to readOnly on form elements.
+</ParamField>
+
+<ParamField path="element" type="string" default="HORIZONTAL_TAB or VERTICAL_TAB">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### TabPanels
+
+<ParamField path="children" type="React.ReactNode" required>
+  The TabPanel components to display.
+</ParamField>
+
+<ParamField path="element" type="string">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### TabPanel
+
+<ParamField path="children" type="React.ReactNode" required>
+  The content to display when this tab is selected.
+</ParamField>
+
+<ParamField path="tabId" type="string">
+  The ID of the Tab component this panel pairs with.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Unique identifier for the panel.
+</ParamField>
+
+<ParamField path="paddingTop" type="'space0'">
+  Removes the default padding from the TabPanel by setting to 'space0'.
+</ParamField>
+
+<ParamField path="element" type="string" default="HORIZONTAL_TAB_PANEL or VERTICAL_TAB_PANEL">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Accessibility
+
+- Tabs follow the [ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+- The TabList has a required `aria-label` to describe the purpose of the tabs.
+- Keyboard navigation:
+  - **Tab**: Moves focus into and out of the tab list
+  - **Arrow keys**: Move between tabs (Left/Right for horizontal, Up/Down for vertical)
+  - **Home/End**: Jump to first/last tab
+- Selected tabs have `aria-selected="true"`.
+- Each TabPanel is associated with its Tab via `aria-labelledby`.
+- Only the selected panel is rendered in the DOM and marked with `aria-hidden="false"`.
+- Disabled tabs are not keyboard navigable and have `aria-disabled="true"`.
+
+## Best Practices
+
+### Do
+
+- Use tabs to organize related content into logical groups
+- Keep tab labels short and descriptive (1-2 words)
+- Use horizontal tabs for most cases
+- Provide an `aria-label` on TabList that describes the purpose
+- Keep the number of tabs reasonable (typically 3-7)
+
+### Don't
+
+- Don't use tabs for sequential navigation (use a stepper instead)
+- Don't nest tabs within tabs
+- Don't use tabs if users need to see content from multiple tabs simultaneously
+- Don't use tabs as a form of primary navigation

@@ -1,0 +1,304 @@
+---
+title: Label
+description: A Label is text that provides a visible and accessible name to a form element.
+---
+
+Label provides a text description for form inputs, improving accessibility and usability by clearly identifying what information is required.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/label
+```
+
+## Usage
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+const MyComponent = () => {
+  return (
+    <>
+      <Label htmlFor="email">Email address</Label>
+      <Input id="email" type="email" />
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text content of the label.
+</ParamField>
+
+<ParamField path="htmlFor" type="string">
+  ID of the form element this label is for. Required when `as` is "label" (default).
+</ParamField>
+
+<ParamField path="as" type="'label' | 'legend' | 'div'" default="'label'">
+  HTML element to render. Use "legend" for fieldsets, "div" for non-interactive text.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Shows a required indicator (red dot) before the label text.
+</ParamField>
+
+<ParamField path="optional" type="boolean" default="false">
+  Shows "(optional)" text after the label.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Styles the label for disabled form elements.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant. Use "inverse" for dark backgrounds.
+</ParamField>
+
+<ParamField path="marginBottom" type="'space0'">
+  Optionally remove the label's bottom margin.
+</ParamField>
+
+<ParamField path="i18nRequiredLabel" type="string" default="''">
+  Accessible label text for the required indicator.
+</ParamField>
+
+<ParamField path="i18nOptionalLabel" type="string" default="'(optional)'">
+  Text to display for optional fields, useful for internationalization.
+</ParamField>
+
+<ParamField path="element" type="string" default="'LABEL'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic Label
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+<>
+  <Label htmlFor="username">Username</Label>
+  <Input id="username" type="text" />
+</>
+```
+
+### Required Field
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+<>
+  <Label htmlFor="email" required>
+    Email address
+  </Label>
+  <Input id="email" type="email" required />
+</>
+```
+
+### Optional Field
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+<>
+  <Label htmlFor="middle-name" optional>
+    Middle name
+  </Label>
+  <Input id="middle-name" type="text" />
+</>
+```
+
+### Disabled Label
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+<>
+  <Label htmlFor="locked-field" disabled>
+    Account ID
+  </Label>
+  <Input id="locked-field" value="12345" disabled />
+</>
+```
+
+### As Legend (for Fieldsets)
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+import { Box } from '@twilio-paste/box';
+
+<Box as="fieldset" borderWidth="borderWidth0" margin="space0" padding="space0">
+  <Label as="legend" required>
+    Select a plan
+  </Label>
+  <RadioGroup name="plan">
+    <Radio value="basic">Basic</Radio>
+    <Radio value="pro">Pro</Radio>
+    <Radio value="enterprise">Enterprise</Radio>
+  </RadioGroup>
+</Box>
+```
+
+### Inverse Variant
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+import { Box } from '@twilio-paste/box';
+
+<Box backgroundColor="colorBackgroundInverse" padding="space60">
+  <Label htmlFor="search" variant="inverse">
+    Search
+  </Label>
+  <Input id="search" type="search" variant="inverse" />
+</Box>
+```
+
+### Without Bottom Margin
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+<>
+  <Label htmlFor="inline-input" marginBottom="space0">
+    Quick search:
+  </Label>
+  <Input id="inline-input" type="text" />
+</>
+```
+
+### Internationalized Labels
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+
+// Spanish example
+<>
+  <Label
+    htmlFor="nombre"
+    required
+    i18nRequiredLabel="(requerido)"
+  >
+    Nombre
+  </Label>
+  <Input id="nombre" type="text" required />
+</>
+
+// French example
+<>
+  <Label
+    htmlFor="prenom"
+    optional
+    i18nOptionalLabel="(optionnel)"
+  >
+    Prénom
+  </Label>
+  <Input id="prenom" type="text" />
+</>
+```
+
+### With Complex Content
+
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+import { Anchor } from '@twilio-paste/anchor';
+
+<>
+  <Label htmlFor="api-key" required>
+    API Key{' '}
+    <Anchor href="/docs/api-keys">
+      (What's this?)
+    </Anchor>
+  </Label>
+  <Input id="api-key" type="password" required />
+</>
+```
+
+## Accessibility
+
+- Associates label text with form inputs via `htmlFor` and `id` attributes
+- Required indicator uses proper ARIA labeling
+- Legend elements provide accessible grouping for fieldsets
+- Disabled state is styled to indicate non-interactive elements
+- Inverse variant maintains proper color contrast
+- Works with screen readers to announce field names and requirements
+
+## Best Practices
+
+- Always provide a Label for every form input
+- Use the `htmlFor` prop to explicitly associate labels with inputs
+- Use `required` prop to indicate required fields with a visual indicator
+- Use `optional` prop sparingly - make most fields required or remove them
+- Keep label text concise and descriptive
+- Use sentence case for labels ("Email address" not "Email Address")
+- Don't use placeholder text as a replacement for labels
+- Use `as="legend"` when labeling RadioGroup or CheckboxGroup
+- Ensure labels remain visible even when inputs are filled
+- Place labels above inputs for better mobile experience
+
+## Label Variants by Context
+
+### For Text Inputs
+```tsx
+<Label htmlFor="input-id">Label text</Label>
+```
+
+### For Radio/Checkbox Groups
+```tsx
+<Label as="legend">Group label</Label>
+```
+
+### For Non-Interactive Text
+```tsx
+<Label as="div">Display text</Label>
+```
+
+## Common Patterns
+
+### Form Field Pattern
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+import { HelpText } from '@twilio-paste/help-text';
+
+<>
+  <Label htmlFor="field" required>
+    Field name
+  </Label>
+  <Input id="field" type="text" required />
+  <HelpText>Additional context about this field</HelpText>
+</>
+```
+
+### Error State Pattern
+```tsx
+import { Label } from '@twilio-paste/label';
+import { Input } from '@twilio-paste/input';
+import { HelpText } from '@twilio-paste/help-text';
+
+const hasError = true;
+
+<>
+  <Label htmlFor="email" required>
+    Email
+  </Label>
+  <Input id="email" type="email" hasError={hasError} required />
+  {hasError && (
+    <HelpText variant="error">
+      Please enter a valid email address
+    </HelpText>
+  )}
+</>
+```

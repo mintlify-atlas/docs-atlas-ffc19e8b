@@ -1,0 +1,287 @@
+---
+title: Combobox
+description: A Combobox is a styled dropdown form element that allows users to either type a value or select a value from a list.
+---
+
+Combobox combines a text input with a dropdown list, allowing users to filter options by typing or select from a list. It supports autocomplete, custom filtering, and virtualized rendering for large datasets.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/combobox
+```
+
+## Usage
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState('');
+  const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+  
+  return (
+    <>
+      <Label htmlFor="fruit">Choose a fruit</Label>
+      <Combobox
+        items={items}
+        labelText="Fruit"
+        selectedItem={value}
+        onSelectedItemChange={({ selectedItem }) => setValue(selectedItem || '')}
+      />
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="items" type="any[]" required>
+  Array of items to display in the dropdown list.
+</ParamField>
+
+<ParamField path="labelText" type="string" required>
+  Accessible label text for the combobox.
+</ParamField>
+
+<ParamField path="selectedItem" type="any">
+  The currently selected item (controlled component).
+</ParamField>
+
+<ParamField path="onSelectedItemChange" type="(changes: { selectedItem: any }) => void">
+  Callback fired when the selected item changes.
+</ParamField>
+
+<ParamField path="inputValue" type="string">
+  The current input value (for controlled input).
+</ParamField>
+
+<ParamField path="onInputValueChange" type="(changes: { inputValue: string }) => void">
+  Callback fired when the input value changes.
+</ParamField>
+
+<ParamField path="itemToString" type="(item: any) => string">
+  Function to convert items to strings for display and filtering.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the combobox.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the combobox to an error state.
+</ParamField>
+
+<ParamField path="helpText" type="string | React.ReactNode">
+  Help text displayed below the combobox.
+</ParamField>
+
+<ParamField path="optionTemplate" type="(item: any) => React.ReactNode">
+  Custom template for rendering list items.
+</ParamField>
+
+<ParamField path="emptyState" type="React.ReactNode">
+  Content to display when no items match the filter.
+</ParamField>
+
+<ParamField path="insertBefore" type="React.ReactNode">
+  Element to insert before the input (like an icon).
+</ParamField>
+
+<ParamField path="insertAfter" type="React.ReactNode">
+  Element to insert after the input.
+</ParamField>
+
+<ParamField path="autocomplete" type="boolean" default="false">
+  Enables autocomplete behavior.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant.
+</ParamField>
+
+<ParamField path="groupItemsBy" type="string">
+  Property name to group items by.
+</ParamField>
+
+<ParamField path="groupLabelTemplate" type="(groupName: string) => React.ReactNode">
+  Custom template for rendering group labels.
+</ParamField>
+
+<ParamField path="initialIsOpen" type="boolean" default="false">
+  Whether the listbox is initially open.
+</ParamField>
+
+<ParamField path="element" type="string" default="'COMBOBOX'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic Combobox
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+import { Label } from '@twilio-paste/label';
+
+const countries = [
+  'United States',
+  'United Kingdom',
+  'Canada',
+  'Australia',
+  'Germany',
+  'France'
+];
+
+<>
+  <Label htmlFor="country">Country</Label>
+  <Combobox
+    items={countries}
+    labelText="Country"
+    helpText="Select your country"
+  />
+</>
+```
+
+### With Object Items
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const users: User[] = [
+  { id: 1, name: 'John Doe', email: 'john@example.com' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com' },
+];
+
+<Combobox
+  items={users}
+  labelText="Assign to"
+  itemToString={(item) => (item ? item.name : '')}
+  optionTemplate={(item) => (
+    <div>
+      <div>{item.name}</div>
+      <div style={{ fontSize: '0.875rem', color: '#666' }}>
+        {item.email}
+      </div>
+    </div>
+  )}
+/>
+```
+
+### With Autocomplete
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+
+const [inputValue, setInputValue] = React.useState('');
+const [filteredItems, setFilteredItems] = React.useState(items);
+
+const handleInputChange = ({ inputValue }) => {
+  setInputValue(inputValue);
+  setFilteredItems(
+    items.filter(item => 
+      item.toLowerCase().includes(inputValue.toLowerCase())
+    )
+  );
+};
+
+<Combobox
+  items={filteredItems}
+  labelText="Search"
+  inputValue={inputValue}
+  onInputValueChange={handleInputChange}
+  autocomplete
+/>
+```
+
+### With Error State
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="category" required>
+    Category
+  </Label>
+  <Combobox
+    items={categories}
+    labelText="Category"
+    hasError
+    helpText="Please select a category"
+  />
+</>
+```
+
+### With Grouped Items
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+
+interface Product {
+  name: string;
+  category: string;
+}
+
+const products: Product[] = [
+  { name: 'SMS', category: 'Messaging' },
+  { name: 'WhatsApp', category: 'Messaging' },
+  { name: 'Voice', category: 'Voice & Video' },
+  { name: 'Video', category: 'Voice & Video' },
+];
+
+<Combobox
+  items={products}
+  labelText="Product"
+  itemToString={(item) => (item ? item.name : '')}
+  groupItemsBy="category"
+/>
+```
+
+### With Custom Empty State
+
+```tsx
+import { Combobox } from '@twilio-paste/combobox';
+import { Text } from '@twilio-paste/text';
+
+<Combobox
+  items={filteredItems}
+  labelText="Search users"
+  emptyState={
+    <Text as="div" fontStyle="italic" color="colorTextWeak">
+      No users found. Try a different search term.
+    </Text>
+  }
+/>
+```
+
+## Accessibility
+
+- Built on WAI-ARIA Combobox pattern
+- Supports full keyboard navigation (Arrow keys, Enter, Escape)
+- Announces number of available options to screen readers
+- Automatically manages focus between input and listbox
+- Supports aria-describedby for help text association
+- Implements proper ARIA roles and states
+- Provides clear visual focus indicators
+
+## Best Practices
+
+- Use Combobox when users need to search or filter a list of options
+- For simple selection without search, use Select instead
+- Provide clear, searchable labels in your items
+- Implement custom filtering for better performance with large datasets
+- Use `itemToString` to define how objects are displayed and filtered
+- Show helpful empty states when no results match
+- Consider grouping related items for better organization
+- Use autocomplete for predictable, finite lists
+- Validate selections server-side
+- Provide clear error messages when validation fails

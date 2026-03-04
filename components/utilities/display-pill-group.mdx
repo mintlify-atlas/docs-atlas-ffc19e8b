@@ -1,0 +1,229 @@
+---
+title: Display Pill Group
+package: '@twilio-paste/display-pill-group'
+description: Display Pill Group shows a read-only collection of labeled data items.
+category: Utilities
+status: Production
+---
+
+import { DisplayPillGroup, DisplayPill } from '@twilio-paste/display-pill-group';
+
+## About Display Pill Group
+
+Display Pill Group is a read-only component for displaying collections of labeled data. Use it to show tags, categories, or other grouped information that users can view but not edit.
+
+## Components
+
+- **DisplayPillGroup** - Container for display pills
+- **DisplayPill** - Individual read-only pill
+
+## Installation
+
+```bash
+yarn add @twilio-paste/display-pill-group
+```
+
+## Usage
+
+```jsx
+import { DisplayPillGroup, DisplayPill } from '@twilio-paste/display-pill-group';
+
+const MyComponent = () => (
+  <DisplayPillGroup aria-label="Selected categories:">
+    <DisplayPill>Technology</DisplayPill>
+    <DisplayPill>Design</DisplayPill>
+    <DisplayPill>Marketing</DisplayPill>
+  </DisplayPillGroup>
+);
+```
+
+## Props
+
+### DisplayPillGroup
+
+<PropsTable>
+  <PropsTableRow
+    name="aria-label"
+    type="string"
+    required
+    description="Accessible label describing the collection of pills."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'DISPLAY_PILL_GROUP'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="DisplayPill components to display."
+  />
+</PropsTable>
+
+### DisplayPill
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'DISPLAY_PILL'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Content to display in the pill."
+  />
+</PropsTable>
+
+## Basic Example
+
+Display a collection of tags:
+
+```jsx
+<DisplayPillGroup aria-label="Product tags:">
+  <DisplayPill>Featured</DisplayPill>
+  <DisplayPill>New</DisplayPill>
+  <DisplayPill>Popular</DisplayPill>
+</DisplayPillGroup>
+```
+
+## With Icons
+
+Include icons in pills:
+
+```jsx
+import { CheckIcon } from '@twilio-paste/icons/esm';
+
+<DisplayPillGroup aria-label="Completed tasks:">
+  <DisplayPill>
+    <CheckIcon decorative size="sizeIcon10" />
+    Task 1
+  </DisplayPill>
+  <DisplayPill>
+    <CheckIcon decorative size="sizeIcon10" />
+    Task 2
+  </DisplayPill>
+</DisplayPillGroup>
+```
+
+## Displaying User Selections
+
+Show what a user has selected:
+
+```jsx
+const selectedSkills = ['JavaScript', 'React', 'TypeScript', 'Node.js'];
+
+<DisplayPillGroup aria-label="Your skills:">
+  {selectedSkills.map(skill => (
+    <DisplayPill key={skill}>{skill}</DisplayPill>
+  ))}
+</DisplayPillGroup>
+```
+
+## In Form Summaries
+
+Show selected options in a form summary:
+
+```jsx
+<Box>
+  <Label>Selected features</Label>
+  <DisplayPillGroup aria-label="Selected features:">
+    <DisplayPill>SMS</DisplayPill>
+    <DisplayPill>Voice</DisplayPill>
+    <DisplayPill>Video</DisplayPill>
+  </DisplayPillGroup>
+</Box>
+```
+
+## Dynamic Content
+
+Render pills from data:
+
+```jsx
+const categories = [
+  { id: 1, name: 'Electronics' },
+  { id: 2, name: 'Clothing' },
+  { id: 3, name: 'Books' }
+];
+
+<DisplayPillGroup aria-label="Categories:">
+  {categories.map(category => (
+    <DisplayPill key={category.id}>
+      {category.name}
+    </DisplayPill>
+  ))}
+</DisplayPillGroup>
+```
+
+## Empty State
+
+Handle when there are no pills:
+
+```jsx
+const tags = [];
+
+{tags.length > 0 ? (
+  <DisplayPillGroup aria-label="Tags:">
+    {tags.map(tag => <DisplayPill key={tag}>{tag}</DisplayPill>)}
+  </DisplayPillGroup>
+) : (
+  <Text as="p" color="colorTextWeak">No tags</Text>
+)}
+```
+
+## Layout
+
+DisplayPillGroup uses flexbox with wrapping:
+
+- Pills wrap to multiple lines automatically
+- Consistent spacing between pills (space20)
+- Aligns with parent container width
+
+## Accessibility
+
+- Uses semantic `<ul>` list structure
+- Requires `aria-label` to describe the collection
+- Each pill is a list item for proper screen reader navigation
+- Keyboard users can navigate through pills
+
+## Display vs Form Pills
+
+### Use Display Pill Group when:
+
+- Showing read-only data
+- Displaying user selections in a summary
+- Content cannot be modified
+- No interaction is needed
+
+### Use Form Pill Group when:
+
+- Users need to add/remove items
+- Pills are editable or selectable
+- Building a multi-select interface
+- Managing a list of items
+
+## Best Practices
+
+### Do
+
+- Use clear, concise labels for pills
+- Provide meaningful `aria-label` for the group
+- Limit the number of pills to avoid overwhelming users
+- Use for displaying categorized or tagged data
+
+### Don't
+
+- Don't use for interactive selection (use Form Pill Group)
+- Don't display too many pills (consider alternative layouts)
+- Don't use for data that changes frequently
+- Don't forget the `aria-label` attribute
+
+## Related components
+
+- [Form Pill Group](/components/utilities/form-pill-group) - For editable pill collections
+- [Badge](/components/data-display/badge) - For status indicators
+- [Tag](/components/data-display/tag) - For single labels

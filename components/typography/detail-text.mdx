@@ -1,0 +1,113 @@
+---
+title: Detail Text
+description: The Detail Text component displays small, muted text for supplementary information and metadata.
+---
+
+# Detail Text
+
+The Detail Text component displays small, muted text for supplementary information and metadata. Use Detail Text to show timestamps, captions, or other secondary information.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/detail-text
+```
+
+## Usage
+
+```jsx
+import { DetailText } from '@twilio-paste/detail-text';
+
+const MyComponent = () => (
+  <>
+    <Box height="size10" width="size10" backgroundColor="colorBackgroundStrong" />
+    <DetailText>This is sample detail text.</DetailText>
+  </>
+);
+```
+
+## Props
+
+### DetailText Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `element` | `string` | `'DETAIL_TEXT'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+| `as` | `BoxProps['as']` | `'div'` | The HTML tag to render the Detail Text as. |
+| `marginTop` | `'space0' \| 'space30'` | `'space30'` | The marginTop of the DetailText. Currently we only allow space0 to remove top margin. |
+
+## Styling Details
+
+The Detail Text component has the following default styles:
+
+- `color`: `colorTextWeak`
+- `fontSize`: `fontSize20`
+- `lineHeight`: `lineHeight20`
+- `fontWeight`: `fontWeightMedium`
+- `marginTop`: `space30` (can be overridden to `space0`)
+
+## Examples
+
+### Default Detail Text
+
+```jsx
+<Box>
+  <Box height="size10" width="size10" backgroundColor="colorBackgroundStrong" />
+  <DetailText>This is sample detail text.</DetailText>
+</Box>
+```
+
+### Without Top Margin
+
+Use `marginTop="space0"` to remove the default top margin:
+
+```jsx
+<Box>
+  <Box height="size10" width="size10" backgroundColor="colorBackgroundStrong" />
+  <DetailText marginTop="space0">This is sample detail text with no margin.</DetailText>
+</Box>
+```
+
+### Custom HTML Element
+
+```jsx
+<DetailText as="span">
+  This detail text renders as a span.
+</DetailText>
+```
+
+## Customization
+
+The Detail Text component can be customized using the Customization Provider:
+
+```jsx
+<CustomizationProvider
+  theme={theme}
+  elements={{
+    DETAIL_TEXT: {
+      color: 'colorTextNew',
+      marginTop: 'space60',
+    },
+  }}
+>
+  <Box>
+    <Box height="size10" width="size10" backgroundColor="colorBackgroundStrong" />
+    <DetailText>This is customized detail text.</DetailText>
+  </Box>
+</CustomizationProvider>
+```
+
+## Use Cases
+
+- Timestamps below content
+- Image captions
+- Metadata labels
+- Supplementary information
+- Helper text
+- File sizes or dates
+
+## Accessibility
+
+- The muted color (`colorTextWeak`) still maintains accessible contrast ratios
+- Consider the semantic meaning when choosing the `as` prop value
+- Don't use Detail Text for critical information that needs to stand out

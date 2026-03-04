@@ -1,0 +1,249 @@
+---
+title: Account Switcher
+package: '@twilio-paste/account-switcher'
+description: Account Switcher allows users to switch between multiple accounts or workspaces.
+category: Application
+status: Production
+---
+
+import { AccountSwitcher, AccountSwitcherItem, AccountSwitcherGroup, useAccountSwitcherState } from '@twilio-paste/account-switcher';
+
+## About Account Switcher
+
+Account Switcher is a menu component that allows users to switch between multiple accounts, organizations, or workspaces. Built on the Menu component, it provides account selection with grouping and badge support.
+
+## Components
+
+- **AccountSwitcher** - Main menu container
+- **AccountSwitcherItem** - Individual account option
+- **AccountSwitcherItemRadio** - Radio selection for current account
+- **AccountSwitcherGroup** - Group related accounts
+- **AccountSwitcherBadge** - Badge for account status
+- **AccountSwitcherSeparator** - Visual divider
+- **useAccountSwitcherState** - Hook for managing menu state
+
+## Installation
+
+```bash
+yarn add @twilio-paste/account-switcher
+```
+
+## Usage
+
+```jsx
+import {
+  AccountSwitcher,
+  AccountSwitcherGroup,
+  AccountSwitcherItem,
+  AccountSwitcherItemRadio,
+  useAccountSwitcherState
+} from '@twilio-paste/account-switcher';
+import { MenuButton } from '@twilio-paste/menu';
+
+const MyAccountSwitcher = () => {
+  const menu = useAccountSwitcherState();
+  const [selectedAccount, setSelectedAccount] = React.useState('account-1');
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary">
+        My Account
+      </MenuButton>
+      <AccountSwitcher {...menu} aria-label="Account switcher">
+        <AccountSwitcherGroup label="Personal Accounts">
+          <AccountSwitcherItemRadio
+            name="account"
+            value="account-1"
+            checked={selectedAccount === 'account-1'}
+            onChange={() => setSelectedAccount('account-1')}
+          >
+            Personal Account
+          </AccountSwitcherItemRadio>
+        </AccountSwitcherGroup>
+        <AccountSwitcherGroup label="Team Accounts">
+          <AccountSwitcherItemRadio
+            name="account"
+            value="account-2"
+            checked={selectedAccount === 'account-2'}
+            onChange={() => setSelectedAccount('account-2')}
+          >
+            Team Account
+          </AccountSwitcherItemRadio>
+        </AccountSwitcherGroup>
+      </AccountSwitcher>
+    </>
+  );
+};
+```
+
+## Props
+
+### AccountSwitcher
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'ACCOUNT_SWITCHER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Account options and groups."
+  />
+</PropsTable>
+
+Accepts all Menu props for state management.
+
+### AccountSwitcherItem
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'ACCOUNT_SWITCHER_ITEM'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="href"
+    type="string"
+    description="URL for the account option."
+  />
+  <PropsTableRow
+    name="onClick"
+    type="() => void"
+    description="Click handler for account selection."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Account name or content."
+  />
+</PropsTable>
+
+### AccountSwitcherItemRadio
+
+<PropsTable>
+  <PropsTableRow
+    name="name"
+    type="string"
+    required
+    description="Radio group name."
+  />
+  <PropsTableRow
+    name="value"
+    type="string"
+    required
+    description="Value for this account option."
+  />
+  <PropsTableRow
+    name="checked"
+    type="boolean"
+    required
+    description="Whether this account is currently selected."
+  />
+  <PropsTableRow
+    name="onChange"
+    type="() => void"
+    required
+    description="Handler when account is selected."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'ACCOUNT_SWITCHER_ITEM_RADIO'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Account name."
+  />
+</PropsTable>
+
+### AccountSwitcherGroup
+
+<PropsTable>
+  <PropsTableRow
+    name="label"
+    type="string"
+    required
+    description="Group label (e.g., 'Personal', 'Team')."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'ACCOUNT_SWITCHER_GROUP'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Account items in this group."
+  />
+</PropsTable>
+
+### AccountSwitcherBadge
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'ACCOUNT_SWITCHER_BADGE'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Badge content."
+  />
+</PropsTable>
+
+## State Management
+
+Use `useAccountSwitcherState` hook to manage menu state:
+
+```jsx
+const menu = useAccountSwitcherState();
+
+<MenuButton {...menu}>Account</MenuButton>
+<AccountSwitcher {...menu}>
+  {/* items */}
+</AccountSwitcher>
+```
+
+## Grouping Accounts
+
+Use AccountSwitcherGroup to organize accounts:
+
+```jsx
+<AccountSwitcher {...menu}>
+  <AccountSwitcherGroup label="Personal">
+    <AccountSwitcherItem>Personal Account</AccountSwitcherItem>
+  </AccountSwitcherGroup>
+  <AccountSwitcherSeparator />
+  <AccountSwitcherGroup label="Organizations">
+    <AccountSwitcherItem>Acme Corp</AccountSwitcherItem>
+    <AccountSwitcherItem>Tech Startup</AccountSwitcherItem>
+  </AccountSwitcherGroup>
+</AccountSwitcher>
+```
+
+## Accessibility
+
+- Uses semantic menu markup with proper ARIA attributes
+- Keyboard navigation with arrow keys
+- Radio groups properly labeled
+- Menu state announced to screen readers
+- Focus management when opening/closing
+
+## Related components
+
+- [Menu](/components/navigation/menu) - Base menu component
+- [Product Switcher](/components/application/product-switcher) - Product selection
+- [User Dialog](/components/application/user-dialog) - User menu

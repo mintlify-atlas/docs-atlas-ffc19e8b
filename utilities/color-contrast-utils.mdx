@@ -1,0 +1,460 @@
+---
+title: Color Contrast Utils
+description: Utilities for checking and validating color contrast accessibility in Paste themes
+slug: /utilities/color-contrast-utils/
+---
+
+The Color Contrast Utils package provides utilities for checking color contrast accessibility in Paste themes. These tools help ensure your design tokens meet WCAG accessibility standards for text and UI controls.
+
+## Installation
+
+Install the package along with its peer dependencies:
+
+```bash
+yarn add @twilio-paste/color-contrast-utils @twilio-paste/design-tokens
+```
+
+Or using npm:
+
+```bash
+npm install @twilio-paste/color-contrast-utils @twilio-paste/design-tokens
+```
+
+## Overview
+
+This package helps you:
+
+- **Validate theme accessibility**: Check if your custom themes meet WCAG contrast requirements
+- **Test text contrast**: Ensure text colors have sufficient contrast against backgrounds
+- **Test UI control contrast**: Verify UI elements meet the 3:1 contrast requirement
+- **Test data visualization contrast**: Check data visualization color pairings
+- **Debug contrast issues**: Identify which token pairs fail accessibility standards
+
+## Basic Usage
+
+### Checking Current Theme
+
+Inspect the accessibility of your current theme:
+
+```tsx
+import { generateTokensFromTheme, useTheme } from '@twilio-paste/core/theme';
+import {
+  getContrastRatingsOfTokensWithTextContrastRequirements,
+  getContrastRatingsOfTokensWithUIControlContrastRequirements,
+  getNumberOfTextFailures,
+  getNumberOfUIControlFailures,
+} from '@twilio-paste/color-contrast-utils';
+
+const ThemeAccessibilityChecker = () => {
+  const theme = useTheme();
+  const designTokens = generateTokensFromTheme(theme);
+
+  const textContrastRating = getContrastRatingsOfTokensWithTextContrastRequirements(designTokens);
+  const uiControlContrastRating = getContrastRatingsOfTokensWithUIControlContrastRequirements(designTokens);
+
+  const numberOfTextFailures = getNumberOfTextFailures(textContrastRating);
+  const numberOfUIControlFailures = getNumberOfUIControlFailures(uiControlContrastRating);
+
+  return (
+    <div>
+      <p>Text contrast failures: {numberOfTextFailures}</p>
+      <p>UI control contrast failures: {numberOfUIControlFailures}</p>
+    </div>
+  );
+};
+```
+
+### With Customization Provider
+
+Use within a Theme or Customization Provider:
+
+```tsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+const App = () => {
+  return (
+    <CustomizationProvider theme={{}}>
+      <ThemeAccessibilityChecker />
+    </CustomizationProvider>
+  );
+};
+```
+
+## API Reference
+
+### Text Contrast Functions
+
+#### getContrastRatingsOfTokensWithTextContrastRequirements
+
+Returns contrast ratings for all token pairs with text contrast requirements.
+
+```typescript
+getContrastRatingsOfTokensWithTextContrastRequirements(
+  tokens: Partial<GenericTokensShape>
+): TokenPairContrastRating[]
+```
+
+**Parameters:**
+- `tokens` - Design tokens object from your theme
+
+**Returns:**
+Array of contrast ratings with the following structure:
+
+```typescript
+interface TokenPairContrastRating {
+  foreground: string;        // Token name (e.g., "color-text")
+  foregroundValue: string;   // Color value (e.g., "#000000")
+  background: string;        // Background token name
+  backgroundValue: string;   // Background color value
+  contrast: number;          // Contrast ratio (e.g., 4.5)
+  aa: boolean;              // Passes WCAG AA (4.5:1 for text)
+  aaLarge: boolean;         // Passes WCAG AA Large (3:1)
+  aaa: boolean;             // Passes WCAG AAA (7:1 for text)
+  aaaLarge: boolean;        // Passes WCAG AAA Large (4.5:1)
+}
+```
+
+**Example:**
+
+```tsx
+const textRatings = getContrastRatingsOfTokensWithTextContrastRequirements(designTokens);
+
+textRatings.forEach(rating => {
+  if (!rating.aa) {
+    console.warn(
+      `Failed: ${rating.foreground} on ${rating.background} (${rating.contrast.toFixed(2)}:1)`
+    );
+  }
+});
+```
+
+#### getNumberOfTextFailures
+
+Counts how many token pairs fail WCAG AA text contrast requirements.
+
+```typescript
+getNumberOfTextFailures(ratings: TokenPairContrastRating[]): number
+```
+
+**Parameters:**
+- `ratings` - Array of contrast ratings from `getContrastRatingsOfTokensWithTextContrastRequirements`
+
+**Returns:**
+Number of token pairs that don't meet WCAG AA standards (4.5:1 for normal text)
+
+**Example:**
+
+```tsx
+const textRatings = getContrastRatingsOfTokensWithTextContrastRequirements(designTokens);
+const failures = getNumberOfTextFailures(textRatings);
+
+if (failures > 0) {
+  console.error(`Your theme has ${failures} text contrast failures`);
+}
+```
+
+### UI Control Contrast Functions
+
+#### getContrastRatingsOfTokensWithUIControlContrastRequirements
+
+Returns contrast ratings for all token pairs with UI control contrast requirements.
+
+```typescript
+getContrastRatingsOfTokensWithUIControlContrastRequirements(
+  tokens: Partial<GenericTokensShape>
+): TokenPairContrastRating[]
+```
+
+**Parameters:**
+- `tokens` - Design tokens object from your theme
+
+**Returns:**
+Array of contrast ratings (same structure as text contrast ratings)
+
+**Example:**
+
+```tsx
+const uiRatings = getContrastRatingsOfTokensWithUIControlContrastRequirements(designTokens);
+
+uiRatings.forEach(rating => {
+  if (!rating.aaLarge) { // UI controls need 3:1, which is aaLarge
+    console.warn(
+      `UI Control failed: ${rating.foreground} on ${rating.background} (${rating.contrast.toFixed(2)}:1)`
+    );
+  }
+});
+```
+
+#### getNumberOfUIControlFailures
+
+Counts how many token pairs fail UI control contrast requirements.
+
+```typescript
+getNumberOfUIControlFailures(ratings: TokenPairContrastRating[]): number
+```
+
+**Parameters:**
+- `ratings` - Array of contrast ratings from `getContrastRatingsOfTokensWithUIControlContrastRequirements`
+
+**Returns:**
+Number of token pairs that don't meet the 3:1 contrast requirement for UI controls
+
+**Example:**
+
+```tsx
+const uiRatings = getContrastRatingsOfTokensWithUIControlContrastRequirements(designTokens);
+const failures = getNumberOfUIControlFailures(uiRatings);
+
+if (failures > 0) {
+  console.error(`Your theme has ${failures} UI control contrast failures`);
+}
+```
+
+### Data Visualization Contrast Functions
+
+#### getContrastRatingsOfTokensWithDataVisualizationContrastRequirements
+
+Returns contrast ratings for data visualization color pairs.
+
+```typescript
+getContrastRatingsOfTokensWithDataVisualizationContrastRequirements(
+  tokens: Partial<GenericTokensShape>
+): TokenPairContrastRating[]
+```
+
+**Parameters:**
+- `tokens` - Design tokens object from your theme
+
+**Returns:**
+Array of contrast ratings for data visualization colors
+
+**Example:**
+
+```tsx
+const dataVizRatings = getContrastRatingsOfTokensWithDataVisualizationContrastRequirements(designTokens);
+
+dataVizRatings.forEach(rating => {
+  console.log(
+    `${rating.foreground} vs ${rating.background}: ${rating.contrast.toFixed(2)}:1`
+  );
+});
+```
+
+### Helper Functions
+
+#### flattenCategorizedTokens
+
+Removes token categorization and returns a flat list.
+
+```typescript
+flattenCategorizedTokens(tokens: Partial<GenericTokensShape>): AllGenericTokens
+```
+
+#### convertRawTokenJSONToArray
+
+Converts raw design tokens object to an array.
+
+```typescript
+convertRawTokenJSONToArray(rawTokens: DesignTokensJSON): DesignToken[]
+```
+
+## Use Cases
+
+### Custom Theme Validation
+
+Validate a custom theme before using it in production:
+
+```tsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { generateTokensFromTheme } from '@twilio-paste/core/theme';
+import {
+  getContrastRatingsOfTokensWithTextContrastRequirements,
+  getNumberOfTextFailures,
+} from '@twilio-paste/color-contrast-utils';
+
+const validateCustomTheme = (customTheme) => {
+  // Generate tokens from the custom theme
+  const tokens = generateTokensFromTheme(customTheme);
+  
+  // Check text contrast
+  const textRatings = getContrastRatingsOfTokensWithTextContrastRequirements(tokens);
+  const textFailures = getNumberOfTextFailures(textRatings);
+  
+  if (textFailures > 0) {
+    console.error(`Theme validation failed: ${textFailures} text contrast issues`);
+    // List specific failures
+    textRatings
+      .filter(r => !r.aa)
+      .forEach(r => {
+        console.error(`  - ${r.foreground} on ${r.background}: ${r.contrast.toFixed(2)}:1`);
+      });
+    return false;
+  }
+  
+  return true;
+};
+```
+
+### Development Dashboard
+
+Build a development tool to monitor theme accessibility:
+
+```tsx
+import { useState, useEffect } from 'react';
+import { useTheme, generateTokensFromTheme } from '@twilio-paste/core/theme';
+import {
+  getContrastRatingsOfTokensWithTextContrastRequirements,
+  getContrastRatingsOfTokensWithUIControlContrastRequirements,
+  getNumberOfTextFailures,
+  getNumberOfUIControlFailures,
+} from '@twilio-paste/color-contrast-utils';
+
+const AccessibilityDashboard = () => {
+  const theme = useTheme();
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    const tokens = generateTokensFromTheme(theme);
+    
+    const textRatings = getContrastRatingsOfTokensWithTextContrastRequirements(tokens);
+    const uiRatings = getContrastRatingsOfTokensWithUIControlContrastRequirements(tokens);
+    
+    setStats({
+      textTotal: textRatings.length,
+      textFailures: getNumberOfTextFailures(textRatings),
+      uiTotal: uiRatings.length,
+      uiFailures: getNumberOfUIControlFailures(uiRatings),
+      failedPairs: [
+        ...textRatings.filter(r => !r.aa),
+        ...uiRatings.filter(r => !r.aaLarge),
+      ],
+    });
+  }, [theme]);
+
+  if (!stats) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h2>Theme Accessibility Report</h2>
+      <p>Text Contrast: {stats.textFailures}/{stats.textTotal} failures</p>
+      <p>UI Controls: {stats.uiFailures}/{stats.uiTotal} failures</p>
+      
+      {stats.failedPairs.length > 0 && (
+        <div>
+          <h3>Failed Pairs</h3>
+          <ul>
+            {stats.failedPairs.map((pair, i) => (
+              <li key={i}>
+                {pair.foreground} on {pair.background}: {pair.contrast.toFixed(2)}:1
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+### CI/CD Integration
+
+Add theme validation to your CI/CD pipeline:
+
+```typescript
+// validate-theme.ts
+import { generateTokensFromTheme } from '@twilio-paste/core/theme';
+import {
+  getContrastRatingsOfTokensWithTextContrastRequirements,
+  getNumberOfTextFailures,
+} from '@twilio-paste/color-contrast-utils';
+import customTheme from './custom-theme';
+
+const tokens = generateTokensFromTheme(customTheme);
+const textRatings = getContrastRatingsOfTokensWithTextContrastRequirements(tokens);
+const failures = getNumberOfTextFailures(textRatings);
+
+if (failures > 0) {
+  console.error(`Theme has ${failures} accessibility failures`);
+  process.exit(1);
+}
+
+console.log('Theme passed accessibility checks');
+```
+
+Run in your CI:
+
+```bash
+ts-node validate-theme.ts
+```
+
+## Understanding WCAG Contrast Requirements
+
+### Text Contrast (WCAG 2.1 Level AA)
+
+- **Normal text**: 4.5:1 minimum contrast ratio
+- **Large text** (18pt+ or 14pt+ bold): 3:1 minimum contrast ratio
+
+### UI Control Contrast
+
+- **UI components**: 3:1 minimum contrast ratio against adjacent colors
+- **Graphical objects**: 3:1 minimum contrast ratio
+
+### Rating Properties
+
+- `aa`: Meets WCAG Level AA for normal text (4.5:1)
+- `aaLarge`: Meets WCAG Level AA for large text (3:1)
+- `aaa`: Meets WCAG Level AAA for normal text (7:1)
+- `aaaLarge`: Meets WCAG Level AAA for large text (4.5:1)
+
+## Best Practices
+
+### Do
+
+- Validate custom themes before deploying to production
+- Use these utils during theme development to catch issues early
+- Set up automated testing in CI/CD for theme accessibility
+- Review all failed pairs and understand why they fail
+- Aim for WCAG AA compliance at minimum
+
+### Don't
+
+- Don't ignore accessibility failures
+- Don't assume visual inspection is sufficient
+- Don't make exceptions for brand colors that fail contrast
+- Don't forget to test both text and UI control contrast
+
+## Troubleshooting
+
+### Theme Not Updating
+
+If contrast checks don't reflect theme changes:
+
+```tsx
+// Make sure you're regenerating tokens when theme changes
+const tokens = generateTokensFromTheme(theme);
+```
+
+### Unexpected Failures
+
+If you see unexpected failures:
+
+1. Check that token values are correct color values (hex, rgb, etc.)
+2. Verify token pairings are defined correctly in raw design tokens
+3. Ensure you're using the correct function for the type of check
+
+## Version
+
+Current version: 5.0.0
+
+## Dependencies
+
+This package uses:
+- `color-combos` (1.0.12) - For calculating contrast ratios
+- `lodash` (4.17.21) - Utility functions
+
+## Related Resources
+
+- [WCAG 2.1 Contrast Guidelines](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
+- [Paste Design Tokens](/tokens/)
+- [Paste Customization](/customization/)
+- [Theme Package](/theme/)

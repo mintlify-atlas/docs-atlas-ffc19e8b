@@ -1,0 +1,304 @@
+---
+title: Using Icons
+description: How to import and use Paste icons in your React components
+slug: /icons/usage/
+---
+
+Paste icons are React components that render accessible SVG icons. This guide covers everything you need to know about using icons in your application.
+
+## Basic Usage
+
+### Importing Icons
+
+Import the specific icons you need from the package:
+
+```jsx
+import { SearchIcon, CloseIcon, ChevronDownIcon } from '@twilio-paste/icons/esm';
+```
+
+### Decorative Icons
+
+When an icon is purely decorative and doesn't convey meaning, mark it as decorative:
+
+```jsx
+import { SearchIcon } from '@twilio-paste/icons/esm';
+
+const MyComponent = () => (
+  <div>
+    <SearchIcon decorative />
+    <span>Search</span>
+  </div>
+);
+```
+
+Decorative icons:
+- Are hidden from screen readers via `aria-hidden="true"`
+- Should be used when the icon's meaning is conveyed by surrounding text
+- Do not require a `title` prop
+
+### Meaningful Icons
+
+When an icon stands alone or conveys important information, provide a title:
+
+```jsx
+import { SearchIcon } from '@twilio-paste/icons/esm';
+
+const MyComponent = () => (
+  <button>
+    <SearchIcon decorative={false} title="Search" />
+  </button>
+);
+```
+
+Meaningful icons:
+- Must have `decorative={false}` (required)
+- Must provide a `title` prop for screen readers
+- Are announced to assistive technologies
+- Will throw an error if `title` is missing when `decorative={false}`
+
+## Icon Properties
+
+### Size
+
+Control icon size using the `size` prop with Paste design tokens:
+
+```jsx
+<SearchIcon decorative size="sizeIcon10" /> {/* Smallest */}
+<SearchIcon decorative size="sizeIcon20" />
+<SearchIcon decorative size="sizeIcon30" /> {/* Default */}
+<SearchIcon decorative size="sizeIcon40" />
+<SearchIcon decorative size="sizeIcon50" />
+<SearchIcon decorative size="sizeIcon60" />
+<SearchIcon decorative size="sizeIcon70" />
+<SearchIcon decorative size="sizeIcon80" />
+<SearchIcon decorative size="sizeIcon90" />
+<SearchIcon decorative size="sizeIcon100" />
+<SearchIcon decorative size="sizeIcon110" /> {/* Largest */}
+```
+
+The default size is `sizeIcon30`.
+
+### Color
+
+Set icon color using any Paste design token color:
+
+```jsx
+{/* Use a design token */}
+<SearchIcon decorative color="colorTextIcon" />
+<SearchIcon decorative color="colorTextError" />
+<SearchIcon decorative color="colorTextSuccess" />
+
+{/* Use currentColor to inherit from parent */}
+<SearchIcon decorative color="currentColor" />
+```
+
+The default color is `currentColor`, which inherits from the parent element.
+
+### Display
+
+Control the display property:
+
+```jsx
+<SearchIcon decorative display="inline-block" />
+<SearchIcon decorative display="block" /> {/* Default */}
+```
+
+### As (HTML Element)
+
+Change the HTML element the icon wrapper renders as:
+
+```jsx
+<SearchIcon decorative as="span" /> {/* Default */}
+<SearchIcon decorative as="div" />
+```
+
+## Common Patterns
+
+### Icons in Buttons
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { PlusIcon } from '@twilio-paste/icons/esm';
+
+const AddButton = () => (
+  <Button variant="primary">
+    <PlusIcon decorative />
+    Add Item
+  </Button>
+);
+```
+
+### Icon-Only Buttons
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { CloseIcon } from '@twilio-paste/icons/esm';
+
+const CloseButton = () => (
+  <Button variant="secondary_icon" size="reset">
+    <CloseIcon decorative={false} title="Close dialog" />
+  </Button>
+);
+```
+
+### Icons with Text
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { ErrorIcon } from '@twilio-paste/icons/esm';
+import { Text } from '@twilio-paste/core/text';
+
+const ErrorMessage = () => (
+  <Box display="flex" alignItems="center" columnGap="space20">
+    <ErrorIcon decorative color="colorTextError" size="sizeIcon20" />
+    <Text as="span" color="colorTextError">
+      An error occurred
+    </Text>
+  </Box>
+);
+```
+
+### Status Indicators
+
+```jsx
+import { SuccessIcon, ErrorIcon, WarningIcon } from '@twilio-paste/icons/esm';
+
+const StatusIndicator = ({ status }) => {
+  const iconProps = {
+    size: "sizeIcon30",
+    decorative: true,
+  };
+
+  switch (status) {
+    case 'success':
+      return <SuccessIcon {...iconProps} color="colorTextSuccess" />;
+    case 'error':
+      return <ErrorIcon {...iconProps} color="colorTextError" />;
+    case 'warning':
+      return <WarningIcon {...iconProps} color="colorTextWarning" />;
+    default:
+      return null;
+  }
+};
+```
+
+## Customization
+
+Customize icons using the Customization Provider:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { SearchIcon } from '@twilio-paste/icons/esm';
+
+const App = () => (
+  <CustomizationProvider
+    elements={{
+      ICON: {
+        color: 'colorTextBrandHighlight',
+        ':hover': {
+          color: 'colorTextBrand',
+        },
+      },
+    }}
+  >
+    <SearchIcon decorative />
+  </CustomizationProvider>
+);
+```
+
+You can also customize individual icons:
+
+```jsx
+<SearchIcon decorative element="SEARCH_ICON" />
+```
+
+Then target it in your customization:
+
+```jsx
+<CustomizationProvider
+  elements={{
+    SEARCH_ICON: {
+      color: 'colorTextLink',
+    },
+  }}
+>
+  <SearchIcon decorative element="SEARCH_ICON" />
+</CustomizationProvider>
+```
+
+## Best Practices
+
+### Do
+
+- Use `decorative={true}` when the icon is purely visual and its meaning is conveyed by adjacent text
+- Provide a descriptive `title` when using `decorative={false}`
+- Use Paste design token colors for consistency
+- Choose appropriate icon sizes for the context
+- Use semantic icon names that match their visual representation
+
+### Don't
+
+- Don't use `decorative={false}` without providing a `title`
+- Don't use arbitrary color values; stick to design tokens
+- Don't make icons too large or too small for their context
+- Don't use icons that might be ambiguous or unclear
+
+## TypeScript Support
+
+All icons are fully typed with TypeScript:
+
+```tsx
+import type { SearchIconProps } from '@twilio-paste/icons/esm';
+
+interface MyComponentProps {
+  iconSize?: SearchIconProps['size'];
+  iconColor?: SearchIconProps['color'];
+}
+
+const MyComponent: React.FC<MyComponentProps> = ({ 
+  iconSize = 'sizeIcon30',
+  iconColor = 'currentColor' 
+}) => (
+  <SearchIcon decorative size={iconSize} color={iconColor} />
+);
+```
+
+## Performance Tips
+
+### Tree Shaking
+
+Import from the ESM entry point for optimal tree shaking:
+
+```jsx
+// ✅ Good - only imports what you need
+import { SearchIcon } from '@twilio-paste/icons/esm';
+
+// ❌ Avoid - may bundle more than needed
+import { SearchIcon } from '@twilio-paste/icons';
+```
+
+### Code Splitting
+
+For applications with many icons, consider code splitting:
+
+```jsx
+import { lazy, Suspense } from 'react';
+
+const SearchIcon = lazy(() => 
+  import('@twilio-paste/icons/esm').then(module => ({ 
+    default: module.SearchIcon 
+  }))
+);
+
+const MyComponent = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SearchIcon decorative />
+  </Suspense>
+);
+```
+
+## Related Documentation
+
+- [Icon List](/icons/icon-list) - Browse all available icons
+- [Customization](/customization/) - Learn about customizing Paste components
+- [Design Tokens](/tokens/) - Explore available colors and sizes

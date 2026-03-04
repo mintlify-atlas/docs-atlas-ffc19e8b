@@ -1,0 +1,210 @@
+---
+title: Select
+description: A Select is a dropdown form element that allows users to select a value from a list of options.
+---
+
+Select is a native HTML select element styled to match the Paste design system, allowing users to choose one or multiple options from a dropdown list.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/select @twilio-paste/label @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { Select, Option } from '@twilio-paste/select';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState('');
+  
+  return (
+    <>
+      <Label htmlFor="country">Country</Label>
+      <Select
+        id="country"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      >
+        <Option value="">Select a country</Option>
+        <Option value="us">United States</Option>
+        <Option value="uk">United Kingdom</Option>
+        <Option value="ca">Canada</Option>
+      </Select>
+    </>
+  );
+};
+```
+
+## Props
+
+### Select Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  Must contain `Option` or `OptionGroup` components.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Sets the id of the select. Should match the `htmlFor` of the Label.
+</ParamField>
+
+<ParamField path="value" type="string | string[]">
+  The controlled value of the select. Use array when `multiple` is true.
+</ParamField>
+
+<ParamField path="defaultValue" type="string | string[]">
+  The default value for uncontrolled selects.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the select, preventing user interaction.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the select as required for form validation.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the select to an error state with error styling.
+</ParamField>
+
+<ParamField path="multiple" type="boolean" default="false">
+  Allows selection of multiple options. Changes the visual appearance.
+</ParamField>
+
+<ParamField path="size" type="number">
+  When `multiple` is true, controls how many options are visible at once.
+</ParamField>
+
+<ParamField path="insertBefore" type="React.ReactNode">
+  Add a prefix element like an icon to the select.
+</ParamField>
+
+<ParamField path="insertAfter" type="React.ReactNode">
+  Add a suffix element to the select.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant. Use `inverse` for dark backgrounds.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLSelectElement>) => void">
+  Callback fired when the selected value changes.
+</ParamField>
+
+<ParamField path="element" type="string" default="'SELECT'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### With Option Groups
+
+```tsx
+import { Select, Option, OptionGroup } from '@twilio-paste/select';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="region">Region</Label>
+  <Select id="region">
+    <OptionGroup label="North America">
+      <Option value="us">United States</Option>
+      <Option value="ca">Canada</Option>
+      <Option value="mx">Mexico</Option>
+    </OptionGroup>
+    <OptionGroup label="Europe">
+      <Option value="uk">United Kingdom</Option>
+      <Option value="de">Germany</Option>
+      <Option value="fr">France</Option>
+    </OptionGroup>
+  </Select>
+</>
+```
+
+### With Error State
+
+```tsx
+import { Select, Option } from '@twilio-paste/select';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+<>
+  <Label htmlFor="priority" required>
+    Priority
+  </Label>
+  <Select id="priority" hasError value="">
+    <Option value="">Select priority</Option>
+    <Option value="low">Low</Option>
+    <Option value="medium">Medium</Option>
+    <Option value="high">High</Option>
+  </Select>
+  <HelpText variant="error">
+    Please select a priority level.
+  </HelpText>
+</>
+```
+
+### Multiple Selection
+
+```tsx
+import { Select, Option } from '@twilio-paste/select';
+import { Label } from '@twilio-paste/label';
+
+const [values, setValues] = React.useState<string[]>([]);
+
+<>
+  <Label htmlFor="skills">Skills</Label>
+  <Select
+    id="skills"
+    multiple
+    size={5}
+    value={values}
+    onChange={(e) => {
+      const selected = Array.from(e.target.selectedOptions, option => option.value);
+      setValues(selected);
+    }}
+  >
+    <Option value="react">React</Option>
+    <Option value="typescript">TypeScript</Option>
+    <Option value="node">Node.js</Option>
+    <Option value="python">Python</Option>
+    <Option value="go">Go</Option>
+  </Select>
+</>
+```
+
+### With Icon Prefix
+
+```tsx
+import { Select, Option } from '@twilio-paste/select';
+import { ProductMessagingIcon } from '@twilio-paste/icons/esm/ProductMessagingIcon';
+
+<Select
+  insertBefore={<ProductMessagingIcon decorative />}
+>
+  <Option value="sms">SMS</Option>
+  <Option value="whatsapp">WhatsApp</Option>
+  <Option value="email">Email</Option>
+</Select>
+```
+
+## Accessibility
+
+- Always pair Select with a Label using matching `id` and `htmlFor`
+- Use `required` prop and RequiredDot for required fields
+- Group related options with OptionGroup for better organization
+- Provide clear option text - avoid abbreviations
+- Include a default "Select..." option to make selection explicit
+- Use HelpText to provide additional context or error messages
+
+## Best Practices
+
+- Use Select when there are 5+ options; for fewer options, consider Radio Group
+- Keep option text concise and descriptive
+- Order options logically (alphabetically, by popularity, etc.)
+- Use OptionGroup to organize large lists of options
+- For searchable dropdowns with many options, use Combobox instead
+- Always include a default empty option for single selects
+- Validate selection server-side even with required attribute

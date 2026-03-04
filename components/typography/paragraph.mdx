@@ -1,0 +1,136 @@
+---
+title: Paragraph
+description: The Paragraph component provides consistent styling for body text in paragraphs.
+---
+
+# Paragraph
+
+The Paragraph component provides consistent styling for body text in paragraphs. Use Paragraph for blocks of text content.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/paragraph
+```
+
+## Usage
+
+```jsx
+import { Paragraph } from '@twilio-paste/paragraph';
+
+const MyComponent = () => (
+  <Paragraph>
+    Deliver critical time-sensitive messages to employees and customers at scale
+    with the Programmable Messaging API.
+  </Paragraph>
+);
+```
+
+## Props
+
+### Paragraph Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `element` | `string` | `'PARAGRAPH'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+| `marginBottom` | `'space0'` | `'space70'` | Overrides the default marginBottom of space70 to space0. |
+
+Note: `id` prop is not available on Paragraph.
+
+## Styling Details
+
+The Paragraph component has the following default styles:
+
+- `as`: `'p'` (always renders as a paragraph element)
+- `color`: `colorText`
+- `fontSize`: `fontSize30`
+- `fontWeight`: `fontWeightNormal`
+- `lineHeight`: `lineHeight40`
+- `marginBottom`: `space70` (can be overridden to `space0`)
+
+## Examples
+
+### Basic Paragraphs
+
+```jsx
+<>
+  <Paragraph>
+    Deliver critical time-sensitive messages to employees and customers at scale
+    with the Programmable Messaging API.
+  </Paragraph>
+  <Paragraph>
+    Proactively inform customers about account activity, purchase confirmations,
+    and shipping notifications with the Programmable Messaging API.
+  </Paragraph>
+  <Paragraph marginBottom="space0">
+    Build customer relationships with secure, cross-channel conversations that
+    can include multiple parties, all on one platform with the Conversations API.
+  </Paragraph>
+</>
+```
+
+### Removing Bottom Margin
+
+Use `marginBottom="space0"` to remove the default bottom margin:
+
+```jsx
+<Paragraph marginBottom="space0">
+  This paragraph has no bottom margin.
+</Paragraph>
+```
+
+### With Inline Formatting
+
+```jsx
+<Paragraph>
+  <strong>Bold text.</strong> Deliver critical time-sensitive messages to
+  employees and customers at scale with the Programmable Messaging API.
+</Paragraph>
+```
+
+## Customization
+
+The Paragraph component can be customized using the Customization Provider:
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    PARAGRAPH: {
+      backgroundColor: 'colorBackgroundPrimaryWeakest',
+      color: 'colorTextError',
+      padding: 'space40',
+    },
+  }}
+>
+  <Paragraph>
+    Customized paragraph. Deliver critical time-sensitive messages to employees
+    and customers at scale with the Programmable Messaging API.
+  </Paragraph>
+</CustomizationProvider>
+```
+
+You can also use a custom element name:
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    NEW_PARAGRAPH: {
+      backgroundColor: 'colorBackgroundTrial',
+      color: 'colorTextLink',
+      padding: 'space60',
+    },
+  }}
+>
+  <Paragraph element="NEW_PARAGRAPH">
+    Customized element paragraph.
+  </Paragraph>
+</CustomizationProvider>
+```
+
+## Accessibility
+
+- Paragraph automatically renders as a semantic `<p>` element
+- Keep paragraph text concise and scannable
+- Use appropriate line length for readability (generally 50-75 characters per line)

@@ -1,0 +1,679 @@
+---
+title: Style Props
+description: Learn about Paste's style props system for applying responsive, token-based styles to components.
+slug: /customization/style-props
+---
+
+Style props are a powerful way to apply styles to Paste components using design tokens. They provide type-safe, responsive styling without writing CSS.
+
+## Overview
+
+Style props allow you to:
+- Apply styles directly to components as props
+- Use design tokens for consistent values
+- Create responsive designs with arrays
+- Avoid writing custom CSS
+- Maintain type safety with TypeScript
+
+## Available on Box
+
+Most style props are available on the Box component and components built on Box:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+<Box
+  padding="space50"
+  backgroundColor="colorBackgroundBody"
+  borderRadius="borderRadius20"
+>
+  Styled with props
+</Box>
+```
+
+## Layout Props
+
+### Display
+
+Control the display type:
+
+```jsx
+<Box display="flex">Flex container</Box>
+<Box display="grid">Grid container</Box>
+<Box display="inline-block">Inline block</Box>
+<Box display="none">Hidden</Box>
+```
+
+### Width & Height
+
+Set dimensions using size tokens or CSS values:
+
+```jsx
+<Box width="size40">Fixed width</Box>
+<Box width="100%">Full width</Box>
+<Box minWidth="size20" maxWidth="size60">Constrained width</Box>
+
+<Box height="sizeSquare100">Fixed height</Box>
+<Box minHeight="100vh">Full viewport height</Box>
+```
+
+### Size
+
+Set both width and height:
+
+```jsx
+<Box size="sizeSquare100">Square box</Box>
+<Box size="sizeIcon30">Icon-sized box</Box>
+```
+
+### Overflow
+
+Control overflow behavior:
+
+```jsx
+<Box overflow="auto">Auto overflow</Box>
+<Box overflow="hidden">Hidden overflow</Box>
+<Box overflowX="scroll" overflowY="hidden">Horizontal scroll only</Box>
+```
+
+### Vertical Align
+
+```jsx
+<Box as="span" verticalAlign="middle">Middle aligned</Box>
+<Box as="img" verticalAlign="top">Top aligned</Box>
+```
+
+## Spacing Props
+
+### Padding
+
+Apply internal spacing:
+
+```jsx
+// All sides
+<Box padding="space50">Equal padding</Box>
+
+// Individual sides
+<Box
+  paddingTop="space60"
+  paddingRight="space50"
+  paddingBottom="space60"
+  paddingLeft="space50"
+>
+  Custom padding
+</Box>
+
+// X and Y axis
+<Box paddingX="space60" paddingY="space40">
+  Axis padding
+</Box>
+
+// Shorthand
+<Box p="space50">Shorthand padding</Box>
+<Box px="space60" py="space40">Shorthand axis padding</Box>
+```
+
+### Margin
+
+Apply external spacing:
+
+```jsx
+// All sides
+<Box margin="space50">Equal margin</Box>
+
+// Individual sides
+<Box
+  marginTop="space60"
+  marginRight="space50"
+  marginBottom="space60"
+  marginLeft="space50"
+>
+  Custom margin
+</Box>
+
+// X and Y axis
+<Box marginX="space60" marginY="space40">
+  Axis margin
+</Box>
+
+// Auto centering
+<Box marginX="auto">Centered</Box>
+
+// Negative spacing
+<Box marginTop="spaceNegative40">Negative margin</Box>
+
+// Shorthand
+<Box m="space50">Shorthand margin</Box>
+<Box mx="auto" my="space40">Shorthand axis margin</Box>
+```
+
+### Gap
+
+Space flex or grid children:
+
+```jsx
+<Box display="flex" columnGap="space50" rowGap="space40">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</Box>
+```
+
+## Background Props
+
+### Background Color
+
+```jsx
+<Box backgroundColor="colorBackgroundPrimary">Primary background</Box>
+<Box backgroundColor="colorBackgroundBody">Body background</Box>
+<Box backgroundColor="transparent">Transparent</Box>
+```
+
+### Background Image
+
+```jsx
+<Box
+  backgroundImage="url('/image.jpg')"
+  backgroundSize="cover"
+  backgroundPosition="center"
+  backgroundRepeat="no-repeat"
+>
+  Background image
+</Box>
+```
+
+### Background Shorthand
+
+```jsx
+<Box background="none">No background</Box>
+```
+
+## Border Props
+
+### Border Width
+
+```jsx
+<Box borderWidth="borderWidth10">All borders</Box>
+
+<Box
+  borderTopWidth="borderWidth10"
+  borderRightWidth="borderWidth20"
+  borderBottomWidth="borderWidth10"
+  borderLeftWidth="borderWidth20"
+>
+  Individual borders
+</Box>
+```
+
+### Border Style
+
+```jsx
+<Box borderStyle="solid">Solid border</Box>
+<Box borderStyle="dashed">Dashed border</Box>
+<Box borderStyle="dotted">Dotted border</Box>
+```
+
+### Border Color
+
+```jsx
+<Box
+  borderWidth="borderWidth10"
+  borderStyle="solid"
+  borderColor="colorBorder"
+>
+  Bordered box
+</Box>
+
+<Box
+  borderTopColor="colorBorderPrimary"
+  borderBottomColor="colorBorder"
+>
+  Multi-color border
+</Box>
+```
+
+### Border Radius
+
+```jsx
+<Box borderRadius="borderRadius20">Rounded corners</Box>
+<Box borderRadius="borderRadiusCircle">Circle</Box>
+<Box borderRadius="borderRadiusPill">Pill shape</Box>
+
+<Box
+  borderTopLeftRadius="borderRadius30"
+  borderTopRightRadius="borderRadius30"
+  borderBottomLeftRadius="borderRadius0"
+  borderBottomRightRadius="borderRadius0"
+>
+  Top corners only
+</Box>
+```
+
+### Border Shorthand
+
+```jsx
+<Box border="none">No border</Box>
+```
+
+## Typography Props
+
+### Font Family
+
+```jsx
+<Box fontFamily="fontFamilyText">Text font</Box>
+<Box fontFamily="fontFamilyCode">Code font</Box>
+```
+
+### Font Size
+
+```jsx
+<Box fontSize="fontSize30">Base size</Box>
+<Box fontSize="fontSize50">Larger text</Box>
+<Box fontSize="fontSize10">Small text</Box>
+```
+
+### Font Weight
+
+```jsx
+<Box fontWeight="fontWeightNormal">Normal weight</Box>
+<Box fontWeight="fontWeightBold">Bold text</Box>
+<Box fontWeight="fontWeightSemibold">Semibold text</Box>
+```
+
+### Line Height
+
+```jsx
+<Box lineHeight="lineHeight30">Base line height</Box>
+<Box lineHeight="lineHeight50">Taller line height</Box>
+```
+
+### Text Align
+
+```jsx
+<Box textAlign="left">Left aligned</Box>
+<Box textAlign="center">Centered</Box>
+<Box textAlign="right">Right aligned</Box>
+```
+
+### Text Transform
+
+```jsx
+<Box textTransform="uppercase">UPPERCASE</Box>
+<Box textTransform="lowercase">lowercase</Box>
+<Box textTransform="capitalize">Capitalized</Box>
+```
+
+### Text Decoration
+
+```jsx
+<Box textDecoration="underline">Underlined</Box>
+<Box textDecoration="line-through">Strikethrough</Box>
+<Box textDecoration="none">No decoration</Box>
+```
+
+### Text Color
+
+Available on Text component:
+
+```jsx
+import { Text } from '@twilio-paste/core/text';
+
+<Text color="colorText">Default text</Text>
+<Text color="colorTextWeak">Weak text</Text>
+<Text color="colorTextLink">Link text</Text>
+<Text color="colorTextError">Error text</Text>
+```
+
+## Flexbox Props
+
+When using `display="flex"`:
+
+### Flex Direction
+
+```jsx
+<Box display="flex" flexDirection="row">Row direction</Box>
+<Box display="flex" flexDirection="column">Column direction</Box>
+<Box display="flex" flexDirection="row-reverse">Reverse row</Box>
+```
+
+### Flex Wrap
+
+```jsx
+<Box display="flex" flexWrap="wrap">Wrapping flex</Box>
+<Box display="flex" flexWrap="nowrap">No wrap</Box>
+```
+
+### Justify Content
+
+```jsx
+<Box display="flex" justifyContent="flex-start">Start</Box>
+<Box display="flex" justifyContent="center">Center</Box>
+<Box display="flex" justifyContent="flex-end">End</Box>
+<Box display="flex" justifyContent="space-between">Space between</Box>
+<Box display="flex" justifyContent="space-around">Space around</Box>
+```
+
+### Align Items
+
+```jsx
+<Box display="flex" alignItems="flex-start">Top align</Box>
+<Box display="flex" alignItems="center">Center align</Box>
+<Box display="flex" alignItems="flex-end">Bottom align</Box>
+<Box display="flex" alignItems="stretch">Stretch</Box>
+```
+
+### Align Content
+
+```jsx
+<Box display="flex" flexWrap="wrap" alignContent="space-between">
+  Multiple lines
+</Box>
+```
+
+### Align Self
+
+```jsx
+<Box display="flex">
+  <Box alignSelf="flex-start">Align to start</Box>
+  <Box alignSelf="center">Center self</Box>
+</Box>
+```
+
+### Flex Properties
+
+```jsx
+<Box flex="1">Grows to fill</Box>
+<Box flexGrow={1}>Can grow</Box>
+<Box flexShrink={0}>Won't shrink</Box>
+<Box flexBasis="200px">Base size</Box>
+```
+
+## Grid Props
+
+When using `display="grid"`:
+
+### Grid Template
+
+```jsx
+<Box
+  display="grid"
+  gridTemplateColumns="repeat(3, 1fr)"
+  gridTemplateRows="auto"
+>
+  Grid layout
+</Box>
+
+<Box display="grid" gridTemplateColumns="200px 1fr 200px">
+  Three column layout
+</Box>
+```
+
+### Grid Gap
+
+```jsx
+<Box
+  display="grid"
+  gridGap="space50"
+>
+  Gapped grid
+</Box>
+
+<Box
+  display="grid"
+  gridRowGap="space40"
+  gridColumnGap="space60"
+>
+  Custom gaps
+</Box>
+```
+
+### Grid Auto
+
+```jsx
+<Box
+  display="grid"
+  gridAutoFlow="row"
+  gridAutoColumns="1fr"
+>
+  Auto grid
+</Box>
+```
+
+### Grid Item Placement
+
+```jsx
+<Box gridColumn="1 / 3">Spans 2 columns</Box>
+<Box gridRow="1 / 3">Spans 2 rows</Box>
+<Box gridArea="header">Named area</Box>
+```
+
+## Position Props
+
+### Position Type
+
+```jsx
+<Box position="relative">Relative</Box>
+<Box position="absolute">Absolute</Box>
+<Box position="fixed">Fixed</Box>
+<Box position="sticky">Sticky</Box>
+```
+
+### Position Values
+
+```jsx
+<Box
+  position="absolute"
+  top="space50"
+  right="space50"
+  bottom="space50"
+  left="space50"
+>
+  Positioned
+</Box>
+```
+
+### Z-Index
+
+```jsx
+<Box position="relative" zIndex="zIndex10">Layer 1</Box>
+<Box position="absolute" zIndex="zIndex20">Layer 2</Box>
+```
+
+## Shadow Props
+
+```jsx
+<Box boxShadow="shadow">Standard shadow</Box>
+<Box boxShadow="shadowCard">Card shadow</Box>
+<Box boxShadow="shadowFocus">Focus shadow</Box>
+<Box boxShadow="none">No shadow</Box>
+```
+
+## Other Props
+
+### Cursor
+
+```jsx
+<Box cursor="pointer">Clickable</Box>
+<Box cursor="not-allowed">Disabled</Box>
+<Box cursor="default">Default cursor</Box>
+```
+
+### Opacity
+
+```jsx
+<Box opacity="0.5">Semi-transparent</Box>
+<Box opacity="0">Invisible</Box>
+<Box opacity="1">Fully visible</Box>
+```
+
+### Transition
+
+```jsx
+<Box transition="all 0.2s ease">Animated</Box>
+```
+
+## Responsive Style Props
+
+Use arrays to apply different values at different breakpoints:
+
+```jsx
+<Box
+  padding={[
+    'space30',  // Mobile
+    'space50',  // Tablet
+    'space70',  // Desktop
+  ]}
+  display={[
+    'block',    // Mobile
+    'flex',     // Tablet+
+  ]}
+  flexDirection={[
+    undefined,  // Mobile (not flex)
+    'column',   // Tablet
+    'row',      // Desktop
+  ]}
+>
+  Responsive box
+</Box>
+```
+
+### Custom Breakpoints
+
+Define custom breakpoints in your theme:
+
+```jsx
+<CustomizationProvider
+  customBreakpoints={['480px', '768px', '1024px', '1440px']}
+>
+  <Box
+    padding={[
+      'space30',  // < 480px
+      'space40',  // 480px - 768px
+      'space50',  // 768px - 1024px
+      'space60',  // 1024px - 1440px
+      'space70',  // > 1440px
+    ]}
+  >
+    Multi-breakpoint responsive
+  </Box>
+</CustomizationProvider>
+```
+
+## Pseudo-Class Props
+
+Some components support pseudo-class props:
+
+```jsx
+<Box
+  backgroundColor="colorBackgroundBody"
+  _hover={{
+    backgroundColor: 'colorBackgroundPrimaryWeakest',
+  }}
+  _focus={{
+    outline: 'none',
+    boxShadow: 'shadowFocus',
+  }}
+  _active={{
+    backgroundColor: 'colorBackgroundPrimaryWeaker',
+  }}
+>
+  Interactive box
+</Box>
+```
+
+## Combining Props
+
+Style props work together naturally:
+
+```jsx
+<Box
+  display="flex"
+  flexDirection="column"
+  justifyContent="center"
+  alignItems="center"
+  padding="space70"
+  backgroundColor="colorBackgroundBody"
+  borderRadius="borderRadius30"
+  boxShadow="shadowCard"
+  minHeight="size40"
+>
+  Fully styled card
+</Box>
+```
+
+## TypeScript Support
+
+Style props are fully typed:
+
+```typescript
+import { Box } from '@twilio-paste/core/box';
+import type { BoxProps } from '@twilio-paste/core/box';
+
+const props: BoxProps = {
+  padding: 'space50',           // ✓ Valid token
+  backgroundColor: 'colorBackgroundBody', // ✓ Valid token
+  // padding: 'invalid',         // ✗ TypeScript error
+};
+
+function StyledBox(props: BoxProps) {
+  return <Box {...props} />;
+}
+```
+
+## Best Practices
+
+### Use Design Tokens
+
+```jsx
+// Good: Use tokens
+<Box padding="space50" backgroundColor="colorBackgroundBody" />
+
+// Avoid: Hardcoded values
+<Box padding="16px" backgroundColor="#FFFFFF" />
+```
+
+### Leverage Responsive Arrays
+
+```jsx
+// Good: Responsive design
+<Box padding={['space30', 'space50', 'space70']} />
+
+// Avoid: Fixed values on all screens
+<Box padding="space50" />
+```
+
+### Compose Styles Logically
+
+```jsx
+// Good: Clear, semantic grouping
+<Box
+  display="flex"
+  flexDirection="column"
+  padding="space60"
+  backgroundColor="colorBackgroundBody"
+/>
+
+// Avoid: Scattered, unclear intent
+<Box
+  backgroundColor="colorBackgroundBody"
+  display="flex"
+  padding="space60"
+  flexDirection="column"
+/>
+```
+
+### Prefer Style Props Over CSS
+
+```jsx
+// Good: Style props
+<Box padding="space50" margin="space40" />
+
+// Avoid: Inline styles
+<Box style={{ padding: '16px', margin: '12px' }} />
+```
+
+## Next Steps
+
+- Explore [Design Tokens](/customization/design-tokens-overview) for available values
+- Learn about [Custom Components](/customization/custom-components) using style props
+- Review [Box component](/components/box) documentation
+- Try the [Theme Designer](/customization/theme-designer) to experiment with tokens

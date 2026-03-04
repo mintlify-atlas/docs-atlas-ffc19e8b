@@ -1,0 +1,253 @@
+---
+title: Button Group
+description: A Button Group is a container that groups related buttons together.
+slug: /components/button-group
+---
+
+## Overview
+
+Button Group is a layout component that arranges multiple related buttons in a horizontal or wrapped layout. It can display buttons as separate elements with spacing or as an attached group where buttons are visually connected.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/button-group
+```
+
+<Note>
+Button Group requires the Button component:
+
+```bash
+yarn add @twilio-paste/button
+```
+</Note>
+
+## Usage
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+
+const MyComponent = () => (
+  <ButtonGroup>
+    <Button variant="secondary">Cancel</Button>
+    <Button variant="primary">Save</Button>
+  </ButtonGroup>
+);
+```
+
+### Default Button Group
+
+By default, buttons are displayed separately with consistent spacing.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+
+<ButtonGroup>
+  <Button variant="secondary">Back</Button>
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="primary">Next</Button>
+</ButtonGroup>
+```
+
+### Attached Button Group
+
+Attached button groups visually connect buttons together, useful for segmented controls or toolbars.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+
+<ButtonGroup attached>
+  <Button variant="secondary">Left</Button>
+  <Button variant="secondary">Center</Button>
+  <Button variant="secondary">Right</Button>
+</ButtonGroup>
+```
+
+### Justify Content
+
+Control the horizontal alignment of buttons within the group (unattached only).
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+
+<ButtonGroup justifyContent="flex-end">
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="primary">Save</Button>
+</ButtonGroup>
+
+<ButtonGroup justifyContent="center">
+  <Button variant="secondary">Option 1</Button>
+  <Button variant="secondary">Option 2</Button>
+</ButtonGroup>
+
+<ButtonGroup justifyContent="space-between">
+  <Button variant="secondary">Back</Button>
+  <Button variant="primary">Next</Button>
+</ButtonGroup>
+```
+
+### Toggle Button Group
+
+Create toggle button groups using the pressed prop on secondary buttons.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+import { BoldIcon } from '@twilio-paste/icons/esm/BoldIcon';
+import { ItalicIcon } from '@twilio-paste/icons/esm/ItalicIcon';
+import { UnderlineIcon } from '@twilio-paste/icons/esm/UnderlineIcon';
+
+const [formatting, setFormatting] = React.useState({
+  bold: false,
+  italic: false,
+  underline: false,
+});
+
+<ButtonGroup attached>
+  <Button
+    variant="secondary"
+    size="icon"
+    pressed={formatting.bold}
+    onClick={() => setFormatting({ ...formatting, bold: !formatting.bold })}
+  >
+    <BoldIcon decorative={false} title="Bold" />
+  </Button>
+  <Button
+    variant="secondary"
+    size="icon"
+    pressed={formatting.italic}
+    onClick={() => setFormatting({ ...formatting, italic: !formatting.italic })}
+  >
+    <ItalicIcon decorative={false} title="Italic" />
+  </Button>
+  <Button
+    variant="secondary"
+    size="icon"
+    pressed={formatting.underline}
+    onClick={() => setFormatting({ ...formatting, underline: !formatting.underline })}
+  >
+    <UnderlineIcon decorative={false} title="Underline" />
+  </Button>
+</ButtonGroup>
+```
+
+### With Icon Buttons
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+import { PlayIcon } from '@twilio-paste/icons/esm/PlayIcon';
+import { PauseIcon } from '@twilio-paste/icons/esm/PauseIcon';
+import { StopIcon } from '@twilio-paste/icons/esm/StopIcon';
+
+<ButtonGroup attached>
+  <Button variant="secondary" size="icon">
+    <PlayIcon decorative={false} title="Play" />
+  </Button>
+  <Button variant="secondary" size="icon">
+    <PauseIcon decorative={false} title="Pause" />
+  </Button>
+  <Button variant="secondary" size="icon">
+    <StopIcon decorative={false} title="Stop" />
+  </Button>
+</ButtonGroup>
+```
+
+## Props
+
+### ButtonGroup Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| attached | `boolean` | `false` | Visually connects buttons together |
+| justifyContent | `'flex-start'` \| `'center'` \| `'flex-end'` \| `'space-between'` | `'flex-start'` | Horizontal alignment (unattached only) |
+| element | `string` | `'BUTTON_GROUP'` | Customization element name |
+| children | `ReactNode` | - | Button components (required) |
+
+ButtonGroup also accepts all standard HTML div attributes.
+
+## Best Practices
+
+### Do
+
+- Group related buttons that perform related actions
+- Use attached groups for toggle or segmented controls
+- Place primary action buttons on the right in left-to-right languages
+- Use consistent button sizes within a group
+- Limit the number of buttons in a group (typically 2-5)
+- Use justifyContent to align buttons appropriately for the context
+
+### Don't
+
+- Don't mix different button sizes in the same group
+- Don't use attached groups for unrelated actions
+- Don't put too many buttons in a single group
+- Don't use multiple primary buttons in a group
+- Don't nest button groups
+- Don't use fullWidth buttons in button groups
+
+### Composition Guidelines
+
+**Form Actions**
+```jsx
+<ButtonGroup justifyContent="flex-end">
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="primary" type="submit">Save</Button>
+</ButtonGroup>
+```
+
+**Navigation**
+```jsx
+<ButtonGroup justifyContent="space-between">
+  <Button variant="secondary">Previous</Button>
+  <Button variant="primary">Next</Button>
+</ButtonGroup>
+```
+
+**Toolbar**
+```jsx
+<ButtonGroup attached>
+  <Button variant="secondary" size="icon">
+    <Icon />
+  </Button>
+  <Button variant="secondary" size="icon">
+    <Icon />
+  </Button>
+</ButtonGroup>
+```
+
+## Accessibility
+
+- Button Group sets role="group" on the container
+- Individual buttons maintain their own keyboard navigation and focus states
+- In attached groups, z-index management ensures focus indicators are always visible
+- Use aria-label on the ButtonGroup if the grouping needs additional context
+- Toggle buttons should use aria-pressed to indicate state
+
+### Screen Reader Considerations
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { ButtonGroup } from '@twilio-paste/button-group';
+
+<ButtonGroup aria-label="Text alignment options" attached>
+  <Button variant="secondary" pressed={align === 'left'}>
+    Left
+  </Button>
+  <Button variant="secondary" pressed={align === 'center'}>
+    Center
+  </Button>
+  <Button variant="secondary" pressed={align === 'right'}>
+    Right
+  </Button>
+</ButtonGroup>
+```
+
+## Related Components
+
+- [Button](/components/button) - Individual button component
+- [Menu](/components/menu) - For dropdown action lists

@@ -1,0 +1,166 @@
+---
+title: Modal
+description: A modal is a dialog that appears on top of the main content and moves the system into a special mode requiring user interaction.
+slug: /components/overlays/modal
+---
+
+## Installation
+
+```bash
+yarn add @twilio-paste/modal
+```
+
+## Usage
+
+```jsx
+import { Modal, ModalHeader, ModalHeading, ModalBody, ModalFooter, ModalFooterActions } from '@twilio-paste/modal';
+import { Button } from '@twilio-paste/button';
+import { useUID } from '@twilio-paste/uid-library';
+
+const MyModal = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const modalHeadingID = useUID();
+
+  return (
+    <>
+      <Button variant="primary" onClick={() => setIsOpen(true)}>
+        Open Modal
+      </Button>
+      <Modal
+        ariaLabelledby={modalHeadingID}
+        isOpen={isOpen}
+        onDismiss={() => setIsOpen(false)}
+        size="default"
+      >
+        <ModalHeader>
+          <ModalHeading as="h3" id={modalHeadingID}>
+            Modal Heading
+          </ModalHeading>
+        </ModalHeader>
+        <ModalBody>
+          <p>Modal body content goes here.</p>
+        </ModalBody>
+        <ModalFooter>
+          <ModalFooterActions>
+            <Button variant="secondary" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary">Submit</Button>
+          </ModalFooterActions>
+        </ModalFooter>
+      </Modal>
+    </>
+  );
+};
+```
+
+## Props
+
+### Modal
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `ariaLabelledby` | `string` | - | **Required.** Accessible title for the Modal. Must match the ID of the ModalHeading. |
+| `isOpen` | `boolean` | - | **Required.** Determines the state of the Modal. |
+| `onDismiss` | `() => void` | - | **Required.** Function to call when the user hits "Escape" or clicks outside the dialog. |
+| `size` | `"default" \| "wide"` | - | **Required.** Control whether the Modal is default width or wide. |
+| `allowPinchZoom` | `boolean` | `true` | Handle zoom/pinch gestures on iOS devices when scroll locking is enabled. |
+| `initialFocusRef` | `React.RefObject<any>` | - | By default the first focusable element will receive focus when the Modal opens. Provide a ref to focus a different element instead. |
+| `element` | `string` | `"MODAL"` | Overrides the default element name for custom styling with the Customization Provider. |
+
+### ModalHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Content to render in the header, typically a ModalHeading. |
+| `i18nDismissLabel` | `string` | `"Close modal"` | Accessible text for the close button. |
+| `element` | `string` | `"MODAL_HEADER"` | Overrides the default element name for custom styling. |
+
+### ModalHeading
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The heading text. |
+| `as` | `HeadingProps["as"]` | - | **Required.** The HTML heading level (h1, h2, h3, etc.). |
+| `id` | `string` | - | **Required.** ID that matches the `ariaLabelledby` prop on Modal. |
+| `element` | `string` | `"MODAL_HEADING"` | Overrides the default element name for custom styling. |
+
+### ModalBody
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The main content of the modal. |
+| `element` | `string` | `"MODAL_BODY"` | Overrides the default element name for custom styling. |
+
+### ModalFooter
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Content to render in the footer, typically ModalFooterActions. |
+| `element` | `string` | `"MODAL_FOOTER"` | Overrides the default element name for custom styling. |
+
+### ModalFooterActions
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Action buttons for the modal. |
+| `justify` | `"start" \| "end"` | `"end"` | Alignment of the action buttons. |
+| `element` | `string` | `"MODAL_FOOTER_ACTIONS"` | Overrides the default element name for custom styling. |
+
+## Examples
+
+### Wide Modal
+
+```jsx
+<Modal
+  ariaLabelledby={modalHeadingID}
+  isOpen={isOpen}
+  onDismiss={handleClose}
+  size="wide"
+>
+  {/* ... */}
+</Modal>
+```
+
+### Custom Initial Focus
+
+```jsx
+const nameInputRef = React.createRef();
+
+<Modal
+  ariaLabelledby={modalHeadingID}
+  isOpen={isOpen}
+  onDismiss={handleClose}
+  initialFocusRef={nameInputRef}
+  size="default"
+>
+  <ModalBody>
+    <Input ref={nameInputRef} />
+  </ModalBody>
+</Modal>
+```
+
+### Directional Footer Actions
+
+```jsx
+<ModalFooter>
+  <ModalFooterActions justify="start">
+    <Button variant="secondary">Back</Button>
+  </ModalFooterActions>
+  <ModalFooterActions>
+    <Button variant="secondary" onClick={handleClose}>
+      Cancel
+    </Button>
+    <Button variant="primary">Submit</Button>
+  </ModalFooterActions>
+</ModalFooter>
+```
+
+## Accessibility
+
+- Modal uses `role="dialog"` and `aria-modal="true"`
+- Focus is trapped within the modal when open
+- Pressing Escape closes the modal (unless `allowPinchZoom` is false)
+- Clicking outside the modal closes it
+- The first focusable element receives focus by default (customizable with `initialFocusRef`)
+- The close button in the header is keyboard accessible

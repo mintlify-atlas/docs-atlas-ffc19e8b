@@ -1,0 +1,407 @@
+---
+title: Design Tokens
+description: Learn about Paste's design token system and how to use tokens to build consistent, themeable user interfaces.
+---
+
+Design tokens are the foundation of the Paste design system. They provide a centralized source of truth for design decisions like colors, spacing, typography, and more, making it easy to build consistent and themeable interfaces.
+
+## What are Design Tokens?
+
+Design tokens are named variables that store visual design attributes. Instead of hardcoding values like `#0263E0` or `16px`, you use semantic names like `colorBackgroundPrimary` or `space40`.
+
+### Benefits of Design Tokens
+
+- **Consistency**: Ensure consistent visual design across your application
+- **Maintainability**: Update values in one place to affect the entire application
+- **Theming**: Switch between themes by swapping token values
+- **Semantic Meaning**: Token names describe their purpose, not their value
+- **Type Safety**: TypeScript support for all tokens
+
+## Token Categories
+
+Paste organizes design tokens into several categories:
+
+### Color Tokens
+
+Color tokens define the color palette for backgrounds, text, borders, and more.
+
+#### Background Colors
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function BackgroundExample() {
+  return (
+    <>
+      <Box backgroundColor="colorBackground" padding="space60">
+        Default background
+      </Box>
+      <Box backgroundColor="colorBackgroundPrimary" padding="space60">
+        Primary background
+      </Box>
+      <Box backgroundColor="colorBackgroundStrong" padding="space60">
+        Strong background
+      </Box>
+    </>
+  );
+}
+```
+
+Common background color tokens:
+- `colorBackground`: Default background color (usually light gray)
+- `colorBackgroundBody`: Body background color (usually white)
+- `colorBackgroundPrimary`: Primary brand color background
+- `colorBackgroundStrong`: Strong emphasis background
+- `colorBackgroundInverse`: Inverse background (usually dark)
+
+#### Text Colors
+
+```jsx
+import { Text } from '@twilio-paste/core/text';
+
+function TextColorExample() {
+  return (
+    <>
+      <Text color="colorText">Default text color</Text>
+      <Text color="colorTextWeak">Weak text color</Text>
+      <Text color="colorTextLink">Link text color</Text>
+      <Text color="colorTextError">Error text color</Text>
+    </>
+  );
+}
+```
+
+Common text color tokens:
+- `colorText`: Body text color
+- `colorTextWeak`: De-emphasized text
+- `colorTextStrong`: Emphasized text
+- `colorTextLink`: Link text
+- `colorTextError`: Error text
+- `colorTextSuccess`: Success text
+
+#### Border Colors
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function BorderExample() {
+  return (
+    <Box 
+      borderStyle="solid" 
+      borderWidth="borderWidth10" 
+      borderColor="colorBorder"
+      padding="space60"
+    >
+      Box with border
+    </Box>
+  );
+}
+```
+
+### Spacing Tokens
+
+Spacing tokens provide a consistent scale for margins, padding, and gaps.
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Stack } from '@twilio-paste/core/stack';
+
+function SpacingExample() {
+  return (
+    <Box padding="space60" margin="space40">
+      <Stack orientation="vertical" spacing="space30">
+        <Box>Item 1</Box>
+        <Box>Item 2</Box>
+        <Box>Item 3</Box>
+      </Stack>
+    </Box>
+  );
+}
+```
+
+Spacing scale (from tokens/global/spacing.yml):
+- `space0`: 0px - No space
+- `space10`: 4px - Extra small
+- `space20`: 8px - Small
+- `space30`: 12px - Small-medium
+- `space40`: 16px - Medium
+- `space50`: 20px - Medium-large
+- `space60`: 24px - Large
+- `space70`: 28px - Extra large
+- `space80`: 32px - 2x large
+- `space90`: 36px - 3x large
+- `space100`: 40px - 4x large
+- `space110`: 44px - 5x large
+
+<Note>
+  Use spacing tokens instead of arbitrary values to maintain visual consistency.
+</Note>
+
+### Typography Tokens
+
+Typography tokens define font families, sizes, weights, and line heights.
+
+#### Font Family
+
+```jsx
+import { Text } from '@twilio-paste/core/text';
+
+function FontFamilyExample() {
+  return (
+    <>
+      <Text fontFamily="fontFamilyText">Default text font</Text>
+      <Text fontFamily="fontFamilyCode">Monospace code font</Text>
+    </>
+  );
+}
+```
+
+Available font families (from tokens/global/font-family.yml):
+- `fontFamilyText`: Default text font
+- `fontFamilyCode`: Monospace font for code
+- `fontFamilyDisplay`: Display/heading font
+
+#### Font Size
+
+```jsx
+import { Text } from '@twilio-paste/core/text';
+
+function FontSizeExample() {
+  return (
+    <>
+      <Text fontSize="fontSize20">Small text</Text>
+      <Text fontSize="fontSize30">Body text</Text>
+      <Text fontSize="fontSize40">Large text</Text>
+      <Text fontSize="fontSize60">Heading text</Text>
+    </>
+  );
+}
+```
+
+#### Font Weight
+
+```jsx
+import { Text } from '@twilio-paste/core/text';
+
+function FontWeightExample() {
+  return (
+    <>
+      <Text fontWeight="fontWeightNormal">Normal weight</Text>
+      <Text fontWeight="fontWeightMedium">Medium weight</Text>
+      <Text fontWeight="fontWeightBold">Bold weight</Text>
+    </>
+  );
+}
+```
+
+### Border Radius Tokens
+
+Border radius tokens control the roundness of corners.
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function BorderRadiusExample() {
+  return (
+    <>
+      <Box borderRadius="borderRadius10" padding="space60" backgroundColor="colorBackgroundPrimary">
+        Subtle rounding
+      </Box>
+      <Box borderRadius="borderRadius30" padding="space60" backgroundColor="colorBackgroundPrimary">
+        Medium rounding
+      </Box>
+      <Box borderRadius="borderRadiusCircle" width="size10" height="size10" backgroundColor="colorBackgroundPrimary">
+        Circle
+      </Box>
+    </>
+  );
+}
+```
+
+### Shadow Tokens
+
+Shadow tokens provide consistent elevation and depth.
+
+```jsx
+import { Card } from '@twilio-paste/core/card';
+
+function ShadowExample() {
+  return (
+    <Card padding="space60">
+      Cards use shadow tokens for elevation
+    </Card>
+  );
+}
+```
+
+### Sizing Tokens
+
+Sizing tokens provide consistent width and height values.
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function SizingExample() {
+  return (
+    <Box width="size30" height="size30" backgroundColor="colorBackgroundPrimary">
+      Fixed size box
+    </Box>
+  );
+}
+```
+
+## Using Tokens in Components
+
+Most Paste components accept design tokens as prop values:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+import { Button } from '@twilio-paste/core/button';
+
+function TokenExample() {
+  return (
+    <Box
+      padding="space60"
+      backgroundColor="colorBackgroundPrimary"
+      borderRadius="borderRadius30"
+      borderWidth="borderWidth10"
+      borderStyle="solid"
+      borderColor="colorBorderPrimary"
+    >
+      <Text
+        fontSize="fontSize40"
+        fontWeight="fontWeightBold"
+        color="colorText"
+        marginBottom="space40"
+      >
+        Using Design Tokens
+      </Text>
+      <Button variant="primary">Click Me</Button>
+    </Box>
+  );
+}
+```
+
+## Using Tokens in Custom Components
+
+You can access token values for use in custom styled components:
+
+### Using the useTheme Hook
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+import { styled } from '@twilio-paste/styling-library';
+
+const CustomBox = styled.div`
+  padding: ${props => props.theme.space.space60};
+  background-color: ${props => props.theme.backgroundColors.colorBackgroundPrimary};
+  border-radius: ${props => props.theme.radii.borderRadius30};
+`;
+
+function CustomComponent() {
+  const theme = useTheme();
+  
+  return (
+    <div style={{
+      padding: theme.space.space60,
+      backgroundColor: theme.backgroundColors.colorBackground,
+    }}>
+      Custom styled element
+    </div>
+  );
+}
+```
+
+### Using the CSS Utility
+
+```jsx
+import { styled, css } from '@twilio-paste/styling-library';
+
+const StyledBox = styled.div(
+  css({
+    padding: 'space60',
+    backgroundColor: 'colorBackgroundPrimary',
+    borderRadius: 'borderRadius30',
+  })
+);
+
+function StyledComponent() {
+  return <StyledBox>Styled with tokens</StyledBox>;
+}
+```
+
+## Token Structure
+
+Tokens are organized in YAML files in the design-tokens package:
+
+```
+@twilio-paste/design-tokens/
+├── tokens/
+│   ├── global/
+│   │   ├── background-color.yml
+│   │   ├── text-color.yml
+│   │   ├── border-color.yml
+│   │   ├── spacing.yml
+│   │   ├── font-size.yml
+│   │   ├── font-family.yml
+│   │   └── ...
+│   └── themes/
+│       ├── default/
+│       ├── dark/
+│       └── ...
+```
+
+## Accessing Token Values
+
+The `@twilio-paste/design-tokens` package exports tokens in multiple formats:
+
+```javascript
+// CommonJS
+const tokens = require('@twilio-paste/design-tokens');
+
+// ES6
+import tokens from '@twilio-paste/design-tokens';
+
+console.log(tokens.colorBackgroundPrimary); // Token value
+```
+
+<Warning>
+  While you can access raw token values, it's recommended to use tokens through component props or the theme object for proper theming support.
+</Warning>
+
+## Best Practices
+
+### Do's
+
+- **Use semantic tokens**: Choose tokens based on purpose, not appearance
+- **Stay consistent**: Use the same tokens for similar UI elements
+- **Respect the scale**: Use tokens from the predefined scale
+- **Think themeable**: Consider how your choices work across themes
+
+### Don'ts
+
+- **Don't hardcode values**: Avoid `padding: '16px'`, use `padding="space40"`
+- **Don't mix tokens and values**: Be consistent within a component
+- **Don't create custom values**: Use tokens from the scale
+- **Don't ignore semantics**: `colorTextError` means error text, not just red
+
+## Token Naming Convention
+
+Paste tokens follow a consistent naming pattern:
+
+```
+{category}{Property}{Variant?}
+```
+
+Examples:
+- `colorBackgroundPrimary`: Color category, background property, primary variant
+- `space60`: Space category, scale value 60
+- `fontWeightBold`: Font category, weight property, bold variant
+- `borderRadius30`: Border category, radius property, scale value 30
+
+## Next Steps
+
+- [Theming](/concepts/theming): Learn how tokens change across themes
+- [Customization](/concepts/customization): Customize token values for your brand
+- [Accessibility](/concepts/accessibility): Understand token contrast requirements

@@ -1,0 +1,446 @@
+---
+title: Menu
+description: A Menu displays a list of actions or options that a user can choose.
+slug: /components/menu
+---
+
+## Overview
+
+Menu displays a list of actions or navigation options in a dropdown overlay. It's triggered by a button and can contain interactive items, separators, groups, and nested submenus. Menus are ideal for presenting multiple related actions without cluttering the interface.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/menu
+```
+
+<Note>
+Menu requires the Button component:
+
+```bash
+yarn add @twilio-paste/button
+```
+</Note>
+
+## Usage
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { ChevronDownIcon } from '@twilio-paste/icons/esm/ChevronDownIcon';
+
+const MyComponent = () => {
+  const menu = useMenuState();
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="primary">
+        Actions <ChevronDownIcon decorative />
+      </MenuButton>
+      <Menu {...menu} aria-label="Actions">
+        <MenuItem {...menu} onClick={() => console.log('edit')}>
+          Edit
+        </MenuItem>
+        <MenuItem {...menu} onClick={() => console.log('duplicate')}>
+          Duplicate
+        </MenuItem>
+        <MenuItem {...menu} onClick={() => console.log('delete')}>
+          Delete
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+```
+
+### Basic Menu
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuSeparator,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { ChevronDownIcon } from '@twilio-paste/icons/esm/ChevronDownIcon';
+
+const BasicMenu = () => {
+  const menu = useMenuState();
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary">
+        Options <ChevronDownIcon decorative />
+      </MenuButton>
+      <Menu {...menu} aria-label="Options">
+        <MenuItem {...menu}>Settings</MenuItem>
+        <MenuItem {...menu}>Preferences</MenuItem>
+        <MenuSeparator {...menu} />
+        <MenuItem {...menu}>Help</MenuItem>
+      </Menu>
+    </>
+  );
+};
+```
+
+### Menu with Links
+
+Menu items can be rendered as links for navigation.
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { ChevronDownIcon } from '@twilio-paste/icons/esm/ChevronDownIcon';
+
+const NavigationMenu = () => {
+  const menu = useMenuState();
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary">
+        Navigate <ChevronDownIcon decorative />
+      </MenuButton>
+      <Menu {...menu} aria-label="Navigation">
+        <MenuItem {...menu} href="/dashboard">
+          Dashboard
+        </MenuItem>
+        <MenuItem {...menu} href="/settings">
+          Settings
+        </MenuItem>
+        <MenuItem {...menu} href="https://example.com">
+          External link
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+```
+
+### Destructive Menu Items
+
+Use the destructive variant for items that perform irreversible actions.
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuSeparator,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { MoreIcon } from '@twilio-paste/icons/esm/MoreIcon';
+
+const ActionsMenu = () => {
+  const menu = useMenuState();
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary" size="icon">
+        <MoreIcon decorative={false} title="More actions" />
+      </MenuButton>
+      <Menu {...menu} aria-label="Actions">
+        <MenuItem {...menu}>Edit</MenuItem>
+        <MenuItem {...menu}>Duplicate</MenuItem>
+        <MenuSeparator {...menu} />
+        <MenuItem {...menu} variant="destructive">
+          Delete
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+```
+
+### Menu Groups
+
+Organize related menu items into labeled groups.
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuGroup,
+  MenuItem,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { ChevronDownIcon } from '@twilio-paste/icons/esm/ChevronDownIcon';
+import { ProductVoiceIcon } from '@twilio-paste/icons/esm/ProductVoiceIcon';
+
+const GroupedMenu = () => {
+  const menu = useMenuState();
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary">
+        Products <ChevronDownIcon decorative />
+      </MenuButton>
+      <Menu {...menu} aria-label="Products">
+        <MenuGroup {...menu} label="Voice" icon={<ProductVoiceIcon decorative />}>
+          <MenuItem {...menu}>Programmable Voice</MenuItem>
+          <MenuItem {...menu}>Voice Insights</MenuItem>
+        </MenuGroup>
+        <MenuGroup {...menu} label="Messaging">
+          <MenuItem {...menu}>Programmable SMS</MenuItem>
+          <MenuItem {...menu}>Conversations</MenuItem>
+        </MenuGroup>
+      </Menu>
+    </>
+  );
+};
+```
+
+### Checkable Menu Items
+
+Use checkbox and radio items for selections.
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuItemCheckbox,
+  MenuItemRadio,
+  MenuSeparator,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { ChevronDownIcon } from '@twilio-paste/icons/esm/ChevronDownIcon';
+
+const CheckableMenu = () => {
+  const menu = useMenuState();
+  const [notifications, setNotifications] = React.useState(true);
+  const [view, setView] = React.useState('grid');
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary">
+        View <ChevronDownIcon decorative />
+      </MenuButton>
+      <Menu {...menu} aria-label="View options">
+        <MenuItemCheckbox
+          {...menu}
+          checked={notifications}
+          onChange={(e) => setNotifications(e.target.checked)}
+        >
+          Show notifications
+        </MenuItemCheckbox>
+        <MenuSeparator {...menu} />
+        <MenuItemRadio
+          {...menu}
+          name="view"
+          value="grid"
+          checked={view === 'grid'}
+          onChange={(e) => setView(e.target.value)}
+        >
+          Grid view
+        </MenuItemRadio>
+        <MenuItemRadio
+          {...menu}
+          name="view"
+          value="list"
+          checked={view === 'list'}
+          onChange={(e) => setView(e.target.value)}
+        >
+          List view
+        </MenuItemRadio>
+      </Menu>
+    </>
+  );
+};
+```
+
+### Submenu
+
+Create nested menus for hierarchical navigation.
+
+```jsx
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  SubMenuButton,
+  useMenuState,
+} from '@twilio-paste/menu';
+import { ChevronDownIcon } from '@twilio-paste/icons/esm/ChevronDownIcon';
+
+const PreferencesSubMenu = React.forwardRef((props, ref) => {
+  const submenu = useMenuState();
+  return (
+    <>
+      <SubMenuButton ref={ref} {...submenu} {...props}>
+        Preferences
+      </SubMenuButton>
+      <Menu {...submenu} aria-label="Preferences">
+        <MenuItem {...submenu}>Settings</MenuItem>
+        <MenuItem {...submenu}>Extensions</MenuItem>
+        <MenuItem {...submenu}>Keyboard shortcuts</MenuItem>
+      </Menu>
+    </>
+  );
+});
+
+const MenuWithSubmenu = () => {
+  const menu = useMenuState();
+  
+  return (
+    <>
+      <MenuButton {...menu} variant="secondary">
+        Options <ChevronDownIcon decorative />
+      </MenuButton>
+      <Menu {...menu} aria-label="Options">
+        <MenuItem {...menu}>Profile</MenuItem>
+        <MenuItem {...menu} as={PreferencesSubMenu} />
+        <MenuItem {...menu}>Help</MenuItem>
+      </Menu>
+    </>
+  );
+};
+```
+
+## Props
+
+### Menu Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| aria-label | `string` | - | Accessible label for the menu (required) |
+| element | `string` | `'MENU'` | Customization element name |
+
+Menu also accepts props from the menu state returned by useMenuState.
+
+### MenuButton Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| element | `string` | `'MENU_BUTTON'` | Customization element name |
+
+MenuButton accepts all Button props and menu state props.
+
+### MenuItem Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| href | `string` | - | Renders item as a link |
+| variant | `'default'` \| `'destructive'` \| `'group_item'` | `'default'` | Visual variant of the item |
+| disabled | `boolean` | `false` | Disables the menu item |
+| element | `string` | `'MENU_ITEM'` | Customization element name |
+
+### MenuItemCheckbox Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| checked | `boolean` | - | Checked state |
+| onChange | `function` | - | Change handler |
+| element | `string` | `'MENU_ITEM_CHECKBOX'` | Customization element name |
+
+### MenuItemRadio Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| name | `string` | - | Radio group name |
+| value | `string` | - | Radio value |
+| checked | `boolean` | - | Checked state |
+| onChange | `function` | - | Change handler |
+| element | `string` | `'MENU_ITEM_RADIO'` | Customization element name |
+
+### MenuGroup Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| label | `string` | - | Group label (required) |
+| icon | `ReactNode` | - | Decorative icon |
+| element | `string` | `'MENU_GROUP'` | Customization element name |
+
+### MenuSeparator Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| element | `string` | `'MENU_SEPARATOR'` | Customization element name |
+
+### SubMenuButton Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| element | `string` | `'SUB_MENU_BUTTON'` | Customization element name |
+
+### useMenuState Hook
+
+Manages menu state including visibility and keyboard navigation.
+
+```jsx
+const menu = useMenuState({
+  visible: false, // Initial visibility
+  placement: 'bottom-start', // Menu placement
+});
+```
+
+**Returned State:**
+- All state and methods needed for menu interaction
+- Spread onto Menu, MenuButton, and MenuItem components
+
+## Best Practices
+
+### Do
+
+- Use clear, action-oriented labels for menu items
+- Group related items together with MenuGroup or separators
+- Place destructive actions at the bottom, separated from other items
+- Provide an aria-label for the Menu component
+- Limit menu depth - avoid deeply nested submenus
+- Use icons in MenuButton to indicate the menu (ChevronDown, More)
+- Close the menu after an action is performed
+
+### Don't
+
+- Don't use menus for primary navigation (use navigation components instead)
+- Don't put too many items in a single menu (consider submenus or alternative UI)
+- Don't use menu items as links when you can use direct navigation
+- Don't forget to handle menu item clicks
+- Don't use menus when a select component would be more appropriate
+- Don't nest menus more than 2 levels deep
+
+### Content Guidelines
+
+- Use sentence case for menu items
+- Keep labels concise (1-3 words)
+- Use verbs for actions (Edit, Delete, Share)
+- Use nouns for navigation (Settings, Profile, Help)
+- Be specific ("Delete message" vs. "Delete")
+
+## Accessibility
+
+- Menu implements ARIA menu pattern with proper roles and states
+- Keyboard navigation: Arrow keys to navigate, Enter/Space to select, Escape to close
+- MenuButton sets aria-haspopup and aria-expanded appropriately
+- Menu automatically manages focus when opened and closed
+- Focus returns to MenuButton when menu closes
+- Disabled items are skipped in keyboard navigation
+- Checkable items announce their state to screen readers
+- Submenus open on hover, focus, or arrow key press
+
+### Keyboard Support
+
+| Key | Action |
+| --- | --- |
+| Enter / Space | Opens menu (on button), activates item (in menu) |
+| Arrow Down | Opens menu (on button), moves focus to next item |
+| Arrow Up | Opens menu (on button), moves focus to previous item |
+| Arrow Right | Opens submenu |
+| Arrow Left | Closes submenu |
+| Escape | Closes menu |
+| Home | Moves focus to first item |
+| End | Moves focus to last item |
+| Tab | Closes menu and moves focus to next focusable element |
+
+## Related Components
+
+- [Button](/components/button) - Trigger element for menus
+- [Popover](/components/popover) - For non-menu dropdown content
+- [Select](/components/select) - For form selections

@@ -1,0 +1,457 @@
+---
+title: Box
+description: Box is the most foundational layout primitive in Paste. It provides direct access to design tokens and serves as the building block for all other layout components.
+---
+
+## Overview
+
+Box is a primitive component that provides direct access to Paste design tokens through props. It's the fundamental building block that underlies most Paste components and gives you complete control over layout, spacing, colors, borders, and other style properties using design tokens.
+
+Use Box when you need:
+- Fine-grained control over styling using design tokens
+- To create custom layouts or components
+- Access to responsive design capabilities
+- To render any HTML element with Paste design token styling
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+```
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+// or
+import { Box } from '@twilio-paste/core';
+```
+
+## Basic Usage
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const MyComponent = () => (
+  <Box
+    backgroundColor="colorBackgroundPrimaryWeak"
+    borderRadius="borderRadius20"
+    padding="space40"
+    margin="space20"
+  >
+    <Text as="p">Content inside a styled box</Text>
+  </Box>
+);
+```
+
+## Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="div">
+  Controls the HTML element that will be rendered in the DOM. Can be any valid HTML element like 'div', 'span', 'section', 'article', etc.
+</ParamField>
+
+<ParamField path="element" type="string" default="BOX">
+  Overrides the default element name to apply unique styles with the Customization Provider. Used for customization and theming.
+</ParamField>
+
+<ParamField path="variant" type="string">
+  Used to style custom variants via customization.
+</ParamField>
+
+### Layout Props
+
+<ParamField path="display" type="string">
+  Sets the CSS display property. Common values: 'block', 'inline', 'flex', 'inline-flex', 'grid', 'none'.
+</ParamField>
+
+<ParamField path="width" type="string">
+  Sets width using design tokens. Can use size tokens or CSS values.
+</ParamField>
+
+<ParamField path="minWidth" type="string">
+  Sets minimum width using design tokens.
+</ParamField>
+
+<ParamField path="maxWidth" type="string">
+  Sets maximum width using design tokens.
+</ParamField>
+
+<ParamField path="height" type="string">
+  Sets height using design tokens.
+</ParamField>
+
+<ParamField path="minHeight" type="string">
+  Sets minimum height using design tokens.
+</ParamField>
+
+<ParamField path="maxHeight" type="string">
+  Sets maximum height using design tokens.
+</ParamField>
+
+<ParamField path="size" type="string">
+  Sets both width and height to the same value using design tokens.
+</ParamField>
+
+<ParamField path="overflow" type="string">
+  Sets the CSS overflow property. Values: 'visible', 'hidden', 'scroll', 'auto'.
+</ParamField>
+
+### Spacing Props
+
+<ParamField path="margin" type="Space">
+  Sets margin on all sides using space design tokens (e.g., 'space40', 'space80').
+</ParamField>
+
+<ParamField path="marginTop" type="Space">
+  Sets top margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginRight" type="Space">
+  Sets right margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginBottom" type="Space">
+  Sets bottom margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginLeft" type="Space">
+  Sets left margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginX" type="Space">
+  Sets horizontal (left and right) margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginY" type="Space">
+  Sets vertical (top and bottom) margin using space design tokens.
+</ParamField>
+
+<ParamField path="padding" type="Space">
+  Sets padding on all sides using space design tokens.
+</ParamField>
+
+<ParamField path="paddingTop" type="Space">
+  Sets top padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingRight" type="Space">
+  Sets right padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingBottom" type="Space">
+  Sets bottom padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingLeft" type="Space">
+  Sets left padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingX" type="Space">
+  Sets horizontal (left and right) padding using space design tokens.
+</ParamField>
+
+<ParamField path="paddingY" type="Space">
+  Sets vertical (top and bottom) padding using space design tokens.
+</ParamField>
+
+### Background Props
+
+<ParamField path="backgroundColor" type="string">
+  Sets background color using color design tokens (e.g., 'colorBackgroundPrimaryWeak').
+</ParamField>
+
+### Border Props
+
+<ParamField path="borderStyle" type="string">
+  Sets border style. Values: 'solid', 'dashed', 'dotted', 'none'.
+</ParamField>
+
+<ParamField path="borderColor" type="string">
+  Sets border color using color design tokens (e.g., 'colorBorderPrimary').
+</ParamField>
+
+<ParamField path="borderWidth" type="string">
+  Sets border width on all sides using border width tokens (e.g., 'borderWidth10').
+</ParamField>
+
+<ParamField path="borderTopWidth" type="string">
+  Sets top border width using border width tokens.
+</ParamField>
+
+<ParamField path="borderRightWidth" type="string">
+  Sets right border width using border width tokens.
+</ParamField>
+
+<ParamField path="borderBottomWidth" type="string">
+  Sets bottom border width using border width tokens.
+</ParamField>
+
+<ParamField path="borderLeftWidth" type="string">
+  Sets left border width using border width tokens.
+</ParamField>
+
+<ParamField path="borderRadius" type="string">
+  Sets border radius on all corners using border radius tokens (e.g., 'borderRadius20').
+</ParamField>
+
+<ParamField path="borderTopLeftRadius" type="string">
+  Sets top-left border radius using border radius tokens.
+</ParamField>
+
+<ParamField path="borderTopRightRadius" type="string">
+  Sets top-right border radius using border radius tokens.
+</ParamField>
+
+<ParamField path="borderBottomLeftRadius" type="string">
+  Sets bottom-left border radius using border radius tokens.
+</ParamField>
+
+<ParamField path="borderBottomRightRadius" type="string">
+  Sets bottom-right border radius using border radius tokens.
+</ParamField>
+
+### Position Props
+
+<ParamField path="position" type="string">
+  Sets CSS position property. Values: 'static', 'relative', 'absolute', 'fixed', 'sticky'.
+</ParamField>
+
+<ParamField path="top" type="string">
+  Sets top position offset.
+</ParamField>
+
+<ParamField path="right" type="string">
+  Sets right position offset.
+</ParamField>
+
+<ParamField path="bottom" type="string">
+  Sets bottom position offset.
+</ParamField>
+
+<ParamField path="left" type="string">
+  Sets left position offset.
+</ParamField>
+
+<ParamField path="zIndex" type="string">
+  Sets z-index using design tokens.
+</ParamField>
+
+### Shadow Props
+
+<ParamField path="boxShadow" type="string">
+  Sets box shadow using shadow design tokens (e.g., 'shadow').
+</ParamField>
+
+### Flexbox Props
+
+Box includes all flexbox properties when used as a flex container or flex item:
+
+<ParamField path="alignItems" type="string">
+  Controls flex item alignment on the cross axis.
+</ParamField>
+
+<ParamField path="justifyContent" type="string">
+  Controls flex item alignment on the main axis.
+</ParamField>
+
+<ParamField path="flexDirection" type="string">
+  Sets flex direction. Values: 'row', 'column', 'row-reverse', 'column-reverse'.
+</ParamField>
+
+<ParamField path="flexWrap" type="string">
+  Sets flex wrapping behavior. Values: 'nowrap', 'wrap', 'wrap-reverse'.
+</ParamField>
+
+<ParamField path="flex" type="string | number">
+  Sets the flex shorthand property.
+</ParamField>
+
+<ParamField path="flexGrow" type="number">
+  Sets flex grow factor.
+</ParamField>
+
+<ParamField path="flexShrink" type="number">
+  Sets flex shrink factor.
+</ParamField>
+
+<ParamField path="flexBasis" type="string">
+  Sets flex basis.
+</ParamField>
+
+### Grid Props
+
+Box includes grid properties when used as a grid container:
+
+<ParamField path="gridTemplateColumns" type="string">
+  Sets grid template columns.
+</ParamField>
+
+<ParamField path="gridTemplateRows" type="string">
+  Sets grid template rows.
+</ParamField>
+
+<ParamField path="gridGap" type="string">
+  Sets gap between grid items.
+</ParamField>
+
+<ParamField path="columnGap" type="string">
+  Sets gap between grid columns.
+</ParamField>
+
+<ParamField path="rowGap" type="string">
+  Sets gap between grid rows.
+</ParamField>
+
+### Pseudo-class Props
+
+Box supports pseudo-class styling through special props:
+
+<ParamField path="_hover" type="BoxBaseStyleProps">
+  Styles applied on hover state. Accepts any Box style props.
+</ParamField>
+
+<ParamField path="_focus" type="BoxBaseStyleProps">
+  Styles applied on focus state. Accepts any Box style props.
+</ParamField>
+
+<ParamField path="_active" type="BoxBaseStyleProps">
+  Styles applied on active state. Accepts any Box style props.
+</ParamField>
+
+<ParamField path="_disabled" type="BoxBaseStyleProps">
+  Styles applied when disabled. Accepts any Box style props.
+</ParamField>
+
+## Responsive Design
+
+Many Box props support responsive values by passing an array of values. Each value in the array corresponds to a breakpoint:
+
+```jsx
+<Box
+  backgroundColor={[
+    'colorBackgroundPrimaryWeak',
+    'colorBackgroundSuccessWeakest'
+  ]}
+  padding={['space20', 'space70']}
+  height={['size10', 'size20']}
+>
+  <Text as="p">This box changes style at different breakpoints</Text>
+</Box>
+```
+
+## Examples
+
+### Card-like Container
+
+```jsx
+<Box
+  backgroundColor="colorBackgroundBody"
+  borderRadius="borderRadius20"
+  borderWidth="borderWidth10"
+  borderStyle="solid"
+  borderColor="colorBorderWeaker"
+  padding="space60"
+  boxShadow="shadow"
+>
+  <Text as="p">Card content</Text>
+</Box>
+```
+
+### Flex Container
+
+```jsx
+<Box display="flex" alignItems="center" justifyContent="space-between">
+  <Text>Left content</Text>
+  <Text>Right content</Text>
+</Box>
+```
+
+### As Different HTML Elements
+
+```jsx
+<Box as="section" padding="space80">
+  <Box as="article" marginBottom="space60">
+    <Text>Article content</Text>
+  </Box>
+</Box>
+```
+
+### With Pseudo States
+
+```jsx
+<Box
+  as="button"
+  backgroundColor="colorBackgroundPrimary"
+  padding="space40"
+  _hover={{
+    backgroundColor: 'colorBackgroundPrimaryStrong',
+  }}
+  _focus={{
+    boxShadow: 'shadowFocus',
+  }}
+>
+  <Text color="colorTextInverse">Hover me</Text>
+</Box>
+```
+
+## Best Practices
+
+### Use Design Tokens
+
+Always use design tokens for styling rather than arbitrary CSS values. This ensures consistency and makes your UI themeable:
+
+```jsx
+// Good
+<Box padding="space40" backgroundColor="colorBackgroundPrimary" />
+
+// Avoid
+<Box padding="16px" backgroundColor="#0263E0" />
+```
+
+### Choose the Right Abstraction
+
+While Box is powerful, consider using higher-level layout components for common patterns:
+
+- Use [Flex](/components/layout/flex) for flexbox layouts
+- Use [Grid](/components/layout/grid) for grid layouts
+- Use [Stack](/components/layout/stack) for simple stacking layouts
+- Use Box when you need fine-grained control or these don't fit your needs
+
+### Semantic HTML
+
+Use the `as` prop to render semantically appropriate HTML elements:
+
+```jsx
+<Box as="main" padding="space80">
+  <Box as="article">
+    <Box as="h1">Title</Box>
+    <Box as="p">Content</Box>
+  </Box>
+</Box>
+```
+
+### Responsive Design
+
+Leverage responsive prop arrays for mobile-first design:
+
+```jsx
+<Box
+  padding={['space40', 'space60', 'space80']}
+  display={['block', 'flex']}
+>
+  Content
+</Box>
+```
+
+## Accessibility
+
+- Use semantic HTML elements via the `as` prop when appropriate
+- Ensure sufficient color contrast when setting custom background and text colors
+- Don't rely solely on color to convey information
+- When creating interactive elements, ensure they're keyboard accessible
+
+## Related Components
+
+- [Flex](/components/layout/flex) - Simplified flexbox layouts
+- [Grid](/components/layout/grid) - 12-column grid system
+- [Stack](/components/layout/stack) - Vertical or horizontal stacking
+- [Media Object](/components/layout/media-object) - Media object pattern

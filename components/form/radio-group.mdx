@@ -1,0 +1,253 @@
+---
+title: Radio Group
+description: A Radio Group is a form element that lets users select a single choice from a list of at least two options.
+---
+
+Radio Group allows users to select exactly one option from a set of mutually exclusive choices. It provides a fieldset container with legend and individual radio buttons.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/radio-group
+```
+
+## Usage
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState('option1');
+  
+  return (
+    <RadioGroup
+      name="example"
+      legend="Choose an option"
+      value={value}
+      onChange={(newValue) => setValue(newValue)}
+    >
+      <Radio value="option1">Option 1</Radio>
+      <Radio value="option2">Option 2</Radio>
+      <Radio value="option3">Option 3</Radio>
+    </RadioGroup>
+  );
+};
+```
+
+## Props
+
+### RadioGroup Props
+
+<ParamField path="name" type="string" required>
+  Name for all radio buttons in the group. Required for form submission.
+</ParamField>
+
+<ParamField path="legend" type="string | React.ReactNode" required>
+  Label for the radio group, displayed as a fieldset legend.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Collection of Radio components.
+</ParamField>
+
+<ParamField path="value" type="string">
+  The currently selected radio value (controlled component).
+</ParamField>
+
+<ParamField path="onChange" type="(value: string) => void">
+  Callback fired when the selected value changes. Receives the new value as a string.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables all radio buttons in the group.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the radio group as required for validation.
+</ParamField>
+
+<ParamField path="errorText" type="string | React.ReactNode">
+  Error message displayed below the group with error styling.
+</ParamField>
+
+<ParamField path="helpText" type="string | React.ReactNode">
+  Additional help text displayed below the group.
+</ParamField>
+
+<ParamField path="orientation" type="'vertical' | 'horizontal'" default="'vertical'">
+  Layout direction for the radio buttons.
+</ParamField>
+
+<ParamField path="i18nRequiredLabel" type="string" default="'(required)'">
+  Label text for the required indicator, useful for internationalization.
+</ParamField>
+
+<ParamField path="element" type="string" default="'RADIO_GROUP'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### Radio Props
+
+<ParamField path="value" type="string" required>
+  The value of this radio option.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Label text for the radio button.
+</ParamField>
+
+<ParamField path="id" type="string">
+  ID for the radio input. Auto-generated if not provided.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables this specific radio button.
+</ParamField>
+
+<ParamField path="helpText" type="string | React.ReactNode">
+  Help text displayed below this radio option.
+</ParamField>
+
+## Examples
+
+### Basic Radio Group
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+const [plan, setPlan] = React.useState('starter');
+
+<RadioGroup
+  name="plan"
+  legend="Select a plan"
+  value={plan}
+  onChange={setPlan}
+>
+  <Radio value="starter">Starter - $10/month</Radio>
+  <Radio value="professional">Professional - $25/month</Radio>
+  <Radio value="enterprise">Enterprise - Custom pricing</Radio>
+</RadioGroup>
+```
+
+### With Help Text
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+<RadioGroup
+  name="delivery"
+  legend="Delivery method"
+  helpText="Choose how you'd like to receive your order"
+>
+  <Radio value="standard" helpText="5-7 business days">
+    Standard shipping
+  </Radio>
+  <Radio value="express" helpText="2-3 business days">
+    Express shipping
+  </Radio>
+  <Radio value="overnight" helpText="Next business day">
+    Overnight shipping
+  </Radio>
+</RadioGroup>
+```
+
+### Required with Error
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+<RadioGroup
+  name="priority"
+  legend="Priority level"
+  required
+  errorText="Please select a priority level to continue"
+>
+  <Radio value="low">Low</Radio>
+  <Radio value="medium">Medium</Radio>
+  <Radio value="high">High</Radio>
+</RadioGroup>
+```
+
+### Horizontal Layout
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+<RadioGroup
+  name="size"
+  legend="T-shirt size"
+  orientation="horizontal"
+>
+  <Radio value="small">S</Radio>
+  <Radio value="medium">M</Radio>
+  <Radio value="large">L</Radio>
+  <Radio value="xlarge">XL</Radio>
+</RadioGroup>
+```
+
+### With Disabled Options
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+<RadioGroup
+  name="availability"
+  legend="Choose a time slot"
+>
+  <Radio value="morning">Morning (9am - 12pm)</Radio>
+  <Radio value="afternoon" disabled>
+    Afternoon (12pm - 5pm) - Fully booked
+  </Radio>
+  <Radio value="evening">Evening (5pm - 8pm)</Radio>
+</RadioGroup>
+```
+
+### Controlled Component
+
+```tsx
+import { RadioGroup, Radio } from '@twilio-paste/radio-group';
+
+const [paymentMethod, setPaymentMethod] = React.useState('');
+
+const handlePaymentChange = (value: string) => {
+  setPaymentMethod(value);
+  // Additional logic when selection changes
+  console.log('Payment method selected:', value);
+};
+
+<RadioGroup
+  name="payment"
+  legend="Payment method"
+  value={paymentMethod}
+  onChange={handlePaymentChange}
+  required
+>
+  <Radio value="credit">Credit card</Radio>
+  <Radio value="debit">Debit card</Radio>
+  <Radio value="paypal">PayPal</Radio>
+</RadioGroup>
+```
+
+## Accessibility
+
+- Uses semantic fieldset and legend elements for proper grouping
+- Each Radio has a visible label via the children prop
+- Supports full keyboard navigation (Arrow keys, Tab, Space)
+- Required groups show a RequiredDot with accessible label
+- Help text and error messages are properly associated
+- Only one radio can be selected at a time within a group
+- Disabled state is announced to screen readers
+- Error state uses aria-invalid for screen reader announcements
+
+## Best Practices
+
+- Use Radio Group for mutually exclusive options (only one can be selected)
+- For multiple selections, use Checkbox Group instead
+- Provide at least 2 options, maximum recommended is 5-7 options
+- For more than 7 options, consider using a Select instead
+- Keep radio labels concise and descriptive
+- Always provide a clear legend for the group
+- Use vertical orientation by default for better scannability
+- Use horizontal orientation only for short, simple options (like Yes/No)
+- Provide helpful error messages when validation fails
+- Consider default selection for better UX, especially for required fields

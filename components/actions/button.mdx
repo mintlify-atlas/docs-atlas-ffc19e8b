@@ -1,0 +1,239 @@
+---
+title: Button
+description: A Button allows a user to perform an action or submit a form.
+slug: /components/button
+---
+
+## Overview
+
+Buttons are fundamental UI elements that enable user interaction. Use buttons for actions like submitting forms, confirming choices, or triggering workflows. The Button component supports multiple variants, sizes, and states to accommodate various use cases.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/button
+```
+
+## Usage
+
+```jsx
+import { Button } from '@twilio-paste/button';
+
+const MyComponent = () => (
+  <Button variant="primary" onClick={() => console.log('clicked')}>
+    Submit
+  </Button>
+);
+```
+
+### Primary Button
+
+Primary buttons are used for the main action on a page. Use sparingly - typically only one primary button per section.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { PlusIcon } from '@twilio-paste/icons/esm/PlusIcon';
+
+<Button variant="primary">Submit</Button>
+
+<Button variant="primary" size="small">Submit</Button>
+
+<Button variant="primary">
+  <PlusIcon decorative />
+  Add item
+</Button>
+
+<Button variant="primary" loading>
+  Submitting
+</Button>
+
+<Button variant="primary" disabled>
+  Submit
+</Button>
+```
+
+### Secondary Button
+
+Secondary buttons are used for secondary actions or when multiple actions are presented together.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+
+<Button variant="secondary">Cancel</Button>
+
+<Button variant="secondary" size="small">Cancel</Button>
+
+<Button variant="secondary" fullWidth>
+  Full Width Button
+</Button>
+```
+
+### Destructive Button
+
+Destructive buttons indicate actions that are difficult or impossible to reverse, such as deleting data.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+
+<Button variant="destructive">Delete</Button>
+
+<Button variant="destructive_secondary">Remove</Button>
+
+<Button variant="destructive_link">Delete account</Button>
+```
+
+### Icon Buttons
+
+Use icon-only buttons when space is limited. Always provide an accessible title.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+import { CloseIcon } from '@twilio-paste/icons/esm/CloseIcon';
+import { PlusIcon } from '@twilio-paste/icons/esm/PlusIcon';
+
+<Button variant="primary" size="icon">
+  <PlusIcon decorative={false} title="Add item" />
+</Button>
+
+<Button variant="secondary" size="icon_small">
+  <CloseIcon decorative={false} title="Close" />
+</Button>
+
+<Button variant="destructive_icon" size="icon">
+  <CloseIcon decorative={false} title="Delete" />
+</Button>
+```
+
+### Link Buttons
+
+Buttons can be rendered as anchors when navigating to a new page or URL.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+
+<Button as="a" href="/new-page" variant="primary">
+  Go to page
+</Button>
+
+<Button as="a" href="https://example.com" variant="secondary">
+  External link
+</Button>
+```
+
+### Loading State
+
+Show a loading state when an action is processing.
+
+```jsx
+import { Button } from '@twilio-paste/button';
+
+const [loading, setLoading] = React.useState(false);
+
+const handleSubmit = () => {
+  setLoading(true);
+  // Perform async operation
+  setTimeout(() => setLoading(false), 2000);
+};
+
+<Button variant="primary" loading={loading} onClick={handleSubmit}>
+  Submit
+</Button>
+```
+
+## Props
+
+### Button Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| variant | `'primary'` \| `'secondary'` \| `'destructive'` \| `'destructive_secondary'` \| `'destructive_icon'` \| `'destructive_link'` \| `'link'` \| `'inverse'` \| `'inverse_link'` \| `'primary_icon'` \| `'secondary_icon'` \| `'reset'` | `'primary'` | Visual style variant of the button |
+| size | `'default'` \| `'small'` \| `'icon'` \| `'icon_small'` \| `'reset'` \| `'rounded_small'` \| `'circle'` \| `'circle_small'` | `'default'` | Size of the button |
+| fullWidth | `boolean` | `false` | Sets button width to 100% of parent container |
+| disabled | `boolean` | `false` | Prevents actions from firing on the button |
+| loading | `boolean` | `false` | Shows loading spinner and prevents actions |
+| type | `'submit'` \| `'button'` \| `'reset'` | `'button'` | HTML button type attribute |
+| as | `string` | `'button'` | HTML tag to render (use 'a' for links) |
+| href | `string` | - | URL to navigate to (requires as="a") |
+| pressed | `boolean` | `false` | Sets aria-pressed attribute (secondary variants only) |
+| tabIndex | `0` \| `-1` | - | Tab index for keyboard navigation |
+| element | `string` | `'BUTTON'` | Customization element name |
+| i18nExternalLinkLabel | `string` | `'(link takes you to an external page)'` | Accessible label for external link icon |
+| children | `ReactNode` | - | Button content (required) |
+
+Button also accepts all standard HTML button attributes and event handlers (onClick, onFocus, onBlur, etc.).
+
+## Best Practices
+
+### Do
+
+- Use primary buttons for the main action on a page
+- Use secondary buttons for less important actions
+- Use destructive variants for irreversible actions like deletion
+- Provide clear, action-oriented button labels (e.g., "Save changes" instead of "OK")
+- Use loading state for async operations to provide feedback
+- Use icon buttons with descriptive titles for accessibility
+- Limit to one primary button per section
+
+### Don't
+
+- Don't use multiple primary buttons in the same context
+- Don't use vague labels like "Click here" or "Submit"
+- Don't use buttons for navigation - use Anchor component instead
+- Don't use disabled state as the only indication of why an action can't be performed
+- Don't make icon buttons without accessible titles
+- Don't use link variants when you need a true button (use variant="primary" with as="a")
+
+### Button vs. Link
+
+Use Button when:
+- Triggering an action or event
+- Submitting a form
+- Opening a modal or menu
+- Toggling UI state
+
+Use Anchor when:
+- Navigating to another page or section
+- Linking to external resources
+- The action can be opened in a new tab
+
+## Accessibility
+
+- Buttons are keyboard accessible and can be activated with Enter or Space
+- Loading state sets aria-busy="true" to inform screen readers
+- Icon buttons require decorative={false} and a descriptive title
+- Use aria-haspopup for buttons that open menus or dialogs
+- Use aria-expanded for buttons that control collapsible content
+- Use aria-controls to associate buttons with the elements they control
+- Disabled buttons are not focusable and have aria-disabled set
+- Toggle buttons use aria-pressed to indicate state (secondary variants only)
+
+### ARIA Attributes
+
+```jsx
+import { Button } from '@twilio-paste/button';
+
+// Menu button
+<Button
+  variant="secondary"
+  aria-haspopup="menu"
+  aria-expanded={menuOpen}
+  aria-controls="menu-id"
+>
+  Open menu
+</Button>
+
+// Toggle button
+<Button
+  variant="secondary"
+  pressed={isPressed}
+  onClick={() => setIsPressed(!isPressed)}
+>
+  Toggle
+</Button>
+```
+
+## Related Components
+
+- [Button Group](/components/button-group) - Group related buttons together
+- [Anchor](/components/anchor) - For navigation links
+- [Menu](/components/menu) - For dropdown menus triggered by buttons

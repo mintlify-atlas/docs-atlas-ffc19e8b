@@ -1,0 +1,85 @@
+---
+title: Data Grid
+description: An accessible, interactive data grid component with keyboard navigation for displaying tabular data.
+---
+
+# Data Grid
+
+The Data Grid component extends the Table component with keyboard navigation and interactive features for managing complex tabular data.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/data-grid
+```
+
+## Usage
+
+```jsx
+import { DataGrid, DataGridHead, DataGridBody, DataGridRow, DataGridHeader, DataGridCell } from '@twilio-paste/data-grid';
+
+<DataGrid aria-label="User data">
+  <DataGridHead>
+    <DataGridRow>
+      <DataGridHeader>Name</DataGridHeader>
+      <DataGridHeader>Email</DataGridHeader>
+    </DataGridRow>
+  </DataGridHead>
+  <DataGridBody>
+    <DataGridRow>
+      <DataGridCell>John Doe</DataGridCell>
+      <DataGridCell>john@example.com</DataGridCell>
+    </DataGridRow>
+  </DataGridBody>
+</DataGrid>
+```
+
+## Props
+
+### DataGrid
+
+<ResponseField name="aria-label" type="string" required>
+  Accessible label for screen readers.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="DATA_GRID">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="role" type="'treegrid'" default="grid">
+  If creating a treegrid, set this to "treegrid" to override the default role of "grid".
+</ResponseField>
+
+<ResponseField name="striped" type="boolean" default="false">
+  Sets zebra striping on table rows.
+</ResponseField>
+
+<ResponseField name="tableLayout" type="'auto' | 'fixed'" default="auto">
+  Sets the `table-layout` style of the Data Grid.
+</ResponseField>
+
+<ResponseField name="variant" type="'default' | 'borderless'" default="default">
+  Sets the border style of the Data Grid.
+</ResponseField>
+
+<ResponseField name="scrollHorizontally" type="boolean" default="false">
+  Sets the data grid to scroll horizontally on small screens.
+</ResponseField>
+
+<ResponseField name="noWrap" type="boolean" default="false">
+  Sets the data grid cells to not line wrap.
+</ResponseField>
+
+## Features
+
+- **Keyboard Navigation**: Navigate cells using arrow keys
+- **Actionable Mode**: Press Enter to interact with cell contents, Escape to exit
+- **Focus Management**: Maintains focus state when tabbing in and out of the grid
+- **Accessibility**: Full ARIA grid pattern support
+
+## Keyboard Shortcuts
+
+- **Arrow Keys**: Navigate between cells
+- **Enter**: Enter actionable mode to interact with cell contents
+- **Escape**: Exit actionable mode and return to grid navigation
+- **Tab**: Tab through interactive elements within a cell (when in actionable mode)

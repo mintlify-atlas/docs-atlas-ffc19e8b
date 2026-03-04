@@ -1,0 +1,303 @@
+---
+title: Toast
+description: A Toast is an animated, temporary banner that communicates an immediate and direct response to a user action.
+---
+
+Toast is a feedback component that displays temporary notifications in response to user actions. It appears at the bottom-right of the screen and automatically dismisses after a set time or can be manually closed.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/toast
+```
+
+## Usage
+
+Toast requires two main components: the `Toaster` component to display toasts, and the `useToaster` hook to manage toast state.
+
+```tsx
+import { Toaster, useToaster } from '@twilio-paste/core/toast';
+import { Button } from '@twilio-paste/core/button';
+
+const MyComponent = () => {
+  const toaster = useToaster();
+  
+  const showToast = () => {
+    toaster.push({
+      message: 'Settings saved successfully!',
+      variant: 'success',
+      dismissAfter: 4000,
+    });
+  };
+  
+  return (
+    <>
+      <Button onClick={showToast}>Save Settings</Button>
+      <Toaster {...toaster} />
+    </>
+  );
+};
+```
+
+## Components
+
+### Toaster
+
+The container component that renders and animates toasts.
+
+<ParamField path="toasts" type="ToasterToast[]" required>
+  Array of toast objects to display. Managed by the `useToaster` hook.
+</ParamField>
+
+<ParamField path="pop" type="(id: string) => void" required>
+  Function to remove a toast by ID. Provided by the `useToaster` hook.
+</ParamField>
+
+<ParamField path="left" type="ResponsiveValue<string>">
+  Sets the left position of the toast container. Useful for responsive positioning on small screens.
+</ParamField>
+
+### useToaster Hook
+
+A React hook that manages toast state and provides methods to add and remove toasts.
+
+**Returns:**
+
+<ParamField path="toasts" type="ToasterToast[]">
+  Current array of active toasts.
+</ParamField>
+
+<ParamField path="push" type="(toast: ToasterPush) => void">
+  Method to add a new toast to the stack.
+</ParamField>
+
+<ParamField path="pop" type="(id: string) => void">
+  Method to remove a toast by its ID.
+</ParamField>
+
+### Toast Push Options
+
+When calling `toaster.push()`, you can provide these options:
+
+<ParamField path="message" type="React.ReactNode" required>
+  Content to display in the toast.
+</ParamField>
+
+<ParamField path="variant" type="'neutral' | 'success' | 'warning' | 'error'" required>
+  Visual style and semantic meaning:
+  - `neutral`: General information
+  - `success`: Successful actions
+  - `warning`: Warnings or cautions
+  - `error`: Errors or failures
+</ParamField>
+
+<ParamField path="dismissAfter" type="number">
+  Time in milliseconds before the toast auto-dismisses. If not provided, toast must be manually dismissed.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Custom ID for the toast. Auto-generated if not provided.
+</ParamField>
+
+<ParamField path="onDismiss" type="() => void">
+  Callback function when the toast is dismissed.
+</ParamField>
+
+<ParamField path="setFocus" type="boolean">
+  Whether to focus the toast when rendered. Automatically set for the first toast in the stack.
+</ParamField>
+
+## Toast Component Props
+
+The individual Toast component (used internally by Toaster) accepts these props:
+
+<ParamField path="variant" type="'neutral' | 'success' | 'warning' | 'error'" required>
+  The visual style of the toast.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Content to display in the toast.
+</ParamField>
+
+<ParamField path="onDismiss" type="() => void">
+  Callback when the dismiss button is clicked.
+</ParamField>
+
+<ParamField path="i18nDismissLabel" type="string" default="'Dismiss toast'">
+  Accessible label for the dismiss button.
+</ParamField>
+
+<ParamField path="i18nErrorLabel" type="string" default="'(error)'">
+  Icon label for error variant.
+</ParamField>
+
+<ParamField path="i18nNeutralLabel" type="string" default="'(information)'">
+  Icon label for neutral variant.
+</ParamField>
+
+<ParamField path="i18nSuccessLabel" type="string" default="'(success)'">
+  Icon label for success variant.
+</ParamField>
+
+<ParamField path="i18nWarningLabel" type="string" default="'(warning)'">
+  Icon label for warning variant.
+</ParamField>
+
+<ParamField path="element" type="string" default="'TOAST'">
+  Element name for customization.
+</ParamField>
+
+## Examples
+
+### Success Toast
+
+```tsx
+import { Toaster, useToaster } from '@twilio-paste/core/toast';
+import { Button } from '@twilio-paste/core/button';
+
+const SuccessExample = () => {
+  const toaster = useToaster();
+  
+  return (
+    <>
+      <Button
+        onClick={() => {
+          toaster.push({
+            message: 'Your changes have been saved.',
+            variant: 'success',
+            dismissAfter: 3000,
+          });
+        }}
+      >
+        Save
+      </Button>
+      <Toaster {...toaster} />
+    </>
+  );
+};
+```
+
+### Error Toast
+
+```tsx
+toaster.push({
+  message: 'Unable to save changes. Please try again.',
+  variant: 'error',
+  dismissAfter: 5000,
+});
+```
+
+### Warning Toast
+
+```tsx
+toaster.push({
+  message: 'Your session will expire in 5 minutes.',
+  variant: 'warning',
+});
+```
+
+### Toast with Action
+
+```tsx
+import { Anchor } from '@twilio-paste/core/anchor';
+
+toaster.push({
+  message: (
+    <>
+      Message sent. <Anchor href="/messages">View all messages</Anchor>
+    </>
+  ),
+  variant: 'success',
+  dismissAfter: 4000,
+});
+```
+
+### Toast with Custom Dismiss Callback
+
+```tsx
+toaster.push({
+  message: 'File uploaded successfully.',
+  variant: 'success',
+  dismissAfter: 3000,
+  onDismiss: () => {
+    console.log('Toast was dismissed');
+  },
+});
+```
+
+### Manually Dismissing Toasts
+
+```tsx
+const MyComponent = () => {
+  const toaster = useToaster();
+  
+  const showPersistentToast = () => {
+    const toastId = 'important-notification';
+    toaster.push({
+      id: toastId,
+      message: 'This is important and must be manually dismissed.',
+      variant: 'warning',
+    });
+  };
+  
+  return (
+    <>
+      <Button onClick={showPersistentToast}>Show Persistent Toast</Button>
+      <Toaster {...toaster} />
+    </>
+  );
+};
+```
+
+### Multiple Toasts
+
+```tsx
+const showMultipleToasts = () => {
+  toaster.push({
+    message: 'First operation completed.',
+    variant: 'success',
+    dismissAfter: 3000,
+  });
+  
+  setTimeout(() => {
+    toaster.push({
+      message: 'Second operation completed.',
+      variant: 'success',
+      dismissAfter: 3000,
+    });
+  }, 500);
+};
+```
+
+## Positioning
+
+Toasts appear at the bottom-right of the viewport by default. You can adjust positioning for responsive layouts:
+
+```tsx
+<Toaster
+  {...toaster}
+  left={['space40', 'auto']} // On small screens, adjust left position
+/>
+```
+
+## Accessibility
+
+- Toasts automatically receive focus when displayed to ensure screen reader announcement
+- Each variant includes an appropriate icon with accessible labeling
+- The dismiss button includes a screen reader label
+- When a toast is dismissed, focus returns to the element that triggered it
+- Multiple toasts are announced in order
+- Toasts use `role="status"` for non-critical messages to avoid interrupting screen readers
+
+## Best Practices
+
+- Use toasts for immediate feedback to user actions (saves, deletions, etc.)
+- Keep toast messages short and action-oriented
+- Use appropriate variants to match the action result
+- Set reasonable `dismissAfter` times (3-5 seconds for success, longer for errors)
+- Don't require user action within a toast - they're temporary
+- Avoid showing multiple toasts simultaneously when possible
+- For critical information that shouldn't disappear, use Alert instead
+- Don't use toasts for passive notifications unrelated to user actions
+- Include links to relevant pages when appropriate
+- Test with screen readers to ensure announcements are clear

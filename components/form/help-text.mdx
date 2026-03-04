@@ -1,0 +1,399 @@
+---
+title: Help Text
+description: Help Text is paired with a form element to give users information to prevent or correct formatting errors.
+---
+
+Help Text provides additional context, guidance, or validation messages for form fields. It helps users understand what input is expected or why an error occurred.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  return (
+    <>
+      <Label htmlFor="password">Password</Label>
+      <Input id="password" type="password" />
+      <HelpText>Must be at least 8 characters</HelpText>
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  The help text content to display.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'error' | 'error_inverse' | 'inverse' | 'success' | 'warning'" default="'default'">
+  The visual style variant of the help text.
+</ParamField>
+
+<ParamField path="marginTop" type="'space0'">
+  Optionally remove the top margin. By default, HelpText has top margin of space30.
+</ParamField>
+
+<ParamField path="element" type="string" default="'HELP_TEXT'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Variants
+
+### Default
+Standard help text for providing guidance or additional information.
+
+### Error
+Used to display validation errors with an error icon.
+
+### Error Inverse
+Error messages for dark backgrounds.
+
+### Inverse
+Help text for dark backgrounds.
+
+### Success
+Indicates successful validation with a success icon.
+
+### Warning
+Shows warning messages with a warning icon.
+
+## Examples
+
+### Default Help Text
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="email">Email address</Label>
+  <Input id="email" type="email" />
+  <HelpText>We'll never share your email with anyone</HelpText>
+</>
+```
+
+### Error Help Text
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+const [email, setEmail] = React.useState('invalid-email');
+const isValid = email.includes('@');
+
+<>
+  <Label htmlFor="email" required>
+    Email
+  </Label>
+  <Input
+    id="email"
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    hasError={!isValid}
+  />
+  {!isValid && (
+    <HelpText variant="error">
+      Please enter a valid email address
+    </HelpText>
+  )}
+</>
+```
+
+### Success Help Text
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+const [username, setUsername] = React.useState('validuser123');
+const isAvailable = true;
+
+<>
+  <Label htmlFor="username">Username</Label>
+  <Input
+    id="username"
+    value={username}
+    onChange={(e) => setUsername(e.target.value)}
+  />
+  {isAvailable && (
+    <HelpText variant="success">
+      This username is available
+    </HelpText>
+  )}
+</>
+```
+
+### Warning Help Text
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+const [password, setPassword] = React.useState('pass123');
+const isWeak = password.length < 8;
+
+<>
+  <Label htmlFor="password">Password</Label>
+  <Input
+    id="password"
+    type="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  {isWeak ? (
+    <HelpText variant="warning">
+      Password is weak. Consider adding more characters
+    </HelpText>
+  ) : (
+    <HelpText variant="success">
+      Strong password
+    </HelpText>
+  )}
+</>
+```
+
+### Inverse Variants
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+import { Box } from '@twilio-paste/box';
+
+<Box backgroundColor="colorBackgroundInverse" padding="space60">
+  <Label htmlFor="search" variant="inverse">
+    Search
+  </Label>
+  <Input id="search" type="search" variant="inverse" />
+  <HelpText variant="inverse">
+    Search by name, email, or phone number
+  </HelpText>
+</Box>
+```
+
+### Multiple Help Text Messages
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+const [password, setPassword] = React.useState('');
+const hasMinLength = password.length >= 8;
+const hasNumber = /\d/.test(password);
+const hasSpecialChar = /[!@#$%^&*]/.test(password);
+
+const isValid = hasMinLength && hasNumber && hasSpecialChar;
+
+<>
+  <Label htmlFor="new-password" required>
+    Create password
+  </Label>
+  <Input
+    id="new-password"
+    type="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    hasError={password.length > 0 && !isValid}
+  />
+  {!hasMinLength && password.length > 0 && (
+    <HelpText variant="error">
+      Password must be at least 8 characters
+    </HelpText>
+  )}
+  {!hasNumber && password.length > 0 && (
+    <HelpText variant="error">
+      Password must contain at least one number
+    </HelpText>
+  )}
+  {!hasSpecialChar && password.length > 0 && (
+    <HelpText variant="error">
+      Password must contain a special character
+    </HelpText>
+  )}
+  {isValid && (
+    <HelpText variant="success">
+      Password meets all requirements
+    </HelpText>
+  )}
+</>
+```
+
+### With Character Count
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { TextArea } from '@twilio-paste/textarea';
+import { Label } from '@twilio-paste/label';
+
+const [text, setText] = React.useState('');
+const maxLength = 500;
+const remaining = maxLength - text.length;
+
+<>
+  <Label htmlFor="bio">Bio</Label>
+  <TextArea
+    id="bio"
+    value={text}
+    onChange={(e) => setText(e.target.value)}
+    maxLength={maxLength}
+  />
+  <HelpText variant={remaining < 50 ? 'warning' : 'default'}>
+    {remaining} characters remaining
+  </HelpText>
+</>
+```
+
+### Dynamic Help Text
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+
+const [url, setUrl] = React.useState('');
+
+const getHelpText = () => {
+  if (url === '') {
+    return {
+      variant: 'default' as const,
+      message: 'Enter a valid URL starting with https://'
+    };
+  }
+  
+  if (!url.startsWith('https://')) {
+    return {
+      variant: 'error' as const,
+      message: 'URL must start with https://'
+    };
+  }
+  
+  if (url.length < 10) {
+    return {
+      variant: 'warning' as const,
+      message: 'URL seems too short'
+    };
+  }
+  
+  return {
+    variant: 'success' as const,
+    message: 'Valid URL format'
+  };
+};
+
+const helpText = getHelpText();
+
+<>
+  <Label htmlFor="website">Website</Label>
+  <Input
+    id="website"
+    type="url"
+    value={url}
+    onChange={(e) => setUrl(e.target.value)}
+    hasError={helpText.variant === 'error'}
+  />
+  <HelpText variant={helpText.variant}>
+    {helpText.message}
+  </HelpText>
+</>
+```
+
+### Without Top Margin
+
+```tsx
+import { HelpText } from '@twilio-paste/help-text';
+import { Input } from '@twilio-paste/input';
+import { Stack } from '@twilio-paste/stack';
+
+<Stack orientation="horizontal" spacing="space40">
+  <Input type="text" />
+  <HelpText marginTop="space0">
+    Inline help text
+  </HelpText>
+</Stack>
+```
+
+## Accessibility
+
+- Help text should be associated with form inputs using `aria-describedby`
+- Error and warning variants include icons that are decorative (hidden from screen readers)
+- Text color meets WCAG contrast requirements for all variants
+- Help text is announced by screen readers when associated with inputs
+- Icons provide visual reinforcement but don't replace clear text messages
+
+## Best Practices
+
+- Place help text below the input it describes
+- Use default variant for guidance and examples
+- Use error variant for validation messages
+- Use success variant to confirm valid input
+- Use warning variant for non-blocking issues
+- Keep messages concise and actionable
+- Provide specific guidance on how to fix errors
+- Show help text before users submit, not after
+- Use positive language when possible
+- Don't rely solely on color - include clear text
+- Consider showing help text on focus for complex fields
+
+## Message Writing Guidelines
+
+### Good Error Messages
+- "Email must include @"
+- "Password must be at least 8 characters"
+- "This field is required"
+
+### Poor Error Messages
+- "Invalid input"
+- "Error"
+- "Wrong format"
+
+### Good Help Text
+- "Example: john@example.com"
+- "Must include uppercase, lowercase, and numbers"
+- "This information helps us verify your identity"
+
+### Poor Help Text
+- "Enter your email"
+- "Fill this out"
+- "Required field"
+
+## Common Patterns
+
+### Validation Pattern
+```tsx
+const hasError = validateField(value);
+
+<>
+  <Input hasError={hasError} />
+  {hasError ? (
+    <HelpText variant="error">Error message</HelpText>
+  ) : (
+    <HelpText>Helpful guidance</HelpText>
+  )}
+</>
+```
+
+### Progressive Enhancement
+```tsx
+<>
+  <Input />
+  {!touched && <HelpText>Initial guidance</HelpText>}
+  {touched && !hasError && <HelpText variant="success">Looks good!</HelpText>}
+  {touched && hasError && <HelpText variant="error">Error message</HelpText>}
+</>
+```

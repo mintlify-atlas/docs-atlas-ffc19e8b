@@ -1,0 +1,367 @@
+---
+title: Codemods
+description: Automated code transformations for migrating and updating Paste projects
+slug: /utilities/codemods/
+---
+
+Paste Codemods is a collection of automated code transformations (codemods) that help you maintain and migrate projects built with Paste. These tools use [jscodeshift](https://github.com/facebook/jscodeshift) to automatically update your codebase when Paste introduces breaking changes or new best practices.
+
+## Installation
+
+You can run codemods without installation using npx:
+
+```bash
+npx @twilio-paste/codemods
+```
+
+Or install globally:
+
+```bash
+npm install -g @twilio-paste/codemods
+# or
+yarn global add @twilio-paste/codemods
+```
+
+## Usage
+
+### Interactive Mode
+
+Run the codemod in interactive mode to be prompted for options:
+
+```bash
+npx @twilio-paste/codemods
+```
+
+You'll be asked:
+1. Which files or directory to transform
+2. Which dialect of JavaScript you use (JavaScript or TypeScript)
+3. Which transformation to apply
+
+### Command Line Mode
+
+Run a specific transformation directly:
+
+```bash
+npx @twilio-paste/codemods <transform> <path> [...options]
+```
+
+**Arguments:**
+- `transform` - Name of the transformation to apply
+- `path` - Files or directory to transform (can be a glob pattern)
+
+**Example:**
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/
+```
+
+## Available Transformations
+
+### barreled-to-unbarreled
+
+Converts barreled imports from `@twilio-paste/core` to direct package imports.
+
+**Why use this?**
+
+Importing directly from package sources instead of the barrel export (`@twilio-paste/core`) provides:
+- Better tree-shaking and smaller bundle sizes
+- Faster build times
+- More explicit dependencies
+
+**Before:**
+
+```jsx
+import { Button, Box, Text } from '@twilio-paste/core';
+```
+
+**After:**
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+```
+
+**Usage:**
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/
+```
+
+## Options
+
+### --force
+
+Bypass Git safety checks and forcibly run codemods.
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --force
+```
+
+By default, codemods check that your working directory is clean (no uncommitted changes) to ensure you can easily revert changes if needed. Use `--force` to skip this check.
+
+### --dry
+
+Run in dry-run mode (no changes are made to files).
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --dry
+```
+
+Use this to preview what changes would be made without actually modifying files.
+
+### --print
+
+Print transformed files to your terminal.
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --print
+```
+
+Useful for reviewing changes before applying them.
+
+### --explicit-require
+
+Transform only files where React is explicitly imported.
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --explicit-require=true
+```
+
+### --jscodeshift
+
+Pass advanced options directly to jscodeshift.
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --jscodeshift="--cpus=1"
+```
+
+## Using with Different File Types
+
+### JavaScript Projects
+
+For JavaScript projects (.js, .jsx files):
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/
+```
+
+Select "JavaScript" when prompted, or the tool will automatically detect .js/.jsx files.
+
+### TypeScript Projects
+
+For TypeScript projects (.ts, .tsx files):
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/
+```
+
+Select "TypeScript" when prompted to process .ts/.tsx files.
+
+### Glob Patterns
+
+You can use glob patterns to target specific files:
+
+```bash
+# Transform all test files
+npx @twilio-paste/codemods barreled-to-unbarreled "src/**/*.test.js"
+
+# Transform specific directories
+npx @twilio-paste/codemods barreled-to-unbarreled "src/components/**/*.tsx"
+
+# Multiple patterns (use quotes)
+npx @twilio-paste/codemods barreled-to-unbarreled "src/**/*.{js,jsx,ts,tsx}"
+```
+
+## Workflow Recommendations
+
+### 1. Ensure Clean Git State
+
+Before running codemods, commit or stash your changes:
+
+```bash
+git status
+git add .
+git commit -m "Changes before running codemod"
+```
+
+### 2. Run in Dry Mode First
+
+Preview changes without modifying files:
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --dry --print
+```
+
+### 3. Apply the Transformation
+
+Run the codemod on your codebase:
+
+```bash
+npx @twilio-paste/codemods barreled-to-unbarreled src/
+```
+
+### 4. Review Changes
+
+Review the changes made by the codemod:
+
+```bash
+git diff
+```
+
+### 5. Test Your Application
+
+Run your tests to ensure nothing broke:
+
+```bash
+npm test
+# or
+yarn test
+```
+
+### 6. Commit the Changes
+
+If everything looks good, commit the changes:
+
+```bash
+git add .
+git commit -m "Apply barreled-to-unbarreled codemod"
+```
+
+## Common Use Cases
+
+### Migrating a Large Codebase
+
+For large codebases, process files in batches:
+
+```bash
+# First, components directory
+npx @twilio-paste/codemods barreled-to-unbarreled src/components/ --dry
+npx @twilio-paste/codemods barreled-to-unbarreled src/components/
+
+# Then, pages directory
+npx @twilio-paste/codemods barreled-to-unbarreled src/pages/ --dry
+npx @twilio-paste/codemods barreled-to-unbarreled src/pages/
+```
+
+### CI/CD Integration
+
+You can integrate codemods into your CI/CD pipeline to check for outdated patterns:
+
+```bash
+# In your CI script
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --dry
+```
+
+If the dry run shows changes are needed, fail the build and notify developers.
+
+### Monorepo Usage
+
+For monorepos, run codemods on each package:
+
+```bash
+for package in packages/*/src; do
+  echo "Processing $package"
+  npx @twilio-paste/codemods barreled-to-unbarreled "$package"
+done
+```
+
+## Troubleshooting
+
+### Git Directory Not Clean
+
+**Error:**
+```
+Git directory is not clean. You may use the --force flag to override this safety check.
+```
+
+**Solution:**
+Commit or stash your changes, or use the `--force` flag:
+
+```bash
+git add .
+git commit -m "Save work before codemod"
+# or
+git stash
+# or
+npx @twilio-paste/codemods barreled-to-unbarreled src/ --force
+```
+
+### No Files Found
+
+**Error:**
+```
+No files found matching src/
+```
+
+**Solution:**
+Check that the path is correct and contains matching files:
+
+```bash
+ls src/
+# or try with a glob pattern
+npx @twilio-paste/codemods barreled-to-unbarreled "src/**/*.tsx"
+```
+
+### Transformation Failed
+
+If a transformation fails on specific files:
+
+1. Check the console output for error messages
+2. Try running on a smaller subset of files
+3. Check if the files have syntax errors
+4. Ensure you're using the correct parser (JavaScript vs TypeScript)
+
+### Partial Transformations
+
+Some imports might not be transformed if:
+
+- The component isn't exported from `@twilio-paste/core`
+- The import uses a non-standard format
+- The import is from a subpath (e.g., `@twilio-paste/core/dist`)
+
+Manually review and update these imports.
+
+## Best Practices
+
+### Do
+
+- Always run codemods on a clean Git working directory
+- Use `--dry` mode first to preview changes
+- Run your test suite after applying transformations
+- Review the diff before committing
+- Apply codemods to your entire codebase at once for consistency
+
+### Don't
+
+- Don't run codemods on production code without testing
+- Don't skip the dry-run step for large transformations
+- Don't ignore warnings or errors in the output
+- Don't apply codemods selectively across your codebase (this can cause inconsistencies)
+
+## Under the Hood
+
+Paste codemods use:
+
+- **jscodeshift**: A toolkit for running codemods over JavaScript/TypeScript codebases
+- **AST transformations**: Parses code into an Abstract Syntax Tree, transforms it, and generates new code
+- **Babel parser**: For JavaScript files
+- **TypeScript parser**: For TypeScript files
+
+## Version
+
+Current version: 0.17.1
+
+## Contributing
+
+To contribute new codemods or report issues:
+
+1. Visit the [Paste GitHub repository](https://github.com/twilio-labs/paste)
+2. Create an issue describing the transformation needed
+3. Submit a pull request with your codemod implementation
+
+## Related Resources
+
+- [jscodeshift documentation](https://github.com/facebook/jscodeshift)
+- [Paste Migration Guides](/migration/)
+- [Paste Core Package](/core/)

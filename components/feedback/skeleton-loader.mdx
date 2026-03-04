@@ -1,0 +1,287 @@
+---
+title: Skeleton Loader
+description: A Skeleton Loader is a visual placeholder that gives users a hint of what type of information will be loaded on a page.
+---
+
+Skeleton Loader provides a placeholder UI that mimics the layout and structure of content while it loads. This creates a better perceived performance and reduces layout shift.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/skeleton-loader
+```
+
+## Usage
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+
+const MyComponent = () => {
+  const [loading, setLoading] = React.useState(true);
+  
+  if (loading) {
+    return <SkeletonLoader height="100px" />;
+  }
+  
+  return <div>Loaded content</div>;
+};
+```
+
+## Props
+
+<ParamField path="height" type="HeightToken" default="'sizeIcon20'">
+  Height of the skeleton. Accepts any Paste size token (e.g., `sizeIcon20`, `size10`, `100px`).
+</ParamField>
+
+<ParamField path="width" type="WidthToken">
+  Width of the skeleton. Accepts any Paste size token or CSS width value.
+</ParamField>
+
+<ParamField path="borderRadius" type="BorderRadiusToken" default="'borderRadius20'">
+  Border radius of the skeleton. Common values:
+  - `borderRadius0`: Square corners
+  - `borderRadius10`: Slightly rounded
+  - `borderRadius20`: Default rounded
+  - `borderRadius30`: More rounded
+  - `borderRadiusPill`: Fully rounded (pill shape)
+  - `borderRadiusCircle`: Perfect circle
+</ParamField>
+
+<ParamField path="display" type="DisplayValue">
+  CSS display property for the skeleton.
+</ParamField>
+
+<ParamField path="maxHeight" type="HeightToken">
+  Maximum height constraint.
+</ParamField>
+
+<ParamField path="maxWidth" type="WidthToken">
+  Maximum width constraint.
+</ParamField>
+
+<ParamField path="minHeight" type="HeightToken">
+  Minimum height constraint.
+</ParamField>
+
+<ParamField path="minWidth" type="WidthToken">
+  Minimum width constraint.
+</ParamField>
+
+<ParamField path="borderTopLeftRadius" type="BorderRadiusToken">
+  Border radius for top-left corner.
+</ParamField>
+
+<ParamField path="borderTopRightRadius" type="BorderRadiusToken">
+  Border radius for top-right corner.
+</ParamField>
+
+<ParamField path="borderBottomLeftRadius" type="BorderRadiusToken">
+  Border radius for bottom-left corner.
+</ParamField>
+
+<ParamField path="borderBottomRightRadius" type="BorderRadiusToken">
+  Border radius for bottom-right corner.
+</ParamField>
+
+<ParamField path="element" type="string" default="'SKELETON_LOADER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Text Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Stack orientation="vertical" spacing="space30">
+  <SkeletonLoader width="60%" />
+  <SkeletonLoader width="80%" />
+  <SkeletonLoader width="40%" />
+</Stack>
+```
+
+### Avatar Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+
+<SkeletonLoader
+  height="sizeSquare70"
+  width="sizeSquare70"
+  borderRadius="borderRadiusCircle"
+/>
+```
+
+### Card Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+import { Box } from '@twilio-paste/core/box';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Box padding="space60" borderStyle="solid" borderWidth="borderWidth10" borderColor="colorBorder">
+  <Stack orientation="vertical" spacing="space40">
+    <SkeletonLoader height="150px" />
+    <SkeletonLoader width="70%" height="sizeIcon30" />
+    <SkeletonLoader width="90%" />
+    <SkeletonLoader width="85%" />
+  </Stack>
+</Box>
+```
+
+### Table Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+import { Table, THead, TBody, Tr, Th, Td } from '@twilio-paste/core/table';
+
+<Table>
+  <THead>
+    <Tr>
+      <Th>Name</Th>
+      <Th>Status</Th>
+      <Th>Date</Th>
+    </Tr>
+  </THead>
+  <TBody>
+    {[1, 2, 3].map((i) => (
+      <Tr key={i}>
+        <Td>
+          <SkeletonLoader width="120px" />
+        </Td>
+        <Td>
+          <SkeletonLoader width="80px" />
+        </Td>
+        <Td>
+          <SkeletonLoader width="100px" />
+        </Td>
+      </Tr>
+    ))}
+  </TBody>
+</Table>
+```
+
+### List Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+import { Box } from '@twilio-paste/core/box';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Stack orientation="vertical" spacing="space60">
+  {[1, 2, 3, 4].map((i) => (
+    <Box key={i} display="flex" alignItems="center" columnGap="space40">
+      <SkeletonLoader
+        height="sizeSquare90"
+        width="sizeSquare90"
+        borderRadius="borderRadius30"
+      />
+      <Box flex="1">
+        <SkeletonLoader width="60%" height="sizeIcon30" />
+        <Box marginTop="space20">
+          <SkeletonLoader width="40%" />
+        </Box>
+      </Box>
+    </Box>
+  ))}
+</Stack>
+```
+
+### Button Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+
+<SkeletonLoader
+  height="44px"
+  width="120px"
+  borderRadius="borderRadius20"
+/>
+```
+
+### Conditional Loading
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+import { Text } from '@twilio-paste/core/text';
+
+const ContentLoader = ({ loading, data }) => {
+  if (loading) {
+    return (
+      <Stack orientation="vertical" spacing="space30">
+        <SkeletonLoader width="70%" height="sizeIcon40" />
+        <SkeletonLoader width="100%" />
+        <SkeletonLoader width="90%" />
+        <SkeletonLoader width="60%" />
+      </Stack>
+    );
+  }
+  
+  return (
+    <>
+      <Heading as="h2">{data.title}</Heading>
+      <Text as="p">{data.description}</Text>
+    </>
+  );
+};
+```
+
+### Different Shapes
+
+```tsx
+import { SkeletonLoader } from '@twilio-paste/core/skeleton-loader';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Stack orientation="horizontal" spacing="space60">
+  {/* Square */}
+  <SkeletonLoader
+    height="sizeSquare90"
+    width="sizeSquare90"
+    borderRadius="borderRadius0"
+  />
+  
+  {/* Rounded square */}
+  <SkeletonLoader
+    height="sizeSquare90"
+    width="sizeSquare90"
+    borderRadius="borderRadius30"
+  />
+  
+  {/* Circle */}
+  <SkeletonLoader
+    height="sizeSquare90"
+    width="sizeSquare90"
+    borderRadius="borderRadiusCircle"
+  />
+  
+  {/* Pill */}
+  <SkeletonLoader
+    height="sizeIcon40"
+    width="100px"
+    borderRadius="borderRadiusPill"
+  />
+</Stack>
+```
+
+## Accessibility
+
+- Skeleton loaders include `aria-busy="true"` to indicate loading state to screen readers
+- They are marked as non-interactive with `pointer-events: none` and `user-select: none`
+- The shimmer animation respects `prefers-reduced-motion` settings
+- Use skeleton loaders in conjunction with proper loading announcements for screen readers
+- Ensure the skeleton structure closely matches the final content layout
+
+## Best Practices
+
+- Use skeleton loaders for content that takes more than 300ms to load
+- Match the skeleton layout to the actual content structure as closely as possible
+- Use multiple skeleton loaders to create realistic content previews
+- Apply appropriate border radius to match the final content shape
+- For data tables, show skeleton rows with the same number of columns
+- Combine with actual UI elements (headers, labels) that don't need to load
+- Don't use skeletons for very fast operations - show content immediately
+- Avoid showing skeletons for too long (>10 seconds) - show an error state instead
+- Use consistent skeleton patterns across your application
+- Consider progressive loading - show content as it becomes available rather than waiting for everything

@@ -1,0 +1,910 @@
+---
+title: Icon List
+description: Complete list of all available icons in the Paste icon library
+slug: /icons/icon-list/
+---
+
+Paste provides 300+ icons across multiple categories. All icons are available as React components and support full customization.
+
+## How to Use This List
+
+Each icon is listed with:
+- **Icon Name**: The component name to import
+- **Usage Example**: Code snippet showing how to use the icon
+
+All icons accept the same props: `decorative`, `title`, `size`, `color`, `display`, `as`, and `element`.
+
+## UI Controls & Navigation
+
+### Arrows
+
+```jsx
+import { 
+  ArrowBackIcon,
+  ArrowForwardIcon,
+  ArrowUpIcon,
+  ArrowDownIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ArrowBackIcon decorative />
+<ArrowForwardIcon decorative />
+<ArrowUpIcon decorative />
+<ArrowDownIcon decorative />
+```
+
+### Chevrons
+
+```jsx
+import { 
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronDisclosureIcon,
+  ChevronDisclosureCollapsedIcon,
+  ChevronDisclosureExpandedIcon,
+  ChevronExpandIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ChevronDownIcon decorative />
+<ChevronDisclosureIcon decorative />
+```
+
+### Close & Clear
+
+```jsx
+import { 
+  CloseIcon,
+  CloseCircleIcon,
+  ClearIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<CloseIcon decorative={false} title="Close dialog" />
+```
+
+### Menu & More
+
+```jsx
+import { 
+  MenuIcon,
+  MoreIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<MenuIcon decorative />
+<MoreIcon decorative />
+```
+
+## Status & Feedback
+
+### Status Indicators
+
+```jsx
+import { 
+  SuccessIcon,
+  ErrorIcon,
+  WarningIcon,
+  InformationIcon,
+  NeutralIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<SuccessIcon decorative color="colorTextSuccess" />
+<ErrorIcon decorative color="colorTextError" />
+<WarningIcon decorative color="colorTextWarning" />
+<InformationIcon decorative color="colorTextInfo" />
+```
+
+### Process States
+
+```jsx
+import { 
+  ProcessSuccessIcon,
+  ProcessErrorIcon,
+  ProcessWarningIcon,
+  ProcessInProgressIcon,
+  ProcessNeutralIcon,
+  ProcessDisabledIcon,
+  ProcessDraftIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ProcessSuccessIcon decorative />
+<ProcessInProgressIcon decorative />
+```
+
+### Connectivity
+
+```jsx
+import { 
+  ConnectivityAvailableIcon,
+  ConnectivityBusyIcon,
+  ConnectivityNeutralIcon,
+  ConnectivityOfflineIcon,
+  ConnectivityUnavailableIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ConnectivityAvailableIcon decorative />
+```
+
+### Loading & Checkmarks
+
+```jsx
+import { 
+  LoadingIcon,
+  CheckmarkCircleIcon,
+  CheckboxCheckIcon,
+  CheckboxLineIcon,
+  SelectedIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<LoadingIcon decorative title="Loading" />
+<CheckmarkCircleIcon decorative />
+```
+
+## Actions & Commands
+
+### Add & Remove
+
+```jsx
+import { 
+  PlusIcon,
+  MinusIcon,
+  AddListIcon,
+  AddSeriesIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<PlusIcon decorative />
+<MinusIcon decorative />
+```
+
+### Edit & Delete
+
+```jsx
+import { 
+  EditIcon,
+  DeleteIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<EditIcon decorative={false} title="Edit" />
+<DeleteIcon decorative={false} title="Delete" />
+```
+
+### Copy & Share
+
+```jsx
+import { 
+  CopyIcon,
+  ShareIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<CopyIcon decorative={false} title="Copy to clipboard" />
+```
+
+### Upload & Download
+
+```jsx
+import { 
+  UploadIcon,
+  UploadToCloudIcon,
+  DownloadIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<UploadIcon decorative />
+<DownloadIcon decorative />
+```
+
+### Archive & Unarchive
+
+```jsx
+import { 
+  ArchiveIcon,
+  UnarchiveIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ArchiveIcon decorative />
+```
+
+### Pin & Star
+
+```jsx
+import { 
+  PinIcon,
+  UnpinIcon,
+  StarIcon,
+  UnstarIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<PinIcon decorative />
+<StarIcon decorative />
+```
+
+### Show & Hide
+
+```jsx
+import { 
+  ShowIcon,
+  HideIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ShowIcon decorative={false} title="Show password" />
+<HideIcon decorative={false} title="Hide password" />
+```
+
+### Lock & Unlock
+
+```jsx
+import { 
+  LockIcon,
+  UnlockIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<LockIcon decorative />
+```
+
+### Undo & Redo
+
+```jsx
+import { 
+  UndoIcon,
+  RedoIcon,
+  RefreshIcon,
+  ResetIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<UndoIcon decorative />
+<RefreshIcon decorative />
+```
+
+### Expand & Collapse
+
+```jsx
+import { 
+  ExpandIcon,
+  CollapseIcon,
+  ShrinkIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ExpandIcon decorative />
+```
+
+## Communication
+
+### Phone & Calling
+
+```jsx
+import { 
+  CallIcon,
+  CallActiveIcon,
+  CallAddIcon,
+  CallFailedIcon,
+  CallHoldIcon,
+  CallIncomingIcon,
+  CallOutgoingIcon,
+  CallTransferIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<CallIcon decorative />
+<CallActiveIcon decorative color="colorTextSuccess" />
+```
+
+### Messaging
+
+```jsx
+import { 
+  SMSIcon,
+  ChatIcon,
+  EmailIcon,
+  TemplateMessageIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<SMSIcon decorative />
+<ChatIcon decorative />
+```
+
+### Status & Capabilities
+
+```jsx
+import { 
+  SMSCapableIcon,
+  MMSCapableIcon,
+  VoiceCapableIcon,
+  FaxCapableIcon,
+  RCSCapableIcon,
+  ElasticSIPTrunkingCapableIcon,
+  WebCapableIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<SMSCapableIcon decorative />
+```
+
+### Voicemail & Other
+
+```jsx
+import { 
+  VoicemailIcon,
+  SentIcon,
+  DeliveredIcon,
+  NotificationIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<VoicemailIcon decorative />
+```
+
+## Media & Playback
+
+### Playback Controls
+
+```jsx
+import { 
+  PlayIcon,
+  PauseIcon,
+  StopIcon,
+  RecordIcon,
+  RepeatIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<PlayIcon decorative={false} title="Play" />
+<PauseIcon decorative={false} title="Pause" />
+```
+
+### Skip Controls
+
+```jsx
+import { 
+  SkipForwardIcon,
+  SkipBackIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<SkipForwardIcon decorative />
+```
+
+### Volume
+
+```jsx
+import { 
+  VolumeOnIcon,
+  VolumeOffIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<VolumeOnIcon decorative />
+```
+
+### Video
+
+```jsx
+import { 
+  VideoOnIcon,
+  VideoOffIcon,
+  ScreenShareIcon,
+  StopScreenShareIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<VideoOnIcon decorative />
+<ScreenShareIcon decorative />
+```
+
+### Microphone
+
+```jsx
+import { 
+  MicrophoneOnIcon,
+  MicrophoneOffIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<MicrophoneOnIcon decorative />
+```
+
+## Files & Documents
+
+### Generic Files
+
+```jsx
+import { 
+  FileIcon,
+  FolderIcon,
+  AttachmentIcon,
+  AttachIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<FileIcon decorative />
+<FolderIcon decorative />
+```
+
+### File Types
+
+```jsx
+import { 
+  FileAudioIcon,
+  FileImageIcon,
+  FileVideoIcon,
+  FileZipIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<FileAudioIcon decorative />
+<FileImageIcon decorative />
+```
+
+## Data & Charts
+
+### Chart Types
+
+```jsx
+import { 
+  DataBarChartIcon,
+  DataLineChartIcon,
+  DataPieChartIcon,
+  HeatmapIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<DataBarChartIcon decorative />
+```
+
+### Data Types
+
+```jsx
+import { 
+  DataArrayIcon,
+  DataBooleanIcon,
+  DataNumberIcon,
+  DataObjectIcon,
+  DataStringIcon,
+  DataTableIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<DataObjectIcon decorative />
+```
+
+## Text Formatting
+
+### Text Style
+
+```jsx
+import { 
+  BoldIcon,
+  ItalicIcon,
+  UnderlineIcon,
+  StrikethroughIcon,
+  SuperscriptIcon,
+  SubscriptIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<BoldIcon decorative />
+<ItalicIcon decorative />
+```
+
+### Text Alignment
+
+```jsx
+import { 
+  TextAlignLeftIcon,
+  TextAlignCenterIcon,
+  TextAlignRightIcon,
+  TextAlignJustifyIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<TextAlignLeftIcon decorative />
+```
+
+### Lists
+
+```jsx
+import { 
+  OrderedListIcon,
+  UnorderedListIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<OrderedListIcon decorative />
+```
+
+### Formatting Controls
+
+```jsx
+import { 
+  TextFormatIcon,
+  TextFormatClearIcon,
+  TextHighlightIcon,
+  BlockquoteIcon,
+  IndentIncreaseIcon,
+  IndentDecreaseIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<TextFormatIcon decorative />
+```
+
+## User & People
+
+```jsx
+import { 
+  UserIcon,
+  UsersIcon,
+  AgentIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<UserIcon decorative />
+<UsersIcon decorative />
+```
+
+## Search & Filter
+
+```jsx
+import { 
+  SearchIcon,
+  FilterIcon,
+  SortAlphabeticalIcon,
+  UnsortedIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<SearchIcon decorative />
+<FilterIcon decorative />
+```
+
+## Commerce & Business
+
+```jsx
+import { 
+  CartIcon,
+  PaymentIcon,
+  CreditCardIcon,
+  BusinessIcon,
+  StoreIcon,
+  UpsellIcon,
+  WinbackIcon,
+  RepeatPurchaseIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<CartIcon decorative />
+<PaymentIcon decorative />
+```
+
+## Sentiment & Feedback
+
+```jsx
+import { 
+  SentimentPositiveIcon,
+  SentimentNeutralIcon,
+  SentimentNegativeIcon,
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  FeedbackIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<SentimentPositiveIcon decorative />
+<ThumbsUpIcon decorative />
+```
+
+## Development & Code
+
+```jsx
+import { 
+  CodeIcon,
+  GitIcon,
+  BuildIcon,
+  TriggerIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<CodeIcon decorative />
+```
+
+## UI Components
+
+```jsx
+import { 
+  ButtonIcon,
+  CardIcon,
+  CarouselIcon,
+  ColumnIcon,
+  DividerIcon,
+  SelectIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ButtonIcon decorative />
+```
+
+## Miscellaneous
+
+### Time & Calendar
+
+```jsx
+import { 
+  TimeIcon,
+  CalendarIcon,
+  HistoryIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<CalendarIcon decorative />
+```
+
+### Settings & Tools
+
+```jsx
+import { 
+  ColorPickerIcon,
+  CustomIcon,
+  DisableIcon,
+  EnableIcon,
+  AcceptIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ColorPickerIcon decorative />
+```
+
+### Location & Layout
+
+```jsx
+import { 
+  AlignLeftIcon,
+  AlignRightIcon,
+  AlignVerticalCenterIcon,
+  DragIcon,
+  DragHorizontalIcon,
+  DragVerticalIcon,
+  SpacerVerticalIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<DragIcon decorative />
+```
+
+### Themes
+
+```jsx
+import { 
+  ThemeIcon,
+  DarkModeIcon,
+  LightModeIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ThemeIcon decorative />
+```
+
+### Other
+
+```jsx
+import { 
+  ArtificialIntelligenceIcon,
+  AuthenticationIcon,
+  AutomaticUpdatesIcon,
+  AvailableIcon,
+  CloudIcon,
+  CommunityIcon,
+  CustomerCareIcon,
+  DatabaseIcon,
+  DialpadIcon,
+  DirectoryIcon,
+  DocumentationIcon,
+  DoNotIcon,
+  EmojiIcon,
+  ExportIcon,
+  FeedIcon,
+  FlagIcon,
+  ImageTextIcon,
+  InboxIcon,
+  LinkIcon,
+  LinkExternalIcon,
+  LogInIcon,
+  LogOutIcon,
+  LogoPasteIcon,
+  LogoTwilioIcon,
+  MobileIcon,
+  NewIcon,
+  NotesIcon,
+  NotificationOrnamentIcon,
+  OutOfDateIcon,
+  RandomizeIcon,
+  RaiseHandIcon,
+  LowerHandIcon,
+  SocialIcon,
+  SplitIcon,
+  SupportIcon,
+  SupportRequestIcon,
+  SystemStatusIcon,
+  TaskIcon,
+  TextIcon,
+  TipIcon,
+  TokenIcon,
+  TourIcon,
+  TransferIcon,
+  TranslationIcon,
+  TrendUpIcon,
+  TrendDownIcon,
+  UnsubscribeIcon,
+  ZoomInIcon
+} from '@twilio-paste/icons/esm';
+```
+
+## Product Icons
+
+Paste includes icons for all Twilio products:
+
+```jsx
+import { 
+  // Core Products
+  ProductMessagingIcon,
+  ProductVoiceIcon,
+  ProductVideoIcon,
+  ProductConversationsIcon,
+  ProductVerifyIcon,
+  ProductSendGridIcon,
+  ProductEmailAPIIcon,
+  ProductAuthyIcon,
+  
+  // Platform
+  ProductFlexIcon,
+  ProductStudioIcon,
+  ProductFunctionsIcon,
+  ProductTaskRouterIcon,
+  ProductSyncIcon,
+  ProductProxyIcon,
+  ProductNotifyIcon,
+  ProductChatIcon,
+  
+  // IoT
+  ProductInternetOfThingsIcon,
+  ProductInternetOfThingsSuperSIMIcon,
+  ProductInternetOfThingsWirelessIcon,
+  ProductInternetOfThingsNarrowbandIcon,
+  ProductInternetOfThingsEmbeddedSIMIcon,
+  ProductInternetOfThingsProgrammableAssetTrackerIcon,
+  ProductInternetOfThingsTrustOnboardIcon,
+  
+  // Voice Intelligence
+  ProductVoiceIntelligenceIcon,
+  ProductConversationalInsightsIcon,
+  
+  // AI
+  ProductAIAssistantsIcon,
+  ProductAutopilotIcon,
+  
+  // Data & Insights
+  ProductSegmentIcon,
+  ProductEngageIcon,
+  ProductPersonasIcon,
+  ProductUnifyIcon,
+  ProductTraitsIcon,
+  ProductUnifiedProfilesIcon,
+  ProductAudiencesIcon,
+  ProductConnectionsIcon,
+  ProductProtocolsIcon,
+  ProductEventStreamIcon,
+  ProductEventStreamsIcon,
+  ProductEventLibraryIcon,
+  ProductSourcesIcon,
+  ProductDestinationsIcon,
+  ProductReverseETLIcon,
+  
+  // Infrastructure
+  ProductElasticSIPTrunkingIcon,
+  ProductInterconnectIcon,
+  ProductTrustHubIcon,
+  ProductLookupIcon,
+  ProductUSSDIcon,
+  ProductFaxIcon,
+  
+  // Developer Tools
+  ProductDebuggerIcon,
+  ProductLogsIcon,
+  ProductAPIExplorerIcon,
+  ProductSDKIcon,
+  ProductCLIIcon,
+  ProductTwiMLBinsIcon,
+  
+  // Admin & Settings
+  ProductTwilioOrgIcon,
+  ProductAccountDashboardIcon,
+  ProductBillingIcon,
+  ProductUsageIcon,
+  ProductKeysIcon,
+  ProductSettingsIcon,
+  ProductAdminAccessControlIcon,
+  ProductAdminAccountsIcon,
+  ProductAdminDomainsIcon,
+  ProductAdminResoldCustomersIcon,
+  ProductAdminSSOIcon,
+  ProductAdminUsersIcon,
+  ProductOneAdminIcon,
+  
+  // Contact Center
+  ProductContactCenterAdminIcon,
+  ProductContactCenterAssessmentsIcon,
+  ProductContactCenterQueuesIcon,
+  ProductContactCenterTasksIcon,
+  ProductContactCenterTeamsIcon,
+  
+  // Other Products
+  ProductAddOnsIcon,
+  ProductAlarmsIcon,
+  ProductAssetsIcon,
+  ProductChannelsIcon,
+  ProductCodeExchangeCommunityIcon,
+  ProductCodeExchangePartnerIcon,
+  ProductCommsIcon,
+  ProductConnectedDevicesIcon,
+  ProductEngagementIntelligencePlatformIcon,
+  ProductFlowIcon,
+  ProductFrontlineIcon,
+  ProductHomeIcon,
+  ProductInsightsIcon,
+  ProductJourneysIcon,
+  ProductLiveIcon,
+  ProductMappingIcon,
+  ProductMarketingCampaignsIcon,
+  ProductMicrovisorIcon,
+  ProductPayConnectorIcon,
+  ProductPhoneNumbersIcon,
+  ProductPrivacyIcon,
+  ProductRegionalIcon,
+  ProductSourceSchemaIcon,
+  ProductSupportIcon,
+  ProductSwitcherIcon
+} from '@twilio-paste/icons/esm';
+
+// Usage
+<ProductFlexIcon decorative size="sizeIcon50" />
+<ProductStudioIcon decorative size="sizeIcon50" />
+```
+
+## Finding the Right Icon
+
+Use your browser's search function (Ctrl+F or Cmd+F) to find icons by name or category:
+
+- Search "arrow" to find all arrow icons
+- Search "product" to find all product icons
+- Search "text" to find text formatting icons
+- Search "call" to find calling-related icons
+
+## Not Finding What You Need?
+
+If you can't find an appropriate icon:
+
+1. Check if a similar icon could work with different context
+2. Use a generic icon like `CustomIcon` with descriptive text
+3. Request a new icon from the Paste team
+
+## Related Documentation
+
+- [Icon Usage Guide](/icons/usage) - Learn how to use icons
+- [Icons Overview](/icons/overview) - Introduction to the icon library

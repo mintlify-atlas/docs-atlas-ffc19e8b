@@ -1,0 +1,153 @@
+---
+title: Alert
+description: An Alert is a banner that notifies users to high-priority or time-sensitive information.
+---
+
+Alert is a banner component that communicates important information to users. It supports multiple variants to convey different levels of urgency and can be dismissible.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/alert
+```
+
+## Usage
+
+```tsx
+import { Alert } from '@twilio-paste/core/alert';
+
+const MyComponent = () => {
+  return (
+    <Alert variant="warning">
+      <strong>Action required:</strong> Your trial expires in 3 days.
+    </Alert>
+  );
+};
+```
+
+## Props
+
+<ParamField path="variant" type="'neutral' | 'warning' | 'error'" required>
+  Sets the visual style and semantic meaning of the alert. Each variant uses appropriate colors and icons:
+  - `neutral`: Informational messages
+  - `warning`: Cautionary messages requiring attention
+  - `error`: Critical errors or problems
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Content to display inside the alert. Can include text, links, and other components.
+</ParamField>
+
+<ParamField path="onDismiss" type="() => void">
+  Callback function when the dismiss button is clicked. When provided, adds a close button to the alert.
+</ParamField>
+
+<ParamField path="role" type="string">
+  ARIA role for the alert. Defaults to:
+  - `status` for neutral alerts
+  - `alert` for warning and error alerts
+</ParamField>
+
+<ParamField path="i18nDismissLabel" type="string" default="'Dismiss alert'">
+  Accessible label for the dismiss button. Only used when `onDismiss` is provided.
+</ParamField>
+
+<ParamField path="i18nErrorLabel" type="string" default="'(error)'">
+  Accessible label for the error icon in error variant alerts.
+</ParamField>
+
+<ParamField path="i18nNeutralLabel" type="string" default="'(information)'">
+  Accessible label for the info icon in neutral variant alerts.
+</ParamField>
+
+<ParamField path="i18nWarningLabel" type="string" default="'(warning)'">
+  Accessible label for the warning icon in warning variant alerts.
+</ParamField>
+
+<ParamField path="element" type="string" default="'ALERT'">
+  Overrides the default element name for customization with the Customization Provider.
+</ParamField>
+
+## Examples
+
+### Neutral Alert
+
+```tsx
+import { Alert } from '@twilio-paste/core/alert';
+
+<Alert variant="neutral">
+  Your changes have been saved successfully.
+</Alert>
+```
+
+### Warning Alert
+
+```tsx
+import { Alert } from '@twilio-paste/core/alert';
+
+<Alert variant="warning">
+  <strong>Warning:</strong> This action cannot be undone.
+</Alert>
+```
+
+### Error Alert
+
+```tsx
+import { Alert } from '@twilio-paste/core/alert';
+
+<Alert variant="error">
+  <strong>Error:</strong> Unable to process your request. Please try again.
+</Alert>
+```
+
+### Dismissible Alert
+
+```tsx
+import { Alert } from '@twilio-paste/core/alert';
+import { useState } from 'react';
+
+const DismissibleAlert = () => {
+  const [show, setShow] = useState(true);
+  
+  if (!show) return null;
+  
+  return (
+    <Alert
+      variant="warning"
+      onDismiss={() => setShow(false)}
+    >
+      This alert can be dismissed by clicking the close button.
+    </Alert>
+  );
+};
+```
+
+### Alert with Links
+
+```tsx
+import { Alert } from '@twilio-paste/core/alert';
+import { Anchor } from '@twilio-paste/core/anchor';
+
+<Alert variant="neutral">
+  New features are available. <Anchor href="/changelog">View changelog</Anchor>
+</Alert>
+```
+
+## Accessibility
+
+- Alerts use appropriate ARIA roles (`status` for neutral, `alert` for warning/error) to announce content to screen readers
+- Error and warning icons include descriptive titles for screen readers
+- The dismiss button includes a screen reader label
+- Color is not the only indicator of alert type - icons provide additional context
+- Sufficient color contrast is maintained for all variants
+
+## Best Practices
+
+- Use alerts sparingly - too many alerts can overwhelm users
+- Place alerts near the top of the page or relevant section
+- Keep alert messages concise and actionable
+- Use the appropriate variant to match the severity of the message
+- Include clear next steps or actions when applicable
+- Only make alerts dismissible if they're not critical
+- Don't use alerts for success messages after form submissions - use Toast instead
+- Avoid stacking multiple alerts - combine related messages when possible

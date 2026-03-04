@@ -1,0 +1,378 @@
+---
+title: File Uploader
+description: A file uploader is a form element used to upload multiple files.
+---
+
+File Uploader is a comprehensive component for handling multiple file uploads with drag-and-drop support, file management, and upload progress tracking.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/file-uploader
+```
+
+## Usage
+
+```tsx
+import {
+  FileUploader,
+  FileUploaderDropzone,
+  FileUploaderItemsList,
+  FileUploaderItem,
+} from '@twilio-paste/file-uploader';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  const [files, setFiles] = React.useState<File[]>([]);
+  
+  const handleFilesChange = (newFiles: FileList) => {
+    setFiles(Array.from(newFiles));
+  };
+  
+  return (
+    <FileUploader name="files">
+      <Label htmlFor="files">Upload files</Label>
+      <FileUploaderDropzone acceptedMimeTypes={['image/*', 'application/pdf']}>
+        <span>Drag files here or <strong>browse</strong></span>
+      </FileUploaderDropzone>
+      <FileUploaderItemsList>
+        {files.map((file, index) => (
+          <FileUploaderItem
+            key={file.name}
+            file={file}
+            onButtonClick={() => {
+              setFiles(files.filter((_, i) => i !== index));
+            }}
+          />
+        ))}
+      </FileUploaderItemsList>
+    </FileUploader>
+  );
+};
+```
+
+## Props
+
+### FileUploader Props
+
+<ParamField path="name" type="string" required>
+  Name attribute for the file input.
+</ParamField>
+
+<ParamField path="id" type="string">
+  ID for the file uploader. Auto-generated if not provided.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the entire file uploader.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the file uploader as required.
+</ParamField>
+
+<ParamField path="element" type="string" default="'FILE_UPLOADER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### FileUploaderDropzone Props
+
+<ParamField path="acceptedMimeTypes" type="string[]">
+  Array of accepted MIME types (e.g., ['image/*', '.pdf']).
+</ParamField>
+
+<ParamField path="onFilesChange" type="(files: FileList) => void">
+  Callback fired when files are selected or dropped.
+</ParamField>
+
+### FileUploaderItem Props
+
+<ParamField path="file" type="File" required>
+  The File object to display.
+</ParamField>
+
+<ParamField path="onButtonClick" type="() => void">
+  Callback fired when the remove button is clicked.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'loading' | 'error' | 'success'" default="'default'">
+  Visual state of the file item.
+</ParamField>
+
+## Examples
+
+### Basic Multiple File Upload
+
+```tsx
+import {
+  FileUploader,
+  FileUploaderDropzone,
+  FileUploaderItemsList,
+  FileUploaderItem,
+} from '@twilio-paste/file-uploader';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [files, setFiles] = React.useState<File[]>([]);
+
+const handleFilesChange = (fileList: FileList) => {
+  const newFiles = Array.from(fileList);
+  setFiles([...files, ...newFiles]);
+};
+
+const handleRemoveFile = (index: number) => {
+  setFiles(files.filter((_, i) => i !== index));
+};
+
+<FileUploader name="documents">
+  <Label htmlFor="documents">Upload documents</Label>
+  <FileUploaderDropzone
+    acceptedMimeTypes={['application/pdf', '.doc', '.docx']}
+    onFilesChange={handleFilesChange}
+  >
+    Drop PDF or Word documents here, or click to browse
+  </FileUploaderDropzone>
+  <HelpText>You can upload multiple files</HelpText>
+  <FileUploaderItemsList>
+    {files.map((file, index) => (
+      <FileUploaderItem
+        key={`${file.name}-${index}`}
+        file={file}
+        onButtonClick={() => handleRemoveFile(index)}
+      />
+    ))}
+  </FileUploaderItemsList>
+</FileUploader>
+```
+
+### With Upload Progress
+
+```tsx
+import {
+  FileUploader,
+  FileUploaderDropzone,
+  FileUploaderItemsList,
+  FileUploaderItem,
+} from '@twilio-paste/file-uploader';
+
+interface FileWithStatus {
+  file: File;
+  status: 'default' | 'loading' | 'error' | 'success';
+}
+
+const [files, setFiles] = React.useState<FileWithStatus[]>([]);
+
+const uploadFile = async (file: File, index: number) => {
+  // Set to loading
+  setFiles(prev => prev.map((f, i) => 
+    i === index ? { ...f, status: 'loading' as const } : f
+  ));
+  
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    // Set to success
+    setFiles(prev => prev.map((f, i) => 
+      i === index ? { ...f, status: 'success' as const } : f
+    ));
+  } catch (error) {
+    // Set to error
+    setFiles(prev => prev.map((f, i) => 
+      i === index ? { ...f, status: 'error' as const } : f
+    ));
+  }
+};
+
+const handleFilesChange = (fileList: FileList) => {
+  const newFiles = Array.from(fileList).map(file => ({
+    file,
+    status: 'default' as const,
+  }));
+  
+  setFiles([...files, ...newFiles]);
+  
+  // Start uploading
+  newFiles.forEach((fileWithStatus, index) => {
+    uploadFile(fileWithStatus.file, files.length + index);
+  });
+};
+
+<FileUploader name="images">
+  <Label htmlFor="images">Upload images</Label>
+  <FileUploaderDropzone
+    acceptedMimeTypes={['image/*']}
+    onFilesChange={handleFilesChange}
+  >
+    Drop images here to upload
+  </FileUploaderDropzone>
+  <FileUploaderItemsList>
+    {files.map((fileWithStatus, index) => (
+      <FileUploaderItem
+        key={`${fileWithStatus.file.name}-${index}`}
+        file={fileWithStatus.file}
+        variant={fileWithStatus.status}
+        onButtonClick={() => setFiles(files.filter((_, i) => i !== index))}
+      />
+    ))}
+  </FileUploaderItemsList>
+</FileUploader>
+```
+
+### With File Validation
+
+```tsx
+import { FileUploader, FileUploaderDropzone } from '@twilio-paste/file-uploader';
+import { HelpText } from '@twilio-paste/help-text';
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILES = 5;
+const [files, setFiles] = React.useState<File[]>([]);
+const [error, setError] = React.useState('');
+
+const handleFilesChange = (fileList: FileList) => {
+  const newFiles = Array.from(fileList);
+  
+  // Validate file count
+  if (files.length + newFiles.length > MAX_FILES) {
+    setError(`Maximum ${MAX_FILES} files allowed`);
+    return;
+  }
+  
+  // Validate file sizes
+  const invalidFiles = newFiles.filter(file => file.size > MAX_FILE_SIZE);
+  if (invalidFiles.length > 0) {
+    setError('Some files exceed the 10MB size limit');
+    return;
+  }
+  
+  setError('');
+  setFiles([...files, ...newFiles]);
+};
+
+<FileUploader name="attachments">
+  <FileUploaderDropzone
+    acceptedMimeTypes={['image/*', 'application/pdf']}
+    onFilesChange={handleFilesChange}
+  >
+    Drop files here (max 10MB each)
+  </FileUploaderDropzone>
+  {error ? (
+    <HelpText variant="error">{error}</HelpText>
+  ) : (
+    <HelpText>
+      Maximum {MAX_FILES} files, 10MB each. Accepted: Images and PDFs
+    </HelpText>
+  )}
+</FileUploader>
+```
+
+### Image Upload with Previews
+
+```tsx
+import {
+  FileUploader,
+  FileUploaderDropzone,
+  FileUploaderItemsList,
+  FileUploaderItem,
+} from '@twilio-paste/file-uploader';
+
+const [images, setImages] = React.useState<File[]>([]);
+
+const handleImagesChange = (fileList: FileList) => {
+  const newImages = Array.from(fileList).filter(file => 
+    file.type.startsWith('image/')
+  );
+  setImages([...images, ...newImages]);
+};
+
+<FileUploader name="gallery">
+  <Label htmlFor="gallery">Upload images</Label>
+  <FileUploaderDropzone
+    acceptedMimeTypes={['image/jpeg', 'image/png', 'image/gif']}
+    onFilesChange={handleImagesChange}
+  >
+    <strong>Click to browse</strong> or drag images here
+  </FileUploaderDropzone>
+  <FileUploaderItemsList>
+    {images.map((image, index) => (
+      <FileUploaderItem
+        key={`${image.name}-${index}`}
+        file={image}
+        onButtonClick={() => setImages(images.filter((_, i) => i !== index))}
+      />
+    ))}
+  </FileUploaderItemsList>
+</FileUploader>
+```
+
+### Required File Uploader
+
+```tsx
+import { FileUploader, FileUploaderDropzone } from '@twilio-paste/file-uploader';
+import { Label } from '@twilio-paste/label';
+
+<FileUploader name="required-files" required>
+  <Label htmlFor="required-files" required>
+    Upload required documents
+  </Label>
+  <FileUploaderDropzone>
+    Drop required files here
+  </FileUploaderDropzone>
+</FileUploader>
+```
+
+### Disabled State
+
+```tsx
+import { FileUploader, FileUploaderDropzone } from '@twilio-paste/file-uploader';
+import { Label } from '@twilio-paste/label';
+
+<FileUploader name="disabled-upload" disabled>
+  <Label htmlFor="disabled-upload" disabled>
+    Upload files
+  </Label>
+  <FileUploaderDropzone>
+    File upload is currently disabled
+  </FileUploaderDropzone>
+</FileUploader>
+```
+
+## Accessibility
+
+- Dropzone is keyboard accessible via Tab and Enter/Space
+- Screen readers announce drag-and-drop functionality
+- File list items can be navigated with keyboard
+- Remove buttons are accessible and properly labeled
+- Accepted file types are announced to screen readers
+- Loading, error, and success states are communicated
+- Uses semantic HTML with proper ARIA attributes
+
+## Best Practices
+
+- Always specify `acceptedMimeTypes` to guide users on allowed files
+- Validate file types, sizes, and counts both client and server-side
+- Display clear file size and count limitations
+- Show upload progress for better user experience
+- Provide clear error messages for validation failures
+- Allow users to remove files before submitting
+- Use appropriate MIME types for file restrictions
+- Show visual feedback for drag-and-drop interactions
+- Consider implementing retry functionality for failed uploads
+- For single file uploads, use File Picker instead
+
+## Security Considerations
+
+- Always validate file types and sizes on the server
+- Scan uploaded files for malware
+- Store uploaded files securely outside web root
+- Use unique, non-guessable filenames
+- Implement rate limiting for uploads
+- Validate file content matches the extension
+- Set appropriate file size limits
+- The `acceptedMimeTypes` is not a security feature - always validate server-side

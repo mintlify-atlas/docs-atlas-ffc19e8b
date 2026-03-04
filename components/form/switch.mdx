@@ -1,0 +1,313 @@
+---
+title: Switch
+description: A switch is an interactive binary control.
+---
+
+Switch is a form control that allows users to toggle between two states: on and off. It provides a clear visual indicator of the current state and is commonly used for settings.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/switch
+```
+
+## Usage
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+const MyComponent = () => {
+  const [enabled, setEnabled] = React.useState(false);
+  
+  return (
+    <Switch
+      checked={enabled}
+      onChange={(e) => setEnabled(e.target.checked)}
+    >
+      Enable notifications
+    </Switch>
+  );
+};
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  Label text for the switch.
+</ParamField>
+
+<ParamField path="id" type="string">
+  ID for the switch input. Auto-generated if not provided.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="checked" type="boolean">
+  Controls the checked state (controlled component).
+</ParamField>
+
+<ParamField path="defaultChecked" type="boolean">
+  Default checked state for uncontrolled switches.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the switch.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the switch as required.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the switch to an error state.
+</ParamField>
+
+<ParamField path="helpText" type="string | React.ReactNode">
+  Additional help text displayed below the switch label.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when the checked state changes.
+</ParamField>
+
+<ParamField path="value" type="string">
+  Value attribute for the switch.
+</ParamField>
+
+<ParamField path="element" type="string" default="'SWITCH'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic Switch
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+const [notifications, setNotifications] = React.useState(true);
+
+<Switch
+  checked={notifications}
+  onChange={(e) => setNotifications(e.target.checked)}
+>
+  Email notifications
+</Switch>
+```
+
+### With Help Text
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+<Switch
+  helpText="Receive notifications when new messages arrive"
+>
+  Enable message notifications
+</Switch>
+```
+
+### Uncontrolled Switch
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+<Switch defaultChecked name="auto-save">
+  Auto-save changes
+</Switch>
+```
+
+### Switch Group
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+import { Stack } from '@twilio-paste/stack';
+import { Heading } from '@twilio-paste/heading';
+
+const [settings, setSettings] = React.useState({
+  email: true,
+  sms: false,
+  push: true,
+});
+
+const handleChange = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  setSettings({ ...settings, [key]: e.target.checked });
+};
+
+<Stack orientation="vertical" spacing="space60">
+  <Heading as="h3" variant="heading30">
+    Notification preferences
+  </Heading>
+  <Switch
+    checked={settings.email}
+    onChange={handleChange('email')}
+    helpText="Get notified via email"
+  >
+    Email notifications
+  </Switch>
+  <Switch
+    checked={settings.sms}
+    onChange={handleChange('sms')}
+    helpText="Get notified via SMS"
+  >
+    SMS notifications
+  </Switch>
+  <Switch
+    checked={settings.push}
+    onChange={handleChange('push')}
+    helpText="Get notified with push notifications"
+  >
+    Push notifications
+  </Switch>
+</Stack>
+```
+
+### Disabled Switch
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+<Switch
+  checked={true}
+  disabled
+  helpText="This feature is currently unavailable"
+>
+  Premium feature
+</Switch>
+```
+
+### Required Switch
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+const [agreed, setAgreed] = React.useState(false);
+
+<Switch
+  checked={agreed}
+  onChange={(e) => setAgreed(e.target.checked)}
+  required
+>
+  I agree to the terms and conditions
+</Switch>
+```
+
+### With Error State
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+const [accepted, setAccepted] = React.useState(false);
+const [submitted, setSubmitted] = React.useState(false);
+
+const hasError = submitted && !accepted;
+
+<Switch
+  checked={accepted}
+  onChange={(e) => setAccepted(e.target.checked)}
+  hasError={hasError}
+  helpText={hasError ? 'You must accept to continue' : 'Please review and accept'}
+  required
+>
+  Accept privacy policy
+</Switch>
+```
+
+### Dynamic Switch Behavior
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+import { Box } from '@twilio-paste/box';
+
+const [autoReply, setAutoReply] = React.useState(false);
+const [replyMessage, setReplyMessage] = React.useState('');
+
+<>
+  <Switch
+    checked={autoReply}
+    onChange={(e) => setAutoReply(e.target.checked)}
+    helpText="Automatically reply to incoming messages"
+  >
+    Enable auto-reply
+  </Switch>
+  
+  {autoReply && (
+    <Box marginTop="space60">
+      <Label htmlFor="message">Auto-reply message</Label>
+      <TextArea
+        id="message"
+        value={replyMessage}
+        onChange={(e) => setReplyMessage(e.target.value)}
+        placeholder="Enter your auto-reply message"
+      />
+    </Box>
+  )}
+</>
+```
+
+### Immediate Action Switch
+
+```tsx
+import { Switch } from '@twilio-paste/switch';
+
+const [darkMode, setDarkMode] = React.useState(false);
+
+const handleDarkModeToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const isEnabled = e.target.checked;
+  setDarkMode(isEnabled);
+  
+  // Apply dark mode immediately
+  document.body.classList.toggle('dark-mode', isEnabled);
+  
+  // Save preference
+  localStorage.setItem('darkMode', String(isEnabled));
+};
+
+<Switch
+  checked={darkMode}
+  onChange={handleDarkModeToggle}
+>
+  Dark mode
+</Switch>
+```
+
+## Accessibility
+
+- Uses semantic `role="switch"` for proper announcement
+- Includes visible label via children prop
+- Supports keyboard navigation (Space to toggle, Tab to focus)
+- Required switches show a RequiredDot
+- Help text is properly associated with aria-describedby
+- Error state is announced via aria-invalid
+- Checked state is announced as "on" or "off"
+- Focus indicator is clearly visible
+- Disabled state prevents interaction and is announced
+
+## Best Practices
+
+- Use Switch for binary settings that take effect immediately
+- For actions requiring confirmation, use Checkbox instead
+- Provide clear, concise labels that describe what the switch controls
+- Use help text to explain the impact of toggling the switch
+- Show immediate visual feedback when state changes
+- Apply changes immediately when the switch is toggled
+- Don't require a submit button for switch changes
+- Use disabled state when the option is temporarily unavailable
+- Group related switches together logically
+- Consider the default state carefully - choose the safest or most common option
+
+## Switch vs Checkbox
+
+Use Switch when:
+- The change takes effect immediately
+- You're controlling a system setting
+- It's a binary on/off state
+- The action is reversible
+
+Use Checkbox when:
+- Changes are submitted as part of a form
+- Multiple selections are possible
+- You need to show a mixed/indeterminate state
+- Confirmation is required before applying changes

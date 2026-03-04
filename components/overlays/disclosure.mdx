@@ -1,0 +1,238 @@
+---
+title: Disclosure
+description: A disclosure is an interactive element that toggles the visibility of a section of content.
+slug: /components/overlays/disclosure
+---
+
+## Installation
+
+```bash
+yarn add @twilio-paste/disclosure
+```
+
+## Usage
+
+```jsx
+import { Disclosure, DisclosureHeading, DisclosureContent } from '@twilio-paste/disclosure';
+
+const MyDisclosure = () => {
+  return (
+    <Disclosure>
+      <DisclosureHeading as="h2" variant="heading20">
+        Disclosure heading
+      </DisclosureHeading>
+      <DisclosureContent>
+        This is the disclosure content that can be toggled.
+      </DisclosureContent>
+    </Disclosure>
+  );
+};
+```
+
+## Props
+
+### Disclosure
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Must contain DisclosureHeading and DisclosureContent. |
+| `variant` | `"default" \| "contained"` | `"default"` | Changes the styling on the component. |
+| `state` | `DisclosureStateReturn` | - | Provide the Disclosure state from `useDisclosureState` for controlled usage. |
+| `visible` | `boolean` | - | Control whether the disclosure is expanded (controlled mode). |
+| `animated` | `boolean` | `true` | Enable animation when expanding/collapsing. |
+| `element` | `string` | `"DISCLOSURE"` | Overrides the default element name for custom styling. |
+
+### DisclosureHeading
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The heading text. |
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | - | **Required.** The HTML heading level. |
+| `variant` | `HeadingProps["variant"]` | - | **Required.** The visual style of the heading. |
+| `disabled` | `boolean` | `false` | Disable the disclosure toggle. |
+| `element` | `string` | `"DISCLOSURE_HEADING"` | Overrides the default element name for custom styling. |
+
+### DisclosureContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The content to show/hide. |
+| `element` | `string` | `"DISCLOSURE_CONTENT"` | Overrides the default element name for custom styling. |
+
+## Examples
+
+### Default Disclosure
+
+```jsx
+<Disclosure>
+  <DisclosureHeading as="h2" variant="heading20">
+    Account Information
+  </DisclosureHeading>
+  <DisclosureContent>
+    <Paragraph>Your account details and settings.</Paragraph>
+  </DisclosureContent>
+</Disclosure>
+```
+
+### Contained Variant
+
+```jsx
+<Disclosure variant="contained">
+  <DisclosureHeading as="h2" variant="heading20">
+    Billing Details
+  </DisclosureHeading>
+  <DisclosureContent>
+    <Paragraph>View and manage your billing information.</Paragraph>
+  </DisclosureContent>
+</Disclosure>
+```
+
+### Disabled Disclosure
+
+```jsx
+<Disclosure>
+  <DisclosureHeading as="h2" variant="heading20" disabled>
+    Unavailable Section
+  </DisclosureHeading>
+  <DisclosureContent>
+    <Paragraph>This content is currently unavailable.</Paragraph>
+  </DisclosureContent>
+</Disclosure>
+```
+
+### Controlled Disclosure
+
+```jsx
+import { useDisclosureState } from '@twilio-paste/disclosure';
+
+const ControlledDisclosure = () => {
+  const disclosure = useDisclosureState({ visible: false });
+
+  return (
+    <>
+      <Button onClick={() => disclosure.toggle()}>
+        Toggle Disclosure
+      </Button>
+      <Disclosure state={disclosure}>
+        <DisclosureHeading as="h2" variant="heading20">
+          Controlled Heading
+        </DisclosureHeading>
+        <DisclosureContent>
+          <Paragraph>This disclosure is controlled externally.</Paragraph>
+        </DisclosureContent>
+      </Disclosure>
+    </>
+  );
+};
+```
+
+### Initially Expanded
+
+```jsx
+import { useDisclosureState } from '@twilio-paste/disclosure';
+
+const ExpandedDisclosure = () => {
+  const disclosure = useDisclosureState({ visible: true });
+
+  return (
+    <Disclosure state={disclosure}>
+      <DisclosureHeading as="h2" variant="heading20">
+        Expanded by Default
+      </DisclosureHeading>
+      <DisclosureContent>
+        <Paragraph>This content is visible on load.</Paragraph>
+      </DisclosureContent>
+    </Disclosure>
+  );
+};
+```
+
+### Multiple Disclosures
+
+```jsx
+<Stack orientation="vertical" spacing="space40">
+  <Disclosure variant="contained">
+    <DisclosureHeading as="h3" variant="heading30">
+      Section 1
+    </DisclosureHeading>
+    <DisclosureContent>
+      <Paragraph>Content for section 1.</Paragraph>
+    </DisclosureContent>
+  </Disclosure>
+  
+  <Disclosure variant="contained">
+    <DisclosureHeading as="h3" variant="heading30">
+      Section 2
+    </DisclosureHeading>
+    <DisclosureContent>
+      <Paragraph>Content for section 2.</Paragraph>
+    </DisclosureContent>
+  </Disclosure>
+  
+  <Disclosure variant="contained">
+    <DisclosureHeading as="h3" variant="heading30">
+      Section 3
+    </DisclosureHeading>
+    <DisclosureContent>
+      <Paragraph>Content for section 3.</Paragraph>
+    </DisclosureContent>
+  </Disclosure>
+</Stack>
+```
+
+## Hooks
+
+### useDisclosureState
+
+Returns state for controlling the disclosure programmatically.
+
+```jsx
+const disclosure = useDisclosureState({
+  visible: false,
+  animated: true,
+});
+
+// State includes:
+// - visible: boolean
+// - show: () => void
+// - hide: () => void
+// - toggle: () => void
+```
+
+## Accessibility
+
+- Uses proper ARIA attributes (`aria-expanded`, `aria-controls`)
+- Keyboard accessible (Space and Enter keys toggle)
+- Focus management follows best practices
+- Screen readers announce expansion state
+- Chevron icon indicates interactive nature and current state
+- Proper heading hierarchy for document structure
+
+## Best Practices
+
+### Do:
+- Use headings that clearly describe the content
+- Maintain proper heading hierarchy (h1 → h2 → h3)
+- Group related disclosures together
+- Use the contained variant when you need visual separation
+
+### Don't:
+- Don't nest disclosures deeply (keep it to 2 levels max)
+- Don't use for navigation (use Sidebar or Tabs instead)
+- Don't hide critical information that users need immediately
+
+## When to Use
+
+### Use Disclosure when:
+- You have content that can be progressively disclosed
+- Building FAQ sections
+- Creating expandable settings panels
+- Organizing long-form content into scannable sections
+
+### Use Tabs instead when:
+- Content sections are mutually exclusive
+- Users need to switch between different views
+
+### Use Accordion instead when:
+- You need only one section open at a time
+- Content is part of a wizard or stepped process

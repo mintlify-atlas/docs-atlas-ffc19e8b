@@ -1,0 +1,135 @@
+---
+title: Topbar
+package: '@twilio-paste/topbar'
+description: Topbar is a horizontal navigation bar at the top of the application.
+category: Application
+status: Production
+---
+
+import { Topbar, TopbarActions } from '@twilio-paste/topbar';
+
+## About Topbar
+
+Topbar is a sticky horizontal navigation component that sits at the top of your application. It provides a consistent location for branding, navigation controls, and user actions.
+
+## Components
+
+- **Topbar** - Main container for top navigation
+- **TopbarActions** - Container for action buttons and controls
+
+## Installation
+
+```bash
+yarn add @twilio-paste/topbar
+```
+
+## Usage
+
+```jsx
+import { Topbar, TopbarActions } from '@twilio-paste/topbar';
+import { Button } from '@twilio-paste/button';
+
+const MyTopbar = () => (
+  <Topbar id="main-topbar">
+    <div>My Application</div>
+    <TopbarActions>
+      <Button variant="secondary">Settings</Button>
+      <Button variant="primary">Sign Out</Button>
+    </TopbarActions>
+  </Topbar>
+);
+```
+
+## Props
+
+### Topbar
+
+<PropsTable>
+  <PropsTableRow
+    name="id"
+    type="string"
+    required
+    description="Unique ID for the Topbar. Provide this to the Sidebar component for accessible skip links."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'TOPBAR'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Content to display in the topbar."
+  />
+</PropsTable>
+
+### TopbarActions
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'TOPBAR_ACTIONS'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Action buttons and controls."
+  />
+</PropsTable>
+
+## Composition
+
+Topbar uses a flexbox layout with space-between justification, placing content on the left and actions on the right.
+
+```jsx
+<Topbar id="topbar">
+  {/* Left side content */}
+  <ProductSwitcher />
+  
+  {/* Right side actions */}
+  <TopbarActions>
+    <AccountSwitcher />
+    <UserDialog />
+  </TopbarActions>
+</Topbar>
+```
+
+## Sticky Positioning
+
+Topbar uses `position: sticky` and `top: 0` to remain visible when scrolling. It has a high z-index (40) to stay above page content.
+
+## Accessibility
+
+- Topbar requires a unique `id` for skip link navigation
+- Use semantic grouping for related actions
+- Ensure interactive elements have accessible labels
+- Topbar has proper color contrast for readability
+
+## Layout Integration
+
+Topbar works with other application components:
+
+```jsx
+<>
+  <Topbar id="main-topbar">
+    {/* topbar content */}
+  </Topbar>
+  <Sidebar topbarSkipLinkID="main-topbar">
+    {/* sidebar content */}
+  </Sidebar>
+  <main id="main-content">
+    {/* page content */}
+  </main>
+</>
+```
+
+## Related components
+
+- [Sidebar](/components/application/sidebar) - Vertical navigation sidebar
+- [Product Switcher](/components/application/product-switcher) - Product navigation
+- [Account Switcher](/components/application/account-switcher) - Account selection
+- [User Dialog](/components/application/user-dialog) - User menu

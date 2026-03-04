@@ -1,0 +1,275 @@
+---
+title: Minimizable Dialog
+description: A minimizable dialog is a floating dialog that can be collapsed into a compact bar while preserving its state.
+slug: /components/overlays/minimizable-dialog
+---
+
+## Installation
+
+```bash
+yarn add @twilio-paste/minimizable-dialog
+```
+
+## Usage
+
+```jsx
+import {
+  MinimizableDialogContainer,
+  MinimizableDialogButton,
+  MinimizableDialog,
+  MinimizableDialogHeader,
+  MinimizableDialogContent,
+} from '@twilio-paste/minimizable-dialog';
+import { Button } from '@twilio-paste/button';
+
+const MyMinimizableDialog = () => {
+  return (
+    <MinimizableDialogContainer>
+      <MinimizableDialogButton variant="primary">
+        Open Dialog
+      </MinimizableDialogButton>
+      <MinimizableDialog aria-label="Minimizable dialog example">
+        <MinimizableDialogHeader>
+          Dialog Title
+        </MinimizableDialogHeader>
+        <MinimizableDialogContent>
+          <p>This dialog can be minimized while keeping its state.</p>
+          <Button variant="primary">Action</Button>
+        </MinimizableDialogContent>
+      </MinimizableDialog>
+    </MinimizableDialogContainer>
+  );
+};
+```
+
+## Props
+
+### MinimizableDialogContainer
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Must contain MinimizableDialogButton and MinimizableDialog. |
+| `state` | `MinimizableDialogStateReturn` | - | Optional state from `useMinimizableDialogState` for controlled usage. |
+| `minimized` | `boolean` | - | Control whether the dialog is minimized. |
+| `visible` | `boolean` | - | Control the visibility (controlled mode). |
+
+### MinimizableDialog
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `aria-label` | `string` | - | **Required.** Accessible title for the Minimizable Dialog. |
+| `children` | `React.ReactNode` | - | **Required.** The content of the dialog. |
+| `element` | `string` | `"MINIMIZABLE_DIALOG"` | Overrides the default element name for custom styling. |
+
+### MinimizableDialogButton
+
+MinimizableDialogButton extends the Button component props.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| All Button props | - | - | Inherits all props from the Button component. |
+
+### MinimizableDialogHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The header content, typically a title string. |
+| `element` | `string` | `"MINIMIZABLE_DIALOG_HEADER"` | Overrides the default element name for custom styling. |
+
+The header includes built-in minimize, maximize, and close buttons.
+
+### MinimizableDialogContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The main content of the dialog. |
+| `element` | `string` | `"MINIMIZABLE_DIALOG_CONTENT"` | Overrides the default element name for custom styling. |
+
+## Examples
+
+### Basic Minimizable Dialog
+
+```jsx
+<MinimizableDialogContainer>
+  <MinimizableDialogButton variant="primary">
+    Start Chat
+  </MinimizableDialogButton>
+  <MinimizableDialog aria-label="Chat window">
+    <MinimizableDialogHeader>
+      Chat Support
+    </MinimizableDialogHeader>
+    <MinimizableDialogContent>
+      <Box display="flex" flexDirection="column" rowGap="space40">
+        <Text as="p">How can we help you today?</Text>
+        <TextArea placeholder="Type your message..." />
+        <Button variant="primary" fullWidth>
+          Send Message
+        </Button>
+      </Box>
+    </MinimizableDialogContent>
+  </MinimizableDialog>
+</MinimizableDialogContainer>
+```
+
+### Controlled Minimizable Dialog
+
+```jsx
+import { useMinimizableDialogState } from '@twilio-paste/minimizable-dialog';
+
+const ControlledMinimizableDialog = () => {
+  const dialog = useMinimizableDialogState({ minimized: false });
+
+  return (
+    <>
+      <Button onClick={() => dialog.show()}>
+        Open Dialog
+      </Button>
+      <Button onClick={() => dialog.minimize()}>
+        Minimize
+      </Button>
+      <Button onClick={() => dialog.expand()}>
+        Expand
+      </Button>
+      <MinimizableDialogContainer state={dialog}>
+        <MinimizableDialog aria-label="Controlled dialog">
+          <MinimizableDialogHeader>
+            Controlled Dialog
+          </MinimizableDialogHeader>
+          <MinimizableDialogContent>
+            <Paragraph>This dialog can be controlled programmatically.</Paragraph>
+            <Button onClick={() => dialog.toggleMinimized()}>
+              Toggle Minimized
+            </Button>
+          </MinimizableDialogContent>
+        </MinimizableDialog>
+      </MinimizableDialogContainer>
+    </>
+  );
+};
+```
+
+### Initially Minimized
+
+```jsx
+import { useMinimizableDialogState } from '@twilio-paste/minimizable-dialog';
+
+const InitiallyMinimized = () => {
+  const dialog = useMinimizableDialogState({ 
+    minimized: true,
+    visible: true 
+  });
+
+  return (
+    <MinimizableDialogContainer state={dialog}>
+      <MinimizableDialog aria-label="Notification">
+        <MinimizableDialogHeader>
+          Notifications
+        </MinimizableDialogHeader>
+        <MinimizableDialogContent>
+          <Text as="p">You have 3 new notifications.</Text>
+        </MinimizableDialogContent>
+      </MinimizableDialog>
+    </MinimizableDialogContainer>
+  );
+};
+```
+
+### Chat Widget Example
+
+```jsx
+<MinimizableDialogContainer>
+  <MinimizableDialogButton variant="primary" size="circle">
+    <ChatIcon decorative />
+  </MinimizableDialogButton>
+  <MinimizableDialog aria-label="Customer support chat">
+    <MinimizableDialogHeader>
+      Support Chat
+    </MinimizableDialogHeader>
+    <MinimizableDialogContent>
+      <Box display="flex" flexDirection="column" height="100%">
+        <Box flexGrow={1} overflowY="auto" marginBottom="space40">
+          {/* Chat messages */}
+          <Stack orientation="vertical" spacing="space30">
+            <Box>
+              <Text as="p" fontWeight="fontWeightSemibold">
+                Agent
+              </Text>
+              <Text as="p">How can I help you today?</Text>
+            </Box>
+          </Stack>
+        </Box>
+        <Box>
+          <Input placeholder="Type a message..." />
+          <Button variant="primary" fullWidth marginTop="space30">
+            Send
+          </Button>
+        </Box>
+      </Box>
+    </MinimizableDialogContent>
+  </MinimizableDialog>
+</MinimizableDialogContainer>
+```
+
+## Hooks
+
+### useMinimizableDialogState
+
+Returns state for controlling the minimizable dialog programmatically.
+
+```jsx
+const dialog = useMinimizableDialogState({
+  minimized: false,
+  visible: false,
+});
+
+// State includes:
+// - visible: boolean
+// - minimized: boolean
+// - show: () => void
+// - hide: () => void
+// - minimize: () => void
+// - expand: () => void
+// - toggleMinimized: () => void
+```
+
+## Accessibility
+
+- MinimizableDialog is a non-modal dialog
+- All controls (minimize, maximize, close) are keyboard accessible
+- Screen readers announce the dialog state
+- Focus management follows best practices
+- The header buttons have appropriate ARIA labels
+- Users can still interact with the main page when dialog is open
+
+## Best Practices
+
+### Do:
+- Use for persistent widgets that users may need to access repeatedly
+- Keep content concise when minimized
+- Provide clear header text that identifies the dialog purpose
+- Use for chat interfaces, notifications, or help widgets
+
+### Don't:
+- Don't use for critical dialogs that require immediate attention
+- Don't place multiple minimizable dialogs on the same page
+- Don't use for primary workflows (use Modal or Side Modal instead)
+- Don't hide important information that users need to complete tasks
+
+## When to Use
+
+### Use Minimizable Dialog when:
+- Building chat or messaging widgets
+- Creating persistent help or support interfaces
+- Users need to multitask while keeping information accessible
+- Building notification centers or activity feeds
+- The dialog needs to be minimized without losing state
+
+### Use Modal instead when:
+- The task requires full user attention
+- You need to block interaction with the main content
+- The dialog is part of a critical workflow
+
+### Use Side Modal instead when:
+- You need more screen space
+- Building complex forms or multi-step processes
+- Users need to reference main page content while working

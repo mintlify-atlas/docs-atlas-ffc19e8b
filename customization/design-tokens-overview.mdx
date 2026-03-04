@@ -1,0 +1,613 @@
+---
+title: Design Tokens Overview
+description: Understand Paste's design token system and how to use tokens for consistent, maintainable styling.
+slug: /customization/design-tokens-overview
+---
+
+Design tokens are the building blocks of Paste's design system. They are named values that represent design decisions like colors, spacing, typography, and more.
+
+## What Are Design Tokens?
+
+Design tokens are semantic names for design values that ensure consistency across your application:
+
+```jsx
+// Instead of:
+<Box padding="16px" color="#0263E0" />
+
+// Use tokens:
+<Box padding="space50" color="colorTextLink" />
+```
+
+Tokens provide:
+- **Consistency:** Use the same values everywhere
+- **Maintainability:** Change values in one place
+- **Semantics:** Names describe purpose, not appearance
+- **Theming:** Swap entire value sets easily
+
+## Token Categories
+
+### Color Tokens
+
+#### Background Colors
+
+Used for backgrounds of components and surfaces:
+
+```jsx
+// Primary backgrounds
+colorBackgroundPrimary
+colorBackgroundPrimaryStrong
+colorBackgroundPrimaryStronger
+colorBackgroundPrimaryStrongest
+colorBackgroundPrimaryWeakest
+
+// Body backgrounds
+colorBackgroundBody
+colorBackgroundBodyInverse
+
+// UI backgrounds
+colorBackgroundDestructive
+colorBackgroundWarning
+colorBackgroundSuccess
+colorBackgroundNeutral
+colorBackgroundUser
+```
+
+Example:
+```jsx
+<Box backgroundColor="colorBackgroundPrimary">
+  Primary background
+</Box>
+```
+
+#### Text Colors
+
+Used for text content:
+
+```jsx
+// Base text colors
+colorText
+colorTextWeak
+colorTextWeaker
+colorTextWeakest
+colorTextInverse
+
+// Interactive text
+colorTextLink
+colorTextLinkWeak
+colorTextLinkStrong
+
+// Status text
+colorTextError
+colorTextWarning
+colorTextSuccess
+colorTextNeutral
+```
+
+Example:
+```jsx
+<Text color="colorTextWeak">
+  Secondary text
+</Text>
+```
+
+#### Border Colors
+
+Used for borders and dividers:
+
+```jsx
+colorBorder
+colorBorderWeak
+colorBorderWeaker
+colorBorderWeakest
+colorBorderStrong
+
+colorBorderPrimary
+colorBorderDestructive
+colorBorderWarning
+colorBorderSuccess
+```
+
+Example:
+```jsx
+<Box
+  borderStyle="solid"
+  borderWidth="borderWidth10"
+  borderColor="colorBorder"
+>
+  Bordered content
+</Box>
+```
+
+### Spacing Tokens
+
+Consistent spacing throughout your UI:
+
+```jsx
+space0   // 0
+space10  // 0.125rem (2px)
+space20  // 0.25rem (4px)
+space30  // 0.5rem (8px)
+space40  // 0.75rem (12px)
+space50  // 1rem (16px)
+space60  // 1.25rem (20px)
+space70  // 1.5rem (24px)
+space80  // 2rem (32px)
+space90  // 2.5rem (40px)
+space100 // 3rem (48px)
+space110 // 4rem (64px)
+space120 // 5rem (80px)
+space130 // 6rem (96px)
+// ... up to space200
+
+// Negative spacing
+spaceNegative10
+spaceNegative20
+// ... up to spaceNegative200
+```
+
+Example:
+```jsx
+<Box
+  padding="space50"
+  marginBottom="space70"
+  marginTop="spaceNegative20"
+>
+  Spaced content
+</Box>
+```
+
+### Typography Tokens
+
+#### Font Families
+
+```jsx
+fontFamilyText  // Main text font
+fontFamilyCode  // Monospace font
+```
+
+#### Font Sizes
+
+```jsx
+fontSize10   // 0.75rem (12px)
+fontSize20   // 0.875rem (14px)
+fontSize30   // 1rem (16px)
+fontSize40   // 1.125rem (18px)
+fontSize50   // 1.25rem (20px)
+fontSize60   // 1.5rem (24px)
+fontSize70   // 1.875rem (30px)
+fontSize80   // 2.25rem (36px)
+fontSize90   // 3rem (48px)
+fontSize100  // 4rem (64px)
+fontSize110  // 4.75rem (76px)
+
+// Display sizes
+fontSizeDisplay10  // 2rem (32px)
+fontSizeDisplay20  // 3rem (48px)
+fontSizeDisplay30  // 4rem (64px)
+```
+
+#### Font Weights
+
+```jsx
+fontWeightLight     // 300
+fontWeightNormal    // 400
+fontWeightMedium    // 500
+fontWeightSemibold  // 600
+fontWeightBold      // 700
+fontWeightExtrabold // 800
+```
+
+#### Line Heights
+
+```jsx
+lineHeight0    // 0
+lineHeight10   // 1rem (16px)
+lineHeight20   // 1.25rem (20px)
+lineHeight30   // 1.5rem (24px)
+lineHeight40   // 1.75rem (28px)
+lineHeight50   // 2rem (32px)
+lineHeight60   // 2.25rem (36px)
+lineHeight70   // 2.5rem (40px)
+lineHeight80   // 3rem (48px)
+lineHeight90   // 3.5rem (56px)
+lineHeight100  // 4rem (64px)
+```
+
+Example:
+```jsx
+<Text
+  fontSize="fontSize30"
+  fontWeight="fontWeightMedium"
+  lineHeight="lineHeight30"
+>
+  Styled text
+</Text>
+```
+
+### Sizing Tokens
+
+```jsx
+size0    // 0
+size10   // 5.5rem (88px)
+size20   // 12rem (192px)
+size30   // 18.5rem (296px)
+size40   // 25rem (400px)
+size50   // 31.5rem (504px)
+size60   // 38rem (608px)
+size70   // 44.5rem (712px)
+size80   // 51rem (816px)
+size90   // 57.5rem (920px)
+size100  // 64rem (1024px)
+size110  // 70.5rem (1128px)
+size120  // 79rem (1264px)
+
+// Square sizes
+sizeSquare0   // 0
+sizeSquare10  // 0.125rem (2px)
+sizeSquare20  // 0.25rem (4px)
+sizeSquare30  // 0.5rem (8px)
+sizeSquare40  // 0.75rem (12px)
+sizeSquare50  // 1rem (16px)
+// ... up to sizeSquare200
+
+// Icon sizes
+sizeIcon10  // 1rem (16px)
+sizeIcon20  // 1.25rem (20px)
+sizeIcon30  // 1.5rem (24px)
+sizeIcon40  // 1.75rem (28px)
+sizeIcon50  // 2rem (32px)
+sizeIcon60  // 2.25rem (36px)
+sizeIcon70  // 2.5rem (40px)
+sizeIcon80  // 3rem (48px)
+```
+
+Example:
+```jsx
+<Box width="size40" height="sizeSquare100">
+  Sized box
+</Box>
+
+<ChevronDownIcon size="sizeIcon30" />
+```
+
+### Border Tokens
+
+#### Border Widths
+
+```jsx
+borderWidth0   // 0
+borderWidth10  // 1px
+borderWidth20  // 2px
+borderWidth30  // 4px
+```
+
+#### Border Radii
+
+```jsx
+borderRadius0       // 0
+borderRadius10      // 2px
+borderRadius20      // 4px
+borderRadius30      // 8px
+borderRadius40      // 12px
+borderRadius50      // 16px
+borderRadius60      // 20px
+borderRadius70      // 24px
+borderRadius80      // 28px
+borderRadiusCircle  // 50%
+borderRadiusPill    // 100px
+```
+
+Example:
+```jsx
+<Box
+  borderWidth="borderWidth10"
+  borderRadius="borderRadius20"
+  borderStyle="solid"
+  borderColor="colorBorder"
+>
+  Rounded border
+</Box>
+```
+
+### Shadow Tokens
+
+```jsx
+shadow
+shadowCard
+shadowFocus
+shadowFocusInverse
+shadowFocusShadowBorder
+shadowBorderPrimary
+shadowBorderPrimaryStrong
+shadowBorderDestructive
+shadowBorderError
+shadowBorderSuccess
+shadowBorderWarning
+```
+
+Example:
+```jsx
+<Card boxShadow="shadowCard">
+  Card with shadow
+</Card>
+```
+
+### Z-Index Tokens
+
+```jsx
+zIndex0    // 0
+zIndex10   // 10
+zIndex20   // 20
+zIndex30   // 30
+zIndex40   // 40
+zIndex50   // 50
+zIndex60   // 60
+zIndex70   // 70
+zIndex80   // 80
+zIndex90   // 90
+zIndex100  // 100
+```
+
+Example:
+```jsx
+<Box position="absolute" zIndex="zIndex10">
+  Layered content
+</Box>
+```
+
+## Using Tokens
+
+### In Components
+
+Paste components accept tokens through props:
+
+```jsx
+import { Box, Text, Button } from '@twilio-paste/core';
+
+<Box
+  backgroundColor="colorBackgroundBody"
+  padding="space70"
+  borderRadius="borderRadius30"
+>
+  <Text
+    fontSize="fontSize30"
+    color="colorText"
+    marginBottom="space40"
+  >
+    Hello World
+  </Text>
+  <Button variant="primary">
+    Click Me
+  </Button>
+</Box>
+```
+
+### With useTheme Hook
+
+Access raw token values:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+
+function CustomComponent() {
+  const theme = useTheme();
+
+  return (
+    <div style={{
+      padding: theme.space.space50,
+      color: theme.textColors.colorText,
+      fontSize: theme.fontSizes.fontSize30,
+    }}>
+      Custom styled content
+    </div>
+  );
+}
+```
+
+### In Custom Themes
+
+Override token values:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+<CustomizationProvider
+  theme={{
+    space: {
+      space50: '1.5rem', // Change from 1rem to 1.5rem
+    },
+    textColors: {
+      colorText: '#1A1A1A',
+      colorTextLink: '#0066CC',
+    },
+    radii: {
+      borderRadius20: '6px',
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+## Token Structure
+
+Tokens follow a consistent naming pattern:
+
+```
+{category}{Element}{Variant}{State}
+```
+
+Examples:
+- `colorBackgroundPrimaryStrong`
+  - Category: `color`
+  - Element: `Background`
+  - Variant: `Primary`
+  - State: `Strong`
+
+- `colorTextLinkDestructiveWeak`
+  - Category: `color`
+  - Element: `Text`
+  - Variant: `LinkDestructive`
+  - State: `Weak`
+
+## Responsive Token Usage
+
+Use tokens responsively with arrays:
+
+```jsx
+<Box
+  padding={['space30', 'space50', 'space70']}
+  fontSize={['fontSize20', 'fontSize30', 'fontSize40']}
+>
+  Responsive content
+</Box>
+```
+
+This applies:
+- `space30` / `fontSize20` at the smallest breakpoint
+- `space50` / `fontSize30` at the medium breakpoint
+- `space70` / `fontSize40` at the large breakpoint
+
+## Token References
+
+### Accessing Token Lists
+
+Import token types for TypeScript support:
+
+```typescript
+import type {
+  BackgroundColorOptions,
+  TextColorOptions,
+  SpaceOptions,
+  FontSizeOptions,
+} from '@twilio-paste/style-props';
+
+type MyProps = {
+  bgColor: BackgroundColorOptions;
+  spacing: SpaceOptions;
+};
+```
+
+### Token Values
+
+Get actual token values:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+
+function TokenInspector() {
+  const theme = useTheme();
+
+  console.log('Space 50:', theme.space.space50);              // "1rem"
+  console.log('Primary BG:', theme.backgroundColors.colorBackgroundPrimary);
+  console.log('Font size 30:', theme.fontSizes.fontSize30);   // "1rem"
+
+  return <div>Check console</div>;
+}
+```
+
+## Best Practices
+
+### Use Semantic Tokens
+
+```jsx
+// Good: Semantic meaning
+<Text color="colorTextWeak">Secondary text</Text>
+
+// Avoid: Color-based naming
+<Text color="#666666">Secondary text</Text>
+```
+
+### Follow the Scale
+
+```jsx
+// Good: Use token scale
+<Box padding="space50" margin="space40" />
+
+// Avoid: Random values
+<Box padding="17px" margin="13px" />
+```
+
+### Stay Consistent
+
+```jsx
+// Good: Consistent token usage
+<Stack spacing="space50">
+  <Box padding="space50" />
+  <Box padding="space50" />
+</Stack>
+
+// Avoid: Mixed approaches
+<Stack spacing="space50">
+  <Box padding="16px" />
+  <Box padding="space40" />
+</Stack>
+```
+
+### Reference Theme Tokens
+
+When customizing:
+
+```jsx
+// Good: Reference other tokens
+<CustomizationProvider
+  elements={{
+    BUTTON: {
+      padding: 'space50',
+      borderRadius: 'borderRadius20',
+    },
+  }}
+>
+
+// Avoid: Hardcoded values
+<CustomizationProvider
+  elements={{
+    BUTTON: {
+      padding: '16px',
+      borderRadius: '4px',
+    },
+  }}
+>
+```
+
+## Theme Variants
+
+Different themes use different token values:
+
+```jsx
+// Default theme
+colorBackgroundPrimary: '#0263E0'
+
+// Dark theme
+colorBackgroundPrimary: '#1F7EE8'
+```
+
+The token name stays the same, but the value changes based on the active theme.
+
+## Data Visualization Tokens
+
+Special tokens for charts and graphs:
+
+```jsx
+colorDataVisualization01
+colorDataVisualization02
+colorDataVisualization03
+// ... up to 10
+```
+
+Use these for consistent data representation:
+
+```jsx
+const chartColors = [
+  theme.dataVisualization.colorDataVisualization01,
+  theme.dataVisualization.colorDataVisualization02,
+  theme.dataVisualization.colorDataVisualization03,
+];
+```
+
+## Next Steps
+
+- Learn to [Create Custom Themes](/customization/creating-custom-themes) with token overrides
+- Explore [Style Props](/customization/style-props) that accept tokens
+- Use the [Theme Designer](/customization/theme-designer) to experiment with tokens
+- Review [CustomizationProvider](/customization/customization-provider) for applying custom tokens

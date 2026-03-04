@@ -1,0 +1,354 @@
+---
+title: Form Pill Group
+package: '@twilio-paste/form-pill-group'
+description: Form Pill Group provides an interactive collection of removable and selectable items.
+category: Utilities
+status: Production
+---
+
+import { FormPillGroup, FormPill, useFormPillState } from '@twilio-paste/form-pill-group';
+
+## About Form Pill Group
+
+Form Pill Group is an interactive component for managing collections of items that users can select, deselect, and remove. Use it for multi-select interfaces, tag management, or any scenario where users need to manage a list of discrete items.
+
+## Components
+
+- **FormPillGroup** - Container for form pills
+- **FormPill** - Individual interactive pill
+- **useFormPillState** - Hook for managing pill state
+
+## Installation
+
+```bash
+yarn add @twilio-paste/form-pill-group
+```
+
+## Usage
+
+```jsx
+import { FormPillGroup, FormPill, useFormPillState } from '@twilio-paste/form-pill-group';
+
+const MyFormPills = () => {
+  const pillState = useFormPillState();
+  const [pills, setPills] = React.useState(['Option 1', 'Option 2', 'Option 3']);
+  
+  const handleRemove = (pillToRemove) => {
+    setPills(pills.filter(pill => pill !== pillToRemove));
+  };
+  
+  return (
+    <FormPillGroup {...pillState} aria-label="Selected options:">
+      {pills.map((pill) => (
+        <FormPill
+          key={pill}
+          {...pillState}
+          onDismiss={() => handleRemove(pill)}
+        >
+          {pill}
+        </FormPill>
+      ))}
+    </FormPillGroup>
+  );
+};
+```
+
+## Props
+
+### FormPillGroup
+
+<PropsTable>
+  <PropsTableRow
+    name="aria-label"
+    type="string"
+    required
+    description="Accessible label describing the collection of pills."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'FORM_PILL_GROUP'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="display"
+    type="'flex' | 'inline-flex'"
+    defaultValue="'flex'"
+    description="Display mode for the pill group container."
+  />
+  <PropsTableRow
+    name="size"
+    type="'default' | 'large'"
+    defaultValue="'default'"
+    description="Size variant affecting pill size and spacing."
+  />
+  <PropsTableRow
+    name="variant"
+    type="'listbox' | 'tree'"
+    defaultValue="'listbox'"
+    description="Interaction variant. 'tree' allows pills to trigger dialogs or other elements."
+  />
+  <PropsTableRow
+    name="i18nKeyboardControls"
+    type="string"
+    defaultValue="'Press Delete or Backspace to remove. Press Enter to toggle selection.'"
+    description="Keyboard instruction text for screen readers."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="FormPill components."
+  />
+</PropsTable>
+
+Also accepts state props from `useFormPillState`.
+
+### FormPill
+
+<PropsTable>
+  <PropsTableRow
+    name="onDismiss"
+    type="() => void"
+    description="Callback when pill is dismissed/removed."
+  />
+  <PropsTableRow
+    name="selected"
+    type="boolean"
+    description="Whether the pill is selected."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'FORM_PILL'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Pill content."
+  />
+</PropsTable>
+
+Also accepts state props from `useFormPillState`.
+
+## State Management
+
+Use `useFormPillState` to manage keyboard navigation and selection:
+
+```jsx
+const pillState = useFormPillState();
+
+<FormPillGroup {...pillState} aria-label="Items:">
+  <FormPill {...pillState} onDismiss={handleRemove1}>Item 1</FormPill>
+  <FormPill {...pillState} onDismiss={handleRemove2}>Item 2</FormPill>
+</FormPillGroup>
+```
+
+## Removable Pills
+
+Pills with `onDismiss` show a close button:
+
+```jsx
+const [items, setItems] = React.useState(['Tag 1', 'Tag 2', 'Tag 3']);
+const pillState = useFormPillState();
+
+const removeItem = (itemToRemove) => {
+  setItems(items.filter(item => item !== itemToRemove));
+};
+
+<FormPillGroup {...pillState} aria-label="Tags:">
+  {items.map(item => (
+    <FormPill
+      key={item}
+      {...pillState}
+      onDismiss={() => removeItem(item)}
+    >
+      {item}
+    </FormPill>
+  ))}
+</FormPillGroup>
+```
+
+## Selectable Pills
+
+Pills can be selected/deselected:
+
+```jsx
+const [selectedPills, setSelectedPills] = React.useState([]);
+const pillState = useFormPillState();
+
+const togglePill = (pill) => {
+  if (selectedPills.includes(pill)) {
+    setSelectedPills(selectedPills.filter(p => p !== pill));
+  } else {
+    setSelectedPills([...selectedPills, pill]);
+  }
+};
+
+<FormPillGroup {...pillState} aria-label="Select options:">
+  {options.map(option => (
+    <FormPill
+      key={option}
+      {...pillState}
+      selected={selectedPills.includes(option)}
+      onClick={() => togglePill(option)}
+    >
+      {option}
+    </FormPill>
+  ))}
+</FormPillGroup>
+```
+
+## Size Variants
+
+### Default Size
+
+```jsx
+<FormPillGroup {...pillState} aria-label="Items:" size="default">
+  <FormPill {...pillState}>Item</FormPill>
+</FormPillGroup>
+```
+
+### Large Size
+
+```jsx
+<FormPillGroup {...pillState} aria-label="Items:" size="large">
+  <FormPill {...pillState}>Item</FormPill>
+</FormPillGroup>
+```
+
+## Variant Types
+
+### Listbox Variant (default)
+
+Standard selectable pills:
+
+```jsx
+<FormPillGroup {...pillState} aria-label="Items:" variant="listbox">
+  {/* pills */}
+</FormPillGroup>
+```
+
+### Tree Variant
+
+Allows pills to trigger other elements like dialogs:
+
+```jsx
+<FormPillGroup {...pillState} aria-label="Items:" variant="tree">
+  <FormPill {...pillState} onClick={openDialog}>Configure</FormPill>
+</FormPillGroup>
+```
+
+## With Icons
+
+Add icons to pills:
+
+```jsx
+import { UserIcon } from '@twilio-paste/icons/esm';
+
+<FormPillGroup {...pillState} aria-label="Users:">
+  <FormPill {...pillState}>
+    <UserIcon decorative size="sizeIcon10" />
+    John Doe
+  </FormPill>
+</FormPillGroup>
+```
+
+## Keyboard Navigation
+
+Form Pill Group supports keyboard interaction:
+
+- **Arrow keys** - Navigate between pills
+- **Enter** - Toggle pill selection
+- **Delete/Backspace** - Remove focused pill (if dismissible)
+- **Tab** - Move focus in/out of group
+
+## Accessibility
+
+- Uses `role="listbox"` or `role="tree"` for proper semantics
+- Each pill has `role="option"` or `role="treeitem"`
+- Keyboard navigation fully supported
+- Selected state announced to screen readers
+- Keyboard controls visually hidden but available to assistive tech
+- Requires `aria-label` for context
+
+## Common Use Cases
+
+### Tag Management
+
+```jsx
+const [tags, setTags] = React.useState(['React', 'TypeScript']);
+
+<FormPillGroup {...pillState} aria-label="Tags:">
+  {tags.map(tag => (
+    <FormPill
+      key={tag}
+      {...pillState}
+      onDismiss={() => setTags(tags.filter(t => t !== tag))}
+    >
+      {tag}
+    </FormPill>
+  ))}
+</FormPillGroup>
+```
+
+### Multi-Select Filter
+
+```jsx
+const [filters, setFilters] = React.useState(['Active', 'Premium']);
+
+<FormPillGroup {...pillState} aria-label="Active filters:">
+  {filters.map(filter => (
+    <FormPill
+      key={filter}
+      {...pillState}
+      selected
+      onDismiss={() => removeFilter(filter)}
+    >
+      {filter}
+    </FormPill>
+  ))}
+</FormPillGroup>
+```
+
+### Recipient List
+
+```jsx
+const [recipients, setRecipients] = React.useState(['user1@example.com']);
+
+<FormPillGroup {...pillState} aria-label="Recipients:">
+  {recipients.map(email => (
+    <FormPill
+      key={email}
+      {...pillState}
+      onDismiss={() => removeRecipient(email)}
+    >
+      {email}
+    </FormPill>
+  ))}
+</FormPillGroup>
+```
+
+## Best Practices
+
+### Do
+
+- Provide clear `aria-label` for the group
+- Use for managing collections of items
+- Allow removal of items when appropriate
+- Limit visible pills (consider scrolling or "show more")
+
+### Don't
+
+- Don't use for read-only data (use Display Pill Group)
+- Don't show too many pills at once
+- Don't forget keyboard controls
+- Don't use for single selection (use Radio Group)
+
+## Related components
+
+- [Display Pill Group](/components/utilities/display-pill-group) - For read-only pills
+- [Checkbox Group](/components/form/checkbox-group) - For traditional multi-select
+- [Combobox](/components/form/combobox) - For searchable multi-select

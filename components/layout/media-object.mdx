@@ -1,0 +1,447 @@
+---
+title: Media Object
+description: Media Object is a layout pattern for displaying a media element (like an image or icon) alongside text content with consistent alignment and spacing.
+---
+
+## Overview
+
+Media Object implements the classic media object pattern - a flexible layout for pairing a media element (image, icon, avatar) with content. It consists of three components: MediaObject (the container), MediaFigure (the media element), and MediaBody (the text content).
+
+Use Media Object when you need to:
+- Display an icon or image next to text content
+- Create notification or alert layouts
+- Build comment or message interfaces
+- Pair avatars with user information
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+```
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+// or
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core';
+```
+
+## Basic Usage
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const MyComponent = () => (
+  <MediaObject as="div" verticalAlign="center">
+    <MediaFigure as="div" spacing="space40">
+      <Box backgroundColor="colorBackgroundSuccess" size="size10" />
+    </MediaFigure>
+    <MediaBody as="div">
+      <Text as="p">We've enabled new security options for your account.</Text>
+    </MediaBody>
+  </MediaObject>
+);
+```
+
+## MediaObject Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="span">
+  The HTML element to render for the container. Common values: 'div', 'span', 'article'.
+</ParamField>
+
+<ParamField path="element" type="string" default="MEDIA_OBJECT">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="verticalAlign" type="'center' | 'top'" default="top">
+  Controls vertical alignment of the figure and body.
+  
+  - `top` - Aligns items to the top (flex-start)
+  - `center` - Centers items vertically
+</ParamField>
+
+<ParamField path="marginTop" type="Space">
+  Sets top margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginBottom" type="Space">
+  Sets bottom margin using space design tokens.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Should contain MediaFigure and MediaBody components.
+</ParamField>
+
+## MediaFigure Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="span">
+  The HTML element to render for the figure.
+</ParamField>
+
+<ParamField path="element" type="string" default="MEDIA_FIGURE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="align" type="'start' | 'end'" default="start">
+  Determines which side of the MediaBody the figure appears.
+  
+  - `start` - Figure appears on the left (adds marginRight)
+  - `end` - Figure appears on the right (adds marginLeft)
+</ParamField>
+
+<ParamField path="spacing" type="Space" default="space0">
+  Space between the figure and body. Uses design tokens (e.g., 'space40', 'space60').
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The media content (icon, image, avatar, etc.).
+</ParamField>
+
+## MediaBody Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="span">
+  The HTML element to render for the body.
+</ParamField>
+
+<ParamField path="element" type="string" default="MEDIA_BODY">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text or content to display.
+</ParamField>
+
+## Examples
+
+### Basic Media Object
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const BasicExample = () => (
+  <MediaObject as="div" verticalAlign="top">
+    <MediaFigure as="div" spacing="space40">
+      <Box backgroundColor="colorBackgroundSuccess" height="size10" minWidth="size10" />
+    </MediaFigure>
+    <MediaBody as="div">
+      <Text as="p">We've enabled new security options for your account.</Text>
+    </MediaBody>
+  </MediaObject>
+);
+```
+
+### Centered Alignment
+
+```jsx
+<MediaObject as="div" verticalAlign="center">
+  <MediaFigure as="div" spacing="space60">
+    <Box backgroundColor="colorBackgroundPrimary" size="size10" borderRadius="borderRadiusCircle" />
+  </MediaFigure>
+  <MediaBody as="div">
+    <Text as="p">Icon and text are vertically centered.</Text>
+  </MediaBody>
+</MediaObject>
+```
+
+### Figure at End
+
+```jsx
+<MediaObject as="div" verticalAlign="center">
+  <MediaBody as="div">
+    <Text as="p">Message with action icon on the right.</Text>
+  </MediaBody>
+  <MediaFigure as="div" align="end" spacing="space40">
+    <Box backgroundColor="colorBackgroundError" size="size10" borderRadius="borderRadiusCircle" />
+  </MediaFigure>
+</MediaObject>
+```
+
+### Double Figure (Both Sides)
+
+```jsx
+<MediaObject as="div" verticalAlign="center">
+  <MediaFigure as="div" spacing="space40">
+    <Box backgroundColor="colorBackgroundSuccess" height="size10" minWidth="size10" />
+  </MediaFigure>
+  <MediaBody as="div">
+    <Text as="p">Please update your billing information or we'll suspend your account on March 2.</Text>
+  </MediaBody>
+  <MediaFigure as="div" align="end" spacing="space40">
+    <Box backgroundColor="colorBackgroundWarning" height="size10" minWidth="size10" />
+  </MediaFigure>
+</MediaObject>
+```
+
+### With Icon
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { InformationIcon } from '@twilio-paste/icons/esm/InformationIcon';
+import { Text } from '@twilio-paste/core/text';
+
+const WithIcon = () => (
+  <MediaObject as="div" verticalAlign="center">
+    <MediaFigure as="div" spacing="space30">
+      <InformationIcon decorative color="colorIconInformation" size="sizeIcon40" />
+    </MediaFigure>
+    <MediaBody as="div">
+      <Text as="p">Your changes have been saved successfully.</Text>
+    </MediaBody>
+  </MediaObject>
+);
+```
+
+### With Avatar
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { Avatar } from '@twilio-paste/core/avatar';
+import { Text } from '@twilio-paste/core/text';
+import { Heading } from '@twilio-paste/core/heading';
+import { Stack } from '@twilio-paste/core/stack';
+
+const UserComment = () => (
+  <MediaObject as="div" verticalAlign="top">
+    <MediaFigure as="div" spacing="space40">
+      <Avatar size="sizeIcon70" name="Jane Doe" />
+    </MediaFigure>
+    <MediaBody as="div">
+      <Stack orientation="vertical" spacing="space20">
+        <Heading as="h3" variant="heading50">Jane Doe</Heading>
+        <Text as="p">This is a great feature! Thanks for building it.</Text>
+      </Stack>
+    </MediaBody>
+  </MediaObject>
+);
+```
+
+### Notification Layout
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+import { Heading } from '@twilio-paste/core/heading';
+import { Stack } from '@twilio-paste/core/stack';
+
+const Notification = () => (
+  <Box 
+    padding="space60" 
+    backgroundColor="colorBackgroundSuccessWeakest"
+    borderRadius="borderRadius20"
+  >
+    <MediaObject as="div" verticalAlign="top">
+      <MediaFigure as="div" spacing="space40">
+        <Box 
+          backgroundColor="colorBackgroundSuccess" 
+          size="size10" 
+          borderRadius="borderRadiusCircle" 
+        />
+      </MediaFigure>
+      <MediaBody as="div">
+        <Stack orientation="vertical" spacing="space20">
+          <Heading as="h3" variant="heading40">Success!</Heading>
+          <Text as="p">Your payment has been processed.</Text>
+        </Stack>
+      </MediaBody>
+    </MediaObject>
+  </Box>
+);
+```
+
+### Constrained Width with Text Overflow
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+import { Truncate } from '@twilio-paste/core/truncate';
+
+const ConstrainedWidth = () => (
+  <Box width="size60">
+    <MediaObject as="div" verticalAlign="center">
+      <MediaFigure as="div" spacing="space100">
+        <Box backgroundColor="colorBackgroundSuccess" size="size20" />
+      </MediaFigure>
+      <MediaBody as="div">
+        <Text as="p">You can now set up your contact preferences on your dashboard.</Text>
+        <Text as="p">
+          <Truncate title="http://www.extremelylongurlthatmightbreakthelayout.com">
+            http://www.extremelylongurlthatmightbreakthelayout.com
+          </Truncate>
+        </Text>
+      </MediaBody>
+      <MediaFigure as="div" align="end" spacing="space70">
+        <Box backgroundColor="colorBackgroundWarning" height="size10" minWidth="size10" />
+      </MediaFigure>
+    </MediaObject>
+  </Box>
+);
+```
+
+### List of Media Objects
+
+```jsx
+import { MediaObject, MediaFigure, MediaBody } from '@twilio-paste/core/media-object';
+import { Stack } from '@twilio-paste/core/stack';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const NotificationList = () => (
+  <Stack orientation="vertical" spacing="space60">
+    <MediaObject as="div" verticalAlign="center">
+      <MediaFigure as="div" spacing="space40">
+        <Box backgroundColor="colorBackgroundSuccess" size="size10" />
+      </MediaFigure>
+      <MediaBody as="div">
+        <Text as="p">First notification message</Text>
+      </MediaBody>
+    </MediaObject>
+    
+    <MediaObject as="div" verticalAlign="center">
+      <MediaFigure as="div" spacing="space40">
+        <Box backgroundColor="colorBackgroundWarning" size="size10" />
+      </MediaFigure>
+      <MediaBody as="div">
+        <Text as="p">Second notification message</Text>
+      </MediaBody>
+    </MediaObject>
+    
+    <MediaObject as="div" verticalAlign="center">
+      <MediaFigure as="div" spacing="space40">
+        <Box backgroundColor="colorBackgroundError" size="size10" />
+      </MediaFigure>
+      <MediaBody as="div">
+        <Text as="p">Third notification message</Text>
+      </MediaBody>
+    </MediaObject>
+  </Stack>
+);
+```
+
+## How It Works
+
+The Media Object layout uses flexbox:
+
+- **MediaObject**: Sets `display: flex` and controls alignment
+- **MediaFigure**: Sets `flexShrink: 0` so it never shrinks, and adds spacing via margin
+- **MediaBody**: Sets `flex: 1` and `minWidth: size0` so it grows to fill space and can shrink with text wrapping
+
+This ensures the figure maintains its size while the body flexes and wraps as needed.
+
+## Best Practices
+
+### Use Appropriate Spacing
+
+Match spacing to the size of your media element:
+
+```jsx
+// Small icons - tighter spacing
+<MediaFigure spacing="space30">
+  <Icon size="sizeIcon20" />
+</MediaFigure>
+
+// Large images/avatars - more spacing
+<MediaFigure spacing="space60">
+  <Avatar size="sizeIcon90" />
+</MediaFigure>
+```
+
+### Choose the Right Alignment
+
+Use alignment based on content:
+
+```jsx
+// Top alignment for multi-line content
+<MediaObject verticalAlign="top">
+  <MediaFigure spacing="space40">
+    <Avatar />
+  </MediaFigure>
+  <MediaBody>
+    <Heading>Name</Heading>
+    <Paragraph>Long bio text...</Paragraph>
+  </MediaBody>
+</MediaObject>
+
+// Center alignment for single-line content
+<MediaObject verticalAlign="center">
+  <MediaFigure spacing="space30">
+    <Icon />
+  </MediaFigure>
+  <MediaBody>
+    <Text>Short message</Text>
+  </MediaBody>
+</MediaObject>
+```
+
+### Use Semantic HTML
+
+Choose appropriate elements via the `as` prop:
+
+```jsx
+// Article/comment
+<MediaObject as="article">
+  <MediaFigure as="div">...</MediaFigure>
+  <MediaBody as="div">...</MediaBody>
+</MediaObject>
+
+// Inline notification
+<MediaObject as="span">
+  <MediaFigure as="span">...</MediaFigure>
+  <MediaBody as="span">...</MediaBody>
+</MediaObject>
+```
+
+### Constrain Width When Needed
+
+Wrap in a Box with width constraints to control layout:
+
+```jsx
+<Box maxWidth="size70">
+  <MediaObject as="div">
+    <MediaFigure spacing="space40">...</MediaFigure>
+    <MediaBody>...</MediaBody>
+  </MediaObject>
+</Box>
+```
+
+### Don't Nest Media Figures
+
+Use one or two MediaFigure components per MediaObject (start and/or end), not nested figures:
+
+```jsx
+// Good
+<MediaObject>
+  <MediaFigure align="start">...</MediaFigure>
+  <MediaBody>...</MediaBody>
+  <MediaFigure align="end">...</MediaFigure>
+</MediaObject>
+
+// Avoid
+<MediaObject>
+  <MediaFigure>
+    <MediaFigure>...</MediaFigure>
+  </MediaFigure>
+  <MediaBody>...</MediaBody>
+</MediaObject>
+```
+
+## Accessibility
+
+- Use semantic HTML elements via the `as` prop when appropriate
+- MediaObject itself is purely presentational
+- Ensure any icons in MediaFigure have appropriate `decorative` or `title` props
+- Don't rely solely on icon color to convey meaning
+- Ensure text content in MediaBody has sufficient color contrast
+- When using for interactive items (like comments), consider wrapping in appropriate interactive elements
+
+## Related Components
+
+- [Box](/components/layout/box) - Low-level layout primitive
+- [Flex](/components/layout/flex) - Flexbox layouts
+- [Stack](/components/layout/stack) - Vertical or horizontal stacking
+- [Avatar](/components/avatar) - User avatar component
+- [Icon](/components/icon) - Icon components

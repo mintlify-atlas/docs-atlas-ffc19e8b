@@ -1,0 +1,96 @@
+---
+title: Inline Code
+description: A component for displaying inline code snippets within text content.
+---
+
+# Inline Code
+
+The Inline Code component is used to display short code snippets or technical terms inline with text.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/inline-code
+```
+
+## Usage
+
+```jsx
+import { InlineCode } from '@twilio-paste/inline-code';
+import { Paragraph } from '@twilio-paste/paragraph';
+
+<Paragraph>
+  To install the package, run <InlineCode>npm install @twilio-paste/core</InlineCode> in your terminal.
+</Paragraph>
+```
+
+## Props
+
+### InlineCode
+
+<ResponseField name="element" type="string" default="INLINE_CODE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="variant" type="'default' | 'minimal'" default="default">
+  Only the "default" variant should be used as the "minimal" variant is deprecated.
+</ResponseField>
+
+## Examples
+
+### Basic Usage
+
+```jsx
+<Paragraph>
+  Use the <InlineCode>useState</InlineCode> hook to add state to your component.
+</Paragraph>
+```
+
+### Multiple Inline Code Elements
+
+```jsx
+<Paragraph>
+  Import <InlineCode>Box</InlineCode> and <InlineCode>Text</InlineCode> from <InlineCode>@twilio-paste/core</InlineCode>.
+</Paragraph>
+```
+
+### In Lists
+
+```jsx
+import { UnorderedList, ListItem } from '@twilio-paste/list';
+
+<UnorderedList>
+  <ListItem>
+    <InlineCode>const</InlineCode> for constants
+  </ListItem>
+  <ListItem>
+    <InlineCode>let</InlineCode> for variables
+  </ListItem>
+  <ListItem>
+    <InlineCode>var</InlineCode> (avoid using)
+  </ListItem>
+</UnorderedList>
+```
+
+## Styling
+
+The Inline Code component features:
+- Monospace font family
+- Subtle background color
+- Border for visual separation
+- Inherits text size and line height from parent
+- Rounded corners
+- Consistent padding
+
+## Best Practices
+
+- Use for short code snippets, function names, variable names, or technical terms
+- For multi-line code, use the Code Block component instead
+- Keep inline code concise to maintain readability
+- Use within text content like paragraphs, headings, or list items
+
+## Accessibility
+
+- Renders as semantic `<code>` element
+- Inherits color from parent for better contrast customization
+- Works with screen readers to indicate code content

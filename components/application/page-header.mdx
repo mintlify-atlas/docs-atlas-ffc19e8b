@@ -1,0 +1,226 @@
+---
+title: Page Header
+package: '@twilio-paste/page-header'
+description: Page Header displays page titles, metadata, and actions at the top of content areas.
+category: Application
+status: Production
+---
+
+import { PageHeader, PageHeaderHeading, PageHeaderActions, PageHeaderMeta } from '@twilio-paste/page-header';
+
+## About Page Header
+
+Page Header provides a consistent way to display page titles, descriptions, metadata, and actions. It appears at the top of content areas to orient users and provide quick access to page-level actions.
+
+## Components
+
+The Page Header package includes:
+
+- **PageHeader** - Main container
+- **PageHeaderSetting** - Configuration/context section
+- **PageHeaderDetails** - Details section with heading and meta
+- **PageHeaderKeyword** - Keyword badge
+- **PageHeaderPrefix** - Icon or badge prefix
+- **PageHeaderHeading** - Page title
+- **PageHeaderParagraph** - Description text
+- **PageHeaderMeta** - Metadata section
+- **PageHeaderActions** - Action buttons
+- **PageHeaderInPageNavigation** - Tab navigation
+- **PageHeaderSeparator** - Visual divider
+
+## Installation
+
+```bash
+yarn add @twilio-paste/page-header
+```
+
+## Usage
+
+```jsx
+import {
+  PageHeader,
+  PageHeaderSetting,
+  PageHeaderDetails,
+  PageHeaderHeading,
+  PageHeaderActions,
+  PageHeaderMeta,
+  PageHeaderInPageNavigation
+} from '@twilio-paste/page-header';
+import { Button } from '@twilio-paste/button';
+
+const MyPageHeader = () => (
+  <PageHeader size="default">
+    <PageHeaderSetting>
+      <Breadcrumb>
+        <BreadcrumbItem href="/">Home</BreadcrumbItem>
+        <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+      </Breadcrumb>
+    </PageHeaderSetting>
+    <PageHeaderDetails>
+      <PageHeaderHeading>Product Details</PageHeaderHeading>
+      <PageHeaderActions>
+        <Button variant="secondary">Edit</Button>
+        <Button variant="primary">Save</Button>
+      </PageHeaderActions>
+      <PageHeaderMeta>
+        <Text as="span">Last updated: 2 hours ago</Text>
+      </PageHeaderMeta>
+    </PageHeaderDetails>
+    <PageHeaderInPageNavigation>
+      <Tabs>
+        {/* tabs */}
+      </Tabs>
+    </PageHeaderInPageNavigation>
+  </PageHeader>
+);
+```
+
+## Props
+
+### PageHeader
+
+<PropsTable>
+  <PropsTableRow
+    name="size"
+    type="'default' | 'compact'"
+    defaultValue="'default'"
+    description="Size of the page header affecting spacing and typography."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PAGE_HEADER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Page header content."
+  />
+</PropsTable>
+
+### PageHeaderHeading
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PAGE_HEADER_HEADING'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Page title text."
+  />
+</PropsTable>
+
+### PageHeaderActions
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PAGE_HEADER_ACTIONS'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Action buttons."
+  />
+</PropsTable>
+
+### PageHeaderMeta
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PAGE_HEADER_META'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Metadata content (status, timestamps, etc)."
+  />
+</PropsTable>
+
+### PageHeaderSetting
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PAGE_HEADER_SETTING'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Breadcrumbs or context navigation."
+  />
+</PropsTable>
+
+### PageHeaderInPageNavigation
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PAGE_HEADER_IN_PAGE_NAVIGATION'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Tab navigation for page sections."
+  />
+</PropsTable>
+
+## Size Variants
+
+### Default Size
+
+Standard spacing for most pages:
+
+```jsx
+<PageHeader size="default">
+  {/* content */}
+</PageHeader>
+```
+
+### Compact Size
+
+Reduced spacing for dense layouts:
+
+```jsx
+<PageHeader size="compact">
+  {/* content */}
+</PageHeader>
+```
+
+## Composition
+
+Page Header uses a grid layout with three rows:
+1. Setting (breadcrumbs/context)
+2. Details (heading, actions, metadata)
+3. Navigation (tabs)
+
+All sections are optional and can be used independently.
+
+## Accessibility
+
+- Use heading hierarchy appropriately (PageHeaderHeading renders h1 by default)
+- Provide clear, descriptive page titles
+- Ensure actions have accessible labels
+- Use semantic markup for metadata
+- Tab navigation should have proper ARIA labels
+
+## Related components
+
+- [Topbar](/components/application/topbar) - Application-level navigation
+- [Breadcrumb](/components/navigation/breadcrumb) - Hierarchical navigation
+- [Tabs](/components/navigation/tabs) - In-page navigation

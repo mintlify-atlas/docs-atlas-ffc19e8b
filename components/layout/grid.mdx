@@ -1,0 +1,395 @@
+---
+title: Grid
+description: Grid is a 12-column layout system that provides a flexible way to create responsive grid layouts using design tokens.
+---
+
+## Overview
+
+Grid is a layout component that implements a flexible 12-column grid system. It consists of two components: Grid (the container) and Column (the grid items). The system supports responsive layouts, gutters, column spanning, and offsets.
+
+Use Grid when you need:
+- Traditional grid-based page layouts
+- Responsive multi-column layouts
+- Precise control over column widths and positioning
+- Equal-height columns in a row
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+```
+
+```jsx
+import { Grid, Column } from '@twilio-paste/core/grid';
+// or
+import { Grid, Column } from '@twilio-paste/core';
+```
+
+## Basic Usage
+
+```jsx
+import { Grid, Column } from '@twilio-paste/core/grid';
+import { Box } from '@twilio-paste/core/box';
+
+const MyComponent = () => (
+  <Grid gutter="space40">
+    <Column span={4}>
+      <Box>Column 1</Box>
+    </Column>
+    <Column span={4}>
+      <Box>Column 2</Box>
+    </Column>
+    <Column span={4}>
+      <Box>Column 3</Box>
+    </Column>
+  </Grid>
+);
+```
+
+## Grid Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="div">
+  The HTML element to render for the grid container.
+</ParamField>
+
+<ParamField path="element" type="string" default="GRID">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="gutter" type="Space">
+  Sets the spacing on both sides of each Column. Use a spacing token that represents half of the total space you need between 2 Columns. For example, use 'space40' for 16px total gap between columns (8px on each side).
+</ParamField>
+
+<ParamField path="vertical" type="boolean | boolean[]">
+  When true, stacks columns vertically. Supports responsive values as an array of booleans.
+</ParamField>
+
+<ParamField path="equalColumnHeights" type="boolean">
+  When true, all columns in a row will have equal heights by setting alignItems to 'stretch'.
+</ParamField>
+
+<ParamField path="marginTop" type="Space">
+  Sets top margin using space design tokens.
+</ParamField>
+
+<ParamField path="marginBottom" type="Space">
+  Sets bottom margin using space design tokens.
+</ParamField>
+
+<ParamField path="rowGap" type="Space">
+  Sets gap between rows using space design tokens.
+</ParamField>
+
+<ParamField path="columnGap" type="Space">
+  Sets gap between columns using space design tokens.
+</ParamField>
+
+## Column Props
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="div">
+  The HTML element to render for the column.
+</ParamField>
+
+<ParamField path="element" type="string" default="COLUMN">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="span" type="number | number[]">
+  Sets the width of a column by defining the number of columns (out of 12) that this column should span. Supports responsive values. For example, span={6} creates a column that takes up half the width (6 of 12 columns).
+</ParamField>
+
+<ParamField path="offset" type="number | number[]">
+  Sets the left margin of a Column by defining how many columns the column should be offset from the left. Supports responsive values.
+</ParamField>
+
+<ParamField path="paddingTop" type="Padding">
+  Sets top padding using padding design tokens.
+</ParamField>
+
+<ParamField path="paddingRight" type="Padding">
+  Sets right padding using padding design tokens.
+</ParamField>
+
+<ParamField path="paddingBottom" type="Padding">
+  Sets bottom padding using padding design tokens.
+</ParamField>
+
+<ParamField path="paddingLeft" type="Padding">
+  Sets left padding using padding design tokens.
+</ParamField>
+
+## Examples
+
+### Basic 12-Column Grid
+
+```jsx
+import { Grid, Column } from '@twilio-paste/core/grid';
+import { Box } from '@twilio-paste/core/box';
+
+const BasicGrid = () => (
+  <Grid gutter="space20">
+    <Column>
+      <Box backgroundColor="colorBackgroundPrimaryWeaker" height="size40">1</Box>
+    </Column>
+    <Column>
+      <Box backgroundColor="colorBackgroundPrimaryWeak" height="size40">2</Box>
+    </Column>
+    <Column>
+      <Box backgroundColor="colorBackgroundPrimaryWeaker" height="size40">3</Box>
+    </Column>
+    {/* ... up to 12 columns */}
+  </Grid>
+);
+```
+
+### Column Spanning
+
+```jsx
+<Grid gutter="space40">
+  <Column span={8}>
+    <Box>Main content (8 columns)</Box>
+  </Column>
+  <Column span={4}>
+    <Box>Sidebar (4 columns)</Box>
+  </Column>
+</Grid>
+```
+
+### Responsive Column Spans
+
+```jsx
+<Grid gutter="space40">
+  <Column span={[12, 6, 4]}>
+    <Box>Mobile: full width, Tablet: half, Desktop: one-third</Box>
+  </Column>
+  <Column span={[12, 6, 4]}>
+    <Box>Column 2</Box>
+  </Column>
+  <Column span={[12, 6, 4]}>
+    <Box>Column 3</Box>
+  </Column>
+</Grid>
+```
+
+### Column Offset
+
+```jsx
+<Grid gutter="space40">
+  <Column span={6} offset={3}>
+    <Box>Centered column (6 columns with 3-column offset on each side)</Box>
+  </Column>
+</Grid>
+```
+
+### Responsive Offset
+
+```jsx
+<Grid gutter="space40">
+  <Column span={8} offset={[0, 2, 2]}>
+    <Box>Mobile: no offset, Tablet/Desktop: 2-column offset</Box>
+  </Column>
+</Grid>
+```
+
+### Equal Column Heights
+
+```jsx
+import { Grid, Column } from '@twilio-paste/core/grid';
+import { Card } from '@twilio-paste/core/card';
+import { Heading } from '@twilio-paste/core/heading';
+import { Paragraph } from '@twilio-paste/core/paragraph';
+
+const EqualHeightCards = () => (
+  <Grid gutter="space60" equalColumnHeights>
+    <Column span={4}>
+      <Card height="100%">
+        <Heading as="h3" variant="heading30">Card 1</Heading>
+        <Paragraph>Short content</Paragraph>
+      </Card>
+    </Column>
+    <Column span={4}>
+      <Card height="100%">
+        <Heading as="h3" variant="heading30">Card 2</Heading>
+        <Paragraph>Much longer content that extends the card height...</Paragraph>
+      </Card>
+    </Column>
+    <Column span={4}>
+      <Card height="100%">
+        <Heading as="h3" variant="heading30">Card 3</Heading>
+        <Paragraph>Medium content</Paragraph>
+      </Card>
+    </Column>
+  </Grid>
+);
+```
+
+### Vertical Grid (Stacked)
+
+```jsx
+<Grid gutter="space40" vertical>
+  <Column>
+    <Box>Vertically stacked column 1</Box>
+  </Column>
+  <Column>
+    <Box>Vertically stacked column 2</Box>
+  </Column>
+</Grid>
+```
+
+### Responsive Vertical Grid
+
+```jsx
+<Grid gutter="space40" vertical={[true, false]}>
+  <Column span={[12, 6]}>
+    <Box>Mobile: stacked, Desktop: side-by-side</Box>
+  </Column>
+  <Column span={[12, 6]}>
+    <Box>Column 2</Box>
+  </Column>
+</Grid>
+```
+
+### Complex Layout
+
+```jsx
+<Grid gutter="space60">
+  <Column span={12}>
+    <Box>Full-width header</Box>
+  </Column>
+  <Column span={[12, 8, 8]}>
+    <Box>Main content area</Box>
+  </Column>
+  <Column span={[12, 4, 4]}>
+    <Box>Sidebar</Box>
+  </Column>
+  <Column span={[12, 6, 3]}>
+    <Box>Footer item 1</Box>
+  </Column>
+  <Column span={[12, 6, 3]}>
+    <Box>Footer item 2</Box>
+  </Column>
+  <Column span={[12, 6, 3]}>
+    <Box>Footer item 3</Box>
+  </Column>
+  <Column span={[12, 6, 3]}>
+    <Box>Footer item 4</Box>
+  </Column>
+</Grid>
+```
+
+### Nested Grids
+
+```jsx
+<Grid gutter="space60">
+  <Column span={8}>
+    <Grid gutter="space40">
+      <Column span={6}>
+        <Box>Nested column 1</Box>
+      </Column>
+      <Column span={6}>
+        <Box>Nested column 2</Box>
+      </Column>
+    </Grid>
+  </Column>
+  <Column span={4}>
+    <Box>Sidebar</Box>
+  </Column>
+</Grid>
+```
+
+## Best Practices
+
+### Column Spans Should Add Up to 12
+
+For proper grid layouts, ensure columns in a row add up to 12 (or less if you want empty space):
+
+```jsx
+// Good - adds up to 12
+<Grid>
+  <Column span={8}>Main</Column>
+  <Column span={4}>Sidebar</Column>
+</Grid>
+
+// Also valid - adds up to less than 12
+<Grid>
+  <Column span={6} offset={3}>Centered 6-column content</Column>
+</Grid>
+```
+
+### Use Gutter for Spacing
+
+Use the `gutter` prop instead of adding margins to columns:
+
+```jsx
+// Good
+<Grid gutter="space40">
+  <Column span={6}>Content</Column>
+  <Column span={6}>Content</Column>
+</Grid>
+
+// Avoid
+<Grid>
+  <Column span={6} marginRight="space40">Content</Column>
+  <Column span={6}>Content</Column>
+</Grid>
+```
+
+### Mobile-First Responsive Design
+
+When using responsive arrays, define mobile styles first:
+
+```jsx
+<Grid gutter="space40">
+  <Column span={[12, 6, 4]}>
+    {/* Mobile: full width, Tablet: half, Desktop: one-third */}
+  </Column>
+</Grid>
+```
+
+### Use Equal Heights for Card Layouts
+
+When displaying cards in a grid, use `equalColumnHeights` and set card height to 100%:
+
+```jsx
+<Grid equalColumnHeights gutter="space60">
+  <Column span={4}>
+    <Card height="100%">Content</Card>
+  </Column>
+  <Column span={4}>
+    <Card height="100%">Longer content</Card>
+  </Column>
+</Grid>
+```
+
+### Consider Flex or Stack for Simpler Layouts
+
+For layouts that don't need the 12-column system, consider simpler alternatives:
+
+```jsx
+// If you don't need column spanning
+<Flex>
+  <Box flex={1}>Content 1</Box>
+  <Box flex={1}>Content 2</Box>
+</Flex>
+
+// For simple stacking
+<Stack orientation="vertical" spacing="space40">
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+</Stack>
+```
+
+## Accessibility
+
+- Grid is a presentational component without specific accessibility requirements
+- Use semantic HTML via the `as` prop when appropriate
+- Ensure reading order in the DOM matches visual order
+- Be mindful that responsive layouts may change visual order - ensure this doesn't break logical reading flow
+- Don't use Grid to create data tables - use proper table markup for tabular data
+
+## Related Components
+
+- [Box](/components/layout/box) - Low-level layout primitive
+- [Flex](/components/layout/flex) - Flexbox layouts
+- [Stack](/components/layout/stack) - Simple stacking layouts
+- [Media Object](/components/layout/media-object) - Media object pattern

@@ -1,0 +1,266 @@
+---
+title: Pagination
+description: Pagination allows users to navigate through pages of content when displaying large data sets.
+package: '@twilio-paste/pagination'
+---
+
+## Overview
+
+Pagination breaks content into multiple pages, allowing users to navigate through the pages sequentially. It's commonly used with tables, lists, and search results to improve performance and usability when dealing with large data sets.
+
+The Pagination component is composable, allowing you to build different pagination patterns based on your needs.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/pagination
+```
+
+## Usage
+
+```jsx
+import {
+  Pagination,
+  PaginationItems,
+  PaginationArrow,
+  PaginationNumbers,
+  PaginationNumber,
+  PaginationEllipsis,
+} from '@twilio-paste/pagination';
+
+const MyPagination = () => (
+  <Pagination label="pagination navigation">
+    <PaginationItems>
+      <PaginationArrow variant="back" label="Go to previous page" />
+      <PaginationNumbers>
+        <PaginationNumber label="Go to page 1">1</PaginationNumber>
+        <PaginationNumber label="Go to page 2" isCurrent>
+          2
+        </PaginationNumber>
+        <PaginationNumber label="Go to page 3">3</PaginationNumber>
+        <PaginationEllipsis label="Collapsed pages" />
+        <PaginationNumber label="Go to page 10">10</PaginationNumber>
+      </PaginationNumbers>
+      <PaginationArrow variant="forward" label="Go to next page" />
+    </PaginationItems>
+  </Pagination>
+);
+```
+
+### With Links
+
+Pagination components can render as links by using the `as` and `href` props.
+
+```jsx
+<Pagination label="pagination navigation">
+  <PaginationItems>
+    <PaginationArrow 
+      as="a" 
+      href="/page/1" 
+      variant="back" 
+      label="Go to previous page" 
+    />
+    <PaginationNumbers>
+      <PaginationNumber as="a" href="/page/1" label="Go to page 1">
+        1
+      </PaginationNumber>
+      <PaginationNumber as="a" href="/page/2" label="Go to page 2" isCurrent>
+        2
+      </PaginationNumber>
+      <PaginationNumber as="a" href="/page/3" label="Go to page 3">
+        3
+      </PaginationNumber>
+    </PaginationNumbers>
+    <PaginationArrow 
+      as="a" 
+      href="/page/3" 
+      variant="forward" 
+      label="Go to next page" 
+    />
+  </PaginationItems>
+</Pagination>
+```
+
+### With Custom Text
+
+You can add custom text to arrow buttons using the `visibleLabel` prop.
+
+```jsx
+<Pagination label="pagination navigation">
+  <PaginationItems>
+    <PaginationArrow 
+      variant="back" 
+      label="Go to previous page"
+      visibleLabel="Previous"
+    />
+    <PaginationNumbers>
+      <PaginationNumber label="Go to page 1" isCurrent>1</PaginationNumber>
+      <PaginationNumber label="Go to page 2">2</PaginationNumber>
+    </PaginationNumbers>
+    <PaginationArrow 
+      variant="forward" 
+      label="Go to next page"
+      visibleLabel="Next"
+    />
+  </PaginationItems>
+</Pagination>
+```
+
+### With Page Label
+
+```jsx
+<Pagination label="pagination navigation">
+  <PaginationItems>
+    <PaginationArrow variant="back" label="Go to previous page" />
+    <PaginationNumbers pageLabel="Page">
+      <PaginationNumber label="Go to page 1">1</PaginationNumber>
+      <PaginationNumber label="Go to page 2" isCurrent>2</PaginationNumber>
+      <PaginationNumber label="Go to page 3">3</PaginationNumber>
+    </PaginationNumbers>
+    <PaginationArrow variant="forward" label="Go to next page" />
+  </PaginationItems>
+</Pagination>
+```
+
+## Props
+
+### Pagination
+
+<ParamField path="children" type="React.ReactNode" required>
+  The pagination components (typically PaginationItems).
+</ParamField>
+
+<ParamField path="label" type="string" required>
+  Accessible label for the pagination navigation, used as the aria-label.
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### PaginationItems
+
+<ParamField path="children" type="React.ReactNode" required>
+  The pagination child components (arrows, numbers, etc.).
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION_ITEMS">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### PaginationArrow
+
+<ParamField path="variant" type="'back' | 'forward'" required>
+  Determines which arrow icon to display and positioning.
+</ParamField>
+
+<ParamField path="label" type="string" required>
+  Accessible label describing the arrow action, used as the title for the icon.
+</ParamField>
+
+<ParamField path="visibleLabel" type="string">
+  Optional visible text to display alongside the arrow icon.
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Whether the arrow button is disabled (e.g., when on the first or last page).
+</ParamField>
+
+<ParamField path="as" type="'a' | 'button'" default="button">
+  Whether to render as an anchor or button element.
+</ParamField>
+
+<ParamField path="href" type="string">
+  URL to navigate to when rendered as an anchor (requires `as="a"`).
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION_ARROW">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### PaginationNumbers
+
+<ParamField path="children" type="React.ReactNode" required>
+  PaginationNumber and PaginationEllipsis components.
+</ParamField>
+
+<ParamField path="pageLabel" type="string">
+  Optional label text to display before page numbers (e.g., "Page").
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION_NUMBERS">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### PaginationNumber
+
+<ParamField path="children" type="React.ReactNode" required>
+  The page number to display.
+</ParamField>
+
+<ParamField path="label" type="string" required>
+  Accessible label for the page number, used as the aria-label (e.g., "Go to page 1").
+</ParamField>
+
+<ParamField path="isCurrent" type="boolean">
+  Whether this is the current page. Applies current page styles and sets `aria-current="page"`.
+</ParamField>
+
+<ParamField path="as" type="'a' | 'button'" default="button">
+  Whether to render as an anchor or button element.
+</ParamField>
+
+<ParamField path="href" type="string">
+  URL to navigate to when rendered as an anchor (requires `as="a"`).
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION_NUMBER">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### PaginationEllipsis
+
+<ParamField path="label" type="string" required>
+  Accessible label for the ellipsis, used as the aria-label (e.g., "Collapsed pages").
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION_ELLIPSIS">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### PaginationLabel
+
+<ParamField path="children" type="React.ReactNode" required>
+  Content to display in the label.
+</ParamField>
+
+<ParamField path="element" type="string" default="PAGINATION_LABEL">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Accessibility
+
+- The Pagination wrapper uses `<nav role="navigation">` with a required `aria-label` to identify it as a navigation landmark.
+- Arrow buttons include descriptive `label` props that are used as icon titles.
+- The current page has `aria-current="page"` and is not interactive.
+- All interactive elements (buttons/links) have accessible labels via the `label` prop.
+- Ellipsis has an `aria-label` to describe collapsed pages.
+- Disabled arrow buttons have `disabled` attribute and appropriate styling.
+
+## Best Practices
+
+### Do
+
+- Use pagination for large data sets to improve performance
+- Always provide descriptive `label` props for all interactive elements
+- Disable forward/back arrows when at the boundaries
+- Mark the current page with `isCurrent`
+- Use ellipsis to collapse many page numbers
+- Consider using "Previous" and "Next" labels for better clarity
+
+### Don't
+
+- Don't use pagination if all content can comfortably fit on one page
+- Don't show excessive page numbers (use ellipsis to collapse)
+- Don't make the current page clickable
+- Don't forget to provide accessible labels

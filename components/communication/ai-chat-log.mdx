@@ -1,0 +1,226 @@
+---
+title: AI Chat Log
+package: '@twilio-paste/ai-chat-log'
+description: AI Chat Log displays conversations with AI assistants.
+category: Communication
+status: Alpha
+---
+
+import { AIChatLog, AIChatMessage, AIChatMessageBody, AIChatMessageAuthor } from '@twilio-paste/ai-chat-log';
+
+## About AI Chat Log
+
+AI Chat Log is a specialized component for displaying conversations with AI assistants. It provides components optimized for AI chat experiences, including loading states, action cards, and source citations.
+
+## Components
+
+The AI Chat Log package includes:
+
+- **AIChatLog** - Container for AI chat messages
+- **AIChatMessage** - Individual AI message
+- **AIChatMessageBody** - Message content
+- **AIChatMessageAuthor** - Author name/avatar
+- **AIChatMessageActionGroup** - Action buttons
+- **AIChatMessageActionCard** - Suggested actions
+- **AIChatMessageLoading** - Loading state indicator
+- **AIChatMessageSource** - Source citation
+- **AIChatMessageSourceLink** - Link to source
+- **AIChatEvent** - System event message
+- **AIChatLogger** - State management component
+- **useAIChatLogger** - Hook for chat state
+
+## Installation
+
+```bash
+yarn add @twilio-paste/ai-chat-log
+```
+
+## Usage
+
+```jsx
+import {
+  AIChatLog,
+  AIChatMessage,
+  AIChatMessageAuthor,
+  AIChatMessageBody,
+  AIChatMessageLoading
+} from '@twilio-paste/ai-chat-log';
+
+const MyAIChatLog = () => (
+  <AIChatLog>
+    <AIChatMessage variant="inbound">
+      <AIChatMessageAuthor aria-label="AI Assistant">AI Assistant</AIChatMessageAuthor>
+      <AIChatMessageBody>
+        Hello! I'm here to help answer your questions.
+      </AIChatMessageBody>
+    </AIChatMessage>
+    <AIChatMessage variant="outbound">
+      <AIChatMessageAuthor aria-label="You">You</AIChatMessageAuthor>
+      <AIChatMessageBody>
+        What's the weather like today?
+      </AIChatMessageBody>
+    </AIChatMessage>
+    <AIChatMessage variant="inbound">
+      <AIChatMessageAuthor aria-label="AI Assistant">AI Assistant</AIChatMessageAuthor>
+      <AIChatMessageLoading />
+    </AIChatMessage>
+  </AIChatLog>
+);
+```
+
+## Props
+
+### AIChatLog
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_LOG'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="size"
+    type="'default' | 'fullscreen'"
+    defaultValue="'default'"
+    description="Use larger font size and line height for fullscreen experiences."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="AI chat messages and events."
+  />
+</PropsTable>
+
+### AIChatMessage
+
+<PropsTable>
+  <PropsTableRow
+    name="variant"
+    type="'inbound' | 'outbound'"
+    required
+    description="Message direction - inbound for AI responses, outbound for user messages."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_MESSAGE'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Message content including author, body, and actions."
+  />
+</PropsTable>
+
+### AIChatMessageBody
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_MESSAGE_BODY'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Message content."
+  />
+</PropsTable>
+
+### AIChatMessageAuthor
+
+<PropsTable>
+  <PropsTableRow
+    name="aria-label"
+    type="string"
+    required
+    description="Accessible label identifying the message author."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_MESSAGE_AUTHOR'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Author name or avatar."
+  />
+</PropsTable>
+
+### AIChatMessageLoading
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_MESSAGE_LOADING'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+</PropsTable>
+
+### AIChatMessageActionCard
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_MESSAGE_ACTION_CARD'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Suggested action content."
+  />
+</PropsTable>
+
+### AIChatMessageSource
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'AI_CHAT_MESSAGE_SOURCE'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Source citation content."
+  />
+</PropsTable>
+
+### useAIChatLogger Hook
+
+Manages AI chat message state:
+
+```jsx
+import { useAIChatLogger } from '@twilio-paste/ai-chat-log';
+
+const { chats, push, pop, clear } = useAIChatLogger();
+```
+
+## Size Variants
+
+The `size` prop on AIChatLog adjusts typography for different contexts:
+
+- `default` - Standard size for embedded chat
+- `fullscreen` - Larger size for dedicated chat pages
+
+## Accessibility
+
+- Uses `role="log"` for proper screen reader announcements
+- Messages have semantic list structure
+- Author labels are required for context
+- Loading states are announced to assistive technology
+- Source links are properly labeled
+
+## Related components
+
+- [Chat Log](/components/communication/chat-log) - For human-to-human chat
+- [Chat Composer](/components/communication/chat-composer) - For composing messages

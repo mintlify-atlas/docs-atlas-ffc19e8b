@@ -1,0 +1,455 @@
+---
+title: Accessibility
+description: Learn about Paste's accessibility features, WCAG compliance, and best practices for building inclusive user interfaces.
+---
+
+Accessibility is a core principle of the Paste design system. Every component is built to meet WCAG 2.1 AA standards, ensuring that applications built with Paste are usable by everyone, including people with disabilities.
+
+## Accessibility Standards
+
+Paste follows the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards:
+
+- **Perceivable**: Information and UI components are presentable to users in ways they can perceive
+- **Operable**: UI components and navigation are operable by all users
+- **Understandable**: Information and UI operation are understandable
+- **Robust**: Content can be interpreted by a wide variety of user agents, including assistive technologies
+
+### WCAG 2.1 AA Compliance
+
+All Paste components meet WCAG 2.1 Level AA requirements, including:
+
+- Color contrast ratios of at least 4.5:1 for normal text
+- Color contrast ratios of at least 3:1 for large text and UI components
+- Keyboard navigation support
+- Screen reader compatibility
+- Focus management
+- Proper semantic HTML
+
+<Note>
+  Paste components are tested with screen readers including NVDA, JAWS, and VoiceOver to ensure compatibility.
+</Note>
+
+## Built-in Accessibility Features
+
+### Color Contrast
+
+All Paste design tokens are validated for proper color contrast:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+function AccessibleContent() {
+  return (
+    <Box backgroundColor="colorBackground" padding="space60">
+      <Text color="colorText">
+        This text has sufficient contrast (WCAG AA compliant)
+      </Text>
+    </Box>
+  );
+}
+```
+
+Paste's design tokens ensure proper contrast ratios:
+- `colorText` on `colorBackground`: ≥ 4.5:1
+- `colorTextWeak` on `colorBackground`: ≥ 4.5:1
+- UI controls: ≥ 3:1 contrast
+
+### Keyboard Navigation
+
+All interactive Paste components are fully keyboard accessible:
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { Modal } from '@twilio-paste/core/modal';
+
+function KeyboardAccessibleModal() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>
+        Open Modal (Enter/Space)
+      </Button>
+      
+      <Modal 
+        isOpen={isOpen} 
+        onDismiss={() => setIsOpen(false)}
+        ariaLabelledby="modal-heading"
+      >
+        <ModalHeader>
+          <ModalHeading id="modal-heading">
+            Accessible Modal
+          </ModalHeading>
+        </ModalHeader>
+        <ModalBody>
+          Tab to navigate, Escape to close
+        </ModalBody>
+      </Modal>
+    </>
+  );
+}
+```
+
+#### Keyboard Shortcuts
+
+Common keyboard interactions supported:
+
+- **Tab**: Move focus forward
+- **Shift + Tab**: Move focus backward
+- **Enter/Space**: Activate buttons and links
+- **Escape**: Close modals, menus, and popovers
+- **Arrow keys**: Navigate lists, menus, and tabs
+- **Home/End**: Jump to first/last item in lists
+
+### Screen Reader Support
+
+Paste components include proper ARIA attributes and semantic HTML:
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { Menu } from '@twilio-paste/core/menu';
+
+function ScreenReaderFriendlyMenu() {
+  return (
+    <Menu>
+      <MenuButton 
+        variant="primary"
+        aria-haspopup="true"
+      >
+        Actions
+      </MenuButton>
+      <MenuList aria-label="Actions menu">
+        <MenuItem>Edit</MenuItem>
+        <MenuItem>Delete</MenuItem>
+        <MenuItem>Archive</MenuItem>
+      </MenuList>
+    </Menu>
+  );
+}
+```
+
+#### ARIA Attributes
+
+Paste components automatically include appropriate ARIA attributes:
+
+- `aria-label`: Descriptive labels for screen readers
+- `aria-labelledby`: Associates labels with elements
+- `aria-describedby`: Provides additional descriptions
+- `aria-expanded`: Indicates expandable state
+- `aria-haspopup`: Indicates popup presence
+- `aria-controls`: Identifies controlled elements
+- `aria-live`: Announces dynamic content changes
+
+### Focus Management
+
+Paste handles focus correctly in interactive components:
+
+```jsx
+import { AlertDialog } from '@twilio-paste/core/alert-dialog';
+import { Button } from '@twilio-paste/core/button';
+
+function FocusManagedDialog() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>
+        Delete Item
+      </Button>
+      
+      <AlertDialog
+        isOpen={isOpen}
+        onConfirm={() => {
+          // Delete logic
+          setIsOpen(false);
+        }}
+        onDismiss={() => setIsOpen(false)}
+        heading="Confirm Deletion"
+      >
+        Are you sure you want to delete this item?
+      </AlertDialog>
+    </>
+  );
+}
+```
+
+Focus features:
+- Focus trapped within modals and dialogs
+- Focus returned to trigger element on close
+- Visible focus indicators
+- Skip links for navigation
+
+### Semantic HTML
+
+Paste uses proper semantic HTML elements:
+
+```jsx
+import { Heading } from '@twilio-paste/core/heading';
+import { Text } from '@twilio-paste/core/text';
+import { Button } from '@twilio-paste/core/button';
+
+function SemanticStructure() {
+  return (
+    <article>
+      <Heading as="h1" variant="heading10">
+        Article Title
+      </Heading>
+      <Text as="p">
+        Paragraph content with proper semantic markup.
+      </Text>
+      <Button as="button" type="button">
+        Submit
+      </Button>
+    </article>
+  );
+}
+```
+
+## Accessible Patterns
+
+### Form Accessibility
+
+Forms are fully accessible with labels, help text, and error messages:
+
+```jsx
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { HelpText } from '@twilio-paste/core/help-text';
+
+function AccessibleForm() {
+  const [email, setEmail] = React.useState('');
+  const [error, setError] = React.useState('');
+  
+  return (
+    <Box>
+      <Label htmlFor="email" required>
+        Email Address
+      </Label>
+      <Input
+        id="email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        aria-describedby="email-help email-error"
+        hasError={!!error}
+      />
+      <HelpText id="email-help">
+        We'll never share your email.
+      </HelpText>
+      {error && (
+        <HelpText id="email-error" variant="error">
+          {error}
+        </HelpText>
+      )}
+    </Box>
+  );
+}
+```
+
+### Icon Accessibility
+
+Icons should be marked as decorative or include accessible labels:
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { PlusIcon } from '@twilio-paste/icons/esm/PlusIcon';
+import { CloseIcon } from '@twilio-paste/icons/esm/CloseIcon';
+
+function AccessibleIcons() {
+  return (
+    <>
+      {/* Decorative icon - hidden from screen readers */}
+      <Button variant="primary">
+        <PlusIcon decorative />
+        Add Item
+      </Button>
+      
+      {/* Icon-only button - needs aria-label */}
+      <Button 
+        variant="secondary" 
+        size="icon"
+        aria-label="Close"
+      >
+        <CloseIcon decorative={false} title="Close" />
+      </Button>
+    </>
+  );
+}
+```
+
+<Warning>
+  Icon-only buttons must include an aria-label or title for screen reader users.
+</Warning>
+
+### Link Accessibility
+
+Links should have descriptive text:
+
+```jsx
+import { Anchor } from '@twilio-paste/core/anchor';
+
+function AccessibleLinks() {
+  return (
+    <>
+      {/* Good: Descriptive link text */}
+      <Anchor href="/docs/getting-started">
+        Read the Getting Started guide
+      </Anchor>
+      
+      {/* Avoid: Non-descriptive text */}
+      {/* Click <Anchor href="/docs">here</Anchor> for docs */}
+    </>
+  );
+}
+```
+
+### Alert and Status Messages
+
+Use live regions for dynamic content:
+
+```jsx
+import { Alert } from '@twilio-paste/core/alert';
+import { Toast } from '@twilio-paste/core/toast';
+
+function AccessibleAlerts() {
+  return (
+    <>
+      {/* Alert with proper role */}
+      <Alert variant="success">
+        <strong>Success!</strong> Your changes have been saved.
+      </Alert>
+      
+      {/* Toast notifications use aria-live */}
+      <Toast variant="success">
+        File uploaded successfully
+      </Toast>
+    </>
+  );
+}
+```
+
+## Testing for Accessibility
+
+### Manual Testing
+
+1. **Keyboard Navigation**: Navigate your entire UI using only the keyboard
+2. **Screen Reader**: Test with NVDA (Windows), JAWS (Windows), or VoiceOver (Mac)
+3. **Color Contrast**: Use browser DevTools to check contrast ratios
+4. **Focus Indicators**: Verify visible focus states on all interactive elements
+5. **Zoom**: Test at 200% browser zoom
+
+### Automated Testing
+
+Use accessibility testing tools:
+
+```bash
+# Install axe-core for accessibility testing
+npm install --save-dev @axe-core/react
+```
+
+```jsx
+import React from 'react';
+
+if (process.env.NODE_ENV !== 'production') {
+  const axe = require('@axe-core/react');
+  axe(React, ReactDOM, 1000);
+}
+```
+
+### Color Contrast Checking
+
+Paste provides utilities to check theme contrast:
+
+```jsx
+import { useThemeContrastCheck } from '@twilio-paste/core/theme';
+
+function ContrastChecker() {
+  const {
+    textContrastRating,
+    numberOfTextFailures,
+    totalFailures,
+  } = useThemeContrastCheck();
+  
+  if (totalFailures > 0) {
+    console.warn(`Found ${totalFailures} contrast failures`);
+  }
+  
+  return null;
+}
+```
+
+## Best Practices
+
+### Do's
+
+- **Use semantic HTML**: Choose the right HTML element for the job
+- **Provide text alternatives**: Add alt text for images and labels for icons
+- **Ensure keyboard access**: All interactive elements should be keyboard accessible
+- **Include focus indicators**: Never remove focus outlines without replacement
+- **Write descriptive labels**: Use clear, concise labels for form fields and buttons
+- **Test with assistive technology**: Regularly test with screen readers
+- **Respect user preferences**: Honor prefers-reduced-motion and prefers-color-scheme
+
+### Don'ts
+
+- **Don't rely on color alone**: Use text, icons, or patterns in addition to color
+- **Don't remove focus outlines**: Without providing an alternative
+- **Don't use placeholder as label**: Placeholders disappear when typing
+- **Don't create keyboard traps**: Ensure users can navigate away from all elements
+- **Don't use non-descriptive links**: Avoid "click here" or "read more"
+- **Don't override user zoom**: Allow text resizing and zoom
+
+## Reduced Motion
+
+Paste respects the user's motion preferences:
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="default" disableAnimations>
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+Animations are automatically disabled when:
+- The `disableAnimations` prop is true
+- The user has `prefers-reduced-motion` enabled
+
+## Additional Resources
+
+### Guidelines and Standards
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/)
+- [MDN Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+
+### Testing Tools
+
+- [axe DevTools](https://www.deque.com/axe/devtools/): Browser extension for accessibility testing
+- [WAVE](https://wave.webaim.org/): Web accessibility evaluation tool
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse): Automated auditing in Chrome DevTools
+- [Color Contrast Analyzer](https://www.tpgi.com/color-contrast-checker/): Desktop application for contrast checking
+
+### Screen Readers
+
+- [NVDA](https://www.nvaccess.org/): Free screen reader for Windows
+- [JAWS](https://www.freedomscientific.com/products/software/jaws/): Commercial screen reader for Windows
+- [VoiceOver](https://www.apple.com/accessibility/voiceover/): Built-in screen reader for macOS and iOS
+
+## Need Help?
+
+If you have questions about making your Paste application more accessible:
+
+1. Review component documentation for accessibility notes
+2. Check the WCAG guidelines for specific requirements
+3. Test with real assistive technologies
+4. Open a GitHub issue if you find accessibility issues in Paste components
+
+<Note>
+  Accessibility is an ongoing effort. Paste is continuously improved based on user feedback and evolving standards.
+</Note>

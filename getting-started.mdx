@@ -1,0 +1,215 @@
+---
+title: Getting Started
+description: Get up and running with Paste in minutes. Learn how to install, configure, and use Paste components in your React application.
+---
+
+This guide will help you get started with Paste in your React application. You'll learn how to install the necessary packages, set up the Theme Provider, and use your first Paste component.
+
+## Quick Start
+
+<Steps>
+  <Step title="Install Paste">
+    Install the core Paste package and peer dependencies:
+
+    ```bash
+    npm install @twilio-paste/core @twilio-paste/icons react react-dom
+    ```
+
+    Or use yarn:
+
+    ```bash
+    yarn add @twilio-paste/core @twilio-paste/icons react react-dom
+    ```
+  </Step>
+
+  <Step title="Add Theme Provider">
+    Wrap your application with the Paste Theme Provider:
+
+    ```jsx
+    import { Theme } from '@twilio-paste/core/theme';
+
+    function App() {
+      return (
+        <Theme.Provider theme="default">
+          {/* Your app components */}
+        </Theme.Provider>
+      );
+    }
+    ```
+  </Step>
+
+  <Step title="Use Paste Components">
+    Import and use Paste components in your application:
+
+    ```jsx
+    import { Box } from '@twilio-paste/core/box';
+    import { Button } from '@twilio-paste/core/button';
+    import { Heading } from '@twilio-paste/core/heading';
+
+    function MyComponent() {
+      return (
+        <Box padding="space60">
+          <Heading as="h1" variant="heading10">
+            Welcome to Paste
+          </Heading>
+          <Button variant="primary" onClick={() => alert('Hello!')}>
+            Click Me
+          </Button>
+        </Box>
+      );
+    }
+    ```
+  </Step>
+</Steps>
+
+## Basic Usage Example
+
+Here's a complete example of a simple Paste application:
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Theme } from '@twilio-paste/core/theme';
+import { Box } from '@twilio-paste/core/box';
+import { Button } from '@twilio-paste/core/button';
+import { Card } from '@twilio-paste/core/card';
+import { Heading } from '@twilio-paste/core/heading';
+import { Text } from '@twilio-paste/core/text';
+
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <Theme.Provider theme="default">
+      <Box padding="space100" backgroundColor="colorBackgroundBody">
+        <Card padding="space60">
+          <Heading as="h1" variant="heading10" marginBottom="space40">
+            Paste Counter Example
+          </Heading>
+          <Text as="p" marginBottom="space60">
+            You've clicked the button {count} times.
+          </Text>
+          <Button 
+            variant="primary" 
+            onClick={() => setCount(count + 1)}
+          >
+            Increment Count
+          </Button>
+        </Card>
+      </Box>
+    </Theme.Provider>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+## Component Imports
+
+Paste components can be imported in two ways:
+
+### Individual Package Imports (Recommended)
+
+Import from specific component paths for better tree-shaking:
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+```
+
+### Bundle Import
+
+Import everything from the core bundle (larger bundle size):
+
+```jsx
+import { Button, Box, Text } from '@twilio-paste/core';
+```
+
+<Note>
+  We recommend individual package imports for production applications to minimize bundle size.
+</Note>
+
+## Using Design Tokens
+
+Paste components accept design tokens as prop values for styling:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+function TokenExample() {
+  return (
+    <Box 
+      padding="space60" 
+      backgroundColor="colorBackgroundPrimary"
+      borderRadius="borderRadius30"
+    >
+      <Text 
+        color="colorText" 
+        fontSize="fontSize40"
+      >
+        This uses design tokens for styling
+      </Text>
+    </Box>
+  );
+}
+```
+
+Learn more about design tokens in the [Design Tokens guide](/concepts/design-tokens).
+
+## Using Icons
+
+Paste includes a comprehensive icon library:
+
+```jsx
+import { Button } from '@twilio-paste/core/button';
+import { PlusIcon } from '@twilio-paste/icons/esm/PlusIcon';
+
+function IconExample() {
+  return (
+    <Button variant="primary">
+      <PlusIcon decorative />
+      Add Item
+    </Button>
+  );
+}
+```
+
+<Warning>
+  Icons must be installed separately: `npm install @twilio-paste/icons`
+</Warning>
+
+## TypeScript Support
+
+Paste is built with TypeScript and includes full type definitions:
+
+```tsx
+import type { ButtonProps } from '@twilio-paste/core/button';
+import { Button } from '@twilio-paste/core/button';
+
+function MyButton({ variant = 'primary', ...props }: ButtonProps) {
+  return <Button variant={variant} {...props} />;
+}
+```
+
+No additional type installation is required—types are included with each package.
+
+## Next Steps
+
+Now that you have Paste installed and running, explore these topics:
+
+- **[Installation Details](/installation)**: Learn about peer dependencies, package options, and troubleshooting
+- **[Design Tokens](/concepts/design-tokens)**: Understand how to use design tokens in your components
+- **[Theming](/concepts/theming)**: Learn about theme providers and switching themes
+- **[Customization](/concepts/customization)**: Discover how to customize components and create custom themes
+- **[Accessibility](/concepts/accessibility)**: Learn about Paste's accessibility features and best practices
+
+## Need Help?
+
+If you run into issues:
+
+1. Check the [Installation guide](/installation) for troubleshooting tips
+2. Review component documentation for usage examples
+3. Search existing GitHub issues
+4. Open a new issue if you've found a bug

@@ -1,0 +1,260 @@
+---
+title: Text
+description: The Text primitive is a low-level component for rendering text with extensive styling capabilities.
+---
+
+# Text
+
+The Text primitive is a low-level component for rendering text with extensive styling capabilities. It serves as the foundation for higher-level typography components like Heading and Paragraph.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/text
+```
+
+## Usage
+
+```jsx
+import { Text } from '@twilio-paste/text';
+
+const MyComponent = () => (
+  <Text as="p" fontSize="fontSize30" color="colorText">
+    Some text
+  </Text>
+);
+```
+
+## Props
+
+### Text Props
+
+The Text component accepts a wide range of styling props:
+
+#### Required Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `as` | `keyof JSX.IntrinsicElements` | **Required.** Controls the HTML element that will be rendered in the DOM. |
+
+#### Common Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `TextColor` | `'colorText'` | Text color from the design tokens. |
+| `fontSize` | `FontSize` | `'fontSize30'` | Font size from the design tokens. |
+| `lineHeight` | `LineHeight` | `'lineHeight30'` | Line height from the design tokens. |
+| `element` | `string` | `'TEXT'` | Used to set a custom element name for customization. |
+| `variant` | `string` | - | Used to style custom variants via customization. |
+
+#### Typography Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `fontFamily` | `FontFamily` | Font family from design tokens (e.g., `fontFamilyText`, `fontFamilyCode`, `fontFamilyDisplay`). |
+| `fontSize` | `FontSize` | Font size from design tokens. |
+| `fontStyle` | `FontStyle` | CSS font-style value. |
+| `fontWeight` | `FontWeight` | Font weight from design tokens. |
+| `letterSpacing` | `LetterSpacing` | Letter spacing value. |
+| `lineHeight` | `LineHeight` | Line height from design tokens. |
+| `textAlign` | `TextAlign` | Text alignment (responsive). |
+| `textDecoration` | `TextDecoration` | Text decoration value. |
+| `textOverflow` | `TextOverflow` | Text overflow behavior. |
+| `whiteSpace` | `WhiteSpace` | White space handling. |
+| `fontVariantNumeric` | `string` | CSS font-variant-numeric value. |
+
+#### Layout Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `display` | `Display` | CSS display value (responsive). |
+| `overflow` | `Overflow` | Overflow behavior. |
+| `overflowX` | `OverflowX` | Horizontal overflow. |
+| `overflowY` | `OverflowY` | Vertical overflow. |
+| `verticalAlign` | `VerticalAlign` | Vertical alignment (responsive). |
+
+#### Spacing Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `margin` | `Margin` | Margin on all sides. |
+| `marginTop` | `Margin` | Top margin. |
+| `marginRight` | `Margin` | Right margin. |
+| `marginBottom` | `Margin` | Bottom margin. |
+| `marginLeft` | `Margin` | Left margin. |
+| `padding` | `Padding` | Padding on all sides. |
+| `paddingTop` | `Padding` | Top padding. |
+| `paddingRight` | `Padding` | Right padding. |
+| `paddingBottom` | `Padding` | Bottom padding. |
+| `paddingLeft` | `Padding` | Left padding. |
+
+#### Other Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `content` | `string` | CSS content property. |
+| `cursor` | `CursorProperty` | CSS cursor value. |
+| `outline` | `OutlineProperty` | CSS outline value. |
+| `transition` | `TransitionProperty` | CSS transition value. |
+| `transitionDelay` | `TransitionDelayProperty` | CSS transition-delay value. |
+| `href` | `string` | Same as HTML (when using anchor tag). |
+| `rel` | `string` | Same as HTML (when using anchor tag). |
+| `target` | `string` | Same as HTML (when using anchor tag). |
+| `dateTime` | `string` | Same as HTML (when using time tag). |
+
+#### Pseudo Props
+
+The Text component supports pseudo-class styling through special props:
+
+- `_hover`: Styles applied on hover
+- `_focus`: Styles applied on focus
+- `_active`: Styles applied when active
+- `_before`: Styles for ::before pseudo-element
+- `_after`: Styles for ::after pseudo-element
+
+Each pseudo prop accepts the same style props as the main component.
+
+## Examples
+
+### Basic Text
+
+```jsx
+<Text as="p" fontSize="fontSize30" color="colorText">
+  Some text
+</Text>
+```
+
+### Font Families
+
+```jsx
+<Text as="div">
+  Default text font
+</Text>
+
+<Text as="div" fontFamily="fontFamilyCode">
+  Monospace code font
+</Text>
+
+<Text as="div" fontWeight="fontWeightMedium">
+  Medium weight text
+</Text>
+
+<Text as="div" fontWeight="fontWeightBold">
+  Bold text
+</Text>
+```
+
+### Responsive Styling
+
+```jsx
+<Text
+  as="p"
+  fontSize={['fontSize40', 'fontSize50', 'fontSize60', 'fontSize70']}
+  padding={['space0', 'space10', 'space130', 'space70']}
+  textAlign={['center', 'right', 'left']}
+  color={['colorTextBrandHighlight', 'colorTextLink', 'colorTextSuccess', 'colorText']}
+>
+  Some text with responsive styling.
+</Text>
+```
+
+### Pseudo-Classes
+
+```jsx
+<Text
+  as="p"
+  color="colorText"
+  _hover={{ color: 'colorTextWarningStrong' }}
+  _before={{ 
+    content: '"Before text"', 
+    position: 'absolute', 
+    bottom: 0, 
+    left: 0, 
+    color: 'colorTextErrorStrong' 
+  }}
+  _after={{ 
+    content: '"After text"', 
+    position: 'absolute', 
+    bottom: 0, 
+    right: 0, 
+    color: 'colorTextLinkStronger' 
+  }}
+>
+  Hover this text
+</Text>
+```
+
+## Customization
+
+The Text component supports extensive customization:
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    RECTANGLE: {
+      borderRadius: 'borderRadius20',
+      variants: {
+        primary: {
+          backgroundColor: 'colorBackgroundPrimaryWeakest',
+          padding: 'space30',
+          textDecoration: 'underline',
+        },
+        secondary: {
+          backgroundColor: 'colorBackgroundSuccessWeakest',
+          margin: 'space30',
+        },
+      },
+    },
+  }}
+>
+  <Text as="div" element="RECTANGLE">Base</Text>
+  <Text as="div" element="RECTANGLE" variant="primary">Primary</Text>
+  <Text as="div" element="RECTANGLE" variant="secondary">Secondary</Text>
+</CustomizationProvider>
+```
+
+### Customizing Pseudo-Classes
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    SQUARE: {
+      padding: 'space20',
+      ':hover': {
+        backgroundColor: 'colorBackgroundSuccess',
+        cursor: 'pointer',
+      },
+      variants: {
+        primary: {
+          color: 'colorTextNew',
+          ':hover': {
+            backgroundColor: 'colorBackgroundWarning',
+          },
+        },
+      },
+    },
+  }}
+>
+  <Text as="div" element="SQUARE" variant="primary">
+    Hover me
+  </Text>
+</CustomizationProvider>
+```
+
+## When to Use
+
+- **Use Text** when you need fine-grained control over text styling
+- **Use Heading** for semantic headings with predefined styles
+- **Use Paragraph** for body text in paragraphs
+- **Use DisplayHeading** for large, prominent headings
+
+The Text component is a primitive that other typography components build upon. Use it directly when you need custom text styling that doesn't fit the predefined components.
+
+## Accessibility
+
+- Always use the appropriate semantic HTML element via the `as` prop
+- Ensure sufficient color contrast between text and background
+- Use relative units (design tokens) for font sizes to respect user preferences
+- Don't rely solely on color to convey information

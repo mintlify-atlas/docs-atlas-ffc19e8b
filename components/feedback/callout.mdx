@@ -1,0 +1,219 @@
+---
+title: Callout
+description: A Callout is a banner that highlights important information on a page.
+---
+
+Callout is a banner component used to highlight important information within page content. It supports multiple variants and can include headings, text, lists, and dismissal functionality.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/callout
+```
+
+## Usage
+
+```tsx
+import { Callout, CalloutHeading, CalloutText } from '@twilio-paste/core/callout';
+
+const MyComponent = () => {
+  return (
+    <Callout variant="new">
+      <CalloutHeading as="h3">New Feature Available</CalloutHeading>
+      <CalloutText>Try our new dashboard with enhanced analytics.</CalloutText>
+    </Callout>
+  );
+};
+```
+
+## Components
+
+### Callout
+
+The container component that provides the variant styling and structure.
+
+<ParamField path="variant" type="'neutral' | 'warning' | 'error' | 'success' | 'new'" required>
+  Sets the visual style and semantic meaning:
+  - `neutral`: General information
+  - `warning`: Cautionary information
+  - `error`: Error or problem information
+  - `success`: Success or positive information
+  - `new`: New features or announcements
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode">
+  Content to display inside the callout. Typically includes CalloutHeading and CalloutText components.
+</ParamField>
+
+<ParamField path="onDismiss" type="() => void">
+  Callback function when the dismiss button is clicked. When provided, adds a close button.
+</ParamField>
+
+<ParamField path="i18nLabel" type="string">
+  Accessible label for the callout icon. Defaults based on variant:
+  - `(information)` for neutral
+  - `(warning)` for warning
+  - `(error)` for error
+  - `(success)` for success
+  - `(new)` for new
+</ParamField>
+
+<ParamField path="i18nDismissLabel" type="string" default="'Dismiss callout'">
+  Accessible label for the dismiss button. Only used when `onDismiss` is provided.
+</ParamField>
+
+<ParamField path="marginY" type="SpaceToken">
+  Sets vertical margin spacing around the callout.
+</ParamField>
+
+<ParamField path="element" type="string" default="'CALLOUT'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### CalloutHeading
+
+A heading component for the callout title.
+
+<ParamField path="as" type="'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'" required>
+  The HTML heading level to render.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The heading text content.
+</ParamField>
+
+### CalloutText
+
+A text component for callout body content.
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text content.
+</ParamField>
+
+### CalloutList
+
+A list component for displaying items within a callout.
+
+<ParamField path="as" type="'ul' | 'ol'" required>
+  The HTML list type to render.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  List items to display.
+</ParamField>
+
+## Examples
+
+### Basic Callout
+
+```tsx
+import { Callout, CalloutHeading, CalloutText } from '@twilio-paste/core/callout';
+
+<Callout variant="neutral">
+  <CalloutHeading as="h3">Did you know?</CalloutHeading>
+  <CalloutText>
+    You can customize your notification preferences in account settings.
+  </CalloutText>
+</Callout>
+```
+
+### Success Callout
+
+```tsx
+import { Callout, CalloutHeading, CalloutText } from '@twilio-paste/core/callout';
+
+<Callout variant="success">
+  <CalloutHeading as="h3">Migration Complete</CalloutHeading>
+  <CalloutText>
+    All your data has been successfully migrated to the new system.
+  </CalloutText>
+</Callout>
+```
+
+### Warning Callout
+
+```tsx
+import { Callout, CalloutHeading, CalloutText } from '@twilio-paste/core/callout';
+
+<Callout variant="warning">
+  <CalloutHeading as="h3">Scheduled Maintenance</CalloutHeading>
+  <CalloutText>
+    System maintenance is scheduled for Saturday, March 15th at 2:00 AM UTC.
+  </CalloutText>
+</Callout>
+```
+
+### Callout with List
+
+```tsx
+import { Callout, CalloutHeading, CalloutText, CalloutList } from '@twilio-paste/core/callout';
+
+<Callout variant="new">
+  <CalloutHeading as="h3">What's New</CalloutHeading>
+  <CalloutText>We've added these features:</CalloutText>
+  <CalloutList as="ul">
+    <li>Enhanced analytics dashboard</li>
+    <li>Real-time collaboration</li>
+    <li>Custom report builder</li>
+  </CalloutList>
+</Callout>
+```
+
+### Dismissible Callout
+
+```tsx
+import { Callout, CalloutHeading, CalloutText } from '@twilio-paste/core/callout';
+import { useState } from 'react';
+
+const DismissibleCallout = () => {
+  const [show, setShow] = useState(true);
+  
+  if (!show) return null;
+  
+  return (
+    <Callout
+      variant="new"
+      onDismiss={() => setShow(false)}
+    >
+      <CalloutHeading as="h3">Try the Beta</CalloutHeading>
+      <CalloutText>
+        Get early access to our new features by joining the beta program.
+      </CalloutText>
+    </Callout>
+  );
+};
+```
+
+### Callout with Links
+
+```tsx
+import { Callout, CalloutText } from '@twilio-paste/core/callout';
+import { Anchor } from '@twilio-paste/core/anchor';
+
+<Callout variant="neutral">
+  <CalloutText>
+    Learn more about best practices in our{' '}
+    <Anchor href="/documentation">documentation</Anchor>.
+  </CalloutText>
+</Callout>
+```
+
+## Accessibility
+
+- Each variant includes an appropriate icon with a screen reader label
+- The dismiss button includes accessible labeling
+- Color is not the only indicator - icons provide additional context
+- Callouts maintain sufficient color contrast for readability
+- Content within callouts follows standard heading hierarchy
+
+## Best Practices
+
+- Use callouts to highlight information that's important but not critical
+- Place callouts near the relevant content they reference
+- Use the appropriate variant to match the information type
+- Keep callout content concise and scannable
+- Use CalloutHeading to provide clear context
+- For critical, time-sensitive information, use Alert instead
+- Only make callouts dismissible if they're informational (not warnings or errors)
+- Use CalloutList for multiple related items
+- Avoid nesting callouts or using too many on a single page

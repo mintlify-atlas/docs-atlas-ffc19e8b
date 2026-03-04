@@ -1,0 +1,484 @@
+---
+title: Customization
+description: Learn how to customize Paste components and design tokens to match your brand while maintaining consistency and accessibility.
+---
+
+The Paste CustomizationProvider allows you to customize the look and feel of Paste components to match your brand. You can override design token values, customize individual components, and create custom themes while maintaining the benefits of a design system.
+
+## CustomizationProvider
+
+The `CustomizationProvider` is a powerful wrapper that enables deep customization of Paste components and design tokens.
+
+### Basic Usage
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function App() {
+  return (
+    <CustomizationProvider baseTheme="default">
+      <YourApp />
+    </CustomizationProvider>
+  );
+}
+```
+
+<Note>
+  Use CustomizationProvider instead of Theme.Provider when you need to customize tokens or component styles.
+</Note>
+
+## Customizing Design Tokens
+
+Override design token values to match your brand:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { Button } from '@twilio-paste/core/button';
+import { Box } from '@twilio-paste/core/box';
+
+function App() {
+  const customTheme = {
+    // Override background colors
+    backgroundColors: {
+      colorBackgroundPrimary: '#6E3FF3',
+      colorBackgroundPrimaryWeak: '#F4EBFF',
+    },
+    // Override text colors
+    textColors: {
+      colorTextLink: '#6E3FF3',
+    },
+    // Override spacing
+    space: {
+      space60: '2rem', // Change from default 1.5rem
+    },
+    // Override border radius
+    radii: {
+      borderRadius30: '8px', // Change from default 4px
+    },
+  };
+
+  return (
+    <CustomizationProvider baseTheme="default" theme={customTheme}>
+      <Box padding="space60">
+        <Button variant="primary">Custom Themed Button</Button>
+      </Box>
+    </CustomizationProvider>
+  );
+}
+```
+
+### Partial Token Overrides
+
+You only need to override the tokens you want to change:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function App() {
+  const brandTheme = {
+    textColors: {
+      colorTextLink: '#FF6B35',
+    },
+    backgroundColors: {
+      colorBackgroundPrimary: '#FF6B35',
+      colorBackgroundPrimaryWeak: '#FFE5DB',
+    },
+  };
+
+  return (
+    <CustomizationProvider baseTheme="default" theme={brandTheme}>
+      <YourApp />
+    </CustomizationProvider>
+  );
+}
+```
+
+All other tokens will use the base theme values.
+
+## Customizing Components
+
+Customize the appearance of individual Paste components using the `elements` prop:
+
+### Element-Based Customization
+
+Each Paste component exposes "element" props that allow targeting specific parts:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { Button } from '@twilio-paste/core/button';
+import { Card } from '@twilio-paste/core/card';
+
+function App() {
+  const customElements = {
+    BUTTON: {
+      backgroundColor: 'colorBackgroundBrandHighlight',
+      borderRadius: 'borderRadius20',
+      ':hover': {
+        backgroundColor: 'colorBackgroundBrandHighlightWeakest',
+      },
+    },
+    CARD: {
+      borderWidth: 'borderWidth20',
+      borderColor: 'colorBorderPrimary',
+      borderRadius: 'borderRadius30',
+    },
+  };
+
+  return (
+    <CustomizationProvider baseTheme="default" elements={customElements}>
+      <Card>
+        <Button variant="primary">Custom Button in Custom Card</Button>
+      </Card>
+    </CustomizationProvider>
+  );
+}
+```
+
+### Targeting Component Variants
+
+Customize specific variants of components:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function App() {
+  const customElements = {
+    BUTTON: {
+      // Base button styles
+      fontWeight: 'fontWeightBold',
+      
+      // Variant-specific styles
+      variants: {
+        primary: {
+          backgroundColor: 'colorBackgroundBrand',
+          color: 'colorTextInverse',
+        },
+        secondary: {
+          borderColor: 'colorBorderPrimary',
+        },
+      },
+    },
+  };
+
+  return (
+    <CustomizationProvider baseTheme="default" elements={customElements}>
+      <YourApp />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Custom Element Names
+
+Use the `element` prop to create custom variants of components:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { Button } from '@twilio-paste/core/button';
+
+function App() {
+  const customElements = {
+    DANGER_BUTTON: {
+      backgroundColor: 'colorBackgroundError',
+      color: 'colorTextInverse',
+      ':hover': {
+        backgroundColor: 'colorBackgroundErrorStronger',
+      },
+    },
+    SUCCESS_BUTTON: {
+      backgroundColor: 'colorBackgroundSuccess',
+      color: 'colorTextInverse',
+    },
+  };
+
+  return (
+    <CustomizationProvider baseTheme="default" elements={customElements}>
+      <Button element="DANGER_BUTTON">Delete</Button>
+      <Button element="SUCCESS_BUTTON">Confirm</Button>
+    </CustomizationProvider>
+  );
+}
+```
+
+## CustomizationProvider Props
+
+### baseTheme
+
+The base theme to start from before applying customizations:
+
+```jsx
+<CustomizationProvider baseTheme="default">
+  <YourApp />
+</CustomizationProvider>
+
+// Or use dark theme as base
+<CustomizationProvider baseTheme="dark">
+  <YourApp />
+</CustomizationProvider>
+```
+
+Available base themes:
+- `"default"`: Default light theme
+- `"dark"`: Dark theme
+
+### theme
+
+Design token overrides:
+
+```jsx
+const customTokens = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#6E3FF3',
+  },
+  textColors: {
+    colorTextLink: '#6E3FF3',
+  },
+};
+
+<CustomizationProvider baseTheme="default" theme={customTokens}>
+  <YourApp />
+</CustomizationProvider>
+```
+
+### elements
+
+Component-specific style overrides:
+
+```jsx
+const customElements = {
+  BUTTON: {
+    borderRadius: 'borderRadius30',
+  },
+  CARD: {
+    boxShadow: 'shadow',
+  },
+};
+
+<CustomizationProvider baseTheme="default" elements={customElements}>
+  <YourApp />
+</CustomizationProvider>
+```
+
+### customBreakpoints
+
+Custom responsive breakpoints:
+
+```jsx
+<CustomizationProvider 
+  baseTheme="default" 
+  customBreakpoints={['640px', '768px', '1024px', '1280px']}
+>
+  <YourApp />
+</CustomizationProvider>
+```
+
+### disableAnimations
+
+Disable all animations:
+
+```jsx
+<CustomizationProvider baseTheme="default" disableAnimations>
+  <YourApp />
+</CustomizationProvider>
+```
+
+## Real-World Example: Brand Customization
+
+Here's a complete example of customizing Paste for a brand:
+
+```jsx
+import React from 'react';
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { Box } from '@twilio-paste/core/box';
+import { Button } from '@twilio-paste/core/button';
+import { Card } from '@twilio-paste/core/card';
+import { Heading } from '@twilio-paste/core/heading';
+import { Text } from '@twilio-paste/core/text';
+
+function App() {
+  // Brand colors and customization
+  const brandTheme = {
+    backgroundColors: {
+      colorBackgroundPrimary: '#FF6B35',
+      colorBackgroundPrimaryWeak: '#FFE5DB',
+      colorBackgroundPrimaryWeaker: '#FFF3EE',
+    },
+    textColors: {
+      colorTextLink: '#FF6B35',
+      colorTextLinkStronger: '#E55A2B',
+    },
+    borderColors: {
+      colorBorderPrimary: '#FF6B35',
+    },
+  };
+
+  const brandElements = {
+    BUTTON: {
+      borderRadius: 'borderRadius30',
+      fontWeight: 'fontWeightBold',
+      paddingLeft: 'space70',
+      paddingRight: 'space70',
+    },
+    CARD: {
+      borderRadius: 'borderRadius30',
+      boxShadow: 'shadowCard',
+    },
+    HEADING: {
+      fontWeight: 'fontWeightBold',
+    },
+  };
+
+  return (
+    <CustomizationProvider 
+      baseTheme="default" 
+      theme={brandTheme}
+      elements={brandElements}
+    >
+      <Box 
+        padding="space100" 
+        backgroundColor="colorBackgroundPrimaryWeaker"
+      >
+        <Card padding="space80">
+          <Heading as="h1" variant="heading10" marginBottom="space40">
+            Welcome to Our App
+          </Heading>
+          <Text marginBottom="space60">
+            This interface uses our custom brand theme built on Paste.
+          </Text>
+          <Box display="flex" columnGap="space40">
+            <Button variant="primary">Get Started</Button>
+            <Button variant="secondary">Learn More</Button>
+          </Box>
+        </Card>
+      </Box>
+    </CustomizationProvider>
+  );
+}
+
+export default App;
+```
+
+## Combining with Theme Provider
+
+<Warning>
+  Don't use CustomizationProvider and Theme.Provider together. CustomizationProvider replaces Theme.Provider with additional customization capabilities.
+</Warning>
+
+Incorrect:
+```jsx
+// ❌ Don't do this
+<Theme.Provider theme="default">
+  <CustomizationProvider>
+    <App />
+  </CustomizationProvider>
+</Theme.Provider>
+```
+
+Correct:
+```jsx
+// ✅ Use only CustomizationProvider
+<CustomizationProvider baseTheme="default">
+  <App />
+</CustomizationProvider>
+```
+
+## Accessing Custom Theme Values
+
+Use the same hooks to access customized theme values:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+
+function CustomComponent() {
+  const theme = useTheme();
+  
+  return (
+    <div style={{
+      backgroundColor: theme.backgroundColors.colorBackgroundPrimary,
+      padding: theme.space.space60,
+    }}>
+      Using custom theme values
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+### Do's
+
+- **Start with a base theme**: Always specify a baseTheme
+- **Override selectively**: Only customize what you need
+- **Use design tokens**: Reference tokens in customizations, not hardcoded values
+- **Test accessibility**: Verify color contrast after customization
+- **Document customizations**: Keep track of your brand customizations
+
+### Don'ts
+
+- **Don't override everything**: Maintain consistency with Paste patterns
+- **Don't break accessibility**: Ensure sufficient color contrast
+- **Don't use arbitrary values**: Stick to the token scale when possible
+- **Don't forget responsive design**: Test customizations at all breakpoints
+
+## Migration from Theme.Provider
+
+If you're currently using Theme.Provider:
+
+```jsx
+// Before
+import { Theme } from '@twilio-paste/core/theme';
+
+<Theme.Provider theme="default">
+  <App />
+</Theme.Provider>
+
+// After
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+<CustomizationProvider baseTheme="default">
+  <App />
+</CustomizationProvider>
+```
+
+For simple theme switching without customization, Theme.Provider is sufficient. Use CustomizationProvider when you need to override tokens or component styles.
+
+## Advanced: Deep Customization
+
+For complex customizations, you can use the utilities provided:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import deepmerge from 'deepmerge';
+
+function App() {
+  const baseCustomizations = {
+    backgroundColors: {
+      colorBackgroundPrimary: '#6E3FF3',
+    },
+  };
+
+  const additionalCustomizations = {
+    textColors: {
+      colorTextLink: '#6E3FF3',
+    },
+  };
+
+  const mergedTheme = deepmerge(baseCustomizations, additionalCustomizations);
+
+  return (
+    <CustomizationProvider baseTheme="default" theme={mergedTheme}>
+      <YourApp />
+    </CustomizationProvider>
+  );
+}
+```
+
+<Note>
+  The CustomizationProvider uses deepmerge internally to merge your customizations with the base theme.
+</Note>
+
+## Next Steps
+
+- [Design Tokens](/concepts/design-tokens): Learn about all available tokens to customize
+- [Theming](/concepts/theming): Understand the base themes you can start from
+- [Accessibility](/concepts/accessibility): Ensure your customizations maintain accessibility

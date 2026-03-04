@@ -1,0 +1,177 @@
+---
+title: Chat Log
+package: '@twilio-paste/chat-log'
+description: Chat Log displays a chronological list of messages exchanged between users.
+category: Communication
+status: Alpha
+---
+
+import { ChatLog, ChatMessage, ChatBubble, ChatMessageMeta, ChatMessageMetaItem } from '@twilio-paste/chat-log';
+
+## About Chat Log
+
+Chat Log is a collection of components that allow users to read a series of messages over time. Use Chat Log to display conversational interfaces where messages are exchanged between users.
+
+## Components
+
+The Chat Log package provides several components:
+
+- **ChatLog** - Container for the entire chat message list
+- **ChatMessage** - Individual message container
+- **ChatBubble** - Visual bubble wrapping message content
+- **ChatMessageMeta** - Metadata section (timestamp, status)
+- **ChatMessageMetaItem** - Individual metadata item
+- **ChatEvent** - System event message
+- **ChatBookend** - Section divider in chat
+- **ChatAttachment** - File attachment display
+- **ChatLogger** - Component for managing chat state
+- **useChatLogger** - Hook for chat state management
+
+## Installation
+
+```bash
+yarn add @twilio-paste/chat-log
+```
+
+## Usage
+
+```jsx
+import { ChatLog, ChatMessage, ChatBubble, ChatMessageMeta, ChatMessageMetaItem } from '@twilio-paste/chat-log';
+
+const MyChatLog = () => (
+  <ChatLog>
+    <ChatMessage variant="inbound">
+      <ChatBubble>
+        Hello! How can I help you today?
+      </ChatBubble>
+      <ChatMessageMeta aria-label="message metadata">
+        <ChatMessageMetaItem>Agent · 2:35 PM</ChatMessageMetaItem>
+      </ChatMessageMeta>
+    </ChatMessage>
+    <ChatMessage variant="outbound">
+      <ChatBubble>
+        I have a question about my account.
+      </ChatBubble>
+      <ChatMessageMeta aria-label="message metadata">
+        <ChatMessageMetaItem>You · 2:36 PM</ChatMessageMetaItem>
+      </ChatMessageMeta>
+    </ChatMessage>
+  </ChatLog>
+);
+```
+
+## Props
+
+### ChatLog
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_LOG'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Chat messages and events to display."
+  />
+</PropsTable>
+
+### ChatMessage
+
+<PropsTable>
+  <PropsTableRow
+    name="variant"
+    type="'inbound' | 'outbound'"
+    required
+    description="Message direction - inbound for received messages, outbound for sent messages."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_MESSAGE'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Message content including bubble and metadata."
+  />
+</PropsTable>
+
+### ChatBubble
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_BUBBLE'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Message content."
+  />
+</PropsTable>
+
+### ChatMessageMeta
+
+<PropsTable>
+  <PropsTableRow
+    name="aria-label"
+    type="string"
+    required
+    description="Accessible label for the metadata section."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_MESSAGE_META'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Metadata items."
+  />
+</PropsTable>
+
+### ChatMessageMetaItem
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_MESSAGE_META_ITEM'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Metadata content (timestamp, status, etc)."
+  />
+</PropsTable>
+
+### useChatLogger Hook
+
+Manages chat message state:
+
+```jsx
+import { useChatLogger } from '@twilio-paste/chat-log';
+
+const { chats, push, pop, clear } = useChatLogger();
+```
+
+## Accessibility
+
+- Chat Log uses `role="log"` for proper screen reader announcements
+- Messages are contained in a list structure with `role="list"`
+- Each message has proper semantic structure
+- Metadata sections require `aria-label` for context
+
+## Related components
+
+- [Chat Composer](/components/communication/chat-composer) - For composing new messages
+- [AI Chat Log](/components/communication/ai-chat-log) - For AI assistant conversations

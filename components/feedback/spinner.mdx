@@ -1,0 +1,234 @@
+---
+title: Spinner
+description: A Spinner is an animation that communicates a loading state to users.
+---
+
+Spinner is an animated loading indicator that shows users when content or data is being loaded. It provides visual feedback during asynchronous operations.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/spinner
+```
+
+## Usage
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+
+const MyComponent = () => {
+  return <Spinner decorative={false} title="Loading..." />;
+};
+```
+
+## Props
+
+<ParamField path="decorative" type="boolean" required>
+  Whether the spinner is purely decorative or conveys meaning:
+  - `false`: Spinner conveys meaning and requires a `title` for screen readers
+  - `true`: Spinner is decorative and title is not announced to screen readers
+</ParamField>
+
+<ParamField path="title" type="string">
+  Accessible label describing what is loading. Required when `decorative={false}`.
+</ParamField>
+
+<ParamField path="size" type="IconSize">
+  Size of the spinner. Supports all icon size tokens:
+  - `sizeIcon10` (16px)
+  - `sizeIcon20` (20px) - default
+  - `sizeIcon30` (24px)
+  - `sizeIcon40` (28px)
+  - `sizeIcon50` (32px)
+  - `sizeIcon60` (36px)
+  - `sizeIcon70` (40px)
+  - `sizeIcon80` (48px)
+  - `sizeIcon90` (56px)
+  - `sizeIcon100` (64px)
+  - `sizeIcon110` (80px)
+</ParamField>
+
+<ParamField path="color" type="string" default="'currentColor'">
+  Color of the spinner. Accepts any valid CSS color value or Paste color token.
+</ParamField>
+
+<ParamField path="delay" type="number" default="250">
+  Delay in milliseconds before the spinner appears. Prevents flashing for fast operations.
+</ParamField>
+
+<ParamField path="element" type="string" default="'SPINNER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+<ParamField path="as" type="React.ElementType">
+  HTML element type to render the spinner wrapper as.
+</ParamField>
+
+<ParamField path="display" type="DisplayValue">
+  CSS display property for the spinner wrapper.
+</ParamField>
+
+## Examples
+
+### Basic Spinner
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+
+<Spinner decorative={false} title="Loading data" />
+```
+
+### Decorative Spinner
+
+Use when loading context is clear from surrounding content:
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+import { Text } from '@twilio-paste/core/text';
+import { Box } from '@twilio-paste/core/box';
+
+<Box display="flex" alignItems="center" columnGap="space30">
+  <Spinner decorative />
+  <Text as="span">Loading your messages...</Text>
+</Box>
+```
+
+### Different Sizes
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Stack orientation="horizontal" spacing="space40">
+  <Spinner decorative size="sizeIcon10" />
+  <Spinner decorative size="sizeIcon20" />
+  <Spinner decorative size="sizeIcon40" />
+  <Spinner decorative size="sizeIcon60" />
+  <Spinner decorative size="sizeIcon80" />
+</Stack>
+```
+
+### Custom Color
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+
+<Spinner
+  decorative={false}
+  title="Loading"
+  color="colorTextBrandHighlight"
+  size="sizeIcon40"
+/>
+```
+
+### Loading Button
+
+```tsx
+import { Button } from '@twilio-paste/core/button';
+import { Spinner } from '@twilio-paste/core/spinner';
+import { useState } from 'react';
+
+const LoadingButton = () => {
+  const [loading, setLoading] = useState(false);
+  
+  const handleClick = async () => {
+    setLoading(true);
+    await performAction();
+    setLoading(false);
+  };
+  
+  return (
+    <Button onClick={handleClick} disabled={loading}>
+      {loading && <Spinner decorative size="sizeIcon20" />}
+      {loading ? 'Saving...' : 'Save'}
+    </Button>
+  );
+};
+```
+
+### Loading State
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+import { Box } from '@twilio-paste/core/box';
+
+const LoadingState = ({ loading, children }) => {
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="200px"
+      >
+        <Spinner decorative={false} title="Loading content" size="sizeIcon60" />
+      </Box>
+    );
+  }
+  
+  return <>{children}</>;
+};
+```
+
+### No Delay Spinner
+
+For operations expected to take time:
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+
+<Spinner decorative={false} title="Processing large file" delay={0} />
+```
+
+### Centered Spinner
+
+```tsx
+import { Spinner } from '@twilio-paste/core/spinner';
+import { Box } from '@twilio-paste/core/box';
+
+<Box display="flex" justifyContent="center" padding="space100">
+  <Spinner decorative={false} title="Loading dashboard" size="sizeIcon80" />
+</Box>
+```
+
+## Delay Behavior
+
+By default, spinners have a 250ms delay before appearing. This prevents flashing for fast operations:
+
+```tsx
+// Fast operation - spinner may not appear
+await quickOperation(); // Takes 100ms
+
+// Slower operation - spinner appears after 250ms
+await slowOperation(); // Takes 2 seconds
+```
+
+Set `delay={0}` for operations known to take time:
+
+```tsx
+<Spinner decorative={false} title="Uploading file" delay={0} />
+```
+
+## Accessibility
+
+- Always set `decorative={false}` and provide a descriptive `title` when the spinner conveys meaning
+- Use `decorative={true}` only when loading context is provided by adjacent text
+- The spinner includes ARIA attributes for screen reader support
+- Respects `prefers-reduced-motion` for users with motion sensitivity
+- Ensure loading states are announced to screen readers
+- Don't rely on the spinner alone - provide text context when possible
+
+## Best Practices
+
+- Use spinners for operations that take more than 1 second
+- For very quick operations (under 300ms), consider not showing a spinner
+- Keep the default 250ms delay to prevent flashing
+- Provide descriptive titles that explain what's loading
+- Use appropriate sizes based on the loading context:
+  - Small spinners (`sizeIcon10-20`) for inline elements and buttons
+  - Medium spinners (`sizeIcon40-60`) for component-level loading
+  - Large spinners (`sizeIcon80-100`) for page-level loading
+- For page-level loading, consider using SkeletonLoader instead
+- Disable interactive elements while loading to prevent duplicate actions
+- Always provide a way to cancel long-running operations
+- Test with screen readers to ensure loading states are announced

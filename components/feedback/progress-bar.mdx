@@ -1,0 +1,285 @@
+---
+title: Progress Bar
+description: A Progress Bar communicates the completion status of a process or task.
+---
+
+Progress Bar is a linear indicator that shows the completion percentage of a task or process. It supports both determinate (known progress) and indeterminate (unknown progress) states.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/progress-bar
+```
+
+## Usage
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+
+const MyComponent = () => {
+  const [progress, setProgress] = React.useState(60);
+  
+  return (
+    <>
+      <ProgressBarLabel htmlFor="upload-progress" valueLabel="60%">
+        Upload Progress
+      </ProgressBarLabel>
+      <ProgressBar id="upload-progress" value={progress} />
+    </>
+  );
+};
+```
+
+## Components
+
+### ProgressBar
+
+The main progress bar component.
+
+<ParamField path="id" type="string">
+  ID of the progress bar. Used to connect with ProgressBarLabel.
+</ParamField>
+
+<ParamField path="value" type="number" default="0">
+  Current value of the progress bar. Should be between `0` and `maxValue`.
+</ParamField>
+
+<ParamField path="maxValue" type="number" default="100">
+  Maximum value of the progress bar.
+</ParamField>
+
+<ParamField path="valueLabel" type="string">
+  Screen reader text describing the current value (e.g., "60% complete").
+</ParamField>
+
+<ParamField path="isIndeterminate" type="boolean" default="false">
+  Sets the progress bar to an indeterminate state when progress is unknown.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the progress bar to an error state (red color).
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Sets the progress bar to a disabled state.
+</ParamField>
+
+<ParamField path="aria-label" type="string">
+  Accessible label for the progress bar if not using ProgressBarLabel.
+</ParamField>
+
+<ParamField path="aria-labelledby" type="string">
+  ID of the element labeling the progress bar.
+</ParamField>
+
+<ParamField path="aria-describedby" type="string">
+  ID of the element describing the progress bar.
+</ParamField>
+
+<ParamField path="formatOptions" type="Intl.NumberFormatOptions">
+  Options for formatting the progress value (locale, currency, etc.).
+</ParamField>
+
+<ParamField path="element" type="string" default="'PROGRESS_BAR'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### ProgressBarLabel
+
+Label component for the progress bar.
+
+<ParamField path="htmlFor" type="string" required>
+  ID of the progress bar this label describes.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The label text.
+</ParamField>
+
+<ParamField path="valueLabel" type="string">
+  Text showing the current value (e.g., "60%"). Displayed on the right side of the label.
+</ParamField>
+
+## Examples
+
+### Basic Progress Bar
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+
+<>
+  <ProgressBarLabel htmlFor="basic-progress" valueLabel="75%">
+    Loading
+  </ProgressBarLabel>
+  <ProgressBar id="basic-progress" value={75} />
+</>
+```
+
+### Indeterminate Progress
+
+For operations where the duration is unknown:
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+
+<>
+  <ProgressBarLabel htmlFor="indeterminate-progress">
+    Processing...
+  </ProgressBarLabel>
+  <ProgressBar id="indeterminate-progress" isIndeterminate />
+</>
+```
+
+### Error State
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+
+<>
+  <ProgressBarLabel htmlFor="error-progress" valueLabel="Failed">
+    Upload Failed
+  </ProgressBarLabel>
+  <ProgressBar id="error-progress" value={45} hasError />
+</>
+```
+
+### File Upload Progress
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+import { useState, useEffect } from 'react';
+
+const FileUpload = () => {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+  
+  const handleUpload = async (file) => {
+    setUploading(true);
+    
+    // Simulate upload progress
+    for (let i = 0; i <= 100; i += 10) {
+      await new Promise(resolve => setTimeout(resolve, 200));
+      setUploadProgress(i);
+    }
+    
+    setUploading(false);
+  };
+  
+  return (
+    <>
+      <ProgressBarLabel
+        htmlFor="file-upload"
+        valueLabel={uploading ? `${uploadProgress}%` : undefined}
+      >
+        {uploading ? 'Uploading document.pdf' : 'Ready to upload'}
+      </ProgressBarLabel>
+      <ProgressBar
+        id="file-upload"
+        value={uploadProgress}
+        valueLabel={`${uploadProgress}% complete`}
+      />
+    </>
+  );
+};
+```
+
+### Custom Max Value
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+
+<>
+  <ProgressBarLabel htmlFor="tasks-progress" valueLabel="7 of 10">
+    Tasks Completed
+  </ProgressBarLabel>
+  <ProgressBar
+    id="tasks-progress"
+    value={7}
+    maxValue={10}
+    valueLabel="7 out of 10 tasks complete"
+  />
+</>
+```
+
+### Multi-Step Process
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+import { Stack } from '@twilio-paste/core/stack';
+import { Text } from '@twilio-paste/core/text';
+
+const MultiStepForm = ({ currentStep, totalSteps }) => {
+  const progress = (currentStep / totalSteps) * 100;
+  
+  return (
+    <Stack orientation="vertical" spacing="space40">
+      <ProgressBarLabel
+        htmlFor="form-progress"
+        valueLabel={`Step ${currentStep} of ${totalSteps}`}
+      >
+        Account Setup
+      </ProgressBarLabel>
+      <ProgressBar
+        id="form-progress"
+        value={progress}
+        valueLabel={`Step ${currentStep} of ${totalSteps}`}
+      />
+    </Stack>
+  );
+};
+```
+
+### Disabled State
+
+```tsx
+import { ProgressBar, ProgressBarLabel } from '@twilio-paste/core/progress-bar';
+
+<>
+  <ProgressBarLabel htmlFor="disabled-progress">
+    Process Paused
+  </ProgressBarLabel>
+  <ProgressBar id="disabled-progress" value={60} disabled />
+</>
+```
+
+### Without Label Component
+
+If you need custom labeling:
+
+```tsx
+import { ProgressBar } from '@twilio-paste/core/progress-bar';
+import { Label } from '@twilio-paste/core/label';
+
+<>
+  <Label htmlFor="custom-progress">Custom Progress</Label>
+  <ProgressBar
+    id="custom-progress"
+    aria-labelledby="custom-progress-label"
+    value={50}
+  />
+</>
+```
+
+## Accessibility
+
+- Progress bars use ARIA attributes to communicate status to screen readers
+- The `valueLabel` prop provides screen reader text describing the current value
+- ProgressBarLabel automatically associates with the ProgressBar via ID
+- Indeterminate progress bars are announced as "loading" to screen readers
+- Error states are communicated through both color and ARIA attributes
+- Respects `prefers-reduced-motion` for the indeterminate animation
+
+## Best Practices
+
+- Always provide a ProgressBarLabel to describe what's loading
+- Use `valueLabel` to provide context about the current value ("60% complete", "3 of 5 items")
+- Use determinate progress when the completion time/amount is known
+- Use indeterminate progress when the duration is unknown
+- Update progress frequently enough to feel responsive (at least every second)
+- Don't use progress bars for very fast operations (under 2 seconds) - use Spinner instead
+- Show error states clearly with `hasError` when operations fail
+- For multi-step processes, consider showing the current step number
+- Allow users to cancel long-running operations when possible
+- Test with screen readers to ensure progress updates are announced appropriately
+- For file uploads, show the file name in the label
+- Consider showing estimated time remaining for long operations

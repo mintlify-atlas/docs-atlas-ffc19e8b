@@ -1,0 +1,256 @@
+---
+title: Sidebar
+package: '@twilio-paste/sidebar'
+description: Sidebar is a collapsible navigation panel for application navigation.
+category: Application
+status: Production
+---
+
+import { Sidebar, SidebarBody, SidebarHeader, SidebarFooter, SidebarNavigation } from '@twilio-paste/sidebar';
+
+## About Sidebar
+
+Sidebar is a collapsible vertical navigation component for applications. It provides primary navigation and can be configured to collapse into a compact bar or hide completely.
+
+## Components
+
+The Sidebar package includes many subcomponents:
+
+- **Sidebar** - Main container
+- **SidebarBody** - Main content area
+- **SidebarHeader** - Top section with logo/title
+- **SidebarHeaderLabel** - Header text
+- **SidebarHeaderIconButton** - Header action button
+- **SidebarFooter** - Bottom section
+- **SidebarCollapseButton** - Toggle collapse state
+- **SidebarNavigation** - Navigation list container
+- **SidebarNavigationItem** - Navigation link
+- **SidebarNavigationDisclosure** - Collapsible nav section
+- **SidebarNavigationSeparator** - Visual divider
+- **SidebarBetaBadge** - Beta feature indicator
+- **SidebarPushContentWrapper** - Pushes content when sidebar opens
+- **SidebarOverlayContentWrapper** - Overlays content when sidebar opens
+
+## Installation
+
+```bash
+yarn add @twilio-paste/sidebar
+```
+
+## Usage
+
+```jsx
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarHeaderLabel,
+  SidebarBody,
+  SidebarNavigation,
+  SidebarNavigationItem,
+  SidebarFooter,
+  SidebarCollapseButton
+} from '@twilio-paste/sidebar';
+
+const MySidebar = () => {
+  const [collapsed, setCollapsed] = React.useState(false);
+  
+  return (
+    <Sidebar
+      collapsed={collapsed}
+      variant="compact"
+      mainContentSkipLinkID="main-content"
+      topbarSkipLinkID="topbar"
+      sidebarNavigationSkipLinkID="sidebar-nav"
+    >
+      <SidebarHeader>
+        <SidebarHeaderLabel>My App</SidebarHeaderLabel>
+      </SidebarHeader>
+      <SidebarBody>
+        <SidebarNavigation aria-label="Main navigation" id="sidebar-nav">
+          <SidebarNavigationItem href="/dashboard">Dashboard</SidebarNavigationItem>
+          <SidebarNavigationItem href="/settings">Settings</SidebarNavigationItem>
+        </SidebarNavigation>
+      </SidebarBody>
+      <SidebarFooter>
+        <SidebarCollapseButton
+          onClick={() => setCollapsed(!collapsed)}
+          i18nCollapseLabel="Collapse sidebar"
+          i18nExpandLabel="Expand sidebar"
+        />
+      </SidebarFooter>
+    </Sidebar>
+  );
+};
+```
+
+## Props
+
+### Sidebar
+
+<PropsTable>
+  <PropsTableRow
+    name="variant"
+    type="'default' | 'compact'"
+    required
+    description="Controls collapse behavior. 'compact' shows icons only when collapsed, 'default' hides completely."
+  />
+  <PropsTableRow
+    name="collapsed"
+    type="boolean"
+    defaultValue="false"
+    description="Whether the sidebar is collapsed/closed."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDEBAR'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="mainContentSkipLinkID"
+    type="string"
+    description="ID of main content for skip link navigation."
+  />
+  <PropsTableRow
+    name="topbarSkipLinkID"
+    type="string"
+    description="ID of topbar for skip link navigation."
+  />
+  <PropsTableRow
+    name="sidebarNavigationSkipLinkID"
+    type="string"
+    description="ID of navigation section for skip link."
+  />
+  <PropsTableRow
+    name="i18nMainContentSkipLinkText"
+    type="string"
+    description="Custom text for main content skip link."
+  />
+  <PropsTableRow
+    name="i18nNavigationSkipLinkText"
+    type="string"
+    description="Custom text for navigation skip link."
+  />
+  <PropsTableRow
+    name="i18nTopbarSkipLinkText"
+    type="string"
+    description="Custom text for topbar skip link."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Sidebar content (header, body, footer)."
+  />
+</PropsTable>
+
+### SidebarNavigation
+
+<PropsTable>
+  <PropsTableRow
+    name="aria-label"
+    type="string"
+    required
+    description="Accessible label for the navigation."
+  />
+  <PropsTableRow
+    name="id"
+    type="string"
+    description="ID for skip link targeting."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDEBAR_NAVIGATION'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Navigation items."
+  />
+</PropsTable>
+
+### SidebarNavigationItem
+
+<PropsTable>
+  <PropsTableRow
+    name="href"
+    type="string"
+    required
+    description="URL for the navigation link."
+  />
+  <PropsTableRow
+    name="selected"
+    type="boolean"
+    description="Whether this item is currently selected."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDEBAR_NAVIGATION_ITEM'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Navigation item content."
+  />
+</PropsTable>
+
+### SidebarNavigationDisclosure
+
+Collapsible navigation section with state management:
+
+```jsx
+import { useSidebarNavigationDisclosureState } from '@twilio-paste/sidebar';
+
+const disclosure = useSidebarNavigationDisclosureState();
+
+<SidebarNavigationDisclosure {...disclosure}>
+  {/* nested navigation items */}
+</SidebarNavigationDisclosure>
+```
+
+## Variants
+
+### Compact Variant
+
+Shows icons when collapsed, full content when expanded:
+
+```jsx
+<Sidebar variant="compact" collapsed={collapsed}>
+  {/* sidebar content */}
+</Sidebar>
+```
+
+### Default Variant
+
+Completely hides when collapsed:
+
+```jsx
+<Sidebar variant="default" collapsed={collapsed}>
+  {/* sidebar content */}
+</Sidebar>
+```
+
+## Responsive Behavior
+
+On mobile (breakpoint 0), the sidebar becomes a full-width overlay regardless of variant.
+
+## Accessibility
+
+- Sidebar uses semantic HTML with `<aside>` element
+- Navigation requires `aria-label` for context
+- Skip links enable keyboard navigation to main sections
+- Collapse state is announced to screen readers
+- Focus management when opening/closing
+
+## Animation
+
+Sidebar uses spring animations for smooth transitions when expanding/collapsing.
+
+## Related components
+
+- [Topbar](/components/application/topbar) - Horizontal top navigation
+- [Page Header](/components/application/page-header) - Page title and actions

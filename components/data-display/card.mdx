@@ -1,0 +1,91 @@
+---
+title: Card
+description: A container component for grouping related content with consistent padding and borders.
+---
+
+# Card
+
+The Card component is a flexible container for grouping related content with a subtle border and background.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/card
+```
+
+## Usage
+
+```jsx
+import { Card } from '@twilio-paste/card';
+import { Heading } from '@twilio-paste/heading';
+import { Paragraph } from '@twilio-paste/paragraph';
+
+<Card>
+  <Heading as="h3" variant="heading30">
+    Card Title
+  </Heading>
+  <Paragraph>This is the card content.</Paragraph>
+</Card>
+```
+
+## Props
+
+### Card
+
+<ResponseField name="element" type="string" default="CARD">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="padding" type="Space" default="space100">
+  Sets padding for all sides of the card.
+</ResponseField>
+
+<ResponseField name="paddingTop" type="Space">
+  Sets top padding, overriding the `padding` prop.
+</ResponseField>
+
+<ResponseField name="paddingRight" type="Space">
+  Sets right padding, overriding the `padding` prop.
+</ResponseField>
+
+<ResponseField name="paddingBottom" type="Space">
+  Sets bottom padding, overriding the `padding` prop.
+</ResponseField>
+
+<ResponseField name="paddingLeft" type="Space">
+  Sets left padding, overriding the `padding` prop.
+</ResponseField>
+
+<ResponseField name="fillHeight" type="boolean" default="false">
+  Force the height to take up the full height of the parent element.
+</ResponseField>
+
+<ResponseField name="fillWidth" type="boolean" default="false">
+  Force the width to take up the full width of the parent element.
+</ResponseField>
+
+## Examples
+
+### Custom Padding
+
+```jsx
+<Card padding="space60">
+  <Paragraph>Smaller padding</Paragraph>
+</Card>
+```
+
+### Full Width Card
+
+```jsx
+<Card fillWidth>
+  <Paragraph>This card fills the width of its container</Paragraph>
+</Card>
+```
+
+### Full Height Card
+
+```jsx
+<Card fillHeight>
+  <Paragraph>This card fills the height of its container</Paragraph>
+</Card>
+```

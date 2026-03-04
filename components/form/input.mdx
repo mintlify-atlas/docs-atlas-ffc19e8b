@@ -1,0 +1,200 @@
+---
+title: Input
+description: An Input is a form element that lets users enter one of various types of text on a single line.
+---
+
+Input is a form field component that allows users to enter text on a single line. It supports various input types including text, email, password, number, date, time, and more.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/input @twilio-paste/label @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState('');
+  
+  return (
+    <>
+      <Label htmlFor="email">Email address</Label>
+      <Input
+        id="email"
+        type="email"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="example@twilio.com"
+      />
+      <HelpText>Enter your email address</HelpText>
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="type" type="string" required>
+  Sets the input type. Supports all HTML5 input types including `text`, `email`, `password`, `number`, `tel`, `url`, `search`, `date`, `time`, etc.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Sets the id of the input. Should match the `htmlFor` of the Label component.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Sets the name attribute of the input for form submission.
+</ParamField>
+
+<ParamField path="value" type="string">
+  The controlled value of the input.
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  The default value for uncontrolled inputs.
+</ParamField>
+
+<ParamField path="placeholder" type="string">
+  Placeholder text displayed when the input is empty.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the input, preventing user interaction.
+</ParamField>
+
+<ParamField path="readOnly" type="boolean" default="false">
+  Makes the input read-only. Users can see but not modify the value.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the input as required for form validation.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the input to an error state with error styling.
+</ParamField>
+
+<ParamField path="insertBefore" type="React.ReactNode">
+  Used to add a prefix to the input, such as an icon or text.
+</ParamField>
+
+<ParamField path="insertAfter" type="React.ReactNode">
+  Used to add a suffix to the input, such as an icon or text.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant. Use `inverse` for dark backgrounds.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when the input value changes.
+</ParamField>
+
+<ParamField path="onFocus" type="(event: React.FocusEvent<HTMLInputElement>) => void">
+  Callback fired when the input receives focus.
+</ParamField>
+
+<ParamField path="onBlur" type="(event: React.FocusEvent<HTMLInputElement>) => void">
+  Callback fired when the input loses focus.
+</ParamField>
+
+<ParamField path="element" type="string" default="'INPUT'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### Number Input Props
+
+<ParamField path="min" type="number">
+  Minimum value for number inputs.
+</ParamField>
+
+<ParamField path="max" type="number">
+  Maximum value for number inputs.
+</ParamField>
+
+<ParamField path="step" type="number">
+  Step increment for number inputs.
+</ParamField>
+
+<ParamField path="i18nStepUpLabel" type="string">
+  Accessible label for the increment button on number inputs.
+</ParamField>
+
+<ParamField path="i18nStepDownLabel" type="string">
+  Accessible label for the decrement button on number inputs.
+</ParamField>
+
+## Examples
+
+### With Prefix/Suffix
+
+```tsx
+import { Input } from '@twilio-paste/input';
+import { SearchIcon } from '@twilio-paste/icons/esm/SearchIcon';
+
+<Input
+  type="text"
+  placeholder="Search..."
+  insertBefore={<SearchIcon decorative />}
+/>
+```
+
+### Error State
+
+```tsx
+import { Input } from '@twilio-paste/input';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+<>
+  <Label htmlFor="invalid-email" required>
+    Email
+  </Label>
+  <Input
+    id="invalid-email"
+    type="email"
+    hasError
+    value="invalid-email"
+  />
+  <HelpText variant="error">
+    Please enter a valid email address.
+  </HelpText>
+</>
+```
+
+### Number Input
+
+```tsx
+import { Input } from '@twilio-paste/input';
+
+<Input
+  type="number"
+  min={0}
+  max={100}
+  step={5}
+  defaultValue={50}
+/>
+```
+
+## Accessibility
+
+- Always pair Input with a Label component using matching `id` and `htmlFor` props
+- Use `required` prop to mark required fields and include RequiredDot in Label
+- Provide helpful error messages with HelpText in error variant
+- Use appropriate input types for better mobile keyboard experience
+- Ensure sufficient color contrast in both default and inverse variants
+- Support keyboard navigation and screen reader announcements
+
+## Best Practices
+
+- Use specific input types (email, tel, url) to improve mobile UX with appropriate keyboards
+- Always provide clear labels and help text
+- Use placeholder text sparingly - it should not replace labels
+- Show validation errors inline with clear, actionable messages
+- Consider using insertBefore/insertAfter for common patterns like search icons or currency symbols
+- For number inputs, ensure min/max values are multiples of the step value

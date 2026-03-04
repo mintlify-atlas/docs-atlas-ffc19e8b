@@ -1,0 +1,351 @@
+---
+title: Separator
+description: Separator is a visual divider that helps organize content by creating a horizontal or vertical line between sections.
+---
+
+## Overview
+
+Separator creates a visual divider to help organize and separate content. It renders as an HTML `<hr>` element with proper ARIA attributes and can be oriented horizontally or vertically with configurable spacing.
+
+Use Separator when you need to:
+- Visually divide sections of content
+- Create breathing room between groups of elements
+- Separate items in lists or navigation
+- Divide content in cards or panels
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+```
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+// or
+import { Separator } from '@twilio-paste/core';
+```
+
+## Basic Usage
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Paragraph } from '@twilio-paste/core/paragraph';
+
+const MyComponent = () => (
+  <>
+    <Paragraph>First section of content.</Paragraph>
+    <Separator orientation="horizontal" verticalSpacing="space70" />
+    <Paragraph>Second section of content.</Paragraph>
+  </>
+);
+```
+
+## Props
+
+<ParamField path="orientation" type="'horizontal' | 'vertical'" required>
+  Determines the direction of the separator line.
+  
+  - `horizontal` - Creates a horizontal line spanning the width of its container
+  - `vertical` - Creates a vertical line spanning the height of its container
+</ParamField>
+
+<ParamField path="verticalSpacing" type="Space">
+  Space above and below the separator when orientation is horizontal. Uses design tokens (e.g., 'space40', 'space70'). Can be responsive with an array of values.
+</ParamField>
+
+<ParamField path="horizontalSpacing" type="Space">
+  Space to the left and right of the separator when orientation is vertical. Uses design tokens (e.g., 'space40', 'space70'). Can be responsive with an array of values.
+</ParamField>
+
+<ParamField path="element" type="string" default="SEPARATOR">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Examples
+
+### Horizontal Separator
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Paragraph } from '@twilio-paste/core/paragraph';
+
+const HorizontalExample = () => (
+  <>
+    <Paragraph>Nulla vitae elit libero, a pharetra augue.</Paragraph>
+    <Separator orientation="horizontal" verticalSpacing="space70" />
+    <Paragraph>Nulla vitae elit libero, a pharetra augue.</Paragraph>
+    <Separator orientation="horizontal" verticalSpacing="space70" />
+    <Paragraph>Nulla vitae elit libero, a pharetra augue.</Paragraph>
+  </>
+);
+```
+
+### Vertical Separator
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const VerticalExample = () => (
+  <Box display="flex">
+    <Text as="span">Option 1</Text>
+    <Separator orientation="vertical" horizontalSpacing="space40" />
+    <Text as="span">Option 2</Text>
+    <Separator orientation="vertical" horizontalSpacing="space40" />
+    <Text as="span">Option 3</Text>
+    <Separator orientation="vertical" horizontalSpacing="space40" />
+    <Text as="span">Option 4</Text>
+  </Box>
+);
+```
+
+### Separating Cards
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Box } from '@twilio-paste/core/box';
+import { Card } from '@twilio-paste/core/card';
+import { Heading } from '@twilio-paste/core/heading';
+
+const CardSeparator = () => (
+  <Box display="flex">
+    <Card>
+      <Heading as="h2" variant="heading20">Card 1</Heading>
+    </Card>
+    <Separator orientation="vertical" horizontalSpacing="space70" />
+    <Card>
+      <Heading as="h2" variant="heading20">Card 2</Heading>
+    </Card>
+    <Separator orientation="vertical" horizontalSpacing="space70" />
+    <Card>
+      <Heading as="h2" variant="heading20">Card 3</Heading>
+    </Card>
+  </Box>
+);
+```
+
+### Responsive Spacing
+
+```jsx
+<>
+  <Paragraph>Content section</Paragraph>
+  <Separator 
+    orientation="horizontal" 
+    verticalSpacing={['space20', 'space60', 'space100']} 
+  />
+  <Paragraph>Next section with responsive spacing</Paragraph>
+</>
+```
+
+In this example:
+- Mobile: `space20` (8px) spacing
+- Tablet: `space60` (24px) spacing
+- Desktop: `space100` (48px) spacing
+
+### In a Form
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Stack } from '@twilio-paste/core/stack';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { Heading } from '@twilio-paste/core/heading';
+
+const FormWithSeparators = () => (
+  <Stack orientation="vertical" spacing="space60">
+    <Heading as="h2" variant="heading20">Personal Information</Heading>
+    <Box>
+      <Label htmlFor="name">Name</Label>
+      <Input id="name" type="text" />
+    </Box>
+    <Box>
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" type="email" />
+    </Box>
+    
+    <Separator orientation="horizontal" verticalSpacing="space80" />
+    
+    <Heading as="h2" variant="heading20">Preferences</Heading>
+    <Box>
+      <Label htmlFor="notifications">Notification Settings</Label>
+      <Input id="notifications" type="text" />
+    </Box>
+  </Stack>
+);
+```
+
+### Navigation Dividers
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Box } from '@twilio-paste/core/box';
+import { Anchor } from '@twilio-paste/core/anchor';
+
+const Navigation = () => (
+  <Box display="flex" as="nav">
+    <Anchor href="/home">Home</Anchor>
+    <Separator orientation="vertical" horizontalSpacing="space40" />
+    <Anchor href="/products">Products</Anchor>
+    <Separator orientation="vertical" horizontalSpacing="space40" />
+    <Anchor href="/about">About</Anchor>
+    <Separator orientation="vertical" horizontalSpacing="space40" />
+    <Anchor href="/contact">Contact</Anchor>
+  </Box>
+);
+```
+
+### Section Breaks
+
+```jsx
+import { Separator } from '@twilio-paste/core/separator';
+import { Stack } from '@twilio-paste/core/stack';
+import { Heading } from '@twilio-paste/core/heading';
+import { Paragraph } from '@twilio-paste/core/paragraph';
+
+const Article = () => (
+  <Stack orientation="vertical" spacing="space60">
+    <Heading as="h1" variant="heading10">Article Title</Heading>
+    <Paragraph>Introduction paragraph...</Paragraph>
+    
+    <Separator orientation="horizontal" verticalSpacing="space100" />
+    
+    <Heading as="h2" variant="heading20">Section 1</Heading>
+    <Paragraph>Section content...</Paragraph>
+    
+    <Separator orientation="horizontal" verticalSpacing="space100" />
+    
+    <Heading as="h2" variant="heading20">Section 2</Heading>
+    <Paragraph>More content...</Paragraph>
+  </Stack>
+);
+```
+
+### Different Spacing Values
+
+```jsx
+// Tight spacing
+<>
+  <Paragraph>Content</Paragraph>
+  <Separator orientation="horizontal" verticalSpacing="space20" />
+  <Paragraph>Content</Paragraph>
+</>
+
+// Medium spacing
+<>
+  <Paragraph>Content</Paragraph>
+  <Separator orientation="horizontal" verticalSpacing="space60" />
+  <Paragraph>Content</Paragraph>
+</>
+
+// Loose spacing
+<>
+  <Paragraph>Content</Paragraph>
+  <Separator orientation="horizontal" verticalSpacing="space100" />
+  <Paragraph>Content</Paragraph>
+</>
+```
+
+## Styling Details
+
+Separator is rendered as an `<hr>` element with the following default styles:
+
+- Border color: `colorBorderWeaker` (subtle, low-contrast line)
+- Border width: `borderWidth10` (1px)
+- Border style: `solid`
+- For horizontal: border appears on the bottom edge
+- For vertical: border appears on the left edge
+- Includes proper `aria-orientation` attribute for accessibility
+
+## Best Practices
+
+### Use Appropriate Spacing
+
+Match spacing to the visual hierarchy:
+
+```jsx
+// Section breaks - larger spacing
+<Separator orientation="horizontal" verticalSpacing="space100" />
+
+// List items - medium spacing
+<Separator orientation="horizontal" verticalSpacing="space60" />
+
+// Inline elements - smaller spacing
+<Separator orientation="vertical" horizontalSpacing="space40" />
+```
+
+### Don't Overuse Separators
+
+Use separators judiciously. Too many can make a page feel cluttered:
+
+```jsx
+// Good - separators add clarity
+<Stack orientation="vertical" spacing="space60">
+  <Section1 />
+  <Separator orientation="horizontal" verticalSpacing="space80" />
+  <Section2 />
+</Stack>
+
+// Avoid - excessive separation
+<Stack orientation="vertical" spacing="space20">
+  <Item />
+  <Separator orientation="horizontal" verticalSpacing="space20" />
+  <Item />
+  <Separator orientation="horizontal" verticalSpacing="space20" />
+  <Item />
+</Stack>
+```
+
+### Consider White Space First
+
+Sometimes spacing alone is sufficient without a visual line:
+
+```jsx
+// Separator might not be needed
+<Stack orientation="vertical" spacing="space80">
+  <Section1 />
+  <Section2 />
+</Stack>
+
+// Separator adds visual emphasis
+<Stack orientation="vertical" spacing="space60">
+  <Section1 />
+  <Separator orientation="horizontal" verticalSpacing="space80" />
+  <Section2 />
+</Stack>
+```
+
+### Vertical Separators Need Flex Context
+
+Vertical separators require a flex container with sufficient height:
+
+```jsx
+// Good - flex container provides context
+<Box display="flex" minHeight="size20">
+  <Content />
+  <Separator orientation="vertical" horizontalSpacing="space40" />
+  <Content />
+</Box>
+
+// Won't work - no flex context
+<Box display="block">
+  <Content />
+  <Separator orientation="vertical" horizontalSpacing="space40" />
+  <Content />
+</Box>
+```
+
+## Accessibility
+
+- Separator renders as a semantic `<hr>` element
+- Includes `aria-orientation` attribute matching the orientation prop
+- Properly recognized by screen readers as a separator
+- Does not accept an `id` prop (separators should not be focusable landmarks)
+- Purely decorative - does not interfere with content flow for assistive technologies
+
+## Related Components
+
+- [Stack](/components/layout/stack) - For layouts with consistent spacing
+- [Box](/components/layout/box) - Low-level layout primitive
+- [Flex](/components/layout/flex) - Flexbox layouts
+- [Grid](/components/layout/grid) - Grid-based layouts

@@ -1,0 +1,166 @@
+---
+title: Code Block
+description: A component for displaying syntax-highlighted code snippets with copy and external link functionality.
+---
+
+# Code Block
+
+The Code Block component displays syntax-highlighted code with built-in copy and external link features.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/code-block
+```
+
+## Usage
+
+### Basic Code Block
+
+```jsx
+import { CodeBlock } from '@twilio-paste/code-block';
+
+const code = `
+function hello() {
+  console.log('Hello, world!');
+}
+`;
+
+<CodeBlock language="javascript" code={code} />
+```
+
+### Single Line Code Block
+
+```jsx
+<CodeBlock 
+  language="bash" 
+  code="npm install @twilio-paste/core"
+  variant="single-line"
+/>
+```
+
+### Code Block with Line Numbers
+
+```jsx
+<CodeBlock 
+  language="python" 
+  code={pythonCode}
+  showLineNumbers
+/>
+```
+
+### Code Block with External Link
+
+```jsx
+<CodeBlock 
+  language="javascript" 
+  code={code}
+  externalLink="https://github.com/twilio-labs/paste"
+  i18nLinkLabel="View on GitHub"
+/>
+```
+
+### Code Block Wrapper and Tabs
+
+```jsx
+import { 
+  CodeBlockWrapper, 
+  CodeBlockTabList, 
+  CodeBlockTab, 
+  CodeBlockTabPanel 
+} from '@twilio-paste/code-block';
+
+<CodeBlockWrapper>
+  <CodeBlockTabList>
+    <CodeBlockTab>JavaScript</CodeBlockTab>
+    <CodeBlockTab>Python</CodeBlockTab>
+  </CodeBlockTabList>
+  <CodeBlockTabPanel>
+    <CodeBlock language="javascript" code={jsCode} />
+  </CodeBlockTabPanel>
+  <CodeBlockTabPanel>
+    <CodeBlock language="python" code={pythonCode} />
+  </CodeBlockTabPanel>
+</CodeBlockWrapper>
+```
+
+## Props
+
+### CodeBlock
+
+<ResponseField name="language" type="SnippetLanguages" required>
+  The language of the code snippet. Supports all languages from react-syntax-highlighter.
+</ResponseField>
+
+<ResponseField name="code" type="string" required>
+  The code snippet to be rendered.
+</ResponseField>
+
+<ResponseField name="variant" type="'multi-line' | 'single-line'" default="multi-line">
+  Variant of code block to render.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="CODE_BLOCK">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="showLineNumbers" type="boolean">
+  Display line numbers alongside the code.
+</ResponseField>
+
+<ResponseField name="wrapLines" type="boolean">
+  Enable line wrapping for long lines of code.
+</ResponseField>
+
+<ResponseField name="maxLines" type="number">
+  Maximum number of lines to display before scrolling.
+</ResponseField>
+
+<ResponseField name="externalLink" type="string">
+  URL for the external link button.
+</ResponseField>
+
+<ResponseField name="i18nCopyLabelBefore" type="string">
+  Label for the copy button before copying.
+</ResponseField>
+
+<ResponseField name="i18nCopyLabelAfter" type="string">
+  Label for the copy button after copying.
+</ResponseField>
+
+<ResponseField name="i18nLinkLabel" type="string">
+  Label for the external link button.
+</ResponseField>
+
+<ResponseField name="copyTextFormatter" type="(code: string) => string">
+  Function to format the code before copying to clipboard.
+</ResponseField>
+
+## Supported Languages
+
+Code Block supports syntax highlighting for numerous languages including:
+- JavaScript/TypeScript
+- Python
+- Java
+- C/C++/C#
+- Ruby
+- Go
+- Rust
+- PHP
+- HTML/CSS
+- JSON/YAML
+- Bash/Shell
+- SQL
+- And many more...
+
+## Features
+
+- Syntax highlighting for 100+ languages
+- Built-in copy to clipboard functionality
+- Optional external link button
+- Line numbers support
+- Line wrapping options
+- Single-line and multi-line variants
+- Tab support for multiple code snippets
+- Dark theme optimized for Paste design system
+- Customizable i18n labels

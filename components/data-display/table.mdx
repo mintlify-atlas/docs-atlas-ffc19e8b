@@ -1,0 +1,135 @@
+---
+title: Table
+description: A Table component for displaying tabular data with support for striping, borders, and scrolling.
+---
+
+# Table
+
+The Table component provides a flexible way to display tabular data with various styling options.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/table
+```
+
+## Usage
+
+```jsx
+import { Table, THead, TBody, TFoot, Tr, Th, Td } from '@twilio-paste/table';
+
+<Table>
+  <THead>
+    <Tr>
+      <Th>Header 1</Th>
+      <Th>Header 2</Th>
+    </Tr>
+  </THead>
+  <TBody>
+    <Tr>
+      <Td>Cell 1</Td>
+      <Td>Cell 2</Td>
+    </Tr>
+  </TBody>
+</Table>
+```
+
+## Props
+
+### Table
+
+<ResponseField name="element" type="string" default="TABLE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="striped" type="boolean" default="false">
+  Sets a background color for even rows within the table.
+</ResponseField>
+
+<ResponseField name="tableLayout" type="'auto' | 'fixed'" default="auto">
+  Sets the `table-layout` style of the Table.
+</ResponseField>
+
+<ResponseField name="variant" type="'default' | 'borderless'" default="default">
+  Sets the border style of the Table.
+</ResponseField>
+
+<ResponseField name="scrollHorizontally" type="boolean" default="false">
+  Sets the table to scroll horizontally on small screens.
+</ResponseField>
+
+<ResponseField name="noWrap" type="boolean" default="false">
+  Sets the table cells to not line wrap.
+</ResponseField>
+
+<ResponseField name="isActionable" type="boolean">
+  Sets the table to visually display the actionable state of an interactive table. Mainly used for Data Grid.
+</ResponseField>
+
+### THead
+
+<ResponseField name="element" type="string" default="THEAD">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="stickyHeader" type="boolean">
+  Makes the table head stick to the top of the window as the user scrolls a long table.
+</ResponseField>
+
+<ResponseField name="top" type="string">
+  Allows manual control of the top offset, used in conjunction with `stickyHeader`.
+</ResponseField>
+
+### Tr
+
+<ResponseField name="element" type="string" default="TR">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="verticalAlign" type="'top' | 'middle' | 'bottom'" default="middle">
+  Sets the vertical alignment of the content within the Table row.
+</ResponseField>
+
+### Th
+
+<ResponseField name="element" type="string" default="TH">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="textAlign" type="'left' | 'center' | 'right'" default="left">
+  Sets the text alignment of the content within the Table cell.
+</ResponseField>
+
+<ResponseField name="whiteSpace" type="WhiteSpaceOptions" default="normal">
+  Sets how white space inside the Table cell is handled.
+</ResponseField>
+
+<ResponseField name="width" type="WidthOptions">
+  Sets the width of a Table cell.
+</ResponseField>
+
+### Td
+
+<ResponseField name="element" type="string" default="TD">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="textAlign" type="'left' | 'center' | 'right'" default="left">
+  Sets the text alignment of the content within the Table cell.
+</ResponseField>
+
+<ResponseField name="whiteSpace" type="WhiteSpaceOptions" default="normal">
+  Sets how white space inside the Table cell is handled.
+</ResponseField>
+
+### TBody
+
+<ResponseField name="element" type="string" default="TBODY">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### TFoot
+
+<ResponseField name="element" type="string" default="TFOOT">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>

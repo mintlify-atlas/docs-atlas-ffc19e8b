@@ -1,0 +1,187 @@
+---
+title: Textarea
+description: A Textarea is a form element that allows users to enter text on multiple lines.
+---
+
+Textarea is a multi-line text input component that automatically adjusts its height based on content and supports configurable resize behavior.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/textarea @twilio-paste/label @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { TextArea } from '@twilio-paste/textarea';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState('');
+  
+  return (
+    <>
+      <Label htmlFor="message">Message</Label>
+      <TextArea
+        id="message"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Enter your message here..."
+      />
+      <HelpText>{value.length}/500 characters</HelpText>
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="id" type="string">
+  Sets the id of the textarea. Should match the `htmlFor` of the Label component.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Sets the name attribute for form submission.
+</ParamField>
+
+<ParamField path="value" type="string">
+  The controlled value of the textarea.
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  The default value for uncontrolled textareas.
+</ParamField>
+
+<ParamField path="placeholder" type="string">
+  Placeholder text displayed when the textarea is empty.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the textarea, preventing user interaction.
+</ParamField>
+
+<ParamField path="readOnly" type="boolean" default="false">
+  Makes the textarea read-only.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the textarea as required for form validation.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the textarea to an error state with error styling.
+</ParamField>
+
+<ParamField path="minRows" type="number" default="3">
+  Minimum number of rows to display. Controls the initial height.
+</ParamField>
+
+<ParamField path="maxRows" type="number" default="10">
+  Maximum number of rows before scrolling. Controls how tall the textarea can grow.
+</ParamField>
+
+<ParamField path="resize" type="'none' | 'vertical'" default="'none'">
+  Controls whether users can manually resize the textarea. Only supports vertical resizing.
+</ParamField>
+
+<ParamField path="insertBefore" type="React.ReactNode">
+  Add an icon or element to the left of the textarea.
+</ParamField>
+
+<ParamField path="insertAfter" type="React.ReactNode">
+  Add an icon or element to the right of the textarea.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant. Use `inverse` for dark backgrounds.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLTextAreaElement>) => void">
+  Callback fired when the textarea value changes.
+</ParamField>
+
+<ParamField path="element" type="string" default="'TEXTAREA'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### With Character Count
+
+```tsx
+import { TextArea } from '@twilio-paste/textarea';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [message, setMessage] = React.useState('');
+const maxLength = 500;
+
+<>
+  <Label htmlFor="bio">Bio</Label>
+  <TextArea
+    id="bio"
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    maxLength={maxLength}
+  />
+  <HelpText>
+    {message.length}/{maxLength} characters
+  </HelpText>
+</>
+```
+
+### With Error State
+
+```tsx
+import { TextArea } from '@twilio-paste/textarea';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+<>
+  <Label htmlFor="description" required>
+    Description
+  </Label>
+  <TextArea
+    id="description"
+    hasError
+    value=""
+  />
+  <HelpText variant="error">
+    Description is required.
+  </HelpText>
+</>
+```
+
+### With Custom Height
+
+```tsx
+import { TextArea } from '@twilio-paste/textarea';
+
+<TextArea
+  minRows={5}
+  maxRows={15}
+  resize="vertical"
+  placeholder="This textarea starts with 5 rows and can grow to 15 rows"
+/>
+```
+
+## Accessibility
+
+- Always pair Textarea with a Label using matching `id` and `htmlFor` props
+- Use `required` prop and RequiredDot in Label for required fields
+- Provide character count feedback with HelpText
+- Use `aria-describedby` to associate help text or error messages
+- Ensure the textarea is keyboard accessible
+- The component automatically grows with content for better UX
+
+## Best Practices
+
+- Use for multi-line text input like comments, descriptions, or messages
+- Provide character limits with visible counters when applicable
+- Set appropriate `minRows` based on expected input length
+- Use `maxRows` to prevent the textarea from becoming too tall
+- Show clear validation errors with actionable messages
+- Consider using resize="vertical" for user control when needed
+- Keep placeholder text concise and example-based

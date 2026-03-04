@@ -1,97 +1,314 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: Paste Design System
+description: Build consistent, accessible experiences at Twilio with our comprehensive React component library
+mode: custom
 ---
 
-## Setting up
+<div className="relative overflow-hidden bg-gradient-to-br from-[#f43249] via-[#e8284a] to-[#d01e41] dark:from-[#1a1d27] dark:via-[#242838] dark:to-[#1a1d27] py-20">
+  <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="lg:col-span-7">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white dark:text-gray-100 mb-6">
+          Build consistent, accessible experiences
+        </h1>
+        <p className="text-lg sm:text-xl text-white/90 dark:text-gray-300 max-w-2xl mb-8">
+          Paste is Twilio's open-source design system for creating unified customer experiences with 81+ production-ready React components, design tokens, and accessibility best practices built in.
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <a
+            href="/getting-started"
+            className="inline-flex items-center px-6 py-3 rounded-lg bg-white dark:bg-[#242838] text-[#f43249] dark:text-[#fc94a4] font-semibold hover:bg-gray-100 dark:hover:bg-[#2d3142] transition-colors no-underline"
+          >
+            Get started
+            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a
+            href="/components/actions/button"
+            className="inline-flex items-center px-6 py-3 rounded-lg border border-white/30 dark:border-gray-600 bg-white/10 dark:bg-transparent text-white dark:text-gray-200 font-semibold hover:bg-white/20 dark:hover:bg-[#242838] transition-colors no-underline"
+          >
+            Explore components
+          </a>
+        </div>
+      </div>
+      <div className="lg:col-span-5 hidden lg:block">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#fc94a4] to-[#f43249] dark:from-[#f43249] dark:to-[#fc94a4] opacity-20 blur-3xl"></div>
+          <div className="relative bg-white dark:bg-[#1a1d27] rounded-2xl p-8 shadow-2xl border border-gray-200 dark:border-[#27272a]">
+            <div className="space-y-4">
+              <div className="h-10 bg-[#f43249] dark:bg-[#f43249] rounded-lg w-32"></div>
+              <div className="h-6 bg-gray-200 dark:bg-[#242838] rounded w-full"></div>
+              <div className="h-6 bg-gray-200 dark:bg-[#242838] rounded w-5/6"></div>
+              <div className="flex gap-2 pt-4">
+                <div className="h-8 bg-[#fc94a4] dark:bg-[#fc94a4] rounded w-24"></div>
+                <div className="h-8 bg-gray-300 dark:bg-[#2d3142] rounded w-24"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Quick start
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+      Get up and running with Paste in minutes
+    </p>
+  </div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+  <Steps>
+    <Step title="Install the core package">
+      Install Paste using your preferred package manager:
 
-## Make it yours
+      <CodeGroup>
+      ```bash npm
+      npm install @twilio-paste/core @twilio-paste/icons
+      ```
 
-Design a docs site that looks great and empowers your users.
+      ```bash yarn
+      yarn add @twilio-paste/core @twilio-paste/icons
+      ```
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
+      ```bash pnpm
+      pnpm add @twilio-paste/core @twilio-paste/icons
+      ```
+      </CodeGroup>
+    </Step>
+
+    <Step title="Wrap your app with the Theme provider">
+      Import and wrap your application with the `Theme` component to provide design tokens and theming:
+
+      ```tsx
+      import { Theme } from '@twilio-paste/core/theme';
+
+      function App() {
+        return (
+          <Theme.Provider theme="default">
+            {/* Your app components */}
+          </Theme.Provider>
+        );
+      }
+      ```
+    </Step>
+
+    <Step title="Start using components">
+      Import and use Paste components in your application:
+
+      ```tsx
+      import { Button } from '@twilio-paste/core/button';
+      import { Box } from '@twilio-paste/core/box';
+
+      function MyComponent() {
+        return (
+          <Box padding="space60">
+            <Button variant="primary">
+              Click me
+            </Button>
+          </Box>
+        );
+      }
+      ```
+
+      <Note>
+        All Paste components are fully typed with TypeScript and follow accessibility best practices out of the box.
+      </Note>
+    </Step>
+  </Steps>
+</div>
+
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Explore by category
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-400">
+      Discover our comprehensive collection of production-ready components
+    </p>
+  </div>
+
+  <CardGroup cols={3}>
     <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+      title="Layout components"
+      icon="table-layout"
+      href="/components/layout/box"
+    >
+      Flexible layout primitives including Box, Flex, Grid, and Stack for building responsive interfaces
+    </Card>
+    <Card
+      title="Form elements"
+      icon="pen-field"
+      href="/components/form/input"
+    >
+      Accessible form components with built-in validation and error handling
+    </Card>
+    <Card
+      title="Navigation"
+      icon="compass"
+      href="/components/navigation/breadcrumb"
+    >
+      Navigation patterns including Breadcrumbs, Tabs, Pagination, and more
+    </Card>
+    <Card
+      title="Actions"
+      icon="hand-pointer"
+      href="/components/actions/button"
+    >
+      Interactive components like Buttons, Menus, and Button Groups
+    </Card>
+    <Card
+      title="Data display"
+      icon="table"
+      href="/components/data-display/table"
+    >
+      Components for displaying data including Tables, Cards, Lists, and Avatars
+    </Card>
+    <Card
+      title="Feedback"
+      icon="bell"
+      href="/components/feedback/alert"
+    >
+      User feedback components like Alerts, Toasts, Spinners, and Progress indicators
+    </Card>
+  </CardGroup>
+</div>
 
-## Create beautiful pages
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <div className="text-center mb-12">
+    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Key features
+    </h2>
+  </div>
 
-Everything you need to create world-class documentation.
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <a href="/concepts/accessibility" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#f43249] dark:hover:border-[#f43249] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-[#f43249]/10 dark:bg-[#f43249]/20 flex items-center justify-center">
+            <svg className="w-5 h-5 text-[#f43249]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+            Accessibility first
+          </h3>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          All components meet WCAG 2.1 AA standards with keyboard navigation, screen reader support, and semantic HTML
+        </p>
+        <span className="text-sm text-[#f43249] dark:text-[#fc94a4] group-hover:text-[#d01e41] dark:group-hover:text-[#f43249] inline-flex items-center">
+          Learn more
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </a>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+    <a href="/concepts/theming" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#f43249] dark:hover:border-[#f43249] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-[#f43249]/10 dark:bg-[#f43249]/20 flex items-center justify-center">
+            <svg className="w-5 h-5 text-[#f43249]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+          </div>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+            Customizable theming
+          </h3>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Powerful design token system enables complete visual customization while maintaining consistency
+        </p>
+        <span className="text-sm text-[#f43249] dark:text-[#fc94a4] group-hover:text-[#d01e41] dark:group-hover:text-[#f43249] inline-flex items-center">
+          Explore theming
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </a>
 
-## Need inspiration?
+    <a href="/concepts/design-tokens" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#f43249] dark:hover:border-[#f43249] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-[#f43249]/10 dark:bg-[#f43249]/20 flex items-center justify-center">
+            <svg className="w-5 h-5 text-[#f43249]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+            </svg>
+          </div>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+            Design tokens
+          </h3>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Centralized design decisions for colors, spacing, typography, and more ensure visual consistency
+        </p>
+        <span className="text-sm text-[#f43249] dark:text-[#fc94a4] group-hover:text-[#d01e41] dark:group-hover:text-[#f43249] inline-flex items-center">
+          View tokens
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </a>
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+    <a href="/icons/overview" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#f43249] dark:hover:border-[#f43249] overflow-hidden transition-colors no-underline bg-white dark:bg-[#1a1d27]">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-lg bg-[#f43249]/10 dark:bg-[#f43249]/20 flex items-center justify-center">
+            <svg className="w-5 h-5 text-[#f43249]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+            </svg>
+          </div>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+            Icon library
+          </h3>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Comprehensive collection of accessible SVG icons optimized for Paste components
+        </p>
+        <span className="text-sm text-[#f43249] dark:text-[#fc94a4] group-hover:text-[#d01e41] dark:group-hover:text-[#f43249] inline-flex items-center">
+          Browse icons
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="rounded-2xl bg-gradient-to-br from-[#f43249] to-[#d01e41] dark:from-[#242838] dark:to-[#1a1d27] dark:border dark:border-[#27272a] p-8 md:p-12 text-center">
+    <h2 className="text-3xl font-bold text-white dark:text-gray-100 mb-4">
+      Ready to get started?
+    </h2>
+    <p className="text-lg text-white/90 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+      Join teams at Twilio building consistent, accessible experiences with Paste
+    </p>
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href="/getting-started"
+        className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-white dark:bg-[#f43249] text-[#f43249] dark:text-white font-semibold hover:bg-gray-100 dark:hover:bg-[#d01e41] transition-colors no-underline"
+      >
+        Get started
+        <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+      <a
+        href="https://github.com/twilio-labs/paste"
+        className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-white/30 dark:border-gray-600 bg-white/10 dark:bg-transparent text-white dark:text-gray-200 font-semibold hover:bg-white/20 dark:hover:bg-[#242838] transition-colors no-underline"
+      >
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</div>

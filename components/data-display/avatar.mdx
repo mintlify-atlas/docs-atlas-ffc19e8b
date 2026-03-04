@@ -1,0 +1,103 @@
+---
+title: Avatar
+description: A component for displaying user or entity avatars with support for images, icons, and initials.
+---
+
+# Avatar
+
+The Avatar component displays a user or entity representation using an image, icon, or initials.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/avatar
+```
+
+## Usage
+
+### Image Avatar
+
+```jsx
+import { Avatar } from '@twilio-paste/avatar';
+
+<Avatar name="John Doe" src="/path/to/image.jpg" />
+```
+
+### Initials Avatar
+
+```jsx
+<Avatar name="John Doe" />
+```
+
+### Icon Avatar
+
+```jsx
+import { UserIcon } from '@twilio-paste/icons/esm/UserIcon';
+
+<Avatar name="User" icon={UserIcon} />
+```
+
+### Avatar Group
+
+```jsx
+import { AvatarGroup, Avatar } from '@twilio-paste/avatar';
+
+<AvatarGroup size="sizeIcon70" variant="user">
+  <Avatar name="John Doe" />
+  <Avatar name="Jane Smith" />
+  <Avatar name="Bob Johnson" />
+</AvatarGroup>
+```
+
+## Props
+
+### Avatar
+
+<ResponseField name="name" type="string" required>
+  Used to determine the initials, alt text (if using an image), or title (if using an icon) of the Avatar.
+</ResponseField>
+
+<ResponseField name="size" type="IconSize" default="sizeIcon70">
+  Sets the size of the avatar.
+</ResponseField>
+
+<ResponseField name="icon" type="React.FC<GenericIconProps>">
+  Pass a Paste Icon to display in the Avatar.
+</ResponseField>
+
+<ResponseField name="src" type="string">
+  Pass an image path to display in the Avatar.
+</ResponseField>
+
+<ResponseField name="color" type="'default' | 'decorative10' | 'decorative20' | 'decorative30' | 'decorative40'" default="default">
+  Override the default color for decorative purposes.
+</ResponseField>
+
+<ResponseField name="variant" type="'user' | 'entity'" default="user">
+  Sets the shape of the avatar. 'user' is circular, 'entity' is rounded square.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="AVATAR">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### AvatarGroup
+
+<ResponseField name="size" type="IconSize" required>
+  Set a size for every Avatar within the Avatar Group.
+</ResponseField>
+
+<ResponseField name="variant" type="'user' | 'entity'" required>
+  Set a variant for every Avatar within the Avatar Group.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="AVATAR_GROUP">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+## Features
+
+- Automatically generates initials from the name prop
+- Supports multiple color variants for decorative purposes
+- Two shape variants: circular for users, rounded square for entities
+- Grouping support with automatic spacing

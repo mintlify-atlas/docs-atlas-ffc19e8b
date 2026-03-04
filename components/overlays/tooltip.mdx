@@ -1,0 +1,180 @@
+---
+title: Tooltip
+description: A tooltip is a floating label that briefly explains a UI element or displays keyboard shortcuts.
+slug: /components/overlays/tooltip
+---
+
+## Installation
+
+```bash
+yarn add @twilio-paste/tooltip
+```
+
+## Usage
+
+```jsx
+import { Tooltip } from '@twilio-paste/tooltip';
+import { Button } from '@twilio-paste/button';
+
+const MyTooltip = () => {
+  return (
+    <Tooltip text="This is a helpful tooltip">
+      <Button variant="primary">Hover me</Button>
+    </Tooltip>
+  );
+};
+```
+
+## Props
+
+### Tooltip
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | - | **Required** for basic tooltips. The text content of the Tooltip. |
+| `children` | `React.ReactElement` | - | **Required.** A single React element to trigger the tooltip. |
+| `state` | `TooltipStateReturn` | - | The returned state from the `useTooltipState` hook for controlled usage. |
+| `placement` | `string` | `"top"` | Position of the tooltip relative to the trigger element. |
+| `visible` | `boolean` | - | Control the visibility (controlled mode). |
+| `element` | `string` | `"TOOLTIP"` | Overrides the default element name for custom styling. |
+| `baseId` | `string` | - | ID that will serve as a base for the tooltip elements. |
+
+### KeyboardKeyTooltip (Advanced)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `keyCombinationsActions` | `Array<KeyboardActions>` | - | **Required** instead of `text`. Mapping of action names to key combinations. |
+| `actionHeader` | `string` | - | The header content of the Tooltip for keyboard shortcuts. |
+| `children` | `React.ReactElement` | - | **Required.** A single React element to trigger the tooltip. |
+
+KeyboardActions type:
+```typescript
+interface KeyboardActions {
+  name: string;
+  eventKeyCombination: string[];
+  disabled?: boolean;
+}
+```
+
+## Examples
+
+### Basic Tooltip
+
+```jsx
+<Tooltip text="Settings">
+  <Button variant="secondary_icon" size="icon">
+    <SettingsIcon decorative />
+  </Button>
+</Tooltip>
+```
+
+### Tooltip with Custom Placement
+
+```jsx
+<Tooltip text="Help information" placement="right">
+  <Button variant="primary">Help</Button>
+</Tooltip>
+```
+
+### Controlled Tooltip
+
+```jsx
+import { useTooltipState } from '@twilio-paste/tooltip';
+
+const ControlledTooltip = () => {
+  const tooltip = useTooltipState();
+
+  return (
+    <>
+      <Button onClick={() => tooltip.show()}>Show Tooltip</Button>
+      <Tooltip text="This is controlled" state={tooltip}>
+        <Button variant="primary">Target</Button>
+      </Tooltip>
+    </>
+  );
+};
+```
+
+### Keyboard Shortcut Tooltip
+
+```jsx
+<Tooltip
+  keyCombinationsActions={[
+    { name: 'Copy', eventKeyCombination: ['Ctrl', 'C'] },
+    { name: 'Paste', eventKeyCombination: ['Ctrl', 'V'] },
+    { name: 'Cut', eventKeyCombination: ['Ctrl', 'X'], disabled: true },
+  ]}
+  actionHeader="Editing shortcuts"
+>
+  <Button variant="secondary_icon" size="icon">
+    <InformationIcon decorative />
+  </Button>
+</Tooltip>
+```
+
+### Always Visible Tooltip (for testing)
+
+```jsx
+<Tooltip text="Always visible" visible>
+  <Button variant="primary">Button</Button>
+</Tooltip>
+```
+
+## Hooks
+
+### useTooltipState
+
+Returns state for controlling the tooltip programmatically.
+
+```jsx
+const tooltip = useTooltipState({
+  placement: 'bottom',
+  visible: false,
+});
+
+// State includes:
+// - visible: boolean
+// - show: () => void
+// - hide: () => void
+```
+
+## Accessibility
+
+- Tooltip content is announced to screen readers using `aria-describedby`
+- Tooltips appear on hover, focus, and touch
+- Keyboard navigation is fully supported
+- Tooltips automatically dismiss when focus moves away
+- Content is concise and descriptive
+
+## Best Practices
+
+### Do:
+- Keep tooltip text brief and scannable
+- Use tooltips for supplementary information
+- Ensure the trigger element is keyboard accessible
+- Use tooltips to provide context for icon-only buttons
+
+### Don't:
+- Don't put critical information only in tooltips
+- Don't use tooltips for interactive content (use Popover instead)
+- Don't use tooltips on disabled elements
+- Don't put long paragraphs in tooltips
+- Don't use tooltips on mobile without also showing them on tap
+
+## When to Use
+
+### Use Tooltip when:
+- You need to provide a brief label or description
+- Explaining icon-only buttons or controls
+- Showing keyboard shortcuts
+- Providing supplementary, non-critical information
+
+### Use Popover instead when:
+- You need to display interactive content
+- The information is more than a brief label
+- You need to include links, buttons, or forms
+
+### Don't use Tooltip when:
+- The information is critical to completing a task
+- On mobile-only interfaces (consider visible labels instead)
+- On disabled elements (move the tooltip to a wrapper instead)

@@ -1,0 +1,488 @@
+---
+title: UID Library
+description: Generate unique IDs for use in accessible user interfaces
+slug: /utilities/uid-library/
+---
+
+The UID Library provides React hooks for generating unique identifiers. These IDs are essential for creating accessible forms and UI components that properly associate labels with inputs, ARIA attributes with elements, and more.
+
+## Installation
+
+Install the package along with React:
+
+```bash
+yarn add @twilio-paste/uid-library
+```
+
+Or using npm:
+
+```bash
+npm install @twilio-paste/uid-library
+```
+
+## Why Use UIDs?
+
+Unique IDs are crucial for web accessibility:
+
+- **Form accessibility**: Associate labels with inputs using `htmlFor` and `id`
+- **ARIA relationships**: Link elements with `aria-labelledby`, `aria-describedby`, etc.
+- **Avoid conflicts**: Prevent ID collisions when components are reused
+- **Server-side rendering**: Generate consistent IDs across server and client
+- **Stable IDs**: IDs remain consistent across re-renders
+
+## API Reference
+
+### useUID
+
+Generates a single unique ID.
+
+```typescript
+const id = useUID(): string
+```
+
+**Returns:** A unique string ID that's stable across re-renders
+
+**Example:**
+
+```jsx
+import { useUID } from '@twilio-paste/uid-library';
+
+const MyInput = () => {
+  const id = useUID();
+  
+  return (
+    <div>
+      <label htmlFor={id}>Email</label>
+      <input id={id} type="email" />
+    </div>
+  );
+};
+```
+
+### useUIDSeed
+
+Generates a seed function that creates multiple related IDs with a common prefix.
+
+```typescript
+const seed = useUIDSeed(): (suffix: string) => string
+```
+
+**Returns:** A function that takes a suffix and returns a unique ID
+
+**Example:**
+
+```jsx
+import { useUIDSeed } from '@twilio-paste/uid-library';
+
+const MyForm = () => {
+  const seed = useUIDSeed();
+  
+  return (
+    <form>
+      <div>
+        <label htmlFor={seed('email')}>Email</label>
+        <input id={seed('email')} type="email" />
+        <span id={seed('email-help')}>We'll never share your email</span>
+      </div>
+      
+      <div>
+        <label htmlFor={seed('password')}>Password</label>
+        <input 
+          id={seed('password')} 
+          type="password"
+          aria-describedby={seed('password-help')}
+        />
+        <span id={seed('password-help')}>At least 8 characters</span>
+      </div>
+    </form>
+  );
+};
+```
+
+### UIDFork
+
+Creates a boundary for generating UIDs in isolated component trees.
+
+```typescript
+<UIDFork>
+  {children}
+</UIDFork>
+```
+
+Useful for:
+- Portals and modals
+- Isolated component trees
+- Testing scenarios
+
+**Example:**
+
+```jsx
+import { UIDFork, useUID } from '@twilio-paste/uid-library';
+import { createPortal } from 'react-dom';
+
+const Modal = ({ children }) => {
+  return createPortal(
+    <UIDFork>
+      {children}
+    </UIDFork>,
+    document.body
+  );
+};
+```
+
+### uid
+
+A utility function for generating unique IDs outside of React components.
+
+```typescript
+const id = uid(item: any): string
+```
+
+**Parameters:**
+- `item` - Any value to generate a UID for
+
+**Returns:** A unique string ID
+
+**Note:** Use hooks (`useUID` or `useUIDSeed`) inside React components instead.
+
+## Common Patterns
+
+### Form Inputs with Labels
+
+Associate labels with inputs for accessibility:
+
+```jsx
+import { useUID } from '@twilio-paste/uid-library';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+
+const FormField = ({ label, ...props }) => {
+  const id = useUID();
+  
+  return (
+    <>
+      <Label htmlFor={id}>{label}</Label>
+      <Input id={id} {...props} />
+    </>
+  );
+};
+
+// Usage
+<FormField label="Username" type="text" />
+```
+
+### Help Text with ARIA
+
+Associate help text with form fields:
+
+```jsx
+import { useUIDSeed } from '@twilio-paste/uid-library';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { HelpText } from '@twilio-paste/core/help-text';
+
+const FormFieldWithHelp = ({ label, helpText, ...props }) => {
+  const seed = useUIDSeed();
+  
+  return (
+    <>
+      <Label htmlFor={seed('input')}>{label}</Label>
+      <Input 
+        id={seed('input')} 
+        aria-describedby={seed('help')}
+        {...props} 
+      />
+      <HelpText id={seed('help')}>{helpText}</HelpText>
+    </>
+  );
+};
+
+// Usage
+<FormFieldWithHelp 
+  label="Password" 
+  helpText="Must be at least 8 characters"
+  type="password" 
+/>
+```
+
+### Error Messages
+
+Associate error messages with form fields:
+
+```jsx
+import { useUIDSeed } from '@twilio-paste/uid-library';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { HelpText } from '@twilio-paste/core/help-text';
+
+const FormFieldWithError = ({ label, error, ...props }) => {
+  const seed = useUIDSeed();
+  const hasError = Boolean(error);
+  
+  return (
+    <>
+      <Label htmlFor={seed('input')}>{label}</Label>
+      <Input 
+        id={seed('input')}
+        aria-describedby={hasError ? seed('error') : undefined}
+        aria-invalid={hasError}
+        {...props}
+      />
+      {hasError && (
+        <HelpText id={seed('error')} variant="error">
+          {error}
+        </HelpText>
+      )}
+    </>
+  );
+};
+
+// Usage
+<FormFieldWithError 
+  label="Email" 
+  error="Please enter a valid email address"
+  type="email" 
+/>
+```
+
+### Lists with ARIA Labels
+
+Label lists with headings:
+
+```jsx
+import { useUIDSeed } from '@twilio-paste/uid-library';
+
+const LabeledList = ({ title, items }) => {
+  const seed = useUIDSeed();
+  
+  return (
+    <div>
+      <h3 id={seed('title')}>{title}</h3>
+      <ul aria-labelledby={seed('title')}>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+```
+
+### Tabs with ARIA
+
+Create accessible tab interfaces:
+
+```jsx
+import { useUIDSeed } from '@twilio-paste/uid-library';
+import { useState } from 'react';
+
+const Tabs = ({ tabs }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const seed = useUIDSeed();
+  
+  return (
+    <div>
+      <div role="tablist">
+        {tabs.map((tab, index) => (
+          <button
+            key={index}
+            role="tab"
+            id={seed(`tab-${index}`)}
+            aria-selected={activeTab === index}
+            aria-controls={seed(`panel-${index}`)}
+            onClick={() => setActiveTab(index)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      
+      {tabs.map((tab, index) => (
+        <div
+          key={index}
+          role="tabpanel"
+          id={seed(`panel-${index}`)}
+          aria-labelledby={seed(`tab-${index}`)}
+          hidden={activeTab !== index}
+        >
+          {tab.content}
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+### Modal Dialogs
+
+Create accessible modals:
+
+```jsx
+import { useUIDSeed, UIDFork } from '@twilio-paste/uid-library';
+import { createPortal } from 'react-dom';
+
+const Modal = ({ title, children, onClose }) => {
+  const seed = useUIDSeed();
+  
+  return createPortal(
+    <UIDFork>
+      <div
+        role="dialog"
+        aria-labelledby={seed('title')}
+        aria-modal="true"
+      >
+        <h2 id={seed('title')}>{title}</h2>
+        <div>{children}</div>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </UIDFork>,
+    document.body
+  );
+};
+```
+
+### Combobox/Autocomplete
+
+Create accessible combobox components:
+
+```jsx
+import { useUIDSeed } from '@twilio-paste/uid-library';
+import { useState } from 'react';
+
+const Combobox = ({ label, options }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const seed = useUIDSeed();
+  
+  return (
+    <div>
+      <label id={seed('label')} htmlFor={seed('input')}>
+        {label}
+      </label>
+      <input
+        id={seed('input')}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-controls={seed('listbox')}
+        aria-labelledby={seed('label')}
+        onFocus={() => setIsOpen(true)}
+      />
+      {isOpen && (
+        <ul
+          id={seed('listbox')}
+          role="listbox"
+          aria-labelledby={seed('label')}
+        >
+          {options.map((option, index) => (
+            <li
+              key={index}
+              id={seed(`option-${index}`)}
+              role="option"
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+```
+
+## React 18+ Support
+
+The UID Library automatically uses React's built-in `useId` hook when available (React 18+), providing:
+
+- Better server-side rendering support
+- Improved hydration handling
+- Native React performance optimizations
+
+For React 17 and below, it falls back to the `react-uid` library.
+
+No code changes are needed - the library handles this automatically.
+
+## TypeScript Support
+
+The library is fully typed:
+
+```typescript
+import { useUID, useUIDSeed } from '@twilio-paste/uid-library';
+
+const MyComponent: React.FC = () => {
+  const id: string = useUID();
+  const seed: (suffix: string) => string = useUIDSeed();
+  
+  return (
+    <input id={id} aria-describedby={seed('help')} />
+  );
+};
+```
+
+## Best Practices
+
+### Do
+
+- Use `useUID` for single IDs in a component
+- Use `useUIDSeed` when you need multiple related IDs
+- Always associate labels with form inputs
+- Use ARIA attributes to create relationships between elements
+- Use `UIDFork` for portals and isolated trees
+
+### Don't
+
+- Don't hardcode IDs in reusable components
+- Don't generate IDs outside of hooks in React components
+- Don't create new hooks on every render (hooks should be at the top level)
+- Don't use generic IDs like "input-1" that might conflict
+
+## Performance Considerations
+
+### Memoization
+
+UIDs are stable across re-renders, so you don't need to memoize them:
+
+```jsx
+// ✅ Good - ID is stable
+const MyComponent = () => {
+  const id = useUID();
+  return <input id={id} />;
+};
+
+// ❌ Unnecessary - ID is already stable
+const MyComponent = () => {
+  const id = useMemo(() => useUID(), []); // Don't do this
+  return <input id={id} />;
+};
+```
+
+### Multiple Components
+
+Each component instance gets unique IDs automatically:
+
+```jsx
+const FormField = () => {
+  const id = useUID();
+  return <input id={id} />;
+};
+
+// Each FormField gets a unique ID
+<>
+  <FormField /> {/* id: "uid-1" */}
+  <FormField /> {/* id: "uid-2" */}
+  <FormField /> {/* id: "uid-3" */}
+</>
+```
+
+## Version
+
+Current version: 3.0.1
+
+## Dependencies
+
+- `react-uid` (2.3.3) - Fallback for React versions below 18
+
+## Related Resources
+
+- [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/)
+- [WebAIM: Creating Accessible Forms](https://webaim.org/techniques/forms/)
+- [Paste Form Components](/components/)
+- [Accessibility Guidelines](/foundations/accessibility/)

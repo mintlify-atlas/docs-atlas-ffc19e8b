@@ -1,0 +1,307 @@
+---
+title: Installation
+description: Detailed installation instructions for Paste, including package managers, peer dependencies, and troubleshooting.
+---
+
+This guide covers everything you need to know about installing and configuring Paste in your React application.
+
+## Prerequisites
+
+Before installing Paste, ensure your project meets these requirements:
+
+- **React**: Version 17.0.2, 18.x, or 19.x
+- **React DOM**: Version 17.0.2, 18.x, or 19.x
+- **Node.js**: Version 16 or higher
+- **TypeScript** (optional): Version 4.9.4 or higher
+
+## Installation Options
+
+Paste can be installed using npm, yarn, or pnpm.
+
+<CodeGroup>
+```bash npm
+npm install @twilio-paste/core @twilio-paste/icons
+```
+
+```bash yarn
+yarn add @twilio-paste/core @twilio-paste/icons
+```
+
+```bash pnpm
+pnpm add @twilio-paste/core @twilio-paste/icons
+```
+</CodeGroup>
+
+### What Gets Installed
+
+The `@twilio-paste/core` package includes:
+
+- All Paste components (buttons, inputs, modals, etc.)
+- Design tokens
+- Theme provider and theming utilities
+- Customization provider
+- TypeScript type definitions
+
+The `@twilio-paste/icons` package includes:
+
+- Comprehensive icon library
+- Icon components for use in your application
+
+## Peer Dependencies
+
+Paste requires the following peer dependencies. Most projects already have these installed:
+
+<CodeGroup>
+```bash npm
+npm install react react-dom @types/react @types/react-dom
+```
+
+```bash yarn
+yarn add react react-dom @types/react @types/react-dom
+```
+
+```bash pnpm
+pnpm add react react-dom @types/react @types/react-dom
+```
+</CodeGroup>
+
+### Peer Dependency Versions
+
+From `@twilio-paste/core` package.json:
+
+```json
+{
+  "peerDependencies": {
+    "@twilio-paste/icons": "^13.0.0",
+    "@types/react": "^17.0.2 || ^18.0.27 || ^19.0.0",
+    "@types/react-dom": "^17.0.2 || ^18.0.10 || ^19.0.0",
+    "react": "^17.0.2 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.2 || ^18.0.0 || ^19.0.0"
+  }
+}
+```
+
+<Note>
+  The @types packages are only needed if you're using TypeScript.
+</Note>
+
+## Installing Individual Packages
+
+For more control over your bundle size, you can install individual Paste packages:
+
+### Core Packages
+
+<CodeGroup>
+```bash Design Tokens
+npm install @twilio-paste/design-tokens
+```
+
+```bash Theme
+npm install @twilio-paste/theme
+```
+
+```bash Customization
+npm install @twilio-paste/customization
+```
+</CodeGroup>
+
+### Individual Components
+
+```bash
+npm install @twilio-paste/button
+npm install @twilio-paste/card
+npm install @twilio-paste/input
+```
+
+<Warning>
+  When installing individual components, you must also install their peer dependencies. Check each package's package.json for requirements.
+</Warning>
+
+## TypeScript Configuration
+
+If you're using TypeScript, Paste works out of the box with no additional configuration. Type definitions are included with each package.
+
+### Recommended tsconfig.json Settings
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
+```
+
+## Package Manager Configurations
+
+### Using with npm
+
+No special configuration required. Just install and use:
+
+```bash
+npm install @twilio-paste/core @twilio-paste/icons
+```
+
+### Using with Yarn
+
+For Yarn v2+ (Berry), add to `.yarnrc.yml` if you encounter peer dependency warnings:
+
+```yaml
+nodeLinker: node-modules
+```
+
+### Using with pnpm
+
+Add to `.npmrc` to handle peer dependencies:
+
+```
+auto-install-peers=true
+```
+
+Or if you prefer strict peer dependency handling:
+
+```
+strict-peer-dependencies=false
+```
+
+## Bundler Configuration
+
+### Webpack
+
+Paste works with Webpack out of the box. For optimal tree-shaking:
+
+```js
+// webpack.config.js
+module.exports = {
+  optimization: {
+    usedExports: true,
+    sideEffects: false,
+  },
+};
+```
+
+### Vite
+
+Paste works perfectly with Vite:
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
+### Next.js
+
+For Next.js, no special configuration is needed. Just install and import:
+
+```jsx
+// pages/_app.js
+import { Theme } from '@twilio-paste/core/theme';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <Theme.Provider theme="default">
+      <Component {...pageProps} />
+    </Theme.Provider>
+  );
+}
+
+export default MyApp;
+```
+
+### Create React App
+
+Create React App works with Paste without any configuration:
+
+```jsx
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Theme } from '@twilio-paste/core/theme';
+import App from './App';
+
+ReactDOM.render(
+  <Theme.Provider theme="default">
+    <App />
+  </Theme.Provider>,
+  document.getElementById('root')
+);
+```
+
+## Troubleshooting
+
+### Peer Dependency Warnings
+
+If you see peer dependency warnings during installation:
+
+1. **Check your React version**: Paste requires React 17.0.2 or higher
+2. **Install missing peers**: Install @types/react and @types/react-dom if using TypeScript
+3. **Use --legacy-peer-deps**: For npm 7+, use `npm install --legacy-peer-deps` if needed
+
+### Module Not Found Errors
+
+If you get "Module not found" errors:
+
+```bash
+# Clear your node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### TypeScript Errors
+
+If you encounter TypeScript errors:
+
+1. **Ensure @types packages are installed**: Install @types/react and @types/react-dom
+2. **Check TypeScript version**: Use TypeScript 4.9.4 or higher
+3. **Restart your TS server**: In VS Code, run "TypeScript: Restart TS Server"
+
+### Build Size Issues
+
+If your bundle size is larger than expected:
+
+1. **Use individual imports**: Import from specific paths like `@twilio-paste/core/button`
+2. **Enable tree-shaking**: Ensure your bundler has tree-shaking enabled
+3. **Check your imports**: Avoid importing from `@twilio-paste/core` directly
+
+## Verifying Installation
+
+To verify Paste is installed correctly, create a simple test component:
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+import { Button } from '@twilio-paste/core/button';
+
+function Test() {
+  return (
+    <Theme.Provider theme="default">
+      <Button variant="primary">Paste is working!</Button>
+    </Theme.Provider>
+  );
+}
+
+export default Test;
+```
+
+If this renders without errors, Paste is installed correctly.
+
+## Next Steps
+
+Now that Paste is installed:
+
+- [Learn about Design Tokens](/concepts/design-tokens)
+- [Explore Theming options](/concepts/theming)
+- [Discover Customization capabilities](/concepts/customization)
+- [Review Accessibility features](/concepts/accessibility)

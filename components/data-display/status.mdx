@@ -1,0 +1,118 @@
+---
+title: Status
+description: Status components for displaying process states and connectivity information.
+---
+
+# Status
+
+The Status component provides status badges and menus for displaying process states and connectivity information with icons.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/status
+```
+
+## Usage
+
+### Status Badge
+
+```jsx
+import { StatusBadge } from '@twilio-paste/status';
+
+<StatusBadge as="span" variant="ProcessSuccess">
+  Completed
+</StatusBadge>
+```
+
+### Status Badge Sizes
+
+```jsx
+<StatusBadge as="span" variant="ProcessInProgress" size="default">
+  In Progress
+</StatusBadge>
+
+<StatusBadge as="span" variant="ProcessWarning" size="small">
+  Warning
+</StatusBadge>
+
+<StatusBadge as="span" variant="ProcessError" size="borderless">
+  Failed
+</StatusBadge>
+```
+
+### Status Menu
+
+```jsx
+import { StatusMenu, StatusMenuBadge, StatusMenuItem } from '@twilio-paste/status';
+
+<StatusMenu>
+  <StatusMenuBadge variant="ProcessInProgress">In Progress</StatusMenuBadge>
+  <StatusMenuItem variant="ProcessSuccess">Completed</StatusMenuItem>
+  <StatusMenuItem variant="ProcessError">Failed</StatusMenuItem>
+  <StatusMenuItem variant="ProcessNeutral">Pending</StatusMenuItem>
+</StatusMenu>
+```
+
+## Props
+
+### StatusBadge
+
+<ResponseField name="as" type="'span'" required>
+  Underlying HTML element to render (currently only supports 'span').
+</ResponseField>
+
+<ResponseField name="variant" type="StatusBadgeVariants" required>
+  Sets the display style of the Status Badge. Available variants:
+  
+  **Process States:**
+  - `ProcessError`
+  - `ProcessWarning`
+  - `ProcessSuccess`
+  - `ProcessNeutral`
+  - `ProcessInProgress`
+  - `ProcessDisabled`
+  - `ProcessDraft`
+  
+  **Connectivity States:**
+  - `ConnectivityAvailable`
+  - `ConnectivityBusy`
+  - `ConnectivityUnavailable`
+  - `ConnectivityOffline`
+  - `ConnectivityNeutral`
+</ResponseField>
+
+<ResponseField name="size" type="'default' | 'small' | 'borderless'" default="default">
+  Sets the size of the Status Badge.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="STATUS_BADGE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+## Variants
+
+### Process Status Variants
+
+- **ProcessSuccess**: Successful completion (green with success icon)
+- **ProcessError**: Error or failure (red with error icon)
+- **ProcessWarning**: Warning state (orange with warning icon)
+- **ProcessInProgress**: Currently in progress (blue with loading icon)
+- **ProcessNeutral**: Neutral or default state (gray with neutral icon)
+- **ProcessDisabled**: Disabled state (gray)
+- **ProcessDraft**: Draft state (gray)
+
+### Connectivity Status Variants
+
+- **ConnectivityAvailable**: Available/online (green with available icon)
+- **ConnectivityBusy**: Busy (orange with busy icon)
+- **ConnectivityUnavailable**: Unavailable (red with unavailable icon)
+- **ConnectivityOffline**: Offline (gray with offline icon)
+- **ConnectivityNeutral**: Neutral connectivity state (gray)
+
+## Features
+
+- Automatically includes appropriate icons for each variant
+- Three size options: default, small, and borderless
+- Status menu for displaying multiple status options
+- Consistent with Twilio design system colors and patterns

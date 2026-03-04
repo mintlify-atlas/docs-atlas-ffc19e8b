@@ -1,0 +1,304 @@
+---
+title: User Dialog
+package: '@twilio-paste/user-dialog'
+description: User Dialog displays user information and account actions in a popover menu.
+category: Application
+status: Production
+---
+
+import { UserDialog, UserDialogContainer, UserDialogUserInfo, UserDialogList, useUserDialogState } from '@twilio-paste/user-dialog';
+
+## About User Dialog
+
+User Dialog is a non-modal popover that displays user information and account-related actions. It's typically triggered by a user avatar in the application header and provides quick access to profile settings, sign out, and other user-specific options.
+
+## Components
+
+- **UserDialogContainer** - Manages dialog state
+- **UserDialog** - Main popover dialog
+- **UserDialogUserInfo** - User profile section
+- **UserDialogUserName** - Display name
+- **UserDialogUserEmail** - Email address
+- **UserDialogList** - Action list container
+- **UserDialogListItem** - Individual action
+- **UserDialogSeparator** - Visual divider
+- **useUserDialogState** - State management hook
+
+## Installation
+
+```bash
+yarn add @twilio-paste/user-dialog
+```
+
+## Usage
+
+```jsx
+import {
+  UserDialogContainer,
+  UserDialog,
+  UserDialogUserInfo,
+  UserDialogUserName,
+  UserDialogUserEmail,
+  UserDialogList,
+  UserDialogListItem,
+  UserDialogSeparator
+} from '@twilio-paste/user-dialog';
+
+const MyUserDialog = () => (
+  <UserDialogContainer name="Jane Doe" icon={UserIcon}>
+    <UserDialog aria-label="User menu">
+      <UserDialogUserInfo>
+        <UserDialogUserName>Jane Doe</UserDialogUserName>
+        <UserDialogUserEmail>jane.doe@example.com</UserDialogUserEmail>
+      </UserDialogUserInfo>
+      <UserDialogList>
+        <UserDialogListItem href="/profile">
+          Profile Settings
+        </UserDialogListItem>
+        <UserDialogListItem href="/preferences">
+          Preferences
+        </UserDialogListItem>
+        <UserDialogSeparator />
+        <UserDialogListItem onClick={handleSignOut}>
+          Sign Out
+        </UserDialogListItem>
+      </UserDialogList>
+    </UserDialog>
+  </UserDialogContainer>
+);
+```
+
+## Props
+
+### UserDialogContainer
+
+<PropsTable>
+  <PropsTableRow
+    name="name"
+    type="string"
+    required
+    description="User's display name for the avatar."
+  />
+  <PropsTableRow
+    name="icon"
+    type="React.FC"
+    description="Icon component to display in avatar."
+  />
+  <PropsTableRow
+    name="src"
+    type="string"
+    description="Image URL for user avatar."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'USER_DIALOG_CONTAINER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="UserDialog component."
+  />
+</PropsTable>
+
+### UserDialog
+
+<PropsTable>
+  <PropsTableRow
+    name="aria-label"
+    type="string"
+    required
+    description="Accessible label for the user dialog."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'USER_DIALOG'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="User info and action list."
+  />
+</PropsTable>
+
+### UserDialogUserName
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'USER_DIALOG_USER_NAME'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="User's display name."
+  />
+</PropsTable>
+
+### UserDialogUserEmail
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'USER_DIALOG_USER_EMAIL'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="User's email address."
+  />
+</PropsTable>
+
+### UserDialogList
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'USER_DIALOG_LIST'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="List items and separators."
+  />
+</PropsTable>
+
+### UserDialogListItem
+
+<PropsTable>
+  <PropsTableRow
+    name="href"
+    type="string"
+    description="URL for navigation."
+  />
+  <PropsTableRow
+    name="onClick"
+    type="() => void"
+    description="Click handler for the action."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'USER_DIALOG_LIST_ITEM'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Action label."
+  />
+</PropsTable>
+
+## State Management
+
+For advanced control, use the state hook:
+
+```jsx
+import { useUserDialogState } from '@twilio-paste/user-dialog';
+
+const userDialogState = useUserDialogState();
+
+// Access state methods
+userDialogState.show();
+userDialogState.hide();
+userDialogState.toggle();
+```
+
+## Avatar Options
+
+### With Image
+
+```jsx
+<UserDialogContainer
+  name="Jane Doe"
+  src="https://example.com/avatar.jpg"
+>
+  {/* dialog content */}
+</UserDialogContainer>
+```
+
+### With Icon
+
+```jsx
+import { UserIcon } from '@twilio-paste/icons/esm';
+
+<UserDialogContainer
+  name="Jane Doe"
+  icon={UserIcon}
+>
+  {/* dialog content */}
+</UserDialogContainer>
+```
+
+### With Initials (default)
+
+```jsx
+<UserDialogContainer name="Jane Doe">
+  {/* dialog content - shows "JD" */}
+</UserDialogContainer>
+```
+
+## Common Actions
+
+Typical user dialog actions:
+
+```jsx
+<UserDialogList>
+  <UserDialogListItem href="/profile">Profile</UserDialogListItem>
+  <UserDialogListItem href="/settings">Settings</UserDialogListItem>
+  <UserDialogListItem href="/billing">Billing</UserDialogListItem>
+  <UserDialogSeparator />
+  <UserDialogListItem href="/help">Help & Support</UserDialogListItem>
+  <UserDialogSeparator />
+  <UserDialogListItem onClick={handleSignOut}>Sign Out</UserDialogListItem>
+</UserDialogList>
+```
+
+## Accessibility
+
+- Dialog requires `aria-label` for context
+- Uses semantic list markup for actions
+- Keyboard navigation support
+- Focus management on open/close
+- Escape key closes the dialog
+- Click outside closes the dialog
+
+## Topbar Integration
+
+User Dialog is commonly placed in the Topbar:
+
+```jsx
+import { Topbar, TopbarActions } from '@twilio-paste/topbar';
+
+<Topbar id="topbar">
+  <div>App Name</div>
+  <TopbarActions>
+    <UserDialogContainer name="Jane Doe">
+      <UserDialog aria-label="User menu">
+        {/* dialog content */}
+      </UserDialog>
+    </UserDialogContainer>
+  </TopbarActions>
+</Topbar>
+```
+
+## Related components
+
+- [Avatar](/components/data-display/avatar) - User avatar component
+- [Topbar](/components/application/topbar) - Application header
+- [Menu](/components/navigation/menu) - Menu component

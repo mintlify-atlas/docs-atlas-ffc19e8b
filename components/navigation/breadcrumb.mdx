@@ -1,0 +1,102 @@
+---
+title: Breadcrumb
+description: Breadcrumbs help users understand their current location within a site hierarchy and navigate between different levels.
+package: '@twilio-paste/breadcrumb'
+---
+
+## Overview
+
+Breadcrumbs are a navigation pattern that helps users understand where they are in a site's hierarchy and navigate between different levels. They display the path from the root of the site to the current page, with each level represented by a link.
+
+Breadcrumbs are best used for sites with a clear hierarchical structure, where users may need to navigate back to parent pages. They should not be used as a replacement for primary navigation.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/breadcrumb
+```
+
+## Usage
+
+```jsx
+import { Breadcrumb, BreadcrumbItem } from '@twilio-paste/breadcrumb';
+
+const MyBreadcrumb = () => (
+  <Breadcrumb>
+    <BreadcrumbItem href="/">Home</BreadcrumbItem>
+    <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+    <BreadcrumbItem href="/products/phone-numbers">Phone Numbers</BreadcrumbItem>
+    <BreadcrumbItem>Number Details</BreadcrumbItem>
+  </Breadcrumb>
+);
+```
+
+### Current Page
+
+The last `BreadcrumbItem` in a breadcrumb trail should represent the current page and should not include an `href` prop. This will automatically render it as plain text with appropriate styling and set `aria-current="page"`.
+
+```jsx
+<Breadcrumb>
+  <BreadcrumbItem href="/">Home</BreadcrumbItem>
+  <BreadcrumbItem href="/settings">Settings</BreadcrumbItem>
+  <BreadcrumbItem>Account</BreadcrumbItem>
+</Breadcrumb>
+```
+
+## Props
+
+### Breadcrumb
+
+<ParamField path="children" type="React.ReactNode" required>
+  The BreadcrumbItem components to display in the breadcrumb trail.
+</ParamField>
+
+<ParamField path="element" type="string" default="BREADCRUMB">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### BreadcrumbItem
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text content to display for this breadcrumb item.
+</ParamField>
+
+<ParamField path="href" type="string">
+  URL to navigate to when the breadcrumb item is clicked. If omitted, the item will render as plain text representing the current page.
+</ParamField>
+
+<ParamField path="element" type="string" default="BREADCRUMB_ITEM">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="parentElement" type="string">
+  Overrides the default element name of the parent Breadcrumb component to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="last" type="boolean" default="false">
+  Automatically set by the parent Breadcrumb component. Indicates this is the last item and omits the separator.
+</ParamField>
+
+## Accessibility
+
+- The Breadcrumb component uses `<nav>` with `aria-label="breadcrumb"` to identify it as a breadcrumb navigation landmark.
+- Individual items are rendered as an ordered list (`<ol>`) to convey the hierarchical relationship.
+- The current page item automatically receives `aria-current="page"` and is rendered without a link.
+- Breadcrumb items with an `href` use the Anchor component which automatically handles external links with appropriate security attributes.
+- The separator (`/`) has `role="presentation"` to hide it from screen readers.
+
+## Best Practices
+
+### Do
+
+- Use breadcrumbs on sites with a clear hierarchical structure
+- Keep breadcrumb labels short and descriptive
+- Make the current page the last item without a link
+- Use breadcrumbs to show location within a hierarchy, not for step-by-step navigation
+
+### Don't
+
+- Don't use breadcrumbs as a replacement for primary navigation
+- Don't use breadcrumbs for single-level sites
+- Don't include the current page as a clickable link
+- Don't use more than one breadcrumb component per page

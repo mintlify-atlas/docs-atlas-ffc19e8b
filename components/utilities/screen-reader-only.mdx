@@ -1,0 +1,171 @@
+---
+title: Screen Reader Only
+package: '@twilio-paste/screen-reader-only'
+description: Screen Reader Only visually hides content while keeping it accessible to assistive technology.
+category: Utilities
+status: Production
+---
+
+import { ScreenReaderOnly } from '@twilio-paste/screen-reader-only';
+
+## About Screen Reader Only
+
+Screen Reader Only is a utility component that visually hides content while keeping it accessible to screen readers and other assistive technologies. Use it to provide additional context or instructions that are only needed by users of assistive technology.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/screen-reader-only
+```
+
+## Usage
+
+```jsx
+import { ScreenReaderOnly } from '@twilio-paste/screen-reader-only';
+
+const MyComponent = () => (
+  <>
+    <button>
+      <TrashIcon decorative />
+      <ScreenReaderOnly>Delete item</ScreenReaderOnly>
+    </button>
+  </>
+);
+```
+
+## Props
+
+<PropsTable>
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Content to hide visually but expose to screen readers."
+  />
+  <PropsTableRow
+    name="as"
+    type="string"
+    defaultValue="'span'"
+    description="HTML element to render as (span, div, p, etc)."
+  />
+  <PropsTableRow
+    name="id"
+    type="string"
+    description="Optional ID for referencing with aria-describedby or aria-labelledby."
+  />
+</PropsTable>
+
+## Common Use Cases
+
+### Icon Buttons
+
+Provide accessible labels for icon-only buttons:
+
+```jsx
+<button>
+  <CloseIcon decorative />
+  <ScreenReaderOnly>Close dialog</ScreenReaderOnly>
+</button>
+```
+
+### Additional Instructions
+
+Provide context for form fields:
+
+```jsx
+<label htmlFor="password">
+  Password
+  <ScreenReaderOnly>
+    Must be at least 8 characters with uppercase, lowercase, and numbers
+  </ScreenReaderOnly>
+</label>
+<input id="password" type="password" />
+```
+
+### Status Messages
+
+Announce status changes:
+
+```jsx
+<ScreenReaderOnly id="status" role="status" aria-live="polite">
+  {statusMessage}
+</ScreenReaderOnly>
+```
+
+### Skip Links
+
+Create skip navigation links:
+
+```jsx
+<ScreenReaderOnly as="a" href="#main-content">
+  Skip to main content
+</ScreenReaderOnly>
+```
+
+## Custom Elements
+
+Change the underlying HTML element:
+
+```jsx
+<ScreenReaderOnly as="div">
+  This renders as a div instead of span
+</ScreenReaderOnly>
+
+<ScreenReaderOnly as="p">
+  This renders as a paragraph
+</ScreenReaderOnly>
+```
+
+## With ARIA References
+
+Use with `aria-describedby` or `aria-labelledby`:
+
+```jsx
+<button aria-describedby="delete-help">
+  Delete
+</button>
+<ScreenReaderOnly id="delete-help">
+  This action cannot be undone
+</ScreenReaderOnly>
+```
+
+## How It Works
+
+Screen Reader Only uses CSS to visually hide content:
+
+- Positioned absolutely off-screen
+- 1px by 1px size
+- Clipped to invisible region
+- Hidden overflow
+
+This keeps the content in the DOM and accessibility tree while removing it from visual layout.
+
+## When to Use
+
+Use Screen Reader Only when:
+
+- Adding labels to icon-only buttons
+- Providing additional context for assistive technology
+- Creating skip links
+- Announcing dynamic status changes
+- Adding instructions that would clutter the visual design
+
+## When Not to Use
+
+Don't use Screen Reader Only when:
+
+- Content should be visible to all users
+- You can use standard ARIA attributes instead
+- The hidden content is the only way to understand the UI
+
+## Accessibility
+
+- Content remains in the DOM and accessibility tree
+- Works with screen readers and other assistive technology
+- Does not affect keyboard navigation
+- Can be used with ARIA live regions for announcements
+
+## Related components
+
+- [Visually Hidden](/primitives/box) - Box component with visibility utilities
+- [Text](/components/typography/text) - For visible text content

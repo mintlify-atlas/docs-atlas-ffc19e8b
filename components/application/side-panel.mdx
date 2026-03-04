@@ -1,0 +1,286 @@
+---
+title: Side Panel
+package: '@twilio-paste/side-panel'
+description: Side Panel is a collapsible panel that slides in from the right side of the screen.
+category: Application
+status: Production
+---
+
+import { SidePanel, SidePanelContainer, SidePanelHeader, SidePanelBody, SidePanelButton, useSidePanelState } from '@twilio-paste/side-panel';
+
+## About Side Panel
+
+Side Panel is a slide-out panel that appears from the right edge of the screen. Use it to display contextual information, detailed views, or supplementary content without navigating away from the current page.
+
+## Components
+
+- **SidePanelContainer** - Manages panel state
+- **SidePanel** - Main panel container
+- **SidePanelHeader** - Header section with title
+- **SidePanelHeaderActions** - Action buttons in header
+- **SidePanelBody** - Main content area
+- **SidePanelFooter** - Footer section
+- **SidePanelButton** - Button to trigger panel
+- **SidePanelBadgeButton** - Badge button trigger
+- **SidePanelPushContentWrapper** - Pushes content when panel opens
+- **useSidePanelState** - State management hook
+
+## Installation
+
+```bash
+yarn add @twilio-paste/side-panel
+```
+
+## Usage
+
+```jsx
+import {
+  SidePanelContainer,
+  SidePanel,
+  SidePanelButton,
+  SidePanelHeader,
+  SidePanelHeaderActions,
+  SidePanelBody,
+  SidePanelFooter,
+  useSidePanelState
+} from '@twilio-paste/side-panel';
+import { Button } from '@twilio-paste/button';
+
+const MySidePanel = () => {
+  const { isOpen, setIsOpen } = useSidePanelState();
+  
+  return (
+    <SidePanelContainer
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    >
+      <SidePanelButton>Open Panel</SidePanelButton>
+      <SidePanel label="Details">
+        <SidePanelHeader>
+          <h2>Panel Title</h2>
+          <SidePanelHeaderActions>
+            <Button variant="secondary" size="small">Edit</Button>
+          </SidePanelHeaderActions>
+        </SidePanelHeader>
+        <SidePanelBody>
+          <p>Panel content goes here...</p>
+        </SidePanelBody>
+        <SidePanelFooter>
+          <Button variant="primary" onClick={() => setIsOpen(false)}>
+            Close
+          </Button>
+        </SidePanelFooter>
+      </SidePanel>
+    </SidePanelContainer>
+  );
+};
+```
+
+## Props
+
+### SidePanelContainer
+
+<PropsTable>
+  <PropsTableRow
+    name="isOpen"
+    type="boolean"
+    required
+    description="Whether the side panel is open."
+  />
+  <PropsTableRow
+    name="setIsOpen"
+    type="Dispatch<SetStateAction<boolean>>"
+    required
+    description="Function to set the open state."
+  />
+  <PropsTableRow
+    name="sidePanelId"
+    type="string"
+    description="Custom ID for the panel. Auto-generated if not provided."
+  />
+  <PropsTableRow
+    name="i18nCloseSidePanelTitle"
+    type="string"
+    defaultValue="'close the side panel'"
+    description="Accessible label for close button."
+  />
+  <PropsTableRow
+    name="i18nOpenSidePanelTitle"
+    type="string"
+    defaultValue="'open the side panel'"
+    description="Accessible label for open button."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDE_PANEL_CONTAINER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="SidePanelButton and SidePanel components."
+  />
+</PropsTable>
+
+### SidePanel
+
+<PropsTable>
+  <PropsTableRow
+    name="label"
+    type="string"
+    required
+    description="Accessible label for the side panel."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDE_PANEL'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Panel content (header, body, footer)."
+  />
+</PropsTable>
+
+### SidePanelButton
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDE_PANEL_BUTTON'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Button content."
+  />
+</PropsTable>
+
+Accepts all Button props.
+
+### SidePanelBody
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDE_PANEL_BODY'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Main panel content."
+  />
+</PropsTable>
+
+### SidePanelFooter
+
+<PropsTable>
+  <PropsTableRow
+    name="variant"
+    type="'default' | 'chat'"
+    defaultValue="'default'"
+    description="Footer variant. Use 'chat' when wrapping Chat Composer."
+  />
+  <PropsTableRow
+    name="justifyContent"
+    type="'flex-start' | 'flex-end' | 'space-between'"
+    defaultValue="'flex-start'"
+    description="Content alignment within footer."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'SIDE_PANEL_FOOTER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Footer content (buttons, actions)."
+  />
+</PropsTable>
+
+## State Management
+
+Use `useSidePanelState` hook:
+
+```jsx
+const { isOpen, setIsOpen } = useSidePanelState({ open: false });
+
+// Control the panel
+setIsOpen(true);  // Open
+setIsOpen(false); // Close
+setIsOpen(!isOpen); // Toggle
+```
+
+## Push Content Wrapper
+
+Use `SidePanelPushContentWrapper` to push page content when panel opens:
+
+```jsx
+import { SidePanelPushContentWrapper } from '@twilio-paste/side-panel';
+
+<SidePanelContainer isOpen={isOpen} setIsOpen={setIsOpen}>
+  <SidePanelPushContentWrapper>
+    <main>
+      {/* Main page content gets pushed when panel opens */}
+    </main>
+  </SidePanelPushContentWrapper>
+  <SidePanel label="Details">
+    {/* panel content */}
+  </SidePanel>
+</SidePanelContainer>
+```
+
+## Footer Variants
+
+### Default Footer
+
+For standard actions:
+
+```jsx
+<SidePanelFooter justifyContent="flex-end">
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="primary">Save</Button>
+</SidePanelFooter>
+```
+
+### Chat Footer
+
+For AI chat interfaces:
+
+```jsx
+import { ChatComposerContainer, ChatComposer } from '@twilio-paste/chat-composer';
+
+<SidePanelFooter variant="chat">
+  <ChatComposerContainer>
+    <ChatComposer config={{ namespace: 'chat' }} />
+  </ChatComposerContainer>
+</SidePanelFooter>
+```
+
+## Accessibility
+
+- Side Panel has proper ARIA labeling
+- Focus is trapped within the panel when open
+- Escape key closes the panel
+- Close button is keyboard accessible
+- Panel state is announced to screen readers
+
+## Animation
+
+Side Panel slides in from the right with smooth transitions.
+
+## Related components
+
+- [Modal](/components/overlay/modal) - For blocking interactions
+- [Popover](/components/overlay/popover) - For contextual content
+- [Sidebar](/components/application/sidebar) - For primary navigation

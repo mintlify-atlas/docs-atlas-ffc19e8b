@@ -1,0 +1,705 @@
+---
+title: Creating Custom Themes
+description: Build custom themes for Paste by overriding design tokens and creating brand-specific experiences.
+slug: /customization/creating-custom-themes
+---
+
+Create fully customized themes for your Paste application by extending base themes and overriding design tokens.
+
+## Overview
+
+Custom themes let you:
+- Match your brand identity
+- Create product-specific variations
+- Support multiple brands in one application
+- Adjust tokens for accessibility or user preferences
+
+## Quick Start
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+const myTheme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#FF6B6B',
+  },
+  fonts: {
+    fontFamilyText: '"Inter", sans-serif',
+  },
+};
+
+function App() {
+  return (
+    <CustomizationProvider baseTheme="default" theme={myTheme}>
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+## Building a Custom Theme
+
+### Step 1: Choose a Base Theme
+
+Start with either `default` or `dark`:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+<CustomizationProvider baseTheme="default">
+  <App />
+</CustomizationProvider>
+```
+
+### Step 2: Define Your Overrides
+
+Create an object with the tokens you want to customize:
+
+```jsx
+const customTheme = {
+  // Typography
+  fonts: {
+    fontFamilyText: '"Roboto", sans-serif',
+  },
+  fontSizes: {
+    fontSize30: '1.0625rem',
+  },
+  
+  // Colors
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    colorBackgroundPrimaryStrong: '#0F766E',
+  },
+  textColors: {
+    colorTextLink: '#0D9488',
+  },
+  
+  // Spacing & Borders
+  radii: {
+    borderRadius20: '6px',
+    borderRadius30: '10px',
+  },
+};
+```
+
+### Step 3: Apply Your Theme
+
+```jsx
+<CustomizationProvider baseTheme="default" theme={customTheme}>
+  <App />
+</CustomizationProvider>
+```
+
+## Complete Theme Example
+
+Here's a comprehensive custom theme:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+const brandTheme = {
+  // Brand Typography
+  fonts: {
+    fontFamilyText: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif',
+    fontFamilyCode: '"Fira Code", "Courier New", monospace',
+  },
+  fontSizes: {
+    fontSize10: '0.6875rem',   // 11px
+    fontSize20: '0.8125rem',   // 13px
+    fontSize30: '0.9375rem',   // 15px
+    fontSize40: '1.0625rem',   // 17px
+    fontSize50: '1.1875rem',   // 19px
+    fontSize60: '1.375rem',    // 22px
+    fontSize70: '1.75rem',     // 28px
+    fontSize80: '2.125rem',    // 34px
+  },
+  fontWeights: {
+    fontWeightNormal: '400',
+    fontWeightMedium: '500',
+    fontWeightSemibold: '600',
+    fontWeightBold: '700',
+  },
+  lineHeights: {
+    lineHeight20: '1.125rem',
+    lineHeight30: '1.375rem',
+    lineHeight40: '1.625rem',
+    lineHeight50: '1.875rem',
+  },
+
+  // Brand Colors
+  backgroundColors: {
+    // Primary brand color
+    colorBackgroundPrimary: '#0D9488',
+    colorBackgroundPrimaryStrong: '#0F766E',
+    colorBackgroundPrimaryStronger: '#115E59',
+    colorBackgroundPrimaryStrongest: '#134E4A',
+    colorBackgroundPrimaryWeakest: '#CCFBF1',
+    
+    // Body backgrounds
+    colorBackgroundBody: '#FFFFFF',
+    colorBackgroundBodyInverse: '#1F2937',
+    
+    // Status colors
+    colorBackgroundDestructive: '#DC2626',
+    colorBackgroundDestructiveWeakest: '#FEE2E2',
+    colorBackgroundSuccess: '#059669',
+    colorBackgroundSuccessWeakest: '#D1FAE5',
+    colorBackgroundWarning: '#D97706',
+    colorBackgroundWarningWeakest: '#FEF3C7',
+  },
+  
+  textColors: {
+    colorText: '#111827',
+    colorTextWeak: '#4B5563',
+    colorTextWeaker: '#6B7280',
+    colorTextWeakest: '#9CA3AF',
+    colorTextInverse: '#FFFFFF',
+    
+    colorTextLink: '#0D9488',
+    colorTextLinkWeak: '#14B8A6',
+    colorTextLinkStrong: '#0F766E',
+    
+    colorTextError: '#DC2626',
+    colorTextSuccess: '#059669',
+    colorTextWarning: '#D97706',
+  },
+  
+  borderColors: {
+    colorBorder: '#E5E7EB',
+    colorBorderWeak: '#F3F4F6',
+    colorBorderWeaker: '#F9FAFB',
+    colorBorderStrong: '#D1D5DB',
+    
+    colorBorderPrimary: '#0D9488',
+    colorBorderDestructive: '#DC2626',
+    colorBorderSuccess: '#059669',
+    colorBorderWarning: '#D97706',
+  },
+
+  // Spacing (optional - usually keep default)
+  space: {
+    space30: '0.5rem',
+    space40: '0.75rem',
+    space50: '1rem',
+    space60: '1.5rem',
+    space70: '2rem',
+  },
+
+  // Borders & Shadows
+  radii: {
+    borderRadius10: '3px',
+    borderRadius20: '6px',
+    borderRadius30: '10px',
+    borderRadius40: '14px',
+    borderRadius50: '18px',
+  },
+  borderWidths: {
+    borderWidth10: '1px',
+    borderWidth20: '2px',
+    borderWidth30: '4px',
+  },
+  shadows: {
+    shadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
+    shadowCard: '0 2px 8px rgba(0, 0, 0, 0.06)',
+    shadowFocus: '0 0 0 3px rgba(13, 148, 136, 0.3)',
+  },
+
+  // Z-indices (rarely need customization)
+  zIndices: {
+    zIndex10: 10,
+    zIndex20: 20,
+    zIndex30: 30,
+    zIndex40: 40,
+    zIndex50: 50,
+  },
+};
+
+function App() {
+  return (
+    <CustomizationProvider baseTheme="default" theme={brandTheme}>
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+
+export default App;
+```
+
+## Advanced Patterns
+
+### Dynamic Themes
+
+Switch themes based on user preferences:
+
+```jsx
+import { useState } from 'react';
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+const lightTheme = {
+  backgroundColors: {
+    colorBackgroundBody: '#FFFFFF',
+    colorBackgroundPrimary: '#0D9488',
+  },
+  textColors: {
+    colorText: '#111827',
+  },
+};
+
+const darkTheme = {
+  backgroundColors: {
+    colorBackgroundBody: '#1F2937',
+    colorBackgroundPrimary: '#14B8A6',
+  },
+  textColors: {
+    colorText: '#F9FAFB',
+  },
+};
+
+function App() {
+  const [isDark, setIsDark] = useState(false);
+  const theme = isDark ? darkTheme : lightTheme;
+  const baseTheme = isDark ? 'dark' : 'default';
+
+  return (
+    <CustomizationProvider baseTheme={baseTheme} theme={theme}>
+      <button onClick={() => setIsDark(!isDark)}>
+        Toggle Theme
+      </button>
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Merging with Current Theme
+
+Extend the current theme instead of replacing it:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function ThemedApp() {
+  const currentTheme = useTheme();
+
+  const customTheme = {
+    ...currentTheme,
+    backgroundColors: {
+      ...currentTheme.backgroundColors,
+      colorBackgroundPrimary: '#0D9488',
+    },
+    textColors: {
+      ...currentTheme.textColors,
+      colorTextLink: '#0D9488',
+    },
+  };
+
+  return (
+    <CustomizationProvider theme={customTheme}>
+      <App />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Multi-Brand Support
+
+Support multiple brands in one application:
+
+```jsx
+const themes = {
+  brandA: {
+    backgroundColors: {
+      colorBackgroundPrimary: '#0D9488',
+    },
+    fonts: {
+      fontFamilyText: '"Inter", sans-serif',
+    },
+  },
+  brandB: {
+    backgroundColors: {
+      colorBackgroundPrimary: '#DC2626',
+    },
+    fonts: {
+      fontFamilyText: '"Roboto", sans-serif',
+    },
+  },
+};
+
+function App({ brandId }) {
+  return (
+    <CustomizationProvider
+      baseTheme="default"
+      theme={themes[brandId]}
+    >
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Environment-Based Themes
+
+```jsx
+const getTheme = () => {
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      backgroundColors: {
+        colorBackgroundBody: '#FFF7ED', // Orange tint
+      },
+    };
+  }
+  
+  if (process.env.REACT_APP_STAGING) {
+    return {
+      backgroundColors: {
+        colorBackgroundBody: '#F0FDF4', // Green tint
+      },
+    };
+  }
+  
+  return {}; // Production uses default
+};
+
+function App() {
+  return (
+    <CustomizationProvider theme={getTheme()}>
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+## Theme Generation
+
+### From Design Tokens
+
+If you have design tokens from a design tool:
+
+```jsx
+import { generateThemeFromTokens } from '@twilio-paste/theme';
+
+const designTokens = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    // ... other background colors
+  },
+  borderColors: {
+    colorBorder: '#E5E7EB',
+    // ... other border colors
+  },
+  borderWidths: {
+    borderWidth10: '1px',
+    // ... other border widths
+  },
+  radii: {
+    borderRadius20: '6px',
+    // ... other radii
+  },
+  fonts: {
+    fontFamilyText: '"Inter", sans-serif',
+  },
+  fontSizes: {
+    fontSize30: '1rem',
+    // ... other font sizes
+  },
+  fontWeights: {
+    fontWeightBold: '700',
+    // ... other font weights
+  },
+  lineHeights: {
+    lineHeight30: '1.5rem',
+    // ... other line heights
+  },
+  boxShadows: {
+    shadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
+    // ... other shadows
+  },
+  sizings: {
+    size0: '0',
+    size10: '5.5rem',
+    // ... all required sizing tokens
+  },
+  spacings: {
+    space0: '0',
+    space10: '0.125rem',
+    // ... other spacing values
+  },
+  textColors: {
+    colorText: '#111827',
+    // ... other text colors
+  },
+  zIndices: {
+    zIndex10: 10,
+    // ... other z-indices
+  },
+  colors: {},
+  colorSchemes: {},
+  dataVisualization: {},
+};
+
+const customTheme = generateThemeFromTokens(designTokens);
+
+<CustomizationProvider theme={customTheme}>
+  <App />
+</CustomizationProvider>
+```
+
+### Programmatic Token Generation
+
+```jsx
+function generateColorScale(baseColor) {
+  // Use a color library like polished or chroma-js
+  return {
+    colorBackgroundPrimary: baseColor,
+    colorBackgroundPrimaryStrong: darken(0.1, baseColor),
+    colorBackgroundPrimaryStronger: darken(0.2, baseColor),
+    colorBackgroundPrimaryStrongest: darken(0.3, baseColor),
+    colorBackgroundPrimaryWeakest: lighten(0.4, baseColor),
+  };
+}
+
+const theme = {
+  backgroundColors: generateColorScale('#0D9488'),
+};
+```
+
+## Combining with Element Customization
+
+Themes work seamlessly with element customization:
+
+```jsx
+<CustomizationProvider
+  baseTheme="default"
+  theme={{
+    backgroundColors: {
+      colorBackgroundPrimary: '#0D9488',
+    },
+    radii: {
+      borderRadius20: '6px',
+    },
+  }}
+  elements={{
+    BUTTON: {
+      borderRadius: 'borderRadius30', // Uses theme token
+      fontWeight: 'fontWeightBold',
+      variants: {
+        primary: {
+          backgroundColor: 'colorBackgroundPrimary', // Uses custom color
+        },
+      },
+    },
+  }}
+>
+  <App />
+</CustomizationProvider>
+```
+
+## Testing Custom Themes
+
+### Visual Testing
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function ThemeShowcase({ theme }) {
+  return (
+    <CustomizationProvider theme={theme}>
+      <Box padding="space70">
+        <Heading as="h1" variant="heading10">Heading</Heading>
+        <Paragraph>This is paragraph text.</Paragraph>
+        <Button variant="primary">Primary Button</Button>
+        <Button variant="secondary">Secondary Button</Button>
+        <Input placeholder="Input field" />
+      </Box>
+    </CustomizationProvider>
+  );
+}
+```
+
+### Accessibility Testing
+
+Ensure your custom theme maintains accessibility:
+
+```jsx
+import { useThemeContrastCheck } from '@twilio-paste/theme';
+
+function ThemeValidator({ theme }) {
+  const contrastIssues = useThemeContrastCheck(theme);
+  
+  if (contrastIssues.length > 0) {
+    console.warn('Contrast issues detected:', contrastIssues);
+  }
+  
+  return <App />;
+}
+```
+
+## Best Practices
+
+### 1. Start Small
+
+Begin with minimal overrides:
+
+```jsx
+// Good: Focused customization
+const theme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+  },
+};
+
+// Avoid: Over-customizing initially
+const theme = {
+  // 500 lines of token overrides
+};
+```
+
+### 2. Maintain Semantic Meaning
+
+```jsx
+// Good: Colors match their semantic purpose
+const theme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',      // Brand color
+    colorBackgroundDestructive: '#DC2626',  // Red for errors
+    colorBackgroundSuccess: '#059669',      // Green for success
+  },
+};
+
+// Avoid: Confusing semantics
+const theme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#DC2626',      // Red as primary?
+    colorBackgroundDestructive: '#059669',  // Green for errors?
+  },
+};
+```
+
+### 3. Test Across Components
+
+Ensure your theme works with all components you use:
+
+```jsx
+<CustomizationProvider theme={myTheme}>
+  <ComponentShowcase>
+    <Button variant="primary">Button</Button>
+    <Input placeholder="Input" />
+    <Alert variant="warning">Alert</Alert>
+    <Card>Card content</Card>
+    {/* Test all components */}
+  </ComponentShowcase>
+</CustomizationProvider>
+```
+
+### 4. Document Your Theme
+
+```jsx
+/**
+ * Brand Theme for Acme Corp
+ * 
+ * Key customizations:
+ * - Primary brand color: Teal (#0D9488)
+ * - Font family: Inter
+ * - Border radius: Slightly more rounded (6px vs 4px)
+ * 
+ * Last updated: 2024-03-04
+ * Designer: Jane Doe
+ */
+const acmeTheme = {
+  // ...
+};
+```
+
+### 5. Version Your Themes
+
+```jsx
+export const acmeThemeV1 = { /* ... */ };
+export const acmeThemeV2 = { /* ... */ };
+
+// Allow gradual migration
+const theme = useFeatureFlag('new-theme') ? acmeThemeV2 : acmeThemeV1;
+```
+
+## Common Pitfalls
+
+### Missing Required Tokens
+
+Some tokens depend on others:
+
+```jsx
+// Problem: Incomplete color set
+const theme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    // Missing colorBackgroundPrimaryStrong, etc.
+  },
+};
+
+// Solution: Define complete sets
+const theme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    colorBackgroundPrimaryStrong: '#0F766E',
+    colorBackgroundPrimaryStronger: '#115E59',
+    colorBackgroundPrimaryStrongest: '#134E4A',
+    colorBackgroundPrimaryWeakest: '#CCFBF1',
+  },
+};
+```
+
+### Hardcoded Units
+
+Avoid mixing unit types:
+
+```jsx
+// Problem: Mixed units
+const theme = {
+  space: {
+    space30: '8px',
+    space40: '0.75rem', // Different unit!
+  },
+};
+
+// Solution: Consistent units
+const theme = {
+  space: {
+    space30: '0.5rem',
+    space40: '0.75rem',
+  },
+};
+```
+
+### Poor Contrast
+
+Always check accessibility:
+
+```jsx
+// Problem: Low contrast
+const theme = {
+  backgroundColors: {
+    colorBackgroundBody: '#F3F4F6',
+  },
+  textColors: {
+    colorText: '#E5E7EB', // Too light!
+  },
+};
+
+// Solution: Sufficient contrast (4.5:1 minimum)
+const theme = {
+  backgroundColors: {
+    colorBackgroundBody: '#FFFFFF',
+  },
+  textColors: {
+    colorText: '#111827',
+  },
+};
+```
+
+## Next Steps
+
+- Explore [Design Tokens](/customization/design-tokens-overview) for all available tokens
+- Use the [Theme Designer](/customization/theme-designer) to preview changes
+- Learn about [CustomizationProvider](/customization/customization-provider) API
+- Review [Style Props](/customization/style-props) for component customization

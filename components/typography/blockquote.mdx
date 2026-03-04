@@ -1,0 +1,210 @@
+---
+title: Blockquote
+description: The Blockquote component displays quoted content with optional citation and source attribution.
+---
+
+# Blockquote
+
+The Blockquote component displays quoted content with optional citation and source attribution. Use Blockquote to highlight quotations from external sources.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/blockquote
+```
+
+## Usage
+
+```jsx
+import { Blockquote, BlockquoteContent, BlockquoteCitation } from '@twilio-paste/blockquote';
+
+const MyComponent = () => (
+  <Blockquote url="#">
+    <BlockquoteContent>
+      With AI-driven products, the design process is no longer just about
+      aesthetics. It's about designing for the human experience as a whole.
+    </BlockquoteContent>
+    <BlockquoteCitation author="Google" source="People + AI Guidebook" />
+  </Blockquote>
+);
+```
+
+## Components
+
+The Blockquote package includes three components that work together:
+
+### Blockquote
+
+The container component that wraps the quote content.
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `element` | `string` | `'BLOCKQUOTE'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+| `url` | `string` | - | The URL to the source of the quote. |
+| `marginBottom` | `'space0' \| 'space70'` | `'space70'` | Remove or set the bottom margin. |
+
+### BlockquoteContent
+
+The component that contains the quoted text.
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `element` | `string` | `'BLOCKQUOTE_CONTENT'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+
+### BlockquoteCitation
+
+The component that displays the author and source attribution.
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `element` | `string` | `'BLOCKQUOTE_CITATION'` | Overrides the default element name to apply unique styles with the Customization Provider. |
+| `author` | `string` | - | **Required.** The author of the quote. |
+| `source` | `string` | - | The source of the quote. |
+
+## Styling Details
+
+The Blockquote has the following default styles:
+
+- Displays a decorative quote icon
+- Uses `fontSize30` and `lineHeight30`
+- Default bottom margin of `space70`
+- Icon color: `colorTextIcon`
+
+## Examples
+
+### Basic Blockquote with URL
+
+```jsx
+<Blockquote url="#">
+  <BlockquoteContent>
+    With AI-driven products, the design process is no longer just about
+    aesthetics. It's about designing for the human experience as a whole.
+  </BlockquoteContent>
+  <BlockquoteCitation author="Google" source="People + AI Guidebook" />
+</Blockquote>
+```
+
+### Without URL
+
+When no URL is provided, the source will be displayed as plain text instead of a link:
+
+```jsx
+<Blockquote>
+  <BlockquoteContent>
+    With AI-driven products, the design process is no longer just about
+    aesthetics. It's about designing for the human experience as a whole.
+  </BlockquoteContent>
+  <BlockquoteCitation author="Google" source="People + AI Guidebook" />
+</Blockquote>
+```
+
+### Without Source
+
+You can omit the source and just provide the author:
+
+```jsx
+<Blockquote>
+  <BlockquoteContent>
+    With AI-driven products, the design process is no longer just about
+    aesthetics. It's about designing for the human experience as a whole.
+  </BlockquoteContent>
+  <BlockquoteCitation author="Google" />
+</Blockquote>
+```
+
+### Removing Bottom Margin
+
+```jsx
+<Blockquote url="#" marginBottom="space0">
+  <BlockquoteContent>
+    With AI-driven products, the design process is no longer just about
+    aesthetics. It's about designing for the human experience as a whole.
+  </BlockquoteContent>
+  <BlockquoteCitation author="Google" source="People + AI Guidebook" />
+</Blockquote>
+```
+
+## Customization
+
+The Blockquote component can be extensively customized:
+
+```jsx
+<CustomizationProvider
+  theme={currentTheme}
+  elements={{
+    BLOCKQUOTE: {
+      backgroundColor: 'colorBackgroundBody',
+      borderColor: 'colorBorderPrimary',
+      borderRadius: 'borderRadius20',
+      borderStyle: 'solid',
+      borderWidth: 'borderWidth20',
+      color: 'colorTextSuccess',
+      padding: 'space60',
+    },
+    BLOCKQUOTE_ICON: {
+      color: 'colorTextWarning',
+    },
+    INNER_BLOCKQUOTE: { 
+      margin: 'space40' 
+    },
+    BLOCKQUOTE_CONTENT: {
+      color: 'colorTextWarning',
+      fontFamily: 'fontFamilyText',
+      fontSize: 'fontSize30',
+      fontWeight: 'fontWeightSemibold',
+      lineHeight: 'lineHeight40',
+    },
+    BLOCKQUOTE_CITATION: {
+      color: 'colorTextError',
+      fontFamily: 'fontFamilyText',
+      fontSize: 'fontSize20',
+      fontWeight: 'fontWeightSemibold',
+      lineHeight: 'lineHeight20',
+    },
+    BLOCKQUOTE_CITATION_AUTHOR: {
+      color: 'colorTextWarning',
+    },
+    BLOCKQUOTE_CITATION_CITE: { 
+      fontFamily: 'fontFamilyCode' 
+    },
+    BLOCKQUOTE_CITATION_ANCHOR: { 
+      color: 'colorTextLinkStronger' 
+    },
+  }}
+>
+  <Blockquote url="#">
+    <BlockquoteContent>
+      With AI-driven products, the design process is no longer just about
+      aesthetics. It's about designing for the human experience as a whole.
+    </BlockquoteContent>
+    <BlockquoteCitation author="Google" source="People + AI Guidebook" />
+  </Blockquote>
+</CustomizationProvider>
+```
+
+## Customizable Elements
+
+The following element names are available for customization:
+
+- `BLOCKQUOTE`: The main container
+- `BLOCKQUOTE_ICON`: The decorative quote icon
+- `INNER_BLOCKQUOTE`: Inner wrapper around content
+- `BLOCKQUOTE_CONTENT`: The quote content
+- `BLOCKQUOTE_CITATION`: The citation container
+- `BLOCKQUOTE_CITATION_AUTHOR`: The author text
+- `BLOCKQUOTE_CITATION_CITE`: The citation wrapper
+- `BLOCKQUOTE_CITATION_ANCHOR`: The source link (when URL provided)
+- `BLOCKQUOTE_CITATION_TEXT`: The source text (when no URL)
+
+## Accessibility
+
+- Uses semantic `<blockquote>` HTML element for the quoted content
+- The `cite` attribute is automatically set on the blockquote element when a URL is provided
+- The quote icon is decorative and hidden from screen readers
+- External links (when URL is provided) are indicated with the `showExternal` prop on Anchor

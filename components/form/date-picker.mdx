@@ -1,0 +1,263 @@
+---
+title: Date Picker
+description: A Date Picker is a form element used to select a date.
+---
+
+Date Picker is a specialized input component that provides a native browser date picker interface for selecting dates.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/date-picker @twilio-paste/label @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  const [date, setDate] = React.useState('');
+  
+  return (
+    <>
+      <Label htmlFor="birthdate">Birth date</Label>
+      <DatePicker
+        id="birthdate"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
+    </>
+  );
+};
+```
+
+## Props
+
+DatePicker extends all Input props with `type="date"` preset.
+
+<ParamField path="id" type="string">
+  Sets the id of the date picker. Should match the `htmlFor` of Label.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="value" type="string">
+  The selected date in YYYY-MM-DD format (controlled component).
+</ParamField>
+
+<ParamField path="defaultValue" type="string">
+  Default date value for uncontrolled components.
+</ParamField>
+
+<ParamField path="min" type="string">
+  Minimum selectable date in YYYY-MM-DD format.
+</ParamField>
+
+<ParamField path="max" type="string">
+  Maximum selectable date in YYYY-MM-DD format. Defaults to '9999-12-31'.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the date picker.
+</ParamField>
+
+<ParamField path="readOnly" type="boolean" default="false">
+  Makes the date picker read-only.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the date picker as required.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the date picker to an error state.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="'default'">
+  Visual style variant.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when the date changes.
+</ParamField>
+
+<ParamField path="element" type="string" default="'DATEPICKER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic Date Picker
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [startDate, setStartDate] = React.useState('');
+
+<>
+  <Label htmlFor="start-date">Start date</Label>
+  <DatePicker
+    id="start-date"
+    value={startDate}
+    onChange={(e) => setStartDate(e.target.value)}
+  />
+  <HelpText>Select when your project begins</HelpText>
+</>
+```
+
+### With Min/Max Dates
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+
+const today = new Date().toISOString().split('T')[0];
+const maxDate = new Date();
+maxDate.setFullYear(maxDate.getFullYear() + 1);
+const oneYearFromNow = maxDate.toISOString().split('T')[0];
+
+<>
+  <Label htmlFor="appointment">Appointment date</Label>
+  <DatePicker
+    id="appointment"
+    min={today}
+    max={oneYearFromNow}
+  />
+</>
+```
+
+### Required Date Picker
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="dob" required>
+    Date of birth
+  </Label>
+  <DatePicker
+    id="dob"
+    required
+    max={new Date().toISOString().split('T')[0]}
+  />
+</>
+```
+
+### With Error State
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [date, setDate] = React.useState('');
+const [error, setError] = React.useState(false);
+
+const handleDateChange = (e) => {
+  const selectedDate = e.target.value;
+  setDate(selectedDate);
+  
+  // Validate date is in the future
+  const today = new Date().toISOString().split('T')[0];
+  setError(selectedDate < today);
+};
+
+<>
+  <Label htmlFor="event-date" required>
+    Event date
+  </Label>
+  <DatePicker
+    id="event-date"
+    value={date}
+    onChange={handleDateChange}
+    hasError={error}
+  />
+  {error && (
+    <HelpText variant="error">
+      Event date must be in the future
+    </HelpText>
+  )}
+</>
+```
+
+### Date Range Selection
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+import { Stack } from '@twilio-paste/stack';
+
+const [startDate, setStartDate] = React.useState('');
+const [endDate, setEndDate] = React.useState('');
+
+<Stack orientation="vertical" spacing="space60">
+  <div>
+    <Label htmlFor="start">Start date</Label>
+    <DatePicker
+      id="start"
+      value={startDate}
+      onChange={(e) => setStartDate(e.target.value)}
+    />
+  </div>
+  <div>
+    <Label htmlFor="end">End date</Label>
+    <DatePicker
+      id="end"
+      value={endDate}
+      onChange={(e) => setEndDate(e.target.value)}
+      min={startDate}
+    />
+  </div>
+</Stack>
+```
+
+### Disabled State
+
+```tsx
+import { DatePicker } from '@twilio-paste/date-picker';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="locked-date" disabled>
+    Creation date
+  </Label>
+  <DatePicker
+    id="locked-date"
+    value="2024-01-15"
+    disabled
+  />
+</>
+```
+
+## Accessibility
+
+- Always pair with a Label using matching `id` and `htmlFor`
+- Native date picker provides accessible calendar interface
+- Keyboard accessible (arrow keys navigate calendar, Enter selects)
+- Screen readers announce selected date and available range
+- Use `required` prop and RequiredDot for required fields
+- Associate error messages with `aria-describedby`
+- Disabled state is properly announced
+
+## Best Practices
+
+- Use native date picker for better mobile experience
+- Always set reasonable `min` and `max` values to constrain selection
+- Format dates in YYYY-MM-DD for consistency
+- Validate dates both client-side and server-side
+- Provide clear labels and help text about date format expectations
+- For date ranges, ensure end date min is set to start date
+- Consider time zones when working with dates
+- Show clear error messages for invalid date selections
+- Use read-only mode for displaying non-editable dates
+
+## Browser Support
+
+Date Picker uses the native HTML5 date input, which is supported in all modern browsers. For older browsers, it gracefully degrades to a text input.

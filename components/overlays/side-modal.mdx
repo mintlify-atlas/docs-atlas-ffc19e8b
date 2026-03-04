@@ -1,0 +1,280 @@
+---
+title: Side Modal
+description: A side modal is a dialog that slides in from the right side of the screen and provides a secondary workspace.
+slug: /components/overlays/side-modal
+---
+
+## Installation
+
+```bash
+yarn add @twilio-paste/side-modal
+```
+
+## Usage
+
+```jsx
+import {
+  SideModalContainer,
+  SideModalButton,
+  SideModal,
+  SideModalHeader,
+  SideModalHeading,
+  SideModalBody,
+  SideModalFooter,
+  SideModalFooterActions,
+} from '@twilio-paste/side-modal';
+import { Button } from '@twilio-paste/button';
+
+const MySideModal = () => {
+  return (
+    <SideModalContainer>
+      <SideModalButton variant="primary">
+        Open Side Modal
+      </SideModalButton>
+      <SideModal aria-label="Side modal example">
+        <SideModalHeader>
+          <SideModalHeading as="h2" variant="heading20">
+            Side Modal Heading
+          </SideModalHeading>
+        </SideModalHeader>
+        <SideModalBody>
+          <p>Side modal content goes here.</p>
+        </SideModalBody>
+        <SideModalFooter>
+          <SideModalFooterActions>
+            <Button variant="secondary">Cancel</Button>
+            <Button variant="primary">Save</Button>
+          </SideModalFooterActions>
+        </SideModalFooter>
+      </SideModal>
+    </SideModalContainer>
+  );
+};
+```
+
+## Props
+
+### SideModalContainer
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Must contain a SideModalButton and SideModal. |
+| `state` | `SideModalStateReturn` | - | Optional state from `useSideModalState` hook for controlled usage. |
+| `visible` | `boolean` | - | Control the visibility (controlled mode). |
+
+### SideModal
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `aria-label` | `string` | - | **Required.** Title of the dialog for screen readers. |
+| `children` | `React.ReactNode` | - | **Required.** The content of the side modal. |
+| `hideOnEsc` | `boolean` | `true` | Set to false to disable closing when the "Escape" key is pressed. |
+| `element` | `string` | `"SIDE_MODAL"` | Overrides the default element name for custom styling. |
+
+### SideModalButton
+
+SideModalButton extends the Button component props.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| All Button props | - | - | Inherits all props from the Button component. |
+
+### SideModalHeader
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Content for the header, typically SideModalHeading. |
+| `i18nDismissLabel` | `string` | `"Close side modal"` | Accessible text for the close button. |
+| `element` | `string` | `"SIDE_MODAL_HEADER"` | Overrides the default element name for custom styling. |
+
+### SideModalHeading
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The heading text. |
+| `as` | `"h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "h6"` | - | **Required.** The HTML heading level. |
+| `variant` | `HeadingProps["variant"]` | - | **Required.** The visual style of the heading. |
+| `element` | `string` | `"SIDE_MODAL_HEADING"` | Overrides the default element name for custom styling. |
+
+### SideModalBody
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** The main content of the side modal. |
+| `element` | `string` | `"SIDE_MODAL_BODY"` | Overrides the default element name for custom styling. |
+
+### SideModalFooter
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Content for the footer, typically SideModalFooterActions. |
+| `element` | `string` | `"SIDE_MODAL_FOOTER"` | Overrides the default element name for custom styling. |
+
+### SideModalFooterActions
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Action buttons for the side modal. |
+| `justify` | `"start" \| "end"` | `"end"` | Alignment of the action buttons. |
+| `element` | `string` | `"SIDE_MODAL_FOOTER_ACTIONS"` | Overrides the default element name for custom styling. |
+
+## Examples
+
+### Basic Side Modal
+
+```jsx
+<SideModalContainer>
+  <SideModalButton variant="primary">
+    View Details
+  </SideModalButton>
+  <SideModal aria-label="Details panel">
+    <SideModalHeader>
+      <SideModalHeading as="h2" variant="heading20">
+        Item Details
+      </SideModalHeading>
+    </SideModalHeader>
+    <SideModalBody>
+      <Heading as="h3" variant="heading30">
+        Description
+      </Heading>
+      <Paragraph>Detailed information about the item.</Paragraph>
+    </SideModalBody>
+    <SideModalFooter>
+      <SideModalFooterActions>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="primary">Save Changes</Button>
+      </SideModalFooterActions>
+    </SideModalFooter>
+  </SideModal>
+</SideModalContainer>
+```
+
+### Controlled Side Modal
+
+```jsx
+import { useSideModalState } from '@twilio-paste/side-modal';
+
+const ControlledSideModal = () => {
+  const sideModal = useSideModalState();
+
+  return (
+    <>
+      <Button onClick={() => sideModal.show()}>
+        Open Side Modal
+      </Button>
+      <SideModalContainer state={sideModal}>
+        <SideModal aria-label="Controlled side modal">
+          <SideModalHeader>
+            <SideModalHeading as="h2" variant="heading20">
+              Controlled Side Modal
+            </SideModalHeading>
+          </SideModalHeader>
+          <SideModalBody>
+            <Paragraph>This side modal is controlled programmatically.</Paragraph>
+            <Button onClick={() => sideModal.hide()}>Close</Button>
+          </SideModalBody>
+        </SideModal>
+      </SideModalContainer>
+    </>
+  );
+};
+```
+
+### Side Modal with Form
+
+```jsx
+<SideModalContainer>
+  <SideModalButton variant="primary">
+    Add Item
+  </SideModalButton>
+  <SideModal aria-label="Add new item">
+    <SideModalHeader>
+      <SideModalHeading as="h2" variant="heading20">
+        Add New Item
+      </SideModalHeading>
+    </SideModalHeader>
+    <SideModalBody>
+      <Box as="form" display="flex" flexDirection="column" rowGap="space60">
+        <Box>
+          <Label htmlFor="item-name" required>
+            Item Name
+          </Label>
+          <Input id="item-name" type="text" required />
+        </Box>
+        <Box>
+          <Label htmlFor="item-description">Description</Label>
+          <TextArea id="item-description" />
+        </Box>
+      </Box>
+    </SideModalBody>
+    <SideModalFooter>
+      <SideModalFooterActions>
+        <Button variant="secondary">Cancel</Button>
+        <Button variant="primary">Add Item</Button>
+      </SideModalFooterActions>
+    </SideModalFooter>
+  </SideModal>
+</SideModalContainer>
+```
+
+### Prevent Escape Key Close
+
+```jsx
+<SideModal aria-label="Important form" hideOnEsc={false}>
+  <SideModalHeader>
+    <SideModalHeading as="h2" variant="heading20">
+      Important Form
+    </SideModalHeading>
+  </SideModalHeader>
+  <SideModalBody>
+    <Paragraph>
+      This side modal can only be closed by clicking the close button or cancel.
+    </Paragraph>
+  </SideModalBody>
+</SideModal>
+```
+
+## Hooks
+
+### useSideModalState
+
+Returns state for controlling the side modal programmatically.
+
+```jsx
+const sideModal = useSideModalState();
+
+// State includes:
+// - visible: boolean
+// - show: () => void
+// - hide: () => void
+// - toggle: () => void
+```
+
+## Accessibility
+
+- Side Modal is a non-modal dialog (`aria-modal` is not set to true)
+- Focus moves to the side modal when it opens
+- Pressing Escape closes the side modal by default
+- The close button is keyboard accessible
+- Users can still interact with the main page content
+- Screen readers announce the side modal when it opens
+
+## When to Use
+
+### Use Side Modal when:
+- You need a secondary workspace without losing context of the main page
+- Editing or viewing details of items in a list or table
+- Creating wizards or multi-step forms
+- Providing additional options or settings
+- Users need to reference main page content while working in the modal
+
+### Use Modal instead when:
+- The task requires full user attention
+- You need to completely block interaction with the main content
+- The content is critical and must be addressed immediately
+- Space is limited and a centered dialog works better
+
+### Use Popover instead when:
+- The content is brief and contextual
+- You only need a small amount of space
+- The interaction is lightweight and quick

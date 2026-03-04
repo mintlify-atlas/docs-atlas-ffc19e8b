@@ -1,0 +1,293 @@
+---
+title: Theme Provider
+description: Learn how to use the Theme Provider to apply Paste themes to your application.
+slug: /customization/theme-provider
+---
+
+The Theme Provider is the foundation of Paste's theming system. It wraps your application and provides access to design tokens, enabling consistent styling across all Paste components.
+
+## Overview
+
+The `Theme.Provider` component uses React Context to make the selected theme available throughout your component tree. It handles:
+
+- Applying design tokens to components
+- Managing global styles and fonts
+- Supporting multiple theme variants
+- Handling animations and reduced motion
+- Custom breakpoints for responsive design
+
+## Basic Usage
+
+Wrap your application with the Theme Provider to apply the default Paste theme:
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="default">
+      <YourApplication />
+    </Theme.Provider>
+  );
+}
+```
+
+## Available Themes
+
+Paste provides several pre-built theme variants:
+
+### Default Theme
+
+The standard Paste theme designed for Twilio products:
+
+```jsx
+<Theme.Provider theme="default">
+  <App />
+</Theme.Provider>
+```
+
+### Dark Theme
+
+Optimized for dark mode interfaces:
+
+```jsx
+<Theme.Provider theme="dark">
+  <App />
+</Theme.Provider>
+```
+
+### Twilio Theme
+
+Official Twilio brand theme:
+
+```jsx
+<Theme.Provider theme="twilio">
+  <App />
+</Theme.Provider>
+```
+
+### Twilio Dark
+
+Dark variant of the Twilio theme:
+
+```jsx
+<Theme.Provider theme="twilio-dark">
+  <App />
+</Theme.Provider>
+```
+
+### Other Themes
+
+```jsx
+// SendGrid theme
+<Theme.Provider theme="sendgrid">
+  <App />
+</Theme.Provider>
+
+// Evergreen theme
+<Theme.Provider theme="evergreen">
+  <App />
+</Theme.Provider>
+```
+
+## Props
+
+### theme
+
+- **Type:** `'default' | 'dark' | 'twilio' | 'twilio-dark' | 'sendgrid' | 'evergreen'`
+- **Default:** `'default'`
+
+Selects which theme variant to apply.
+
+### customBreakpoints
+
+- **Type:** `string[]`
+- **Default:** `['400px', '1024px', '1280px']`
+
+Define custom breakpoints for responsive design:
+
+```jsx
+<Theme.Provider
+  theme="default"
+  customBreakpoints={['480px', '768px', '1024px', '1440px']}
+>
+  <App />
+</Theme.Provider>
+```
+
+Use these breakpoints with responsive style props:
+
+```jsx
+<Box
+  padding={['space30', 'space50', 'space70', 'space90']}
+  width={['100%', '100%', '50%', '33%']}
+>
+  Responsive content
+</Box>
+```
+
+### disableAnimations
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+Disable all animations throughout the application. Useful for:
+
+- Visual regression testing
+- Performance optimization
+- Accessibility preferences
+
+```jsx
+<Theme.Provider theme="default" disableAnimations>
+  <App />
+</Theme.Provider>
+```
+
+The provider automatically respects the user's `prefers-reduced-motion` setting.
+
+### cacheProviderProps
+
+- **Type:** `CreateCacheOptions`
+
+Configure Emotion's cache for advanced use cases like SSR or custom style insertion points:
+
+```jsx
+import { createCache } from '@emotion/cache';
+
+const cache = createCache({
+  key: 'paste',
+  prepend: true,
+});
+
+<Theme.Provider cacheProviderProps={{ key: 'paste' }}>
+  <App />
+</Theme.Provider>
+```
+
+### style
+
+- **Type:** `React.CSSProperties`
+
+Apply inline styles to the provider's root element:
+
+```jsx
+<Theme.Provider theme="default" style={{ minHeight: '100vh' }}>
+  <App />
+</Theme.Provider>
+```
+
+## Using CSS Variables
+
+For maximum flexibility, you can use CSS variables instead of static values:
+
+```jsx
+<Theme.Provider useCSSVariables>
+  <App />
+</Theme.Provider>
+```
+
+This enables runtime theme switching without remounting components.
+
+## Accessing the Theme
+
+Use the `useTheme` hook to access theme values in your components:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+
+function CustomComponent() {
+  const theme = useTheme();
+
+  return (
+    <div style={{
+      color: theme.textColors.colorText,
+      padding: theme.space.space50,
+      borderRadius: theme.radii.borderRadius20,
+    }}>
+      Themed content
+    </div>
+  );
+}
+```
+
+## Multiple Theme Providers
+
+You can nest Theme Providers to apply different themes to sections of your app:
+
+```jsx
+<Theme.Provider theme="default">
+  <MainContent />
+  
+  <Theme.Provider theme="dark">
+    <DarkSection />
+  </Theme.Provider>
+</Theme.Provider>
+```
+
+## Best Practices
+
+1. **Place at the root:** Wrap your entire application with Theme Provider at the highest level possible
+2. **Single provider:** Use one provider per application unless you need multiple themes
+3. **Avoid recreating:** Don't create new Theme Provider instances on every render
+4. **Use hooks:** Prefer `useTheme` hook over Theme Consumer for accessing theme values
+
+## Common Patterns
+
+### Theme Switching
+
+Implement a theme toggle:
+
+```jsx
+import { useState } from 'react';
+import { Theme } from '@twilio-paste/core/theme';
+import { Button } from '@twilio-paste/core/button';
+
+function App() {
+  const [theme, setTheme] = useState('default');
+
+  return (
+    <Theme.Provider theme={theme}>
+      <Button
+        variant="secondary"
+        onClick={() => setTheme(theme === 'default' ? 'dark' : 'default')}
+      >
+        Toggle Theme
+      </Button>
+      <YourContent />
+    </Theme.Provider>
+  );
+}
+```
+
+### Respecting User Preferences
+
+```jsx
+import { useState, useEffect } from 'react';
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  const [theme, setTheme] = useState('default');
+
+  useEffect(() => {
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setTheme(darkModeQuery.matches ? 'dark' : 'default');
+
+    const handler = (e) => setTheme(e.matches ? 'dark' : 'default');
+    darkModeQuery.addEventListener('change', handler);
+    
+    return () => darkModeQuery.removeEventListener('change', handler);
+  }, []);
+
+  return (
+    <Theme.Provider theme={theme}>
+      <YourContent />
+    </Theme.Provider>
+  );
+}
+```
+
+## Next Steps
+
+- Learn about [CustomizationProvider](/customization/customization-provider) for advanced theme customization
+- Explore [Design Tokens](/customization/design-tokens-overview) to understand the theming system
+- Create [Custom Themes](/customization/creating-custom-themes) for your brand

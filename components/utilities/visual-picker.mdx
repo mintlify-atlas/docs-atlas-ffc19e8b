@@ -1,0 +1,375 @@
+---
+title: Visual Picker
+package: '@twilio-paste/visual-picker'
+description: Visual Picker provides radio and checkbox groups with large, visual selection areas.
+category: Utilities
+status: Production
+---
+
+import { VisualPickerRadioGroup, VisualPickerRadio, VisualPickerCheckboxGroup, VisualPickerCheckbox } from '@twilio-paste/visual-picker';
+
+## About Visual Picker
+
+Visual Picker enhances radio buttons and checkboxes with larger, more visual selection areas. Use it when you want to make selection options more prominent and easier to click, especially for important choices or when displaying options with icons or images.
+
+## Components
+
+- **VisualPickerRadioGroup** - Radio button group container
+- **VisualPickerRadio** - Individual radio option
+- **VisualPickerCheckboxGroup** - Checkbox group container
+- **VisualPickerCheckbox** - Individual checkbox option
+
+## Installation
+
+```bash
+yarn add @twilio-paste/visual-picker
+```
+
+## Usage
+
+### Radio Group
+
+```jsx
+import { VisualPickerRadioGroup, VisualPickerRadio } from '@twilio-paste/visual-picker';
+
+const MyRadioGroup = () => {
+  const [value, setValue] = React.useState('option1');
+  
+  return (
+    <VisualPickerRadioGroup
+      legend="Choose an option"
+      name="options"
+      value={value}
+      onChange={setValue}
+    >
+      <VisualPickerRadio value="option1">
+        Option 1
+      </VisualPickerRadio>
+      <VisualPickerRadio value="option2">
+        Option 2
+      </VisualPickerRadio>
+      <VisualPickerRadio value="option3">
+        Option 3
+      </VisualPickerRadio>
+    </VisualPickerRadioGroup>
+  );
+};
+```
+
+### Checkbox Group
+
+```jsx
+import { VisualPickerCheckboxGroup, VisualPickerCheckbox } from '@twilio-paste/visual-picker';
+
+const MyCheckboxGroup = () => {
+  const [selected, setSelected] = React.useState([]);
+  
+  return (
+    <VisualPickerCheckboxGroup
+      legend="Select features"
+      name="features"
+    >
+      <VisualPickerCheckbox
+        checked={selected.includes('feature1')}
+        onChange={(e) => {
+          // handle change
+        }}
+      >
+        Feature 1
+      </VisualPickerCheckbox>
+      <VisualPickerCheckbox
+        checked={selected.includes('feature2')}
+        onChange={(e) => {
+          // handle change
+        }}
+      >
+        Feature 2
+      </VisualPickerCheckbox>
+    </VisualPickerCheckboxGroup>
+  );
+};
+```
+
+## Props
+
+### VisualPickerRadioGroup
+
+<PropsTable>
+  <PropsTableRow
+    name="legend"
+    type="ReactNode"
+    required
+    description="Label for the radio group."
+  />
+  <PropsTableRow
+    name="name"
+    type="string"
+    required
+    description="Name attribute for the radio group."
+  />
+  <PropsTableRow
+    name="value"
+    type="string"
+    required
+    description="Currently selected radio value."
+  />
+  <PropsTableRow
+    name="onChange"
+    type="(value: string) => void"
+    required
+    description="Callback when selection changes."
+  />
+  <PropsTableRow
+    name="orientation"
+    type="'horizontal' | 'vertical'"
+    defaultValue="'vertical'"
+    description="Layout direction of the picker options."
+  />
+  <PropsTableRow
+    name="disabled"
+    type="boolean"
+    defaultValue="false"
+    description="Whether the group is disabled."
+  />
+  <PropsTableRow
+    name="errorText"
+    type="string"
+    description="Error message to display."
+  />
+  <PropsTableRow
+    name="i18nRequiredLabel"
+    type="string"
+    defaultValue="'(required)'"
+    description="Label for required indicator."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'VISUAL_PICKER_RADIO_GROUP'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="VisualPickerRadio components."
+  />
+</PropsTable>
+
+### VisualPickerRadio
+
+<PropsTable>
+  <PropsTableRow
+    name="value"
+    type="string"
+    required
+    description="Value for this radio option."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'VISUAL_PICKER_RADIO'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Content to display in the picker."
+  />
+</PropsTable>
+
+### VisualPickerCheckboxGroup
+
+<PropsTable>
+  <PropsTableRow
+    name="legend"
+    type="ReactNode"
+    required
+    description="Label for the checkbox group."
+  />
+  <PropsTableRow
+    name="name"
+    type="string"
+    required
+    description="Name attribute for the checkbox group."
+  />
+  <PropsTableRow
+    name="orientation"
+    type="'horizontal' | 'vertical'"
+    defaultValue="'vertical'"
+    description="Layout direction of the picker options."
+  />
+  <PropsTableRow
+    name="disabled"
+    type="boolean"
+    defaultValue="false"
+    description="Whether the group is disabled."
+  />
+  <PropsTableRow
+    name="errorText"
+    type="string"
+    description="Error message to display."
+  />
+  <PropsTableRow
+    name="i18nRequiredLabel"
+    type="string"
+    defaultValue="'(required)'"
+    description="Label for required indicator."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'VISUAL_PICKER_CHECKBOX_GROUP'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="VisualPickerCheckbox components."
+  />
+</PropsTable>
+
+### VisualPickerCheckbox
+
+<PropsTable>
+  <PropsTableRow
+    name="checked"
+    type="boolean"
+    required
+    description="Whether the checkbox is checked."
+  />
+  <PropsTableRow
+    name="onChange"
+    type="(event) => void"
+    required
+    description="Callback when checkbox changes."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'VISUAL_PICKER_CHECKBOX'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Content to display in the picker."
+  />
+</PropsTable>
+
+## Orientation
+
+Control the layout with the `orientation` prop:
+
+### Vertical (default)
+
+```jsx
+<VisualPickerRadioGroup
+  orientation="vertical"
+  legend="Choose"
+  name="options"
+  value={value}
+  onChange={setValue}
+>
+  {/* options stack vertically */}
+</VisualPickerRadioGroup>
+```
+
+### Horizontal
+
+```jsx
+<VisualPickerRadioGroup
+  orientation="horizontal"
+  legend="Choose"
+  name="options"
+  value={value}
+  onChange={setValue}
+>
+  {/* options laid out horizontally */}
+</VisualPickerRadioGroup>
+```
+
+## With Icons
+
+Enhance options with icons:
+
+```jsx
+import { ProductMessagingIcon, ProductVoiceIcon } from '@twilio-paste/icons/esm';
+
+<VisualPickerRadioGroup legend="Choose product" name="product" value={value} onChange={setValue}>
+  <VisualPickerRadio value="messaging">
+    <ProductMessagingIcon decorative />
+    <div>Messaging</div>
+  </VisualPickerRadio>
+  <VisualPickerRadio value="voice">
+    <ProductVoiceIcon decorative />
+    <div>Voice</div>
+  </VisualPickerRadio>
+</VisualPickerRadioGroup>
+```
+
+## Error State
+
+Show validation errors:
+
+```jsx
+<VisualPickerRadioGroup
+  legend="Choose an option"
+  name="options"
+  value={value}
+  onChange={setValue}
+  errorText="Please select an option"
+>
+  {/* options */}
+</VisualPickerRadioGroup>
+```
+
+## Disabled State
+
+Disable the entire group:
+
+```jsx
+<VisualPickerRadioGroup
+  legend="Choose an option"
+  name="options"
+  value={value}
+  onChange={setValue}
+  disabled
+>
+  {/* options */}
+</VisualPickerRadioGroup>
+```
+
+## Accessibility
+
+- Uses semantic fieldset/legend structure
+- Proper radio/checkbox ARIA attributes
+- Keyboard navigation support
+- Error messages linked with `aria-describedby`
+- Focus indicators on keyboard navigation
+- Legend provides context for the group
+
+## When to Use
+
+### Use Visual Picker when:
+
+- Making important selections more prominent
+- Options include icons or images
+- You have 2-5 options to choose from
+- Selection is a primary action on the page
+
+### Use standard Radio/Checkbox when:
+
+- You have many options (6+)
+- Options are simple text labels
+- Space is constrained
+- Selection is secondary to other actions
+
+## Related components
+
+- [Radio Group](/components/form/radio-group) - Standard radio buttons
+- [Checkbox](/components/form/checkbox) - Standard checkboxes
+- [Button](/components/button) - For mutually exclusive actions

@@ -1,0 +1,464 @@
+---
+title: Theming
+description: Learn how to use Paste's theming system to apply different visual styles and create consistent themed experiences.
+---
+
+Paste's theming system allows you to easily switch between different visual styles and create consistent themed experiences across your application. The theme provider manages design token values and makes them available to all components.
+
+## Theme Provider
+
+The `Theme.Provider` component wraps your application and provides theme context to all Paste components.
+
+### Basic Setup
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="default">
+      {/* Your app components */}
+    </Theme.Provider>
+  );
+}
+```
+
+<Note>
+  Always wrap your application at the root level with Theme.Provider to ensure all Paste components have access to theme values.
+</Note>
+
+## Available Themes
+
+Paste includes several built-in themes:
+
+### Default Theme
+
+The standard Paste theme with light mode colors.
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="default">
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+### Dark Theme
+
+A dark mode theme optimized for low-light environments.
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="dark">
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+### Twilio Theme
+
+Twilio-branded theme with Twilio's color palette.
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="twilio">
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+### Twilio Dark Theme
+
+Dark variant of the Twilio-branded theme.
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="twilio-dark">
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+### SendGrid Theme
+
+SendGrid-branded theme.
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="sendgrid">
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+### Evergreen Theme
+
+Evergreen theme variant.
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider theme="evergreen">
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+## Theme Constants
+
+Available theme options are exported as constants:
+
+```jsx
+import { ThemeVariants } from '@twilio-paste/core/theme';
+
+// Available values:
+// ThemeVariants.DEFAULT - "default"
+// ThemeVariants.DARK - "dark"
+// ThemeVariants.TWILIO - "twilio"
+// ThemeVariants.TWILIO_DARK - "twilio-dark"
+// ThemeVariants.SENDGRID - "sendgrid"
+// ThemeVariants.EVERGREEN - "evergreen"
+
+function App() {
+  return (
+    <Theme.Provider theme={ThemeVariants.DARK}>
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+## Switching Themes Dynamically
+
+You can switch themes at runtime by changing the theme prop:
+
+```jsx
+import React from 'react';
+import { Theme } from '@twilio-paste/core/theme';
+import { Button } from '@twilio-paste/core/button';
+import { Box } from '@twilio-paste/core/box';
+
+function App() {
+  const [currentTheme, setCurrentTheme] = React.useState('default');
+
+  const toggleTheme = () => {
+    setCurrentTheme(currentTheme === 'default' ? 'dark' : 'default');
+  };
+
+  return (
+    <Theme.Provider theme={currentTheme}>
+      <Box padding="space60">
+        <Button onClick={toggleTheme}>
+          Switch to {currentTheme === 'default' ? 'Dark' : 'Light'} Theme
+        </Button>
+      </Box>
+    </Theme.Provider>
+  );
+}
+```
+
+## Theme Provider Props
+
+The Theme Provider accepts several configuration options:
+
+### theme
+
+The theme variant to use.
+
+```jsx
+<Theme.Provider theme="dark">
+  <YourApp />
+</Theme.Provider>
+```
+
+### customBreakpoints
+
+Custom responsive breakpoints for your application.
+
+```jsx
+<Theme.Provider 
+  theme="default" 
+  customBreakpoints={['640px', '768px', '1024px', '1280px']}
+>
+  <YourApp />
+</Theme.Provider>
+```
+
+### disableAnimations
+
+Disable all animations in Paste components.
+
+```jsx
+<Theme.Provider theme="default" disableAnimations>
+  <YourApp />
+</Theme.Provider>
+```
+
+This respects user preferences for reduced motion automatically.
+
+### cacheProviderProps
+
+Custom Emotion cache configuration.
+
+```jsx
+<Theme.Provider 
+  theme="default" 
+  cacheProviderProps={{ key: 'custom-cache' }}
+>
+  <YourApp />
+</Theme.Provider>
+```
+
+## Accessing Theme Values
+
+### useTheme Hook
+
+Access the current theme object in any component:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+
+function MyComponent() {
+  const theme = useTheme();
+  
+  return (
+    <div style={{
+      backgroundColor: theme.backgroundColors.colorBackground,
+      padding: theme.space.space60,
+      borderRadius: theme.radii.borderRadius30,
+    }}>
+      Custom themed component
+    </div>
+  );
+}
+```
+
+### Theme Consumer
+
+Access theme using React Context Consumer:
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function MyComponent() {
+  return (
+    <Theme.Consumer>
+      {({ theme }) => (
+        <div style={{
+          color: theme.textColors.colorText,
+          backgroundColor: theme.backgroundColors.colorBackground,
+        }}>
+          Themed content
+        </div>
+      )}
+    </Theme.Consumer>
+  );
+}
+```
+
+### withTheme Higher-Order Component
+
+Wrap components to inject the theme as a prop:
+
+```jsx
+import React from 'react';
+import { withTheme } from '@twilio-paste/core/theme';
+
+function MyComponent({ theme }) {
+  return (
+    <div style={{ color: theme.textColors.colorText }}>
+      Themed with HOC
+    </div>
+  );
+}
+
+export default withTheme(MyComponent);
+```
+
+## Theme Object Structure
+
+The theme object contains all design tokens organized by category:
+
+```javascript
+{
+  // Colors
+  backgroundColors: {
+    colorBackground: '#f4f4f6',
+    colorBackgroundPrimary: '#0263e0',
+    // ...
+  },
+  textColors: {
+    colorText: '#121c2d',
+    colorTextWeak: '#606b85',
+    // ...
+  },
+  borderColors: {
+    colorBorder: '#cacdd8',
+    // ...
+  },
+  
+  // Spacing
+  space: {
+    space0: '0',
+    space10: '0.25rem',  // 4px
+    space20: '0.5rem',   // 8px
+    space60: '1.5rem',   // 24px
+    // ...
+  },
+  
+  // Typography
+  fontSizes: {
+    fontSize10: '0.75rem',
+    fontSize30: '0.875rem',
+    // ...
+  },
+  fontWeights: {
+    fontWeightNormal: 400,
+    fontWeightBold: 700,
+    // ...
+  },
+  fonts: {
+    fontFamilyText: '"Inter", sans-serif',
+    fontFamilyCode: '"Courier Prime", monospace',
+  },
+  
+  // Border & Effects
+  radii: {
+    borderRadius10: '2px',
+    borderRadius30: '4px',
+    // ...
+  },
+  shadows: {
+    shadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
+    // ...
+  },
+  
+  // Responsive
+  breakpoints: ['640px', '768px', '1024px', '1280px'],
+}
+```
+
+## CSS Variables Theme
+
+Paste supports using CSS variables for theming:
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+
+function App() {
+  return (
+    <Theme.Provider useCSSVariables>
+      <YourApp />
+    </Theme.Provider>
+  );
+}
+```
+
+This generates CSS custom properties that can be overridden:
+
+```css
+:root {
+  --paste-color-background: #ffffff;
+  --paste-color-text: #121c2d;
+  /* ... */
+}
+```
+
+## Multiple Theme Providers
+
+You can nest Theme Providers to use different themes in different parts of your app:
+
+```jsx
+import { Theme } from '@twilio-paste/core/theme';
+import { Box } from '@twilio-paste/core/box';
+
+function App() {
+  return (
+    <Theme.Provider theme="default">
+      <Box padding="space60">
+        <h1>Light Theme Section</h1>
+        
+        <Theme.Provider theme="dark">
+          <Box padding="space60" backgroundColor="colorBackground">
+            <h2>Dark Theme Section</h2>
+          </Box>
+        </Theme.Provider>
+      </Box>
+    </Theme.Provider>
+  );
+}
+```
+
+## Theme Contrast Checking
+
+Paste provides utilities to check color contrast compliance:
+
+```jsx
+import { useThemeContrastCheck } from '@twilio-paste/core/theme';
+
+function ContrastChecker() {
+  const {
+    textContrastRating,
+    uiControlContrastRating,
+    numberOfTextFailures,
+    numberOfUIControlFailures,
+    totalFailures,
+  } = useThemeContrastCheck();
+
+  return (
+    <div>
+      <p>Text Contrast: {textContrastRating}</p>
+      <p>UI Control Contrast: {uiControlContrastRating}</p>
+      <p>Total Failures: {totalFailures}</p>
+    </div>
+  );
+}
+```
+
+<Warning>
+  Use this hook inside a Theme.Provider or CustomizationProvider for it to work correctly.
+</Warning>
+
+## Best Practices
+
+### Do's
+
+- **Wrap at root level**: Place Theme.Provider as high as possible in your component tree
+- **Use theme hooks**: Access theme values through useTheme when needed
+- **Respect user preferences**: The theme provider automatically respects prefers-reduced-motion
+- **Test themes**: Ensure your UI works well in all themes you support
+
+### Don'ts
+
+- **Don't hardcode theme values**: Always use tokens or theme object
+- **Don't create multiple providers unnecessarily**: One provider at the root is usually enough
+- **Don't mix theming approaches**: Choose either Theme.Provider or CustomizationProvider
+
+## Next Steps
+
+- [Customization](/concepts/customization): Learn how to create custom themes
+- [Design Tokens](/concepts/design-tokens): Understand the tokens that themes use
+- [Accessibility](/concepts/accessibility): Ensure your themes meet accessibility standards

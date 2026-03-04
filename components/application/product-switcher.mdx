@@ -1,0 +1,220 @@
+---
+title: Product Switcher
+package: '@twilio-paste/product-switcher'
+description: Product Switcher allows users to navigate between different products or applications.
+category: Application
+status: Production
+---
+
+import { ProductSwitcher, ProductSwitcherItem, ProductSwitcherButton, useProductSwitcherState } from '@twilio-paste/product-switcher';
+
+## About Product Switcher
+
+Product Switcher is a menu component that enables users to navigate between different products, applications, or modules. Built on the Menu component, it provides a consistent way to switch contexts within a larger platform.
+
+## Components
+
+- **ProductSwitcher** - Main menu container
+- **ProductSwitcherItem** - Individual product option
+- **ProductSwitcherButton** - Button to trigger the menu
+- **useProductSwitcherState** - Hook for menu state management
+
+## Installation
+
+```bash
+yarn add @twilio-paste/product-switcher
+```
+
+## Usage
+
+```jsx
+import {
+  ProductSwitcher,
+  ProductSwitcherItem,
+  ProductSwitcherButton,
+  useProductSwitcherState
+} from '@twilio-paste/product-switcher';
+
+const MyProductSwitcher = () => {
+  const menu = useProductSwitcherState();
+  
+  return (
+    <>
+      <ProductSwitcherButton {...menu}>
+        Products
+      </ProductSwitcherButton>
+      <ProductSwitcher {...menu} aria-label="Product switcher">
+        <ProductSwitcherItem href="/messaging">
+          Messaging
+        </ProductSwitcherItem>
+        <ProductSwitcherItem href="/voice">
+          Voice
+        </ProductSwitcherItem>
+        <ProductSwitcherItem href="/video">
+          Video
+        </ProductSwitcherItem>
+        <ProductSwitcherItem href="/analytics">
+          Analytics
+        </ProductSwitcherItem>
+      </ProductSwitcher>
+    </>
+  );
+};
+```
+
+## Props
+
+### ProductSwitcher
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PRODUCT_SWITCHER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Product items."
+  />
+</PropsTable>
+
+Accepts all Menu props for state management.
+
+### ProductSwitcherItem
+
+<PropsTable>
+  <PropsTableRow
+    name="href"
+    type="string"
+    description="URL for the product."
+  />
+  <PropsTableRow
+    name="onClick"
+    type="() => void"
+    description="Click handler for product selection."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PRODUCT_SWITCHER_ITEM'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Product name or content."
+  />
+</PropsTable>
+
+### ProductSwitcherButton
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'PRODUCT_SWITCHER_BUTTON'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    required
+    description="Button content."
+  />
+</PropsTable>
+
+## State Management
+
+Use `useProductSwitcherState` hook to manage menu state:
+
+```jsx
+const menu = useProductSwitcherState();
+
+// Pass state to both button and menu
+<ProductSwitcherButton {...menu}>Products</ProductSwitcherButton>
+<ProductSwitcher {...menu}>
+  {/* items */}
+</ProductSwitcher>
+```
+
+## With Icons
+
+Add icons to product items for visual identification:
+
+```jsx
+import { MessageIcon, PhoneIcon, VideoOnIcon } from '@twilio-paste/icons/esm';
+
+<ProductSwitcher {...menu}>
+  <ProductSwitcherItem href="/messaging">
+    <MessageIcon decorative />
+    Messaging
+  </ProductSwitcherItem>
+  <ProductSwitcherItem href="/voice">
+    <PhoneIcon decorative />
+    Voice
+  </ProductSwitcherItem>
+  <ProductSwitcherItem href="/video">
+    <VideoOnIcon decorative />
+    Video
+  </ProductSwitcherItem>
+</ProductSwitcher>
+```
+
+## Navigation Patterns
+
+### Link-based Navigation
+
+Use `href` for standard navigation:
+
+```jsx
+<ProductSwitcherItem href="/messaging">
+  Messaging
+</ProductSwitcherItem>
+```
+
+### Client-side Routing
+
+Use `onClick` with router libraries:
+
+```jsx
+import { useRouter } from 'next/router';
+
+const router = useRouter();
+
+<ProductSwitcherItem onClick={() => router.push('/messaging')}>
+  Messaging
+</ProductSwitcherItem>
+```
+
+## Accessibility
+
+- Uses semantic menu markup with ARIA attributes
+- Keyboard navigation with arrow keys
+- Focus management on open/close
+- Menu state announced to screen readers
+- Supports keyboard activation (Enter/Space)
+
+## Topbar Integration
+
+Product Switcher is commonly used in the Topbar:
+
+```jsx
+import { Topbar } from '@twilio-paste/topbar';
+
+<Topbar id="topbar">
+  <ProductSwitcher {...menu} aria-label="Product switcher">
+    {/* products */}
+  </ProductSwitcher>
+  {/* other topbar content */}
+</Topbar>
+```
+
+## Related components
+
+- [Menu](/components/navigation/menu) - Base menu component
+- [Account Switcher](/components/application/account-switcher) - Account selection
+- [Topbar](/components/application/topbar) - Application navigation bar

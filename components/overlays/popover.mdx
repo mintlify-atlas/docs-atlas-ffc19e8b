@@ -1,0 +1,197 @@
+---
+title: Popover
+description: A popover is a non-modal dialog that floats around a trigger element and displays contextual information or actions.
+slug: /components/overlays/popover
+---
+
+## Installation
+
+```bash
+yarn add @twilio-paste/popover
+```
+
+## Usage
+
+```jsx
+import { PopoverContainer, PopoverButton, Popover } from '@twilio-paste/popover';
+import { Text } from '@twilio-paste/text';
+
+const MyPopover = () => {
+  return (
+    <PopoverContainer>
+      <PopoverButton variant="primary">
+        Open Popover
+      </PopoverButton>
+      <Popover aria-label="Popover">
+        <Text as="span">This is the Twilio styled popover.</Text>
+      </Popover>
+    </PopoverContainer>
+  );
+};
+```
+
+## Props
+
+### PopoverContainer
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `React.ReactNode` | - | **Required.** Must contain a PopoverButton and Popover. |
+| `state` | `PopoverStateReturn` | - | Optional state from `usePopoverState` hook for controlled usage. |
+| `placement` | `string` | `"auto"` | Position of the popover relative to the trigger. |
+| `gutter` | `number` | `8` | Space between the popover and its trigger. |
+| `visible` | `boolean` | - | Control the visibility (controlled mode). |
+| `baseId` | `string` | - | ID that will serve as a base for the popover elements. |
+
+### Popover
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `aria-label` | `string` | - | **Required.** Label for the popover that titles the entire context for screen readers. |
+| `children` | `React.ReactNode` | - | **Required.** Content to display in the popover. |
+| `i18nDismissLabel` | `string` | `"Close popover"` | Accessible label for the dismiss button. |
+| `width` | `ResponsiveValue<"size10" \| "size20" \| "size30" \| "size40" \| "size50">` | - | Width of the popover. |
+| `initialFocusRef` | `React.RefObject<any>` | - | A ref to an interactive element that receives focus when the Popover opens. |
+| `element` | `string` | `"POPOVER"` | Overrides the default element name for custom styling. |
+
+### PopoverButton
+
+PopoverButton extends the Button component props.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | Button variants | - | Style variant from Button component. |
+| All Button props | - | - | Inherits all props from the Button component. |
+
+### PopoverBadgeButton
+
+PopoverBadgeButton extends the Badge component props for triggering popovers from badges.
+
+### PopoverFormPillButton
+
+PopoverFormPillButton extends the FormPill component props for triggering popovers from form pills.
+
+## Examples
+
+### Basic Popover
+
+```jsx
+<PopoverContainer>
+  <PopoverButton variant="primary">
+    Open Popover
+  </PopoverButton>
+  <Popover aria-label="Popover">
+    <Heading as="h3" variant="heading30">
+      Popover heading
+    </Heading>
+    <Paragraph>This is some popover content.</Paragraph>
+  </Popover>
+</PopoverContainer>
+```
+
+### Custom Width
+
+```jsx
+<Popover aria-label="Popover" width="size40">
+  <Text as="span">This popover has a custom width.</Text>
+</Popover>
+```
+
+### Controlled Popover
+
+```jsx
+import { usePopoverState } from '@twilio-paste/popover';
+
+const ControlledPopover = () => {
+  const popover = usePopoverState();
+
+  return (
+    <PopoverContainer state={popover}>
+      <PopoverButton variant="primary">
+        Open Popover
+      </PopoverButton>
+      <Popover aria-label="Popover">
+        <Text as="span">Controlled popover content.</Text>
+        <Button onClick={() => popover.hide()}>Close</Button>
+      </Popover>
+    </PopoverContainer>
+  );
+};
+```
+
+### Custom Initial Focus
+
+```jsx
+const inputRef = React.createRef();
+
+<PopoverContainer>
+  <PopoverButton variant="primary">
+    Open Popover
+  </PopoverButton>
+  <Popover aria-label="Popover" initialFocusRef={inputRef}>
+    <Label htmlFor="popover-input">Name</Label>
+    <Input id="popover-input" ref={inputRef} />
+  </Popover>
+</PopoverContainer>
+```
+
+### Different Trigger Types
+
+```jsx
+import { PopoverBadgeButton } from '@twilio-paste/popover';
+import { Badge } from '@twilio-paste/badge';
+
+<PopoverContainer>
+  <PopoverBadgeButton as={Badge} variant="info">
+    Info
+  </PopoverBadgeButton>
+  <Popover aria-label="Information">
+    <Text as="span">Additional information here.</Text>
+  </Popover>
+</PopoverContainer>
+```
+
+## Hooks
+
+### usePopoverState
+
+Returns state for controlling the popover programmatically.
+
+```jsx
+const popover = usePopoverState({
+  placement: 'top',
+  gutter: 12,
+});
+
+// State includes:
+// - visible: boolean
+// - show: () => void
+// - hide: () => void
+// - toggle: () => void
+```
+
+## Accessibility
+
+- Popover is a non-modal dialog (doesn't block interaction with the rest of the page)
+- Focus moves to the popover when it opens
+- Pressing Escape closes the popover
+- Clicking outside the popover closes it
+- The close button is keyboard accessible
+- Arrow key navigation is supported when popover contains focusable elements
+
+## When to Use
+
+### Use Popover when:
+- You need to display supplementary information without navigating away
+- You want to show contextual help or tooltips with interactive content
+- You need a lightweight, non-blocking overlay
+- Content needs to be accessible via keyboard and screen readers
+
+### Use Tooltip instead when:
+- You only need to display simple, non-interactive text
+- The information is purely supplementary and not critical
+
+### Use Modal instead when:
+- You need to block interaction with the main content
+- The task requires full user attention
+- You have a complex form or workflow

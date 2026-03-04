@@ -1,0 +1,153 @@
+---
+title: Timeline
+description: A component for displaying events or steps in chronological order.
+---
+
+# Timeline
+
+The Timeline component displays events, steps, or activities in chronological order with visual indicators.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/timeline
+```
+
+## Usage
+
+### Basic Timeline
+
+```jsx
+import { Timeline, TimelineItem } from '@twilio-paste/timeline';
+
+<Timeline>
+  <TimelineItem title="Order Placed" timestamp="2 hours ago">
+    Your order has been placed successfully.
+  </TimelineItem>
+  <TimelineItem title="Processing" timestamp="1 hour ago">
+    We are preparing your order.
+  </TimelineItem>
+  <TimelineItem title="Shipped" timestamp="30 minutes ago">
+    Your order is on its way.
+  </TimelineItem>
+</Timeline>
+```
+
+### Timeline with Icons
+
+```jsx
+import { SuccessIcon } from '@twilio-paste/icons/esm/SuccessIcon';
+import { ProcessingIcon } from '@twilio-paste/icons/esm/ProcessingIcon';
+
+<Timeline>
+  <TimelineItem title="Completed" icon={SuccessIcon} timestamp="2 hours ago">
+    Task completed successfully.
+  </TimelineItem>
+  <TimelineItem title="In Progress" icon={ProcessingIcon} timestamp="Now">
+    Currently processing.
+  </TimelineItem>
+</Timeline>
+```
+
+### Collapsible Timeline Items
+
+```jsx
+<Timeline>
+  <TimelineItem 
+    title="Step 1" 
+    timestamp="Yesterday"
+    collapsible
+    collapsibleHeading="View Details"
+  >
+    Detailed information about step 1.
+  </TimelineItem>
+  <TimelineItem 
+    title="Step 2" 
+    timestamp="Today"
+    collapsible
+  >
+    Detailed information about step 2.
+  </TimelineItem>
+</Timeline>
+```
+
+### Interactive Timeline Items
+
+```jsx
+<Timeline>
+  <TimelineItem 
+    title="Clickable Item" 
+    timestamp="Now"
+    onClick={() => console.log('clicked')}
+  >
+    Click this item to trigger an action.
+  </TimelineItem>
+  <TimelineItem 
+    title="Disabled Item" 
+    timestamp="Future"
+    disabled
+  >
+    This item is disabled.
+  </TimelineItem>
+</Timeline>
+```
+
+## Props
+
+### Timeline
+
+<ResponseField name="element" type="string" default="TIMELINE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+### TimelineItem
+
+<ResponseField name="title" type="string" required>
+  Title to display in the timeline item.
+</ResponseField>
+
+<ResponseField name="timestamp" type="string">
+  Timestamp to display in the timeline item.
+</ResponseField>
+
+<ResponseField name="icon" type="React.FC<GenericIconProps>">
+  Pass a Paste Icon to display in place of dot.
+</ResponseField>
+
+<ResponseField name="collapsible" type="boolean" default="false">
+  If true, the timeline item will be collapsible.
+</ResponseField>
+
+<ResponseField name="collapsibleHeading" type="string">
+  In case of collapsible timeline item and no timestamp, this will be used as the heading.
+</ResponseField>
+
+<ResponseField name="element" type="string" default="TIMELINE_ITEM">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+<ResponseField name="onClick" type="React.MouseEventHandler<HTMLButtonElement>">
+  Add an action to the timeline item.
+</ResponseField>
+
+<ResponseField name="disabled" type="boolean" default="false">
+  If true, the timeline item will be disabled.
+</ResponseField>
+
+### TimelineItemGroup
+
+Groups multiple timeline items together.
+
+<ResponseField name="element" type="string" default="TIMELINE_ITEM_GROUP">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ResponseField>
+
+## Features
+
+- Vertical connector line between items
+- Support for custom icons
+- Collapsible content sections
+- Interactive items with onClick handlers
+- Timestamps for each event
+- Disabled state support
+- Grouping support for related items

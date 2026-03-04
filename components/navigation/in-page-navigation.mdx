@@ -1,0 +1,237 @@
+---
+title: In Page Navigation
+description: In Page Navigation helps users navigate between different sections of content on the same page.
+package: '@twilio-paste/in-page-navigation'
+---
+
+## Overview
+
+In Page Navigation is a navigation component that helps users navigate between different sections of content on the same page. It's commonly used for anchor links that scroll to different sections or for client-side routing within a single page application.
+
+The component supports both horizontal and vertical orientations, multiple visual variants, and includes automatic scroll management for overflowing navigation items.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/in-page-navigation
+```
+
+## Usage
+
+```jsx
+import { InPageNavigation, InPageNavigationItem } from '@twilio-paste/in-page-navigation';
+
+const MyNavigation = () => (
+  <InPageNavigation aria-label="Section navigation">
+    <InPageNavigationItem href="#section-1">Section 1</InPageNavigationItem>
+    <InPageNavigationItem href="#section-2" currentPage>
+      Section 2
+    </InPageNavigationItem>
+    <InPageNavigationItem href="#section-3">Section 3</InPageNavigationItem>
+  </InPageNavigation>
+);
+```
+
+### Variants
+
+#### Default
+
+The default variant displays navigation items with a bottom border.
+
+```jsx
+<InPageNavigation aria-label="Default navigation" variant="default">
+  <InPageNavigationItem href="#overview">Overview</InPageNavigationItem>
+  <InPageNavigationItem href="#features" currentPage>
+    Features
+  </InPageNavigationItem>
+  <InPageNavigationItem href="#pricing">Pricing</InPageNavigationItem>
+</InPageNavigation>
+```
+
+#### Full Width
+
+Full width variant distributes items evenly across the container width.
+
+```jsx
+<InPageNavigation aria-label="Full width navigation" variant="fullWidth">
+  <InPageNavigationItem href="#tab1">Tab 1</InPageNavigationItem>
+  <InPageNavigationItem href="#tab2" currentPage>
+    Tab 2
+  </InPageNavigationItem>
+  <InPageNavigationItem href="#tab3">Tab 3</InPageNavigationItem>
+</InPageNavigation>
+```
+
+#### Inverse
+
+Use the inverse variant for dark backgrounds.
+
+```jsx
+<InPageNavigation aria-label="Inverse navigation" variant="inverse">
+  <InPageNavigationItem href="#section-1">Section 1</InPageNavigationItem>
+  <InPageNavigationItem href="#section-2" currentPage>
+    Section 2
+  </InPageNavigationItem>
+  <InPageNavigationItem href="#section-3">Section 3</InPageNavigationItem>
+</InPageNavigation>
+```
+
+#### Inverse Full Width
+
+```jsx
+<InPageNavigation aria-label="Inverse full width navigation" variant="inverse_fullWidth">
+  <InPageNavigationItem href="#tab1">Tab 1</InPageNavigationItem>
+  <InPageNavigationItem href="#tab2" currentPage>
+    Tab 2
+  </InPageNavigationItem>
+  <InPageNavigationItem href="#tab3">Tab 3</InPageNavigationItem>
+</InPageNavigation>
+```
+
+### Vertical Orientation
+
+```jsx
+<InPageNavigation 
+  aria-label="Vertical navigation" 
+  orientation="vertical"
+>
+  <InPageNavigationItem href="#section-1">Section 1</InPageNavigationItem>
+  <InPageNavigationItem href="#section-2" currentPage>
+    Section 2
+  </InPageNavigationItem>
+  <InPageNavigationItem href="#section-3">Section 3</InPageNavigationItem>
+  <InPageNavigationItem href="#section-4">Section 4</InPageNavigationItem>
+</InPageNavigation>
+```
+
+### With Titles
+
+Use the `title` prop to provide accessible tooltips, especially when text might be truncated.
+
+```jsx
+<InPageNavigation aria-label="Navigation with titles">
+  <InPageNavigationItem 
+    href="#long-section" 
+    title="This is a very long section title that might be truncated"
+  >
+    This is a very long section title that might be truncated
+  </InPageNavigationItem>
+  <InPageNavigationItem 
+    href="#another-section" 
+    title="Another section"
+    currentPage
+  >
+    Another section
+  </InPageNavigationItem>
+</InPageNavigation>
+```
+
+### Without Bottom Border
+
+```jsx
+<InPageNavigation aria-label="No border navigation" hideBottomBorder>
+  <InPageNavigationItem href="#section-1">Section 1</InPageNavigationItem>
+  <InPageNavigationItem href="#section-2" currentPage>
+    Section 2
+  </InPageNavigationItem>
+</InPageNavigation>
+```
+
+## Props
+
+### InPageNavigation
+
+<ParamField path="children" type="React.ReactNode">
+  InPageNavigationItem components to display.
+</ParamField>
+
+<ParamField path="aria-label" type="string" required>
+  Accessible label for the navigation, used as the aria-label.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'fullWidth' | 'inverse' | 'inverse_fullWidth'" default="default">
+  Visual style variant. Full width variants distribute items evenly across the container.
+</ParamField>
+
+<ParamField path="orientation" type="'horizontal' | 'vertical'" default="horizontal">
+  Layout orientation of the navigation items.
+</ParamField>
+
+<ParamField path="marginBottom" type="'space0'">
+  Allows removal of the default bottom margin by setting to 'space0'.
+</ParamField>
+
+<ParamField path="hideBottomBorder" type="boolean" default="false">
+  Hides the bottom border. Use sparingly.
+</ParamField>
+
+<ParamField path="element" type="string" default="IN_PAGE_NAVIGATION">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### InPageNavigationItem
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text content to display for the navigation item.
+</ParamField>
+
+<ParamField path="href" type="string" required>
+  URL or anchor to navigate to when clicked.
+</ParamField>
+
+<ParamField path="currentPage" type="boolean" default="false">
+  Marks this item as the current page, applying active styles and setting `aria-current="page"`.
+</ParamField>
+
+<ParamField path="title" type="string">
+  Accessible title attribute for when content is truncated. Strongly recommended on all items, especially in vertical navigation or when text might truncate.
+</ParamField>
+
+<ParamField path="element" type="string" default="IN_PAGE_NAVIGATION_ITEM">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Accessibility
+
+- Uses semantic `<nav>` element with required `aria-label` to identify the navigation landmark.
+- Items are rendered as an unordered list (`<ul>`) with proper list item markup.
+- The current page item has `aria-current="page"` to indicate the active state.
+- External links automatically receive `rel="noreferrer noopener"` and `target="_blank"` via the `secureExternalLink` utility.
+- The component automatically scrolls to show the selected item when it's out of view.
+- Overflow buttons appear when items don't fit in the container, allowing users to scroll.
+- The `title` attribute provides tooltips for truncated text.
+
+## Features
+
+### Automatic Scroll Management
+
+The component automatically manages scrolling when there are more navigation items than can fit:
+
+- Overflow buttons appear on the left and right (or top and bottom for vertical)
+- Clicking overflow buttons scrolls to reveal hidden items
+- The selected item automatically scrolls into view on mount
+- Shadows appear to indicate there's more content to scroll
+
+### Responsive Behavior
+
+- The component listens to window resize events and adjusts overflow buttons accordingly
+- Full width variants ensure items fill the available space
+- Vertical orientation provides an alternative layout for sidebar navigation
+
+## Best Practices
+
+### Do
+
+- Use In Page Navigation for navigating between sections on the same page
+- Mark the current section with `currentPage`
+- Provide clear, concise labels for each navigation item
+- Use `title` attributes when text might be truncated
+- Use vertical orientation for sidebar navigation
+- Use full width variants when you want items to fill the container
+
+### Don't
+
+- Don't use for primary site navigation (use a different component)
+- Don't nest In Page Navigation components
+- Don't use too many items (consider grouping or a different pattern)
+- Don't forget to provide an `aria-label`

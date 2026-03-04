@@ -1,0 +1,719 @@
+---
+title: Custom Components
+description: Build custom components with Paste primitives and styling while maintaining consistency with the design system.
+slug: /customization/custom-components
+---
+
+While Paste provides a comprehensive set of components, you may need to create custom components for unique use cases. Learn how to build custom components that integrate seamlessly with Paste's theming system.
+
+## Overview
+
+Creating custom components in Paste involves:
+- Using Paste primitives like Box and Text
+- Accessing theme tokens with `useTheme`
+- Leveraging style props for consistency
+- Following Paste's accessibility patterns
+
+## Using Box as a Foundation
+
+The Box component is the most flexible primitive for building custom components:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function CustomCard({ children, variant = 'default' }) {
+  const isElevated = variant === 'elevated';
+  
+  return (
+    <Box
+      backgroundColor="colorBackgroundBody"
+      borderRadius="borderRadius30"
+      padding="space70"
+      boxShadow={isElevated ? 'shadowCard' : 'none'}
+      borderWidth="borderWidth10"
+      borderStyle="solid"
+      borderColor="colorBorder"
+    >
+      {children}
+    </Box>
+  );
+}
+```
+
+## Accessing Theme Values
+
+Use the `useTheme` hook to access raw theme values:
+
+```jsx
+import { useTheme } from '@twilio-paste/core/theme';
+import { Box } from '@twilio-paste/core/box';
+
+function CustomGradientBox({ children }) {
+  const theme = useTheme();
+  
+  return (
+    <Box
+      padding="space60"
+      borderRadius="borderRadius30"
+      style={{
+        background: `linear-gradient(135deg, ${
+          theme.backgroundColors.colorBackgroundPrimary
+        }, ${
+          theme.backgroundColors.colorBackgroundPrimaryStrong
+        })`,
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+```
+
+## Composing Paste Components
+
+Build complex components by combining existing Paste components:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+import { Heading } from '@twilio-paste/core/heading';
+import { Button } from '@twilio-paste/core/button';
+import { Stack } from '@twilio-paste/core/stack';
+
+function FeatureCard({ title, description, action, onAction }) {
+  return (
+    <Box
+      backgroundColor="colorBackgroundBody"
+      borderRadius="borderRadius30"
+      padding="space70"
+      boxShadow="shadowCard"
+    >
+      <Stack orientation="vertical" spacing="space50">
+        <Heading as="h3" variant="heading30">
+          {title}
+        </Heading>
+        <Text as="p" color="colorTextWeak">
+          {description}
+        </Text>
+        {action && (
+          <Box>
+            <Button variant="primary" onClick={onAction}>
+              {action}
+            </Button>
+          </Box>
+        )}
+      </Stack>
+    </Box>
+  );
+}
+
+// Usage
+<FeatureCard
+  title="Get Started"
+  description="Learn how to integrate Paste into your application"
+  action="Read Documentation"
+  onAction={() => console.log('Clicked')}
+/>
+```
+
+## Creating Styled Components
+
+For more complex styling needs, use the Paste styling library:
+
+```jsx
+import { styled } from '@twilio-paste/styling-library';
+import { Box } from '@twilio-paste/core/box';
+
+const StyledCard = styled(Box)(({ theme, variant }) => ({
+  backgroundColor: theme.backgroundColors.colorBackgroundBody,
+  borderRadius: theme.radii.borderRadius30,
+  padding: theme.space.space70,
+  boxShadow: variant === 'elevated' 
+    ? theme.shadows.shadowCard 
+    : 'none',
+  borderWidth: theme.borderWidths.borderWidth10,
+  borderStyle: 'solid',
+  borderColor: theme.borderColors.colorBorder,
+  transition: 'all 0.2s ease',
+  
+  '&:hover': {
+    boxShadow: theme.shadows.shadow,
+    transform: 'translateY(-2px)',
+  },
+}));
+
+function HoverCard({ children, variant }) {
+  return <StyledCard variant={variant}>{children}</StyledCard>;
+}
+```
+
+## Advanced Custom Components
+
+### Interactive Component with State
+
+```jsx
+import { useState } from 'react';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+import { Stack } from '@twilio-paste/core/stack';
+
+function Tabs({ items, defaultTab = 0 }) {
+  const [activeTab, setActiveTab] = useState(defaultTab);
+  
+  return (
+    <Box>
+      <Stack orientation="horizontal" spacing="space0">
+        {items.map((item, index) => (
+          <Box
+            key={index}
+            as="button"
+            onClick={() => setActiveTab(index)}
+            paddingX="space60"
+            paddingY="space40"
+            backgroundColor={
+              activeTab === index
+                ? 'colorBackgroundPrimaryWeakest'
+                : 'transparent'
+            }
+            borderBottomWidth="borderWidth20"
+            borderBottomStyle="solid"
+            borderBottomColor={
+              activeTab === index
+                ? 'colorBorderPrimary'
+                : 'transparent'
+            }
+            cursor="pointer"
+            _hover={{
+              backgroundColor: 'colorBackgroundPrimaryWeakest',
+            }}
+          >
+            <Text
+              as="span"
+              fontWeight={
+                activeTab === index ? 'fontWeightBold' : 'fontWeightNormal'
+              }
+            >
+              {item.label}
+            </Text>
+          </Box>
+        ))}
+      </Stack>
+      <Box padding="space70">
+        {items[activeTab].content}
+      </Box>
+    </Box>
+  );
+}
+
+// Usage
+<Tabs
+  items={[
+    { label: 'Overview', content: <div>Overview content</div> },
+    { label: 'Details', content: <div>Details content</div> },
+    { label: 'Settings', content: <div>Settings content</div> },
+  ]}
+/>
+```
+
+### Component with Variants
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const variantStyles = {
+  info: {
+    backgroundColor: 'colorBackgroundNeutralWeakest',
+    borderColor: 'colorBorderNeutral',
+    iconColor: 'colorTextNeutral',
+  },
+  success: {
+    backgroundColor: 'colorBackgroundSuccessWeakest',
+    borderColor: 'colorBorderSuccess',
+    iconColor: 'colorTextSuccess',
+  },
+  warning: {
+    backgroundColor: 'colorBackgroundWarningWeakest',
+    borderColor: 'colorBorderWarning',
+    iconColor: 'colorTextWarning',
+  },
+  error: {
+    backgroundColor: 'colorBackgroundErrorWeakest',
+    borderColor: 'colorBorderError',
+    iconColor: 'colorTextError',
+  },
+};
+
+function Callout({ variant = 'info', title, children }) {
+  const styles = variantStyles[variant];
+  
+  return (
+    <Box
+      backgroundColor={styles.backgroundColor}
+      borderLeftWidth="borderWidth30"
+      borderLeftStyle="solid"
+      borderLeftColor={styles.borderColor}
+      padding="space60"
+      borderRadius="borderRadius20"
+    >
+      {title && (
+        <Text
+          as="div"
+          fontWeight="fontWeightBold"
+          color={styles.iconColor}
+          marginBottom="space30"
+        >
+          {title}
+        </Text>
+      )}
+      <Text as="div">{children}</Text>
+    </Box>
+  );
+}
+
+// Usage
+<Callout variant="warning" title="Important">
+  This action cannot be undone.
+</Callout>
+```
+
+### Responsive Custom Component
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { useTheme } from '@twilio-paste/core/theme';
+
+function ResponsiveGrid({ children }) {
+  return (
+    <Box
+      display="grid"
+      gridTemplateColumns={[
+        'repeat(1, 1fr)',     // Mobile: 1 column
+        'repeat(2, 1fr)',     // Tablet: 2 columns
+        'repeat(3, 1fr)',     // Desktop: 3 columns
+      ]}
+      columnGap="space60"
+      rowGap="space60"
+    >
+      {children}
+    </Box>
+  );
+}
+
+// Usage
+<ResponsiveGrid>
+  <FeatureCard title="Feature 1" />
+  <FeatureCard title="Feature 2" />
+  <FeatureCard title="Feature 3" />
+  <FeatureCard title="Feature 4" />
+</ResponsiveGrid>
+```
+
+## Using Element Names
+
+Add custom element names to your components for customization:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function CustomCard({ element = 'CUSTOM_CARD', children }) {
+  return (
+    <Box
+      element={element}
+      padding="space60"
+      borderRadius="borderRadius20"
+      backgroundColor="colorBackgroundBody"
+    >
+      {children}
+    </Box>
+  );
+}
+
+// Allow customization via CustomizationProvider
+<CustomizationProvider
+  elements={{
+    CUSTOM_CARD: {
+      padding: 'space90',
+      boxShadow: 'shadowCard',
+    },
+  }}
+>
+  <CustomCard>Customizable card</CustomCard>
+</CustomizationProvider>
+```
+
+## Forwarding Props
+
+Create flexible components that accept additional props:
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function FlexContainer({ children, direction = 'row', gap = 'space50', ...props }) {
+  return (
+    <Box
+      display="flex"
+      flexDirection={direction}
+      gap={gap}
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+}
+
+// Usage with additional props
+<FlexContainer
+  direction="column"
+  gap="space70"
+  padding="space60"
+  backgroundColor="colorBackgroundBody"
+>
+  <div>Item 1</div>
+  <div>Item 2</div>
+</FlexContainer>
+```
+
+## Accessibility Patterns
+
+### Keyboard Navigation
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+
+function AccessibleButton({ children, onClick }) {
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onClick?.(event);
+    }
+  };
+  
+  return (
+    <Box
+      as="button"
+      onClick={onClick}
+      onKeyPress={handleKeyPress}
+      padding="space40"
+      cursor="pointer"
+      backgroundColor="colorBackgroundPrimary"
+      color="colorTextInverse"
+      borderRadius="borderRadius20"
+      _focus={{
+        outline: 'none',
+        boxShadow: 'shadowFocus',
+      }}
+      _hover={{
+        backgroundColor: 'colorBackgroundPrimaryStrong',
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+```
+
+### ARIA Attributes
+
+```jsx
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+function StatusBadge({ status, children }) {
+  const isActive = status === 'active';
+  
+  return (
+    <Box
+      role="status"
+      aria-live="polite"
+      display="inline-flex"
+      alignItems="center"
+      paddingX="space40"
+      paddingY="space20"
+      backgroundColor={
+        isActive 
+          ? 'colorBackgroundSuccessWeakest' 
+          : 'colorBackgroundNeutralWeakest'
+      }
+      borderRadius="borderRadiusPill"
+    >
+      <Box
+        width="sizeSquare20"
+        height="sizeSquare20"
+        borderRadius="borderRadiusCircle"
+        backgroundColor={
+          isActive
+            ? 'colorBackgroundSuccess'
+            : 'colorBackgroundWeak'
+        }
+        marginRight="space30"
+        aria-hidden="true"
+      />
+      <Text as="span" fontSize="fontSize20">
+        {children}
+      </Text>
+    </Box>
+  );
+}
+```
+
+## Animation and Transitions
+
+```jsx
+import { styled } from '@twilio-paste/styling-library';
+import { Box } from '@twilio-paste/core/box';
+
+const AnimatedBox = styled(Box)`
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+function AnimatedCard({ children }) {
+  return (
+    <AnimatedBox
+      padding="space60"
+      backgroundColor="colorBackgroundBody"
+      borderRadius="borderRadius30"
+      boxShadow="shadowCard"
+    >
+      {children}
+    </AnimatedBox>
+  );
+}
+```
+
+## TypeScript Support
+
+Add proper TypeScript types to your custom components:
+
+```typescript
+import { Box } from '@twilio-paste/core/box';
+import type { BoxProps } from '@twilio-paste/core/box';
+
+interface CustomCardProps extends Omit<BoxProps, 'padding' | 'borderRadius'> {
+  variant?: 'default' | 'elevated' | 'outlined';
+  children: React.ReactNode;
+}
+
+function CustomCard({ 
+  variant = 'default', 
+  children, 
+  ...props 
+}: CustomCardProps) {
+  const getVariantStyles = () => {
+    switch (variant) {
+      case 'elevated':
+        return { boxShadow: 'shadowCard' as const };
+      case 'outlined':
+        return { 
+          borderWidth: 'borderWidth10' as const,
+          borderStyle: 'solid' as const,
+          borderColor: 'colorBorder' as const,
+        };
+      default:
+        return {};
+    }
+  };
+  
+  return (
+    <Box
+      padding="space60"
+      borderRadius="borderRadius30"
+      backgroundColor="colorBackgroundBody"
+      {...getVariantStyles()}
+      {...props}
+    >
+      {children}
+    </Box>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Use Paste Primitives
+
+```jsx
+// Good: Build on Paste primitives
+import { Box, Text } from '@twilio-paste/core';
+
+function CustomComponent() {
+  return (
+    <Box padding="space50">
+      <Text>Content</Text>
+    </Box>
+  );
+}
+
+// Avoid: Raw HTML elements
+function CustomComponent() {
+  return (
+    <div style={{ padding: '16px' }}>
+      <span>Content</span>
+    </div>
+  );
+}
+```
+
+### 2. Use Theme Tokens
+
+```jsx
+// Good: Reference theme tokens
+<Box
+  padding="space50"
+  backgroundColor="colorBackgroundBody"
+  color="colorText"
+/>
+
+// Avoid: Hardcoded values
+<Box
+  padding="16px"
+  backgroundColor="#FFFFFF"
+  color="#000000"
+/>
+```
+
+### 3. Make Components Customizable
+
+```jsx
+// Good: Accept element prop
+function CustomCard({ element = 'CUSTOM_CARD', ...props }) {
+  return <Box element={element} {...props} />;
+}
+
+// Avoid: No customization hooks
+function CustomCard(props) {
+  return <Box {...props} />;
+}
+```
+
+### 4. Follow Accessibility Guidelines
+
+```jsx
+// Good: Proper semantics and ARIA
+<Box
+  as="button"
+  role="button"
+  aria-label="Close dialog"
+  tabIndex={0}
+>
+  Close
+</Box>
+
+// Avoid: Poor accessibility
+<Box onClick={handleClick}>
+  Close
+</Box>
+```
+
+### 5. Document Your Components
+
+```jsx
+/**
+ * FeatureCard displays a feature with title, description, and action.
+ * 
+ * @param {string} title - The card title
+ * @param {string} description - The card description
+ * @param {string} action - The action button text
+ * @param {Function} onAction - Callback when action is clicked
+ * 
+ * @example
+ * <FeatureCard
+ *   title="Get Started"
+ *   description="Learn the basics"
+ *   action="Start Learning"
+ *   onAction={() => navigate('/learn')}
+ * />
+ */
+function FeatureCard({ title, description, action, onAction }) {
+  // Component implementation
+}
+```
+
+## Common Patterns
+
+### Compound Components
+
+```jsx
+function Card({ children }) {
+  return (
+    <Box
+      backgroundColor="colorBackgroundBody"
+      borderRadius="borderRadius30"
+      boxShadow="shadowCard"
+    >
+      {children}
+    </Box>
+  );
+}
+
+Card.Header = function CardHeader({ children }) {
+  return (
+    <Box
+      padding="space60"
+      borderBottomWidth="borderWidth10"
+      borderBottomStyle="solid"
+      borderBottomColor="colorBorder"
+    >
+      {children}
+    </Box>
+  );
+};
+
+Card.Body = function CardBody({ children }) {
+  return <Box padding="space60">{children}</Box>;
+};
+
+Card.Footer = function CardFooter({ children }) {
+  return (
+    <Box
+      padding="space60"
+      borderTopWidth="borderWidth10"
+      borderTopStyle="solid"
+      borderTopColor="colorBorder"
+    >
+      {children}
+    </Box>
+  );
+};
+
+// Usage
+<Card>
+  <Card.Header>Header content</Card.Header>
+  <Card.Body>Body content</Card.Body>
+  <Card.Footer>Footer content</Card.Footer>
+</Card>
+```
+
+### Render Props Pattern
+
+```jsx
+function DataDisplay({ data, render }) {
+  return (
+    <Box padding="space60">
+      {render(data)}
+    </Box>
+  );
+}
+
+// Usage
+<DataDisplay
+  data={{ name: 'John', role: 'Developer' }}
+  render={(data) => (
+    <Stack orientation="vertical" spacing="space30">
+      <Text>Name: {data.name}</Text>
+      <Text>Role: {data.role}</Text>
+    </Stack>
+  )}
+/>
+```
+
+## Next Steps
+
+- Learn about [Style Props](/customization/style-props) available on Box
+- Explore [Design Tokens](/customization/design-tokens-overview) for styling values
+- Review [CustomizationProvider](/customization/customization-provider) for theme overrides
+- Check out Paste's [component source code](https://github.com/twilio-labs/paste) for examples

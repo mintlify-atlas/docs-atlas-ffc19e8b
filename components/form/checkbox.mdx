@@ -1,0 +1,268 @@
+---
+title: Checkbox
+description: A Checkbox is a form element that enables a binary choice. A Checkbox Group is a collection of Checkboxes.
+---
+
+Checkbox enables users to select one or multiple options from a set. It supports individual checkboxes as well as grouped checkboxes with shared state management.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/checkbox
+```
+
+## Usage
+
+```tsx
+import { Checkbox, CheckboxGroup } from '@twilio-paste/checkbox';
+
+const MyComponent = () => {
+  const [checked, setChecked] = React.useState(false);
+  
+  return (
+    <Checkbox
+      checked={checked}
+      onChange={(e) => setChecked(e.target.checked)}
+    >
+      Accept terms and conditions
+    </Checkbox>
+  );
+};
+```
+
+## Props
+
+### Checkbox Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  Label text for the checkbox.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Sets the id of the checkbox. Auto-generated if not provided.
+</ParamField>
+
+<ParamField path="name" type="string">
+  Name attribute for form submission.
+</ParamField>
+
+<ParamField path="checked" type="boolean">
+  Controls the checked state (controlled component).
+</ParamField>
+
+<ParamField path="defaultChecked" type="boolean">
+  Default checked state for uncontrolled checkboxes.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the checkbox.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the checkbox as required, showing a RequiredDot.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Sets the checkbox to an error state.
+</ParamField>
+
+<ParamField path="indeterminate" type="boolean" default="false">
+  Shows an indeterminate state (partial selection indicator).
+</ParamField>
+
+<ParamField path="helpText" type="string | React.ReactNode">
+  Additional help text displayed below the checkbox label.
+</ParamField>
+
+<ParamField path="isSelectAll" type="boolean" default="false">
+  Styles the checkbox as a "select all" option with special styling.
+</ParamField>
+
+<ParamField path="isSelectAllChild" type="boolean" default="false">
+  Indicates this checkbox is a child of a select-all checkbox.
+</ParamField>
+
+<ParamField path="onChange" type="(event: React.ChangeEvent<HTMLInputElement>) => void">
+  Callback fired when the checked state changes.
+</ParamField>
+
+<ParamField path="value" type="string">
+  Value attribute for the checkbox.
+</ParamField>
+
+<ParamField path="element" type="string" default="'CHECKBOX'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### CheckboxGroup Props
+
+<ParamField path="name" type="string" required>
+  Name for all checkboxes in the group.
+</ParamField>
+
+<ParamField path="legend" type="string | React.ReactNode" required>
+  Label for the checkbox group displayed as a fieldset legend.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  Collection of Checkbox components.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables all checkboxes in the group.
+</ParamField>
+
+<ParamField path="errorText" type="string | React.ReactNode">
+  Error message displayed below the group.
+</ParamField>
+
+<ParamField path="helpText" type="string | React.ReactNode">
+  Help text displayed below the group.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the group as required.
+</ParamField>
+
+<ParamField path="orientation" type="'vertical' | 'horizontal'" default="'vertical'">
+  Layout direction for the checkboxes.
+</ParamField>
+
+## Examples
+
+### Single Checkbox
+
+```tsx
+import { Checkbox } from '@twilio-paste/checkbox';
+
+const [agree, setAgree] = React.useState(false);
+
+<Checkbox
+  checked={agree}
+  onChange={(e) => setAgree(e.target.checked)}
+  required
+>
+  I agree to the terms of service
+</Checkbox>
+```
+
+### Checkbox Group
+
+```tsx
+import { CheckboxGroup, Checkbox } from '@twilio-paste/checkbox';
+
+<CheckboxGroup
+  name="notifications"
+  legend="Notification preferences"
+  helpText="Select which notifications you'd like to receive"
+>
+  <Checkbox value="email">Email notifications</Checkbox>
+  <Checkbox value="sms">SMS notifications</Checkbox>
+  <Checkbox value="push">Push notifications</Checkbox>
+</CheckboxGroup>
+```
+
+### With Help Text
+
+```tsx
+import { Checkbox } from '@twilio-paste/checkbox';
+
+<Checkbox
+  helpText="This enables two-factor authentication for added security"
+>
+  Enable 2FA
+</Checkbox>
+```
+
+### Indeterminate State
+
+```tsx
+import { Checkbox } from '@twilio-paste/checkbox';
+
+const [checkedItems, setCheckedItems] = React.useState([true, false]);
+const allChecked = checkedItems.every(Boolean);
+const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
+
+<>
+  <Checkbox
+    checked={allChecked}
+    indeterminate={isIndeterminate}
+    onChange={(e) => setCheckedItems([e.target.checked, e.target.checked])}
+    isSelectAll
+  >
+    Select all
+  </Checkbox>
+  <Checkbox
+    checked={checkedItems[0]}
+    onChange={(e) => setCheckedItems([e.target.checked, checkedItems[1]])}
+    isSelectAllChild
+  >
+    Option 1
+  </Checkbox>
+  <Checkbox
+    checked={checkedItems[1]}
+    onChange={(e) => setCheckedItems([checkedItems[0], e.target.checked])}
+    isSelectAllChild
+  >
+    Option 2
+  </Checkbox>
+</>
+```
+
+### Error State
+
+```tsx
+import { CheckboxGroup, Checkbox } from '@twilio-paste/checkbox';
+
+<CheckboxGroup
+  name="terms"
+  legend="Required agreements"
+  required
+  errorText="You must accept the terms to continue"
+>
+  <Checkbox value="privacy" hasError>
+    I accept the privacy policy
+  </Checkbox>
+  <Checkbox value="terms" hasError>
+    I accept the terms of service
+  </Checkbox>
+</CheckboxGroup>
+```
+
+### Horizontal Layout
+
+```tsx
+import { CheckboxGroup, Checkbox } from '@twilio-paste/checkbox';
+
+<CheckboxGroup
+  name="features"
+  legend="Features"
+  orientation="horizontal"
+>
+  <Checkbox value="feature1">Voice</Checkbox>
+  <Checkbox value="feature2">Video</Checkbox>
+  <Checkbox value="feature3">Messaging</Checkbox>
+</CheckboxGroup>
+```
+
+## Accessibility
+
+- Each Checkbox includes a visible label via the children prop
+- CheckboxGroup uses a fieldset with legend for grouping
+- Supports keyboard navigation (Space to toggle)
+- Required checkboxes show a RequiredDot with accessible label
+- Help text is properly associated with aria-describedby
+- Error state is announced to screen readers via aria-invalid
+- Indeterminate state uses aria-checked="mixed"
+
+## Best Practices
+
+- Use for binary choices or when multiple selections are allowed
+- For mutually exclusive options, use Radio Group instead
+- Keep checkbox labels concise and clear
+- Use CheckboxGroup to organize related checkboxes
+- Always provide a legend for CheckboxGroup
+- Use helpText for additional context, not instructions
+- Show validation errors inline with clear messages
+- Use isSelectAll pattern for hierarchical checkbox selections
+- Consider horizontal orientation for short lists of simple options

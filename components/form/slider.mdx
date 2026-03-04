@@ -1,0 +1,343 @@
+---
+title: Slider
+description: A Slider is a draggable input that allows a user to select an imprecise numerical value within a range.
+---
+
+Slider is a form control that allows users to select a numeric value within a defined range by dragging a thumb along a track.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/slider @twilio-paste/label @twilio-paste/help-text
+```
+
+## Usage
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState(50);
+  
+  return (
+    <>
+      <Label htmlFor="volume">Volume</Label>
+      <Slider
+        id="volume"
+        value={value}
+        onChange={(newValue) => setValue(newValue)}
+      />
+    </>
+  );
+};
+```
+
+## Props
+
+<ParamField path="id" type="string" required>
+  Must provide an id to match with a label.
+</ParamField>
+
+<ParamField path="aria-labelledby" type="string">
+  ID of the element that labels the slider (if not using htmlFor with Label).
+</ParamField>
+
+<ParamField path="aria-describedby" type="string">
+  ID of the help text element describing the slider.
+</ParamField>
+
+<ParamField path="minValue" type="number" default="1">
+  The smallest number in the slider range.
+</ParamField>
+
+<ParamField path="maxValue" type="number" default="100">
+  The largest number in the slider range.
+</ParamField>
+
+<ParamField path="step" type="number" default="1">
+  The incremented value as you drag along the range.
+</ParamField>
+
+<ParamField path="value" type="number">
+  The current selected value (controlled component).
+</ParamField>
+
+<ParamField path="onChange" type="(value: number) => void">
+  Fired on every change as the thumb is dragged along the track.
+</ParamField>
+
+<ParamField path="onChangeEnd" type="(value: number) => void">
+  Fired at the end of the dragging event once.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the slider.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Shows error styling on the slider.
+</ParamField>
+
+<ParamField path="hideRangeLabels" type="boolean" default="false">
+  Hides the min and max values that appear over the slider.
+</ParamField>
+
+<ParamField path="numberFormatter" type="Intl.NumberFormat">
+  Used to adjust how the numbers are rendered and interpreted.
+</ParamField>
+
+<ParamField path="i18nMaxRangeLabel" type="string" default="'Maximum value:'">
+  Internationalization for the max range label.
+</ParamField>
+
+<ParamField path="i18nMinRangeLabel" type="string" default="'Minimum value:'">
+  Internationalization for the min range label.
+</ParamField>
+
+<ParamField path="i18nValueLabel" type="string" default="'Value:'">
+  Internationalization for the value label.
+</ParamField>
+
+<ParamField path="element" type="string" default="'SLIDER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Examples
+
+### Basic Slider
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+const [volume, setVolume] = React.useState(50);
+
+<>
+  <Label htmlFor="volume-slider">Volume: {volume}%</Label>
+  <Slider
+    id="volume-slider"
+    value={volume}
+    onChange={setVolume}
+    minValue={0}
+    maxValue={100}
+  />
+</>
+```
+
+### With Custom Range
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [price, setPrice] = React.useState(500);
+
+<>
+  <Label htmlFor="price">Maximum price: ${price}</Label>
+  <Slider
+    id="price"
+    value={price}
+    onChange={setPrice}
+    minValue={0}
+    maxValue={1000}
+    step={50}
+  />
+  <HelpText>Select your budget range</HelpText>
+</>
+```
+
+### With Step Increments
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+const [rating, setRating] = React.useState(3);
+
+<>
+  <Label htmlFor="rating">Rating: {rating} stars</Label>
+  <Slider
+    id="rating"
+    value={rating}
+    onChange={setRating}
+    minValue={1}
+    maxValue={5}
+    step={1}
+  />
+</>
+```
+
+### Without Range Labels
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+const [opacity, setOpacity] = React.useState(0.5);
+
+<>
+  <Label htmlFor="opacity">Opacity: {(opacity * 100).toFixed(0)}%</Label>
+  <Slider
+    id="opacity"
+    value={opacity}
+    onChange={setOpacity}
+    minValue={0}
+    maxValue={1}
+    step={0.1}
+    hideRangeLabels
+  />
+</>
+```
+
+### With Number Formatting
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+const [price, setPrice] = React.useState(1000);
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 0,
+});
+
+<>
+  <Label htmlFor="budget">
+    Budget: {currencyFormatter.format(price)}
+  </Label>
+  <Slider
+    id="budget"
+    value={price}
+    onChange={setPrice}
+    minValue={0}
+    maxValue={5000}
+    step={100}
+    numberFormatter={currencyFormatter}
+  />
+</>
+```
+
+### Disabled Slider
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+<>
+  <Label htmlFor="disabled-slider" disabled>
+    Brightness
+  </Label>
+  <Slider
+    id="disabled-slider"
+    value={75}
+    disabled
+  />
+</>
+```
+
+### With Error State
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+import { HelpText } from '@twilio-paste/help-text';
+
+const [temperature, setTemperature] = React.useState(95);
+const hasError = temperature > 90;
+
+<>
+  <Label htmlFor="temp" required>
+    Temperature: {temperature}°F
+  </Label>
+  <Slider
+    id="temp"
+    value={temperature}
+    onChange={setTemperature}
+    minValue={60}
+    maxValue={100}
+    hasError={hasError}
+  />
+  {hasError && (
+    <HelpText variant="error">
+      Temperature must not exceed 90°F
+    </HelpText>
+  )}
+</>
+```
+
+### With onChange and onChangeEnd
+
+```tsx
+import { Slider } from '@twilio-paste/slider';
+import { Label } from '@twilio-paste/label';
+
+const [value, setValue] = React.useState(50);
+const [committed, setCommitted] = React.useState(50);
+
+const handleChange = (newValue: number) => {
+  setValue(newValue);
+  // Update UI immediately while dragging
+};
+
+const handleChangeEnd = (finalValue: number) => {
+  setCommitted(finalValue);
+  // Make API call or save to database
+  console.log('Final value:', finalValue);
+};
+
+<>
+  <Label htmlFor="brightness">
+    Brightness: {value} (Saved: {committed})
+  </Label>
+  <Slider
+    id="brightness"
+    value={value}
+    onChange={handleChange}
+    onChangeEnd={handleChangeEnd}
+  />
+</>
+```
+
+## Accessibility
+
+- Built on WAI-ARIA Slider pattern
+- Fully keyboard accessible:
+  - Arrow keys adjust value by step amount
+  - Home/End keys jump to min/max values
+  - Page Up/Down for larger increments
+- Screen readers announce current value and range
+- Must be paired with a Label using matching `id` and `htmlFor`
+- Min and max values are announced to screen readers
+- Current value is continuously announced as it changes
+- Disabled state is properly communicated
+
+## Best Practices
+
+- Use Slider for selecting approximate values within a range
+- For precise numeric input, use Input with type="number" instead
+- Always provide a visible label showing the current value
+- Set appropriate min, max, and step values for your use case
+- Display the current value near the slider for clarity
+- Use `onChangeEnd` for expensive operations like API calls
+- Use `onChange` for immediate UI updates
+- Show units in the label (%, $, degrees, etc.)
+- Consider using number formatting for currency or percentages
+- Set reasonable ranges - very large ranges can be hard to use
+- For very precise values, provide an alternative input method
+
+## When to Use Slider
+
+Use Slider when:
+- The value is relative or approximate
+- Users benefit from seeing the range
+- Immediate visual feedback is helpful
+- The value has clear minimum and maximum bounds
+
+Don't use Slider when:
+- Precise values are required
+- The range is very large (e.g., 1-10000)
+- Users need to enter specific numbers
+- Screen space is limited

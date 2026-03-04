@@ -1,0 +1,331 @@
+---
+title: Stack
+description: Stack is a layout component that arranges children horizontally or vertically with consistent spacing between items.
+---
+
+## Overview
+
+Stack is a layout component that simplifies the common pattern of arranging items in a horizontal or vertical list with consistent spacing. It automatically manages spacing between children, eliminating the need for margin calculations or wrapper elements.
+
+Use Stack when you need:
+- Evenly spaced vertical or horizontal lists
+- Simple layouts without complex alignment needs
+- Responsive stacking that changes orientation
+- Consistent spacing that adapts to design tokens
+
+## Installation
+
+```bash
+npm install @twilio-paste/core
+```
+
+```jsx
+import { Stack } from '@twilio-paste/core/stack';
+// or
+import { Stack } from '@twilio-paste/core';
+```
+
+## Basic Usage
+
+```jsx
+import { Stack } from '@twilio-paste/core/stack';
+import { Card } from '@twilio-paste/core/card';
+import { Heading } from '@twilio-paste/core/heading';
+
+const MyComponent = () => (
+  <Stack orientation="vertical" spacing="space40">
+    <Card>
+      <Heading as="h2" variant="heading20">First Card</Heading>
+    </Card>
+    <Card>
+      <Heading as="h2" variant="heading20">Second Card</Heading>
+    </Card>
+    <Card>
+      <Heading as="h2" variant="heading20">Third Card</Heading>
+    </Card>
+  </Stack>
+);
+```
+
+## Props
+
+<ParamField path="orientation" type="'horizontal' | 'vertical' | Array" required>
+  Determines the direction items are stacked. Use 'vertical' for top-to-bottom stacking, 'horizontal' for left-to-right. Supports responsive values as an array (e.g., `['vertical', 'horizontal']`).
+</ParamField>
+
+<ParamField path="spacing" type="SpaceOptions" required>
+  Sets the space between each child element using design tokens (e.g., 'space40', 'space80'). This spacing is automatically applied as marginRight for horizontal orientation and marginBottom for vertical orientation.
+</ParamField>
+
+<ParamField path="as" type="keyof JSX.IntrinsicElements" default="div">
+  The HTML element to render for the stack container.
+</ParamField>
+
+<ParamField path="element" type="string" default="STACK">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Examples
+
+### Vertical Stack
+
+```jsx
+import { Stack } from '@twilio-paste/core/stack';
+import { Card } from '@twilio-paste/core/card';
+import { Heading } from '@twilio-paste/core/heading';
+import { Paragraph } from '@twilio-paste/core/paragraph';
+
+const VerticalStack = () => (
+  <Stack orientation="vertical" spacing="space40">
+    <Card>
+      <Heading as="h2" variant="heading20">First Card</Heading>
+    </Card>
+    <Card>
+      <Heading as="h2" variant="heading20">Second Card</Heading>
+      <Paragraph>Card content should go here.</Paragraph>
+    </Card>
+    <Card>
+      <Heading as="h2" variant="heading20">Third Card</Heading>
+    </Card>
+  </Stack>
+);
+```
+
+### Horizontal Stack
+
+```jsx
+import { Stack } from '@twilio-paste/core/stack';
+import { Button } from '@twilio-paste/core/button';
+
+const HorizontalStack = () => (
+  <Stack orientation="horizontal" spacing="space40">
+    <Button variant="primary">Save</Button>
+    <Button variant="secondary">Cancel</Button>
+    <Button variant="destructive">Delete</Button>
+  </Stack>
+);
+```
+
+### Responsive Orientation
+
+Change stack direction at different breakpoints:
+
+```jsx
+<Stack orientation={['vertical', 'horizontal', 'vertical']} spacing="space40">
+  <Card>
+    <Heading as="h2" variant="heading20">Card 1</Heading>
+  </Card>
+  <Card>
+    <Heading as="h2" variant="heading20">Card 2</Heading>
+  </Card>
+  <Card>
+    <Heading as="h2" variant="heading20">Card 3</Heading>
+  </Card>
+</Stack>
+```
+
+In this example:
+- Mobile (first breakpoint): vertical
+- Tablet (second breakpoint): horizontal
+- Desktop (third breakpoint): vertical
+
+### Different Spacing Values
+
+```jsx
+// Tight spacing
+<Stack orientation="vertical" spacing="space20">
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+  <Box>Item 3</Box>
+</Stack>
+
+// Loose spacing
+<Stack orientation="vertical" spacing="space80">
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+  <Box>Item 3</Box>
+</Stack>
+```
+
+### Form Layout
+
+```jsx
+import { Stack } from '@twilio-paste/core/stack';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { Button } from '@twilio-paste/core/button';
+
+const FormLayout = () => (
+  <Stack orientation="vertical" spacing="space60">
+    <Box>
+      <Label htmlFor="name">Name</Label>
+      <Input id="name" type="text" />
+    </Box>
+    <Box>
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" type="email" />
+    </Box>
+    <Stack orientation="horizontal" spacing="space40">
+      <Button variant="primary">Submit</Button>
+      <Button variant="secondary">Cancel</Button>
+    </Stack>
+  </Stack>
+);
+```
+
+### Navigation Bar
+
+```jsx
+import { Stack } from '@twilio-paste/core/stack';
+import { Anchor } from '@twilio-paste/core/anchor';
+
+const Navigation = () => (
+  <Stack orientation="horizontal" spacing="space60">
+    <Anchor href="/home">Home</Anchor>
+    <Anchor href="/about">About</Anchor>
+    <Anchor href="/products">Products</Anchor>
+    <Anchor href="/contact">Contact</Anchor>
+  </Stack>
+);
+```
+
+### Mixed Content Types
+
+Stack works with any content, including text, components, and strings:
+
+```jsx
+<Stack orientation="vertical" spacing="space40">
+  <Heading as="h2" variant="heading20">Section Title</Heading>
+  <Paragraph>This is a paragraph of text.</Paragraph>
+  <Button>Click me</Button>
+  Plain text also works
+  <Card>Card component</Card>
+</Stack>
+```
+
+### Nested Stacks
+
+```jsx
+<Stack orientation="vertical" spacing="space80">
+  <Box>
+    <Heading as="h2" variant="heading20">Section 1</Heading>
+    <Stack orientation="horizontal" spacing="space40">
+      <Card>Card 1</Card>
+      <Card>Card 2</Card>
+      <Card>Card 3</Card>
+    </Stack>
+  </Box>
+  <Box>
+    <Heading as="h2" variant="heading20">Section 2</Heading>
+    <Stack orientation="horizontal" spacing="space40">
+      <Card>Card 4</Card>
+      <Card>Card 5</Card>
+    </Stack>
+  </Box>
+</Stack>
+```
+
+## How It Works
+
+Stack automatically wraps each child in a Box component and applies spacing:
+
+- For **horizontal** orientation: adds `marginRight` to all items except the last
+- For **vertical** orientation: adds `marginBottom` to all items except the last
+- For **responsive** orientations: applies appropriate margins based on the current breakpoint
+
+Invalid children (null, undefined, or false) are automatically filtered out.
+
+## Best Practices
+
+### Use Stack for Simple Spacing
+
+Stack is perfect for simple, evenly-spaced layouts:
+
+```jsx
+// Good - simple, consistent spacing
+<Stack orientation="vertical" spacing="space40">
+  <Item />
+  <Item />
+  <Item />
+</Stack>
+
+// Avoid - manually managing spacing
+<Box>
+  <Box marginBottom="space40"><Item /></Box>
+  <Box marginBottom="space40"><Item /></Box>
+  <Box><Item /></Box>
+</Box>
+```
+
+### Use Flex or Grid for Complex Layouts
+
+For layouts requiring alignment control, wrapping, or column spanning, use Flex or Grid instead:
+
+```jsx
+// When you need alignment
+<Flex hAlignContent="between" vAlignContent="center">
+  <Item />
+  <Item />
+</Flex>
+
+// When you need grid columns
+<Grid gutter="space40">
+  <Column span={8}><Item /></Column>
+  <Column span={4}><Item /></Column>
+</Grid>
+```
+
+### Mobile-First Responsive Design
+
+When using responsive orientation, start with mobile:
+
+```jsx
+<Stack orientation={['vertical', 'horizontal']} spacing="space40">
+  {/* Mobile: stacked vertically, Desktop: side-by-side */}
+</Stack>
+```
+
+### Consistent Spacing Tokens
+
+Use spacing tokens consistently throughout your app:
+
+```jsx
+// Good - uses design tokens
+<Stack orientation="vertical" spacing="space40">
+
+// Avoid - arbitrary values (not possible with Stack)
+// Stack only accepts valid space tokens
+```
+
+### Semantic HTML
+
+Use appropriate HTML elements via the `as` prop:
+
+```jsx
+// Navigation list
+<Stack as="nav" orientation="horizontal" spacing="space60">
+  <Anchor href="/home">Home</Anchor>
+  <Anchor href="/about">About</Anchor>
+</Stack>
+
+// Article sections
+<Stack as="article" orientation="vertical" spacing="space80">
+  <section>Section 1</section>
+  <section>Section 2</section>
+</Stack>
+```
+
+## Accessibility
+
+- Stack is a presentational component with no specific accessibility requirements
+- Use semantic HTML via the `as` prop when appropriate
+- Ensure the DOM order matches the visual reading order
+- When orientation changes responsively, ensure it doesn't break logical reading flow
+- Stack maintains horizontal alignment at `center` for horizontal orientation - ensure this doesn't negatively impact readability
+
+## Related Components
+
+- [Box](/components/layout/box) - Low-level layout primitive
+- [Flex](/components/layout/flex) - Flexbox layouts with alignment control
+- [Grid](/components/layout/grid) - 12-column grid system
+- [Separator](/components/layout/separator) - Visual separator between sections

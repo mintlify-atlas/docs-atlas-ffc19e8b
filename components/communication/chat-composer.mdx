@@ -1,0 +1,189 @@
+---
+title: Chat Composer
+package: '@twilio-paste/chat-composer'
+description: Chat Composer is a rich text input for composing chat messages.
+category: Communication
+status: Alpha
+---
+
+import { ChatComposer, ChatComposerContainer, ChatComposerActionGroup } from '@twilio-paste/chat-composer';
+
+## About Chat Composer
+
+Chat Composer is a rich text editor built on Lexical that allows users to compose chat messages. It supports features like auto-linking, placeholder text, and custom styling.
+
+## Components
+
+The Chat Composer package includes:
+
+- **ChatComposer** - The main rich text editor
+- **ChatComposerContainer** - Wrapper container with action buttons
+- **ChatComposerActionGroup** - Group of action buttons
+- **ChatComposerActionRow** - Row for action buttons
+- **ChatComposerAttachmentCard** - Display file attachments
+- **ChatComposerAttachmentGroup** - Group of attachments
+- **ChatComposerAttachmentLink** - Link to attachment
+- **ChatComposerAttachmentDescription** - Attachment description
+
+## Installation
+
+```bash
+yarn add @twilio-paste/chat-composer
+```
+
+## Usage
+
+```jsx
+import { ChatComposer } from '@twilio-paste/chat-composer';
+
+const MyComposer = () => {
+  const [message, setMessage] = React.useState('');
+  
+  return (
+    <ChatComposer
+      config={{
+        namespace: 'my-chat',
+        onError: (error) => console.error(error),
+      }}
+      placeholder="Type a message..."
+      onChange={(editorState, editor) => {
+        const text = editorState.read(() => $getRoot().getTextContent());
+        setMessage(text);
+      }}
+      ariaLabel="Message input"
+    />
+  );
+};
+```
+
+## Props
+
+### ChatComposer
+
+<PropsTable>
+  <PropsTableRow
+    name="config"
+    type="LexicalComposerConfig"
+    required
+    description="Lexical editor configuration including namespace and error handler."
+  />
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_COMPOSER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="placeholder"
+    type="string"
+    description="Placeholder text shown when editor is empty."
+  />
+  <PropsTableRow
+    name="initialValue"
+    type="string"
+    description="Initial text content of the editor."
+  />
+  <PropsTableRow
+    name="disabled"
+    type="boolean"
+    description="Whether the composer is disabled."
+  />
+  <PropsTableRow
+    name="onChange"
+    type="(editorState, editor) => void"
+    description="Callback fired when editor content changes."
+  />
+  <PropsTableRow
+    name="autoLink"
+    type="boolean"
+    defaultValue="true"
+    description="Whether to automatically convert URLs to links."
+  />
+  <PropsTableRow
+    name="maxHeight"
+    type="BoxStyleProps['maxHeight']"
+    defaultValue="'size30'"
+    description="Maximum height of the composer."
+  />
+  <PropsTableRow
+    name="fontSize"
+    type="BoxStyleProps['fontSize']"
+    description="Font size of the composer text."
+  />
+  <PropsTableRow
+    name="lineHeight"
+    type="BoxStyleProps['lineHeight']"
+    description="Line height of the composer text."
+  />
+  <PropsTableRow
+    name="editorInstanceRef"
+    type="MutableRefObject<LexicalEditor | null>"
+    description="Ref to access the Lexical editor instance directly."
+  />
+  <PropsTableRow
+    name="ariaLabel"
+    type="string"
+    description="Accessible label for the composer."
+  />
+</PropsTable>
+
+### ChatComposerContainer
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_COMPOSER_CONTAINER'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="ChatComposer and action components."
+  />
+</PropsTable>
+
+### ChatComposerActionGroup
+
+<PropsTable>
+  <PropsTableRow
+    name="element"
+    type="string"
+    defaultValue="'CHAT_COMPOSER_ACTION_GROUP'"
+    description="Overrides the default element name to apply unique styles with the Customization Provider."
+  />
+  <PropsTableRow
+    name="children"
+    type="ReactNode"
+    description="Action buttons (send, attach, etc)."
+  />
+</PropsTable>
+
+## Lexical Editor Access
+
+You can access the underlying Lexical editor instance for advanced operations:
+
+```jsx
+const editorRef = React.useRef(null);
+
+<ChatComposer
+  editorInstanceRef={editorRef}
+  config={{ namespace: 'chat' }}
+/>
+
+// Later, access editor methods
+editorRef.current?.clear();
+```
+
+## Accessibility
+
+- Uses semantic HTML with proper ARIA attributes
+- Supports keyboard navigation
+- Focus management with visual focus indicators
+- Screen reader announcements for state changes
+- Requires `ariaLabel` for accessible labeling
+
+## Related components
+
+- [Chat Log](/components/communication/chat-log) - For displaying sent messages
+- [AI Chat Log](/components/communication/ai-chat-log) - For AI conversations

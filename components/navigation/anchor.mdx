@@ -1,0 +1,203 @@
+---
+title: Anchor
+description: Anchors (links) allow users to navigate to different pages or locations within a page.
+package: '@twilio-paste/anchor'
+---
+
+## Overview
+
+Anchors are text links that allow users to navigate to different pages or locations. They can be used inline with text or as standalone navigation elements.
+
+The Anchor component automatically handles security for external links and provides visual indicators when configured to do so.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/anchor
+```
+
+## Usage
+
+```jsx
+import { Anchor } from '@twilio-paste/anchor';
+
+const MyAnchor = () => (
+  <Anchor href="https://www.twilio.com">Visit Twilio</Anchor>
+);
+```
+
+### External Links
+
+The Anchor component automatically detects external links (those starting with `http:` or `https:`) and applies appropriate security attributes (`rel="noreferrer noopener"` and `target="_blank"`).
+
+```jsx
+<Anchor href="https://www.twilio.com">
+  Visit Twilio
+</Anchor>
+```
+
+### Show External Icon
+
+You can display an external link icon to indicate that the link opens in a new window.
+
+```jsx
+<Anchor href="https://www.twilio.com" showExternal>
+  Visit Twilio
+</Anchor>
+```
+
+### Custom External Link Label
+
+Customize the accessible label for the external link icon.
+
+```jsx
+<Anchor 
+  href="https://www.twilio.com" 
+  showExternal
+  i18nExternalLinkLabel="(opens in new window)"
+>
+  Visit Twilio
+</Anchor>
+```
+
+### Inverse Variant
+
+Use the inverse variant for dark backgrounds.
+
+```jsx
+<Anchor href="/about" variant="inverse">
+  About Us
+</Anchor>
+```
+
+### With Spacing
+
+The Anchor component supports layout and spacing props from the Box component.
+
+```jsx
+<Anchor href="/home" marginRight="space40">
+  Home
+</Anchor>
+<Anchor href="/about" marginRight="space40">
+  About
+</Anchor>
+<Anchor href="/contact">
+  Contact
+</Anchor>
+```
+
+### Internal Links
+
+```jsx
+<Anchor href="/products">Products</Anchor>
+```
+
+### Anchor Links (Page Sections)
+
+```jsx
+<Anchor href="#section-1">Jump to Section 1</Anchor>
+```
+
+## Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  The text or content to display in the link.
+</ParamField>
+
+<ParamField path="href" type="string" required>
+  The URL to navigate to when the anchor is clicked.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="default">
+  The visual style variant. Use 'inverse' for dark backgrounds.
+</ParamField>
+
+<ParamField path="showExternal" type="boolean" default="false">
+  Whether to display the external link icon. Useful for indicating links that open in a new window.
+</ParamField>
+
+<ParamField path="i18nExternalLinkLabel" type="string" default="(link takes you to an external page)">
+  Accessible title for the external link icon. Used as the icon title attribute.
+</ParamField>
+
+<ParamField path="rel" type="string">
+  Relationship attribute. For external links, defaults to 'noreferrer noopener' but can be overridden.
+</ParamField>
+
+<ParamField path="target" type="'_self' | '_blank' | '_parent' | '_top'">
+  Where to open the linked document. For external links, defaults to '_blank' but can be overridden.
+</ParamField>
+
+<ParamField path="tabIndex" type="0 | -1">
+  The tab order of the anchor element.
+</ParamField>
+
+<ParamField path="element" type="string" default="ANCHOR">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### Layout Props
+
+The Anchor component also accepts layout and spacing props:
+
+- `display` - CSS display property
+- `height`, `minHeight`, `maxHeight` - Height properties
+- `width`, `minWidth`, `maxWidth` - Width properties
+- `margin`, `marginTop`, `marginRight`, `marginBottom`, `marginLeft`, `marginX`, `marginY` - Margin properties
+- `padding`, `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft`, `paddingX`, `paddingY` - Padding properties
+- `verticalAlign` - Vertical alignment
+
+## Utility Functions
+
+The package also exports utility functions for working with external links:
+
+### isExternalUrl
+
+Determines if a URL is external.
+
+```jsx
+import { isExternalUrl } from '@twilio-paste/anchor';
+
+const external = isExternalUrl('https://www.twilio.com'); // true
+const internal = isExternalUrl('/products'); // false
+```
+
+### secureExternalLink
+
+Returns security attributes for external links.
+
+```jsx
+import { secureExternalLink } from '@twilio-paste/anchor';
+
+const attrs = secureExternalLink('https://www.twilio.com');
+// Returns: { rel: 'noreferrer noopener', target: '_blank' }
+
+const internal = secureExternalLink('/products');
+// Returns: undefined
+```
+
+## Accessibility
+
+- Anchors are semantic `<a>` elements with proper href attributes.
+- External links automatically receive `rel="noreferrer noopener"` and `target="_blank"` for security.
+- When `showExternal` is true, the icon includes a descriptive title attribute for screen readers.
+- Focus states are clearly visible with appropriate styling.
+- Color contrast meets WCAG AA standards in both default and inverse variants.
+
+## Best Practices
+
+### Do
+
+- Use anchors for navigation between pages or to external resources
+- Use descriptive link text that makes sense out of context
+- Use `showExternal` for external links to set user expectations
+- Use the inverse variant on dark backgrounds for proper contrast
+- Keep link text concise but meaningful
+
+### Don't
+
+- Don't use "click here" or "read more" without context
+- Don't use anchors for actions (use Button instead)
+- Don't open links in new windows without indication (use `showExternal`)
+- Don't remove the underline styling (it's important for accessibility)
+- Don't make non-interactive text look like a link

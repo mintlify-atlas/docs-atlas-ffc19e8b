@@ -1,0 +1,328 @@
+---
+title: Meter
+description: Meter is a visual representation of a numerical value within a known range.
+---
+
+Meter displays a scalar measurement within a known range, such as disk usage, query performance, or relevance of search results. It differs from ProgressBar in that it represents a measurement rather than progress toward completion.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/meter
+```
+
+## Usage
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+const MyComponent = () => {
+  return (
+    <>
+      <MeterLabel htmlFor="disk-usage" valueLabel="75GB of 100GB">
+        Disk Usage
+      </MeterLabel>
+      <Meter
+        id="disk-usage"
+        value={75}
+        maxValue={100}
+        minLabel="0GB"
+        maxLabel="100GB"
+      />
+    </>
+  );
+};
+```
+
+## Components
+
+### Meter
+
+The meter visualization component.
+
+<ParamField path="id" type="string" required>
+  ID of the meter. Used to connect with MeterLabel.
+</ParamField>
+
+<ParamField path="value" type="number">
+  Current value of the meter. Should be between `minValue` and `maxValue`.
+</ParamField>
+
+<ParamField path="minValue" type="number" default="0">
+  Minimum value of the meter range.
+</ParamField>
+
+<ParamField path="maxValue" type="number" default="100">
+  Maximum value of the meter range.
+</ParamField>
+
+<ParamField path="minLabel" type="string">
+  Label displayed below the left side of the meter. Only shown when provided.
+</ParamField>
+
+<ParamField path="maxLabel" type="string">
+  Label displayed below the right side of the meter. Only shown when provided.
+</ParamField>
+
+<ParamField path="aria-label" type="string">
+  Accessible label for the meter if not using MeterLabel.
+</ParamField>
+
+<ParamField path="aria-labelledby" type="string">
+  ID of the element labeling the meter.
+</ParamField>
+
+<ParamField path="aria-describedby" type="string">
+  ID of the element describing the meter.
+</ParamField>
+
+<ParamField path="element" type="string" default="'METER'">
+  Overrides the default element name for customization.
+</ParamField>
+
+### MeterLabel
+
+Label component for the meter.
+
+<ParamField path="htmlFor" type="string" required>
+  ID of the meter this label describes.
+</ParamField>
+
+<ParamField path="children" type="React.ReactNode" required>
+  The label text.
+</ParamField>
+
+<ParamField path="valueLabel" type="string">
+  Text showing the current value. Displayed on the right side of the label.
+</ParamField>
+
+## Examples
+
+### Basic Meter
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+<>
+  <MeterLabel htmlFor="basic-meter" valueLabel="60%">
+    Completion Rate
+  </MeterLabel>
+  <Meter id="basic-meter" value={60} />
+</>
+```
+
+### Storage Usage
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+<>
+  <MeterLabel htmlFor="storage" valueLabel="45.2 GB of 100 GB">
+    Storage Used
+  </MeterLabel>
+  <Meter
+    id="storage"
+    value={45.2}
+    maxValue={100}
+    minLabel="0 GB"
+    maxLabel="100 GB"
+  />
+</>
+```
+
+### Memory Usage
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+<>
+  <MeterLabel htmlFor="memory" valueLabel="12.4 GB / 16 GB">
+    Memory Usage
+  </MeterLabel>
+  <Meter
+    id="memory"
+    value={12.4}
+    maxValue={16}
+    minLabel="0"
+    maxLabel="16 GB"
+  />
+</>
+```
+
+### Performance Score
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+<>
+  <MeterLabel htmlFor="performance" valueLabel="85/100">
+    Performance Score
+  </MeterLabel>
+  <Meter
+    id="performance"
+    value={85}
+    maxValue={100}
+    minLabel="Poor"
+    maxLabel="Excellent"
+  />
+</>
+```
+
+### API Rate Limit
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+import { Box } from '@twilio-paste/core/box';
+import { Text } from '@twilio-paste/core/text';
+
+const RateLimitMeter = ({ used, limit }) => {
+  const percentage = (used / limit) * 100;
+  
+  return (
+    <Box>
+      <MeterLabel htmlFor="rate-limit" valueLabel={`${used} / ${limit} requests`}>
+        API Rate Limit
+      </MeterLabel>
+      <Meter
+        id="rate-limit"
+        value={used}
+        maxValue={limit}
+        minLabel="0"
+        maxLabel={`${limit}/hr`}
+      />
+      {percentage > 80 && (
+        <Text as="p" color="colorTextWarning" marginTop="space30">
+          You're approaching your rate limit
+        </Text>
+      )}
+    </Box>
+  );
+};
+```
+
+### Custom Range
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+<>
+  <MeterLabel htmlFor="temperature" valueLabel="72°F">
+    Temperature
+  </MeterLabel>
+  <Meter
+    id="temperature"
+    value={72}
+    minValue={32}
+    maxValue={212}
+    minLabel="32°F"
+    maxLabel="212°F"
+  />
+</>
+```
+
+### Without Min/Max Labels
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+
+<>
+  <MeterLabel htmlFor="simple-meter" valueLabel="7/10">
+    Relevance Score
+  </MeterLabel>
+  <Meter id="simple-meter" value={7} maxValue={10} />
+</>
+```
+
+### Multiple Meters
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Stack orientation="vertical" spacing="space60">
+  <div>
+    <MeterLabel htmlFor="cpu" valueLabel="65%">
+      CPU Usage
+    </MeterLabel>
+    <Meter id="cpu" value={65} />
+  </div>
+  
+  <div>
+    <MeterLabel htmlFor="memory" valueLabel="80%">
+      Memory Usage
+    </MeterLabel>
+    <Meter id="memory" value={80} />
+  </div>
+  
+  <div>
+    <MeterLabel htmlFor="disk" valueLabel="45%">
+      Disk Usage
+    </MeterLabel>
+    <Meter id="disk" value={45} />
+  </div>
+</Stack>
+```
+
+### Real-time Updates
+
+```tsx
+import { Meter, MeterLabel } from '@twilio-paste/core/meter';
+import { useState, useEffect } from 'react';
+
+const LiveMeter = () => {
+  const [value, setValue] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue(Math.random() * 100);
+    }, 2000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
+    <>
+      <MeterLabel htmlFor="live-meter" valueLabel={`${Math.round(value)}%`}>
+        Network Activity
+      </MeterLabel>
+      <Meter id="live-meter" value={value} />
+    </>
+  );
+};
+```
+
+## Meter vs Progress Bar
+
+Use **Meter** for:
+- Measurements within a known range (disk usage, temperature)
+- Values that can go up or down (memory usage, API limits)
+- Ratings or scores (performance metrics)
+- Static or fluctuating measurements
+
+Use **Progress Bar** for:
+- Task completion status (file uploads, form progress)
+- One-directional progress toward a goal
+- Time-based progress
+- Operations that will eventually complete
+
+## Accessibility
+
+- Meter uses the ARIA `role="meter"` with appropriate value attributes
+- MeterLabel automatically associates with the Meter via ID
+- The `valueLabel` provides context about the current measurement
+- Min/max labels are marked as decorative (`aria-hidden="true"`)
+- Visual representation is supplemented with accessible text
+- Color is not the only indicator of the measurement
+
+## Best Practices
+
+- Always provide a MeterLabel to describe what's being measured
+- Use the `valueLabel` to show the current value in a readable format
+- Include units in the value label (GB, %, °F, etc.)
+- Use min/max labels to provide context about the range
+- Don't use meters for task progress - use ProgressBar instead
+- Update meter values in real-time when measuring dynamic data
+- Consider showing warnings when values approach limits
+- Keep label text concise and descriptive
+- For multiple related meters, group them visually
+- Ensure the min/max range makes sense for the measurement type

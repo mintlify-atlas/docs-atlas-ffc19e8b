@@ -1,0 +1,533 @@
+---
+title: Theme Designer
+description: Use the Paste Theme Designer tool to create, preview, and export custom themes visually.
+slug: /customization/theme-designer
+---
+
+The Paste Theme Designer is an interactive tool for creating and previewing custom themes. Build your theme visually and export the configuration for use in your application.
+
+## Overview
+
+The Theme Designer helps you:
+- Visualize theme changes in real-time
+- Customize design tokens with a visual interface
+- Preview components with your custom theme
+- Export theme configuration as code
+- Test color contrast for accessibility
+- Experiment without writing code
+
+## Accessing the Theme Designer
+
+The Theme Designer is a separate web application maintained by the Paste team:
+
+```
+https://theme-designer.twil.io
+```
+
+<Callout variant="note">
+The Theme Designer is currently an internal Twilio tool. Check with your team about access or use the CustomizationProvider API to create themes programmatically.
+</Callout>
+
+## Using the Theme Designer
+
+### Starting Point
+
+1. Choose a base theme (Default or Dark)
+2. Select which token categories to customize:
+   - Colors (backgrounds, text, borders)
+   - Typography (fonts, sizes, weights)
+   - Spacing (padding, margins, gaps)
+   - Borders (radii, widths)
+   - Shadows
+
+### Customizing Tokens
+
+#### Color Tokens
+
+Use the color picker to modify:
+
+- **Background Colors:** Primary, secondary, status colors
+- **Text Colors:** Body text, links, status text
+- **Border Colors:** Default borders, status borders
+
+```jsx
+// Example output from Theme Designer
+{
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    colorBackgroundPrimaryStrong: '#0F766E',
+  },
+  textColors: {
+    colorTextLink: '#0D9488',
+  },
+}
+```
+
+#### Typography Tokens
+
+Adjust font properties:
+
+- **Font Families:** Text and code fonts
+- **Font Sizes:** Base sizes and display sizes
+- **Font Weights:** Normal, medium, bold, etc.
+- **Line Heights:** Corresponding to font sizes
+
+```jsx
+{
+  fonts: {
+    fontFamilyText: '"Inter", sans-serif',
+  },
+  fontSizes: {
+    fontSize30: '1rem',
+    fontSize40: '1.125rem',
+  },
+}
+```
+
+#### Spacing Tokens
+
+Define your spacing scale:
+
+```jsx
+{
+  space: {
+    space50: '1rem',
+    space60: '1.25rem',
+    space70: '1.5rem',
+  },
+}
+```
+
+### Live Preview
+
+The Theme Designer shows real-time previews of:
+
+- **Buttons:** All variants (primary, secondary, destructive)
+- **Inputs:** Text fields, textareas, selects
+- **Typography:** Headings, paragraphs, links
+- **Cards:** With different states
+- **Alerts:** All variants (info, warning, error, success)
+- **Forms:** Complete form layouts
+
+### Accessibility Checking
+
+The tool automatically checks:
+
+- **Color Contrast:** WCAG AA and AAA compliance
+- **Text Readability:** Minimum contrast ratios
+- **Focus States:** Visibility of focus indicators
+
+Warnings appear if your color choices don't meet accessibility standards.
+
+## Exporting Your Theme
+
+### Copy Theme Object
+
+Export as a JavaScript object:
+
+```jsx
+// Click "Export Theme" to get:
+const myCustomTheme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    colorBackgroundPrimaryStrong: '#0F766E',
+    colorBackgroundPrimaryStronger: '#115E59',
+  },
+  textColors: {
+    colorText: '#111827',
+    colorTextLink: '#0D9488',
+  },
+  radii: {
+    borderRadius20: '6px',
+    borderRadius30: '10px',
+  },
+  fonts: {
+    fontFamilyText: '"Inter", sans-serif',
+  },
+};
+```
+
+### Copy CustomizationProvider Code
+
+Get ready-to-use React code:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+function App() {
+  return (
+    <CustomizationProvider
+      baseTheme="default"
+      theme={{
+        backgroundColors: {
+          colorBackgroundPrimary: '#0D9488',
+        },
+        textColors: {
+          colorTextLink: '#0D9488',
+        },
+      }}
+    >
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Download as JSON
+
+Save your theme as a JSON file for version control:
+
+```json
+{
+  "name": "My Custom Theme",
+  "baseTheme": "default",
+  "tokens": {
+    "backgroundColors": {
+      "colorBackgroundPrimary": "#0D9488"
+    },
+    "textColors": {
+      "colorTextLink": "#0D9488"
+    }
+  }
+}
+```
+
+## Alternative: Programmatic Theme Creation
+
+If you don't have access to the Theme Designer, create themes programmatically:
+
+### Manual Theme Definition
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+const brandTheme = {
+  // Define all your token overrides
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+    colorBackgroundPrimaryStrong: '#0F766E',
+    colorBackgroundPrimaryStronger: '#115E59',
+    colorBackgroundPrimaryStrongest: '#134E4A',
+    colorBackgroundPrimaryWeakest: '#CCFBF1',
+  },
+  textColors: {
+    colorText: '#111827',
+    colorTextWeak: '#4B5563',
+    colorTextLink: '#0D9488',
+  },
+  borderColors: {
+    colorBorder: '#E5E7EB',
+    colorBorderPrimary: '#0D9488',
+  },
+  radii: {
+    borderRadius20: '6px',
+    borderRadius30: '10px',
+  },
+  fonts: {
+    fontFamilyText: '"Inter", -apple-system, sans-serif',
+  },
+};
+
+function App() {
+  return (
+    <CustomizationProvider baseTheme="default" theme={brandTheme}>
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+### Using generateThemeFromTokens
+
+For comprehensive themes, use the theme generator:
+
+```jsx
+import { generateThemeFromTokens } from '@twilio-paste/theme';
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+
+// Import or define all required tokens
+const customTokens = {
+  backgroundColors: { /* all background colors */ },
+  borderColors: { /* all border colors */ },
+  borderWidths: { /* all border widths */ },
+  radii: { /* all border radii */ },
+  fonts: { /* all fonts */ },
+  fontSizes: { /* all font sizes */ },
+  fontWeights: { /* all font weights */ },
+  lineHeights: { /* all line heights */ },
+  boxShadows: { /* all shadows */ },
+  sizings: { /* all sizes - required */ },
+  spacings: { /* all spacing values */ },
+  textColors: { /* all text colors */ },
+  zIndices: { /* all z-indices */ },
+  colors: {},
+  colorSchemes: {},
+  dataVisualization: {},
+};
+
+const fullTheme = generateThemeFromTokens(customTokens);
+
+function App() {
+  return (
+    <CustomizationProvider theme={fullTheme}>
+      <YourApplication />
+    </CustomizationProvider>
+  );
+}
+```
+
+## Common Workflows
+
+### Brand Color Update
+
+Update your brand's primary color across all components:
+
+1. Open Theme Designer
+2. Select base theme (default or dark)
+3. Navigate to "Background Colors"
+4. Update `colorBackgroundPrimary` and related shades
+5. Update `colorTextLink` to match
+6. Update `colorBorderPrimary` to match
+7. Preview across components
+8. Check accessibility warnings
+9. Export and integrate into your app
+
+### Typography Customization
+
+Change the font family throughout your app:
+
+1. Open Theme Designer
+2. Navigate to "Typography"
+3. Update `fontFamilyText`
+4. Optionally adjust font sizes for better proportions
+5. Preview with different text components
+6. Export font family override
+
+### Creating a Dark Theme Variant
+
+Build a custom dark theme:
+
+1. Start with "dark" base theme
+2. Adjust background colors for your brand
+3. Ensure text colors have sufficient contrast
+4. Test with focus states
+5. Verify all status colors work in dark mode
+6. Export complete dark theme
+
+## Testing Your Theme
+
+### Visual Regression Testing
+
+After applying a custom theme, test visually:
+
+```jsx
+import { CustomizationProvider } from '@twilio-paste/core/customization';
+import { render } from '@testing-library/react';
+
+describe('Custom Theme', () => {
+  it('should render components with custom theme', () => {
+    const { container } = render(
+      <CustomizationProvider theme={myCustomTheme}>
+        <Button variant="primary">Test Button</Button>
+      </CustomizationProvider>
+    );
+    
+    // Add snapshot or visual regression test
+    expect(container).toMatchSnapshot();
+  });
+});
+```
+
+### Accessibility Testing
+
+Verify contrast ratios:
+
+```jsx
+import { useThemeContrastCheck } from '@twilio-paste/theme';
+
+function ThemeValidator() {
+  const issues = useThemeContrastCheck(myCustomTheme);
+  
+  if (issues.length > 0) {
+    console.error('Accessibility issues:', issues);
+  }
+  
+  return null;
+}
+
+// Include in your app during development
+<>
+  <ThemeValidator />
+  <App />
+</>
+```
+
+### Component Testing
+
+Test all component variants:
+
+```jsx
+function ThemeShowcase() {
+  return (
+    <CustomizationProvider theme={myCustomTheme}>
+      <Stack orientation="vertical" spacing="space60">
+        {/* Buttons */}
+        <Stack orientation="horizontal" spacing="space40">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="destructive">Destructive</Button>
+        </Stack>
+        
+        {/* Inputs */}
+        <Input placeholder="Test input" />
+        <Select><option>Test select</option></Select>
+        <Textarea placeholder="Test textarea" />
+        
+        {/* Alerts */}
+        <Alert variant="info">Info alert</Alert>
+        <Alert variant="warning">Warning alert</Alert>
+        <Alert variant="error">Error alert</Alert>
+        
+        {/* Cards */}
+        <Card>Card content</Card>
+      </Stack>
+    </CustomizationProvider>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Start with Small Changes
+
+```jsx
+// Good: Incremental changes
+const theme = {
+  backgroundColors: {
+    colorBackgroundPrimary: '#0D9488',
+  },
+};
+
+// Avoid: Changing everything at once
+const theme = {
+  /* 100+ token overrides */
+};
+```
+
+### 2. Maintain Color Relationships
+
+```jsx
+// Good: Cohesive color scale
+{
+  colorBackgroundPrimary: '#0D9488',
+  colorBackgroundPrimaryStrong: '#0F766E',      // Darker
+  colorBackgroundPrimaryStronger: '#115E59',    // Even darker
+  colorBackgroundPrimaryWeakest: '#CCFBF1',     // Much lighter
+}
+
+// Avoid: Unrelated colors
+{
+  colorBackgroundPrimary: '#0D9488',
+  colorBackgroundPrimaryStrong: '#DC2626',      // Different hue!
+}
+```
+
+### 3. Check Accessibility
+
+Always verify:
+- Text on background: minimum 4.5:1 ratio
+- Large text on background: minimum 3:1 ratio
+- Focus indicators: clearly visible
+- Status colors: distinguishable
+
+### 4. Test in Context
+
+Preview your theme with:
+- Real application content
+- All component states (hover, focus, disabled)
+- Different viewport sizes
+- Light and dark system preferences
+
+### 5. Version Your Themes
+
+```jsx
+// themes/v1.js
+export const brandThemeV1 = { /* ... */ };
+
+// themes/v2.js
+export const brandThemeV2 = { /* ... */ };
+
+// Use feature flags for gradual rollout
+const theme = useFeatureFlag('theme-v2') 
+  ? brandThemeV2 
+  : brandThemeV1;
+```
+
+## Troubleshooting
+
+### Theme Not Applying
+
+Ensure CustomizationProvider wraps your app:
+
+```jsx
+// ✓ Correct
+<CustomizationProvider theme={myTheme}>
+  <App />
+</CustomizationProvider>
+
+// ✗ Incorrect - components outside provider
+<>
+  <Header />
+  <CustomizationProvider theme={myTheme}>
+    <Main />
+  </CustomizationProvider>
+</>
+```
+
+### Tokens Not Working
+
+Check token names match exactly:
+
+```jsx
+// ✓ Correct
+{ colorBackgroundPrimary: '#0D9488' }
+
+// ✗ Incorrect - wrong name
+{ colorBackgroundPrimaryColor: '#0D9488' }
+{ background-color-primary: '#0D9488' }
+```
+
+### Accessibility Warnings
+
+If you see contrast warnings:
+
+1. Use a contrast checker tool
+2. Darken text colors or lighten backgrounds
+3. Test with actual users
+4. Don't sacrifice accessibility for aesthetics
+
+## Resources
+
+### Color Tools
+
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [Coolors](https://coolors.co/) - Color palette generator
+- [Adobe Color](https://color.adobe.com/) - Color wheel and schemes
+
+### Font Resources
+
+- [Google Fonts](https://fonts.google.com/)
+- [Adobe Fonts](https://fonts.adobe.com/)
+- [Font Pair](https://fontpair.co/) - Font pairing suggestions
+
+### Design Token References
+
+- [Design Tokens Overview](/customization/design-tokens-overview)
+- [Paste Token Documentation](https://paste.twilio.design/tokens)
+
+## Next Steps
+
+- Learn about [Creating Custom Themes](/customization/creating-custom-themes) programmatically
+- Explore [Design Tokens](/customization/design-tokens-overview) in detail
+- Review [CustomizationProvider](/customization/customization-provider) API
+- Check out [Style Props](/customization/style-props) for component customization
