@@ -1,0 +1,307 @@
+---
+title: Radio Button Group
+description: RadioButtonGroup is a set of related, mutually exclusive button-style options where only one can be selected at a time.
+---
+
+# Radio Button Group
+
+RadioButtonGroup presents radio options as interactive buttons instead of traditional radio controls. This provides a more prominent, touch-friendly way to present mutually exclusive choices.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/radio-button-group
+```
+
+## Usage
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const MyComponent = () => {
+  const [value, setValue] = React.useState('option1');
+
+  return (
+    <RadioButtonGroup
+      legend="Choose an option"
+      name="options"
+      value={value}
+      onChange={(newValue) => setValue(newValue)}
+    >
+      <RadioButton value="option1">Option 1</RadioButton>
+      <RadioButton value="option2">Option 2</RadioButton>
+      <RadioButton value="option3">Option 3</RadioButton>
+    </RadioButtonGroup>
+  );
+};
+```
+
+### Basic Radio Button Group
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const [plan, setPlan] = React.useState('basic');
+
+<RadioButtonGroup
+  legend="Select a plan"
+  name="plan"
+  value={plan}
+  onChange={setPlan}
+>
+  <RadioButton value="basic">Basic</RadioButton>
+  <RadioButton value="pro">Pro</RadioButton>
+  <RadioButton value="enterprise">Enterprise</RadioButton>
+</RadioButtonGroup>
+```
+
+### Attached Buttons
+
+Visually connect buttons together:
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const [view, setView] = React.useState('list');
+
+<RadioButtonGroup
+  legend="View type"
+  name="view"
+  value={view}
+  onChange={setView}
+  attached
+>
+  <RadioButton value="list">List</RadioButton>
+  <RadioButton value="grid">Grid</RadioButton>
+  <RadioButton value="table">Table</RadioButton>
+</RadioButtonGroup>
+```
+
+### With Help Text
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const [billing, setBilling] = React.useState('monthly');
+
+<RadioButtonGroup
+  legend="Billing cycle"
+  name="billing"
+  value={billing}
+  onChange={setBilling}
+  helpText="You can change this at any time"
+>
+  <RadioButton value="monthly">Monthly</RadioButton>
+  <RadioButton value="annual">Annual</RadioButton>
+</RadioButtonGroup>
+```
+
+### Required Group
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const [delivery, setDelivery] = React.useState('');
+
+<RadioButtonGroup
+  legend="Delivery method"
+  name="delivery"
+  value={delivery}
+  onChange={setDelivery}
+  required
+  i18nRequiredLabel="(required)"
+>
+  <RadioButton value="standard">Standard</RadioButton>
+  <RadioButton value="express">Express</RadioButton>
+</RadioButtonGroup>
+```
+
+### With Error
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const [size, setSize] = React.useState('');
+
+<RadioButtonGroup
+  legend="Select a size"
+  name="size"
+  value={size}
+  onChange={setSize}
+  required
+  errorText="Please select a size"
+>
+  <RadioButton value="small">Small</RadioButton>
+  <RadioButton value="medium">Medium</RadioButton>
+  <RadioButton value="large">Large</RadioButton>
+</RadioButtonGroup>
+```
+
+### Disabled Group
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+<RadioButtonGroup
+  legend="Shipping speed"
+  name="shipping"
+  value="standard"
+  disabled
+>
+  <RadioButton value="standard">Standard</RadioButton>
+  <RadioButton value="expedited">Expedited</RadioButton>
+</RadioButtonGroup>
+```
+
+### Horizontal Orientation
+
+```jsx
+import { RadioButtonGroup, RadioButton } from '@twilio-paste/core/radio-button-group';
+
+const [alignment, setAlignment] = React.useState('left');
+
+<RadioButtonGroup
+  legend="Text alignment"
+  name="alignment"
+  value={alignment}
+  onChange={setAlignment}
+  orientation="horizontal"
+  attached
+>
+  <RadioButton value="left">Left</RadioButton>
+  <RadioButton value="center">Center</RadioButton>
+  <RadioButton value="right">Right</RadioButton>
+</RadioButtonGroup>
+```
+
+## Props
+
+### RadioButtonGroup
+
+<ParamField path="legend" type="string | ReactNode" required>
+  The label for the radio button group, rendered as a legend element.
+</ParamField>
+
+<ParamField path="name" type="string" required>
+  The name attribute for all radio buttons in the group.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" required>
+  RadioButton components to include in the group.
+</ParamField>
+
+<ParamField path="value" type="string">
+  The currently selected value.
+</ParamField>
+
+<ParamField path="onChange" type="(value: string) => void">
+  Callback fired when the selection changes. Receives the selected value.
+</ParamField>
+
+<ParamField path="orientation" type="'vertical' | 'horizontal'" default="vertical">
+  Layout direction for the radio buttons.
+</ParamField>
+
+<ParamField path="attached" type="boolean" default="false">
+  Whether buttons are visually connected (no gap between them).
+</ParamField>
+
+<ParamField path="helpText" type="string | ReactNode">
+  Help text displayed below the legend.
+</ParamField>
+
+<ParamField path="errorText" type="string | ReactNode">
+  Error message to display when validation fails.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the group as required.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables all radio buttons in the group.
+</ParamField>
+
+<ParamField path="i18nRequiredLabel" type="string" default="(required)">
+  Accessible label for the required indicator.
+</ParamField>
+
+<ParamField path="element" type="string" default="RADIO_BUTTON_GROUP">
+  Overrides the default element name for customization.
+</ParamField>
+
+### RadioButton
+
+<ParamField path="value" type="string" required>
+  The value of this radio button option.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" required>
+  The label text for this radio button.
+</ParamField>
+
+<ParamField path="id" type="string">
+  Unique identifier for the radio input.
+</ParamField>
+
+## Best Practices
+
+### Do
+
+- Use RadioButtonGroup for 2-5 mutually exclusive options
+- Use when options need more visual prominence than standard radios
+- Use attached style for related options like view modes or alignments
+- Provide clear, concise labels for each button
+- Use horizontal orientation for short labels
+- Show validation errors in errorText
+
+### Don't
+
+- Don't use for more than 5-6 options (use Select instead)
+- Don't use when options need extensive descriptions (use Radio Group)
+- Don't mix button and traditional radio styles in the same context
+- Don't make button labels too long
+- Don't use if multiple selections are needed (use Checkbox Group)
+
+### RadioButtonGroup vs. Radio Group
+
+Use **RadioButtonGroup** when:
+- You have 2-5 options
+- Options are short and scannable
+- You want a more prominent UI
+- Options are of equal importance
+
+Use **Radio Group** when:
+- You have many options (6+)
+- Options need help text or descriptions
+- You want a more compact layout
+- Traditional form styling is preferred
+
+## Accessibility
+
+- Uses semantic `<fieldset>` and `<legend>` elements
+- Radio buttons are keyboard navigable using arrow keys
+- Selected state is indicated via aria-checked
+- Required state is properly announced
+- Error messages are associated with the group
+- Focus indicator is clearly visible
+- Disabled state is conveyed to assistive technology
+
+### Keyboard Navigation
+
+- **Tab**: Focus the radio button group
+- **Arrow keys**: Navigate between options and select
+- **Space**: Select the focused option
+
+## Related Components
+
+- [Radio Group](/components/radio-group) - Traditional radio button group
+- [Checkbox Group](/components/checkbox-group) - For multiple selections
+- [Button Group](/components/button-group) - For grouped action buttons
+- [Select](/components/select) - For many options in a dropdown

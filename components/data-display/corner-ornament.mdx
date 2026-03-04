@@ -1,0 +1,210 @@
+---
+title: Corner Ornament
+description: CornerOrnament is a container used to apply a cutout to a base component and position another element as its ornament.
+---
+
+# Corner Ornament
+
+CornerOrnament is a layout component that creates a cutout effect on a container and positions decorative elements (ornaments) in the corners. It's commonly used to add badges, icons, or other visual indicators to cards, avatars, or other UI elements.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/corner-ornament
+```
+
+## Usage
+
+```jsx
+import {
+  CornerOrnamentContainer,
+  CornerOrnamentBase,
+  CornerOrnament,
+} from '@twilio-paste/core/corner-ornament';
+import { Box } from '@twilio-paste/core/box';
+import { Avatar } from '@twilio-paste/core/avatar';
+
+const MyComponent = () => (
+  <CornerOrnamentContainer size="sizeIcon80" cornerOrnamentType="square" position="top_right">
+    <CornerOrnamentBase>
+      <Avatar size="sizeIcon80" name="John Doe" src="/avatar.jpg" />
+    </CornerOrnamentBase>
+    <CornerOrnament>
+      <Box
+        width="sizeIcon30"
+        height="sizeIcon30"
+        borderRadius="borderRadiusCircle"
+        backgroundColor="colorBackgroundSuccess"
+      />
+    </CornerOrnament>
+  </CornerOrnamentContainer>
+);
+```
+
+### Avatar with Status Badge
+
+Add status indicators to user avatars:
+
+```jsx
+import {
+  CornerOrnamentContainer,
+  CornerOrnamentBase,
+  CornerOrnament,
+} from '@twilio-paste/core/corner-ornament';
+import { Avatar } from '@twilio-paste/core/avatar';
+import { Box } from '@twilio-paste/core/box';
+
+<CornerOrnamentContainer size="sizeIcon80" cornerOrnamentType="square" position="bottom_right">
+  <CornerOrnamentBase>
+    <Avatar size="sizeIcon80" name="Jane Smith" />
+  </CornerOrnamentBase>
+  <CornerOrnament>
+    <Box
+      width="sizeIcon20"
+      height="sizeIcon20"
+      borderRadius="borderRadiusCircle"
+      backgroundColor="colorBackgroundSuccess"
+      borderWidth="borderWidth20"
+      borderStyle="solid"
+      borderColor="colorBorderWeakest"
+    />
+  </CornerOrnament>
+</CornerOrnamentContainer>
+```
+
+### Card with Badge
+
+Add decorative badges to card components:
+
+```jsx
+import {
+  CornerOrnamentContainer,
+  CornerOrnamentBase,
+  CornerOrnament,
+} from '@twilio-paste/core/corner-ornament';
+import { Card } from '@twilio-paste/core/card';
+import { Badge } from '@twilio-paste/core/badge';
+
+<CornerOrnamentContainer size="size20" cornerOrnamentType="square" position="top_right">
+  <CornerOrnamentBase>
+    <Card padding="space60">
+      Card content goes here
+    </Card>
+  </CornerOrnamentBase>
+  <CornerOrnament>
+    <Badge as="span" variant="new">New</Badge>
+  </CornerOrnament>
+</CornerOrnamentContainer>
+```
+
+### Icon Ornament
+
+```jsx
+import {
+  CornerOrnamentContainer,
+  CornerOrnamentBase,
+  CornerOrnament,
+} from '@twilio-paste/core/corner-ornament';
+import { Box } from '@twilio-paste/core/box';
+import { CheckmarkCircleIcon } from '@twilio-paste/icons/esm/CheckmarkCircleIcon';
+
+<CornerOrnamentContainer size="sizeIcon70" cornerOrnamentType="circle" position="bottom_right">
+  <CornerOrnamentBase>
+    <Box
+      width="sizeIcon70"
+      height="sizeIcon70"
+      borderRadius="borderRadiusCircle"
+      backgroundColor="colorBackgroundPrimary"
+    />
+  </CornerOrnamentBase>
+  <CornerOrnament>
+    <CheckmarkCircleIcon decorative color="colorTextSuccess" size="sizeIcon30" />
+  </CornerOrnament>
+</CornerOrnamentContainer>
+```
+
+## Component Structure
+
+CornerOrnament consists of three components:
+
+### CornerOrnamentContainer
+
+The wrapper component that establishes the layout context.
+
+<ParamField path="size" type="string" required>
+  The size of the container. Should match the size of the base element.
+</ParamField>
+
+<ParamField path="cornerOrnamentType" type="'square' | 'circle'" required>
+  The shape type of the ornament container, which determines the cutout style.
+</ParamField>
+
+<ParamField path="position" type="'top_left' | 'top_right' | 'bottom_left' | 'bottom_right'" required>
+  The corner position where the ornament will be placed.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" required>
+  Must contain CornerOrnamentBase and CornerOrnament components.
+</ParamField>
+
+### CornerOrnamentBase
+
+Wraps the base content that will receive the corner cutout.
+
+<ParamField path="children" type="ReactNode" required>
+  The primary content (e.g., Avatar, Card, or other element).
+</ParamField>
+
+<ParamField path="element" type="string" default="CORNER_ORNAMENT_BASE">
+  Overrides the default element name for customization.
+</ParamField>
+
+### CornerOrnament
+
+Contains the ornament element positioned in the corner.
+
+<ParamField path="children" type="ReactNode" required>
+  The ornament content (e.g., Badge, Icon, status indicator).
+</ParamField>
+
+<ParamField path="element" type="string" default="CORNER_ORNAMENT">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Best Practices
+
+### Do
+
+- Use CornerOrnament to add status indicators or badges to avatars
+- Keep ornaments small and unobtrusive
+- Ensure the size prop matches your base element's size
+- Use appropriate color contrast for ornaments
+- Verify that size/position/type combinations are supported
+
+### Don't
+
+- Don't use for primary content or important information
+- Don't make ornaments too large relative to the base element
+- Don't use unsupported size/position/type combinations (will throw error)
+- Don't nest CornerOrnament components
+- Don't use for interactive elements unless they're clearly actionable
+
+## Accessibility
+
+- Ornaments are typically decorative and should not contain essential information
+- If ornaments convey important status, provide equivalent text alternatives
+- Use `decorative` prop on icons when they're purely visual
+- Ensure color is not the only means of conveying information
+- Consider screen reader announcements for status changes
+
+## Related Components
+
+- [Avatar](/components/avatar) - User profile images
+- [Badge](/components/badge) - Status and categorical labels
+- [Card](/components/card) - Content containers

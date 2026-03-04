@@ -1,0 +1,335 @@
+---
+title: Summary Detail
+description: SummaryDetail is a collapsible container that shows a summary and hides detailed content until the user expands it.
+---
+
+# Summary Detail
+
+SummaryDetail provides an expandable/collapsible disclosure pattern. It displays a summary heading that users can click to reveal additional details. This helps manage content density and allows progressive disclosure of information.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/summary-detail
+```
+
+## Usage
+
+```jsx
+import {
+  SummaryDetail,
+  SummaryDetailHeading,
+  SummaryDetailToggleButton,
+  SummaryDetailContent,
+} from '@twilio-paste/core/summary-detail';
+import { Text } from '@twilio-paste/core/text';
+
+const MyComponent = () => (
+  <SummaryDetail>
+    <SummaryDetailHeading>
+      <SummaryDetailToggleButton>What is Paste?</SummaryDetailToggleButton>
+    </SummaryDetailHeading>
+    <SummaryDetailContent>
+      <Text as="p">
+        Paste is Twilio's design system for building consistent, accessible user experiences.
+      </Text>
+    </SummaryDetailContent>
+  </SummaryDetail>
+);
+```
+
+### Basic Summary Detail
+
+```jsx
+import {
+  SummaryDetail,
+  SummaryDetailHeading,
+  SummaryDetailToggleButton,
+  SummaryDetailContent,
+} from '@twilio-paste/core/summary-detail';
+import { Text } from '@twilio-paste/core/text';
+
+<SummaryDetail>
+  <SummaryDetailHeading>
+    <SummaryDetailToggleButton>Shipping Information</SummaryDetailToggleButton>
+  </SummaryDetailHeading>
+  <SummaryDetailContent>
+    <Text as="p">
+      Orders typically ship within 2-3 business days. Free shipping on orders over $50.
+    </Text>
+  </SummaryDetailContent>
+</SummaryDetail>
+```
+
+### Default Open
+
+Open the detail section by default:
+
+```jsx
+import {
+  SummaryDetail,
+  SummaryDetailHeading,
+  SummaryDetailToggleButton,
+  SummaryDetailContent,
+} from '@twilio-paste/core/summary-detail';
+import { Text } from '@twilio-paste/core/text';
+
+<SummaryDetail visible>
+  <SummaryDetailHeading>
+    <SummaryDetailToggleButton>Account Details</SummaryDetailToggleButton>
+  </SummaryDetailHeading>
+  <SummaryDetailContent>
+    <Text as="p">Your account information and settings.</Text>
+  </SummaryDetailContent>
+</SummaryDetail>
+```
+
+### Multiple Summary Details (FAQ)
+
+```jsx
+import {
+  SummaryDetail,
+  SummaryDetailHeading,
+  SummaryDetailToggleButton,
+  SummaryDetailContent,
+} from '@twilio-paste/core/summary-detail';
+import { Stack } from '@twilio-paste/core/stack';
+import { Text } from '@twilio-paste/core/text';
+
+<Stack orientation="vertical" spacing="space60">
+  <SummaryDetail>
+    <SummaryDetailHeading>
+      <SummaryDetailToggleButton>How do I reset my password?</SummaryDetailToggleButton>
+    </SummaryDetailHeading>
+    <SummaryDetailContent>
+      <Text as="p">
+        Click the "Forgot Password" link on the login page and follow the instructions sent to your email.
+      </Text>
+    </SummaryDetailContent>
+  </SummaryDetail>
+
+  <SummaryDetail>
+    <SummaryDetailHeading>
+      <SummaryDetailToggleButton>What payment methods do you accept?</SummaryDetailToggleButton>
+    </SummaryDetailHeading>
+    <SummaryDetailContent>
+      <Text as="p">
+        We accept all major credit cards, PayPal, and bank transfers for enterprise accounts.
+      </Text>
+    </SummaryDetailContent>
+  </SummaryDetail>
+
+  <SummaryDetail>
+    <SummaryDetailHeading>
+      <SummaryDetailToggleButton>How can I cancel my subscription?</SummaryDetailToggleButton>
+    </SummaryDetailHeading>
+    <SummaryDetailContent>
+      <Text as="p">
+        Go to Settings → Billing → Cancel Subscription. Your access will continue until the end of your billing period.
+      </Text>
+    </SummaryDetailContent>
+  </SummaryDetail>
+</Stack>
+```
+
+### Controlled State
+
+Manage the open/closed state externally:
+
+```jsx
+import {
+  SummaryDetail,
+  SummaryDetailHeading,
+  SummaryDetailToggleButton,
+  SummaryDetailContent,
+  useSummaryDetailState,
+} from '@twilio-paste/core/summary-detail';
+import { Button } from '@twilio-paste/core/button';
+import { Text } from '@twilio-paste/core/text';
+
+const ControlledExample = () => {
+  const state = useSummaryDetailState();
+
+  return (
+    <>
+      <Button onClick={() => state.toggle()} variant="secondary">
+        {state.visible ? 'Close' : 'Open'} Details
+      </Button>
+      
+      <SummaryDetail state={state}>
+        <SummaryDetailHeading>
+          <SummaryDetailToggleButton>Details</SummaryDetailToggleButton>
+        </SummaryDetailHeading>
+        <SummaryDetailContent>
+          <Text as="p">This content is controlled by external state.</Text>
+        </SummaryDetailContent>
+      </SummaryDetail>
+    </>
+  );
+};
+```
+
+### With Rich Content
+
+```jsx
+import {
+  SummaryDetail,
+  SummaryDetailHeading,
+  SummaryDetailToggleButton,
+  SummaryDetailContent,
+} from '@twilio-paste/core/summary-detail';
+import { Heading } from '@twilio-paste/core/heading';
+import { Text } from '@twilio-paste/core/text';
+import { Stack } from '@twilio-paste/core/stack';
+import { UnorderedList, ListItem } from '@twilio-paste/core/list';
+
+<SummaryDetail>
+  <SummaryDetailHeading>
+    <SummaryDetailToggleButton>API Rate Limits</SummaryDetailToggleButton>
+  </SummaryDetailHeading>
+  <SummaryDetailContent>
+    <Stack orientation="vertical" spacing="space40">
+      <Text as="p">
+        Rate limits help ensure fair usage of our API across all customers.
+      </Text>
+      <Heading as="h4" variant="heading50">Standard Limits</Heading>
+      <UnorderedList>
+        <ListItem>100 requests per minute</ListItem>
+        <ListItem>10,000 requests per hour</ListItem>
+        <ListItem>100,000 requests per day</ListItem>
+      </UnorderedList>
+    </Stack>
+  </SummaryDetailContent>
+</SummaryDetail>
+```
+
+## Component Structure
+
+### SummaryDetail
+
+The root container component.
+
+<ParamField path="children" type="ReactNode" required>
+  Must contain SummaryDetailHeading and SummaryDetailContent components.
+</ParamField>
+
+<ParamField path="visible" type="boolean">
+  Whether the detail section is initially visible.
+</ParamField>
+
+<ParamField path="state" type="SummaryDetailStateReturn">
+  Controlled state from useSummaryDetailState hook.
+</ParamField>
+
+<ParamField path="element" type="string" default="SUMMARY_DETAIL">
+  Overrides the default element name for customization.
+</ParamField>
+
+### SummaryDetailHeading
+
+Contains the toggle button and heading content.
+
+<ParamField path="children" type="ReactNode" required>
+  Typically contains SummaryDetailToggleButton.
+</ParamField>
+
+### SummaryDetailToggleButton
+
+The clickable button that expands/collapses the detail content.
+
+<ParamField path="children" type="ReactNode" required>
+  The summary text or heading.
+</ParamField>
+
+### SummaryDetailContent
+
+The collapsible content area.
+
+<ParamField path="children" type="ReactNode" required>
+  The detailed content to show when expanded.
+</ParamField>
+
+## Hooks
+
+### useSummaryDetailState
+
+Creates controlled state for SummaryDetail:
+
+```jsx
+const state = useSummaryDetailState({ visible: false });
+```
+
+Returns state object with:
+- `visible`: Current visibility state
+- `show()`: Show the details
+- `hide()`: Hide the details  
+- `toggle()`: Toggle visibility
+
+## Best Practices
+
+### Do
+
+- Use for progressive disclosure of secondary information
+- Write clear, descriptive summary text
+- Use for FAQs, help documentation, and detailed specifications
+- Keep summaries scannable and concise
+- Group related SummaryDetails together with consistent spacing
+- Consider default open state for high-priority information
+
+### Don't
+
+- Don't hide critical information that users need immediately
+- Don't nest SummaryDetail components deeply
+- Don't use for primary navigation
+- Don't make the summary text too long
+- Don't use when all content should be visible by default
+- Don't use for very short content that doesn't need hiding
+
+### When to Use SummaryDetail
+
+**Good use cases:**
+- FAQs and help content
+- Product specifications and details
+- Terms and conditions
+- Additional options and settings
+- Troubleshooting steps
+- Version history or changelog
+
+**Avoid for:**
+- Primary content users need to complete tasks
+- Critical warnings or errors (use Alert or Callout)
+- Navigation (use Sidebar or Menu)
+- Form sections (use proper fieldset/legend structure)
+
+## Accessibility
+
+- Uses disclosure pattern with proper ARIA attributes
+- Toggle button is keyboard accessible
+- Expanded/collapsed state is announced to screen readers
+- Focus management on toggle
+- Semantic heading structure is maintained
+
+### Keyboard Navigation
+
+- **Tab**: Focus the toggle button
+- **Enter/Space**: Expand or collapse the detail section
+- **Tab**: Move to next focusable element
+
+## Animation
+
+- Smooth expand/collapse animation
+- Respects user's motion preferences (prefers-reduced-motion)
+- Content fades in/out during transition
+
+## Related Components
+
+- [Disclosure](/components/disclosure) - Similar collapsible pattern
+- [Accordion](/components/accordion) - Multiple collapsible sections where only one can be open
+- [Tabs](/components/tabs) - Organize content into switchable panels
+- [Card](/components/card) - Container for grouping content

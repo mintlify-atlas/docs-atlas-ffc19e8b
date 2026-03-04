@@ -1,0 +1,298 @@
+---
+title: Editable Code Block
+description: EditableCodeBlock is a text field that allows users to enter and edit formatted code with syntax highlighting and validation.
+---
+
+# Editable Code Block
+
+EditableCodeBlock provides a rich code editing experience with syntax highlighting, line numbers, code folding, and inline error reporting. Built on Monaco Editor (the editor that powers VS Code).
+
+<Callout variant="warning" title="Alpha Component">
+  Editable Code Block is currently in alpha. The API may change significantly in future releases.
+</Callout>
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/editable-code-block
+```
+
+## Usage
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const MyComponent = () => {
+  const [code, setCode] = React.useState('console.log("Hello, world!");');
+
+  return (
+    <EditableCodeBlock
+      language="javascript"
+      value={code}
+      onChange={(newValue) => setCode(newValue)}
+    />
+  );
+};
+```
+
+### JavaScript Code
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const [jsCode, setJsCode] = React.useState(`function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+
+greet('World');`);
+
+<EditableCodeBlock
+  language="javascript"
+  value={jsCode}
+  onChange={setJsCode}
+  lineNumbers="on"
+  folding
+/>
+```
+
+### JSON Editor
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const [jsonData, setJsonData] = React.useState(`{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "role": "admin"
+}`);
+
+<EditableCodeBlock
+  language="json"
+  value={jsonData}
+  onChange={setJsonData}
+  lineNumbers="on"
+/>
+```
+
+### With Inline Error
+
+Highlight errors inline with hover messages:
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const [code, setCode] = React.useState('const x = ');
+
+<EditableCodeBlock
+  language="javascript"
+  value={code}
+  onChange={setCode}
+  inlineErrorRange={{
+    startLineNumber: 1,
+    startColumn: 11,
+    endLineNumber: 1,
+    endColumn: 11
+  }}
+  inlineErrorHoverMessage={{
+    value: 'Expression expected'
+  }}
+/>
+```
+
+### Read-Only Mode
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const snippet = `// This code is read-only
+const API_KEY = 'sk_test_123';
+const client = new Client(API_KEY);`;
+
+<EditableCodeBlock
+  language="javascript"
+  value={snippet}
+  readOnly
+  lineNumbers="on"
+/>
+```
+
+### Without Line Numbers
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const [cssCode, setCssCode] = React.useState(`.button {
+  background-color: blue;
+  color: white;
+}`);
+
+<EditableCodeBlock
+  language="css"
+  value={cssCode}
+  onChange={setCssCode}
+  lineNumbers="off"
+/>
+```
+
+### With Minimap
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const [longCode, setLongCode] = React.useState(/* long code string */);
+
+<EditableCodeBlock
+  language="javascript"
+  value={longCode}
+  onChange={setLongCode}
+  showMinimap
+  lineNumbers="on"
+/>
+```
+
+### Python Code
+
+```jsx
+import { EditableCodeBlock } from '@twilio-paste/core/editable-code-block';
+
+const [pythonCode, setPythonCode] = React.useState(`def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print(fibonacci(10))`);
+
+<EditableCodeBlock
+  language="python"
+  value={pythonCode}
+  onChange={setPythonCode}
+  lineNumbers="on"
+  folding
+/>
+```
+
+## Props
+
+<ParamField path="language" type="string" required>
+  The programming language for syntax highlighting (e.g., "javascript", "typescript", "json", "python", "html", "css").
+</ParamField>
+
+<ParamField path="value" type="string" required>
+  The current code content.
+</ParamField>
+
+<ParamField path="onChange" type="(value: string) => void">
+  Callback fired when the code changes. Receives the new code value.
+</ParamField>
+
+<ParamField path="lineNumbers" type="'on' | 'off'" default="on">
+  Show or hide line numbers in the gutter.
+</ParamField>
+
+<ParamField path="folding" type="boolean" default="true">
+  Enable code folding (collapsing sections of code).
+</ParamField>
+
+<ParamField path="readOnly" type="boolean" default="false">
+  Make the editor read-only (non-editable).
+</ParamField>
+
+<ParamField path="indentationGuide" type="boolean" default="true">
+  Show indentation guide lines.
+</ParamField>
+
+<ParamField path="showMinimap" type="boolean" default="false">
+  Show a minimap (overview) of the code on the right side.
+</ParamField>
+
+<ParamField path="scrollBeyondLastLine" type="boolean" default="false">
+  Allow scrolling beyond the last line of code.
+</ParamField>
+
+<ParamField path="inlineErrorRange" type="IRange">
+  Range object specifying the location of an error in the code.
+</ParamField>
+
+<ParamField path="inlineErrorHoverMessage" type="IMarkdownString | IMarkdownString[] | null">
+  Hover message(s) to display when hovering over the error range. Set to null to clear the message.
+</ParamField>
+
+<ParamField path="element" type="string" default="EDITABLE_CODE_BLOCK">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Supported Languages
+
+EditableCodeBlock supports many programming languages including:
+
+- JavaScript / TypeScript
+- JSON
+- HTML / CSS
+- Python
+- Java
+- C / C++ / C#
+- PHP
+- Ruby
+- Go
+- SQL
+- Markdown
+- And many more
+
+## Best Practices
+
+### Do
+
+- Use EditableCodeBlock for code input that needs syntax highlighting
+- Provide clear labels explaining what code is expected
+- Use appropriate language for accurate syntax highlighting
+- Show inline errors for validation feedback
+- Use read-only mode for code snippets that shouldn't be edited
+- Consider using a minimap for very long code
+
+### Don't
+
+- Don't use for simple text input (use TextArea instead)
+- Don't use for short single-line code (use Input with type="text")
+- Don't forget to handle the onChange callback
+- Don't use without proper validation for user-submitted code
+- Don't enable too many features for simple use cases
+
+## Accessibility
+
+- EditableCodeBlock is built on Monaco Editor which has built-in accessibility features
+- Keyboard navigation is fully supported
+- Screen readers can read code line by line
+- Provide clear labels for the editor
+- Error messages should be announced to screen readers
+- Consider providing alternative ways to input code for users who may have difficulty
+
+### Keyboard Shortcuts
+
+EditableCodeBlock inherits Monaco Editor's keyboard shortcuts:
+
+- **Ctrl/Cmd + F**: Find
+- **Ctrl/Cmd + H**: Find and replace
+- **Ctrl/Cmd + Z**: Undo
+- **Ctrl/Cmd + Y**: Redo
+- **Tab**: Indent
+- **Shift + Tab**: Outdent
+- And many more standard editor shortcuts
+
+## Performance
+
+- EditableCodeBlock loads Monaco Editor which is a large dependency
+- Consider code splitting if not used on initial page load
+- For very large files, performance may degrade
+- Use read-only mode when editing is not needed to improve performance
+
+## Related Components
+
+- [Code Block](/components/code-block) - Display-only code blocks
+- [Inline Code](/components/inline-code) - Inline code snippets
+- [TextArea](/components/textarea) - Multi-line text input

@@ -1,0 +1,212 @@
+---
+title: Input Box
+description: InputBox is the visual wrapper around form input elements, providing consistent styling and support for prefixes and suffixes.
+---
+
+# Input Box
+
+InputBox provides the visual container and styling for text input fields. It handles the box appearance, states (focus, error, disabled), and positioning of prefix/suffix elements.
+
+<Callout variant="info" title="Internal Component">
+  InputBox is an internal component used by Input, TextArea, Select, and other form controls. Most developers should use those higher-level components instead.
+</Callout>
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/input-box
+```
+
+## Usage
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+
+<InputBox element="MY_INPUT">
+  <input type="text" />
+</InputBox>
+```
+
+### With Prefix Icon
+
+Add an icon before the input:
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+import { SearchIcon } from '@twilio-paste/icons/esm/SearchIcon';
+
+<InputBox
+  element="SEARCH_INPUT"
+  insertBefore={<SearchIcon decorative />}
+>
+  <input type="text" placeholder="Search..." />
+</InputBox>
+```
+
+### With Suffix Text
+
+Add text after the input:
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+import { Text } from '@twilio-paste/core/text';
+
+<InputBox
+  element="PRICE_INPUT"
+  insertAfter={<Text as="span" color="colorTextWeak">USD</Text>}
+>
+  <input type="number" placeholder="0.00" />
+</InputBox>
+```
+
+### Error State
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+
+<InputBox element="EMAIL_INPUT" hasError>
+  <input type="email" aria-invalid="true" />
+</InputBox>
+```
+
+### Disabled State
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+
+<InputBox element="DISABLED_INPUT" disabled>
+  <input type="text" disabled />
+</InputBox>
+```
+
+### Read-Only State
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+
+<InputBox element="READONLY_INPUT" readOnly>
+  <input type="text" readOnly value="Read-only value" />
+</InputBox>
+```
+
+### Inverse Variant
+
+For use on dark backgrounds:
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+import { Box } from '@twilio-paste/core/box';
+
+<Box backgroundColor="colorBackgroundBodyInverse" padding="space60">
+  <InputBox element="INVERSE_INPUT" variant="inverse">
+    <input type="text" />
+  </InputBox>
+</Box>
+```
+
+### With Prefix and Suffix
+
+```jsx
+import { InputBox } from '@twilio-paste/core/input-box';
+import { Text } from '@twilio-paste/core/text';
+
+<InputBox
+  element="URL_INPUT"
+  insertBefore={<Text as="span" color="colorTextWeak">https://</Text>}
+  insertAfter={<Text as="span" color="colorTextWeak">.com</Text>}
+>
+  <input type="text" placeholder="example" />
+</InputBox>
+```
+
+## Props
+
+<ParamField path="element" type="string" required>
+  Element name for customization. This prop is required to ensure consistent styling across composite components.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" required>
+  The input element to wrap (input, textarea, select, etc.).
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Applies disabled styling to the input box.
+</ParamField>
+
+<ParamField path="readOnly" type="boolean" default="false">
+  Applies read-only styling to the input box.
+</ParamField>
+
+<ParamField path="hasError" type="boolean" default="false">
+  Applies error styling to indicate validation failure.
+</ParamField>
+
+<ParamField path="insertBefore" type="ReactNode">
+  Content to display before the input (icons, text, etc.).
+</ParamField>
+
+<ParamField path="insertAfter" type="ReactNode">
+  Content to display after the input (icons, text, etc.).
+</ParamField>
+
+<ParamField path="type" type="InputBoxTypes">
+  The input type, which may affect styling.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="default">
+  Visual variant. Use "inverse" for dark backgrounds.
+</ParamField>
+
+## Input Box Types
+
+The `type` prop accepts standard HTML input types and affects how the input is styled.
+
+## Best Practices
+
+### Do
+
+- Use InputBox as a foundation for building custom input components
+- Always provide the `element` prop for customization support
+- Use insertBefore for icons that indicate input purpose (search, email, etc.)
+- Use insertAfter for units, currency symbols, or validation icons
+- Match the disabled/readOnly/hasError states with the actual input element
+
+### Don't
+
+- Don't use InputBox directly in application code - use Input, TextArea, or Select
+- Don't put interactive elements in insertBefore/insertAfter without careful consideration
+- Don't forget to sync InputBox state props with the actual input element
+- Don't use for non-input form controls
+
+## States and Styling
+
+InputBox provides visual styling for:
+
+- **Default**: Normal, unfocused state
+- **Focus**: When the input receives focus
+- **Hover**: Mouse hover state
+- **Disabled**: Non-interactive state
+- **Read-only**: View-only state
+- **Error**: Validation error state
+- **Inverse**: For dark backgrounds
+
+## Accessibility
+
+- InputBox is purely presentational - accessibility is handled by the child input element
+- Ensure child inputs have proper labels
+- Use aria-invalid on the input when hasError is true
+- Decorative icons in insertBefore/insertAfter should have decorative prop
+- Ensure color contrast meets WCAG standards in all states
+
+## Related Components
+
+- [Input](/components/input) - Text input field
+- [TextArea](/components/textarea) - Multi-line text input
+- [Select](/components/select) - Dropdown selection
+- [Combobox](/components/combobox) - Autocomplete input

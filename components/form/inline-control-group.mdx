@@ -1,0 +1,213 @@
+---
+title: Inline Control Group
+description: InlineControlGroup is a base component for creating groups of related form controls like checkboxes or radio buttons.
+---
+
+# Inline Control Group
+
+InlineControlGroup provides a fieldset wrapper for grouping related form controls. It handles layout, labels, help text, and error messaging for groups of checkboxes, radio buttons, or similar controls.
+
+<Callout variant="info" title="Internal Component">
+  This is primarily used internally by CheckboxGroup and RadioGroup. For most use cases, prefer those higher-level components.
+</Callout>
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/inline-control-group
+```
+
+## Usage
+
+```jsx
+import { InlineControlGroup } from '@twilio-paste/core/inline-control-group';
+import { Checkbox } from '@twilio-paste/core/checkbox';
+
+const MyComponent = () => (
+  <InlineControlGroup
+    legend="Select your preferences"
+    helpText="Choose all that apply"
+    orientation="vertical"
+  >
+    <Checkbox id="option1" name="preferences" value="email">
+      Email notifications
+    </Checkbox>
+    <Checkbox id="option2" name="preferences" value="sms">
+      SMS notifications
+    </Checkbox>
+  </InlineControlGroup>
+);
+```
+
+### Vertical Orientation
+
+Stack controls vertically (default):
+
+```jsx
+import { InlineControlGroup } from '@twilio-paste/core/inline-control-group';
+import { Radio } from '@twilio-paste/core/radio';
+
+<InlineControlGroup
+  legend="Choose a plan"
+  orientation="vertical"
+  required
+>
+  <Radio id="basic" name="plan" value="basic">Basic</Radio>
+  <Radio id="pro" name="plan" value="pro">Pro</Radio>
+  <Radio id="enterprise" name="plan" value="enterprise">Enterprise</Radio>
+</InlineControlGroup>
+```
+
+### Horizontal Orientation
+
+Arrange controls horizontally:
+
+```jsx
+import { InlineControlGroup } from '@twilio-paste/core/inline-control-group';
+import { Radio } from '@twilio-paste/core/radio';
+
+<InlineControlGroup
+  legend="Select size"
+  orientation="horizontal"
+>
+  <Radio id="small" name="size" value="s">S</Radio>
+  <Radio id="medium" name="size" value="m">M</Radio>
+  <Radio id="large" name="size" value="l">L</Radio>
+</InlineControlGroup>
+```
+
+### With Error
+
+Display validation errors:
+
+```jsx
+import { InlineControlGroup } from '@twilio-paste/core/inline-control-group';
+import { Checkbox } from '@twilio-paste/core/checkbox';
+
+<InlineControlGroup
+  legend="Terms and conditions"
+  errorText="You must accept the terms to continue"
+  required
+>
+  <Checkbox id="terms" name="terms" value="accepted">
+    I accept the terms and conditions
+  </Checkbox>
+</InlineControlGroup>
+```
+
+### Required Group
+
+```jsx
+import { InlineControlGroup } from '@twilio-paste/core/inline-control-group';
+import { Radio } from '@twilio-paste/core/radio';
+
+<InlineControlGroup
+  legend="Contact method"
+  helpText="Choose your preferred contact method"
+  required
+  i18nRequiredLabel="(required)"
+>
+  <Radio id="email" name="contact" value="email">Email</Radio>
+  <Radio id="phone" name="contact" value="phone">Phone</Radio>
+</InlineControlGroup>
+```
+
+### Disabled Group
+
+```jsx
+import { InlineControlGroup } from '@twilio-paste/core/inline-control-group';
+import { Checkbox } from '@twilio-paste/core/checkbox';
+
+<InlineControlGroup
+  legend="Features"
+  disabled
+  helpText="Contact sales to enable these features"
+>
+  <Checkbox id="feature1" name="features" value="analytics">Analytics</Checkbox>
+  <Checkbox id="feature2" name="features" value="api">API Access</Checkbox>
+</InlineControlGroup>
+```
+
+## Props
+
+<ParamField path="legend" type="string | ReactNode" required>
+  The label text for the fieldset, rendered as a legend element.
+</ParamField>
+
+<ParamField path="children" type="ReactNode" required>
+  The form controls (checkboxes, radio buttons, etc.) to group together.
+</ParamField>
+
+<ParamField path="orientation" type="'vertical' | 'horizontal'" default="vertical">
+  Sets the direction in which controls are rendered.
+</ParamField>
+
+<ParamField path="helpText" type="string | ReactNode">
+  Help text displayed below the legend to provide additional context.
+</ParamField>
+
+<ParamField path="errorText" type="string | ReactNode">
+  Error message to display when validation fails.
+</ParamField>
+
+<ParamField path="required" type="boolean" default="false">
+  Marks the group as required and displays the required indicator.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables all controls in the group.
+</ParamField>
+
+<ParamField path="i18nRequiredLabel" type="string">
+  Accessible label for the required indicator on the legend.
+</ParamField>
+
+<ParamField path="fieldStyleProps" type="BoxStyleProps">
+  Additional style props to apply to the field container.
+</ParamField>
+
+<ParamField path="element" type="string" default="INLINE_CONTROL_GROUP">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Best Practices
+
+### Do
+
+- Use for grouping related checkboxes or radio buttons
+- Provide clear, descriptive legend text
+- Use help text to clarify what the user should select
+- Show validation errors in errorText
+- Use required prop for mandatory selections
+- Choose appropriate orientation based on label length and space
+
+### Don't
+
+- Don't use for unrelated controls
+- Don't nest InlineControlGroups
+- Don't mix different types of controls in one group
+- Don't use excessively long legends
+- Don't rely solely on color to indicate errors
+
+## Accessibility
+
+- Uses semantic `<fieldset>` and `<legend>` HTML elements
+- Properly associates help text and error messages with the group
+- Required state is announced to screen readers
+- Disabled state is conveyed through ARIA attributes
+- Error messages are associated with the fieldset
+- Legend provides accessible name for the group
+
+## Related Components
+
+- [Checkbox Group](/components/checkbox-group) - Group of checkboxes
+- [Radio Group](/components/radio-group) - Group of radio buttons
+- [Radio Button Group](/components/radio-button-group) - Group of button-style radios
+- [Checkbox](/components/checkbox) - Individual checkbox
+- [Radio](/components/radio) - Individual radio button

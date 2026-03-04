@@ -1,0 +1,180 @@
+---
+title: Base Radio Checkbox
+description: BaseRadioCheckbox is a shared base component that provides common functionality and styling for Radio and Checkbox components.
+---
+
+# Base Radio Checkbox
+
+BaseRadioCheckbox is a low-level component that provides the foundational building blocks for creating Radio and Checkbox components. It includes reusable parts for control styling, labels, and help text.
+
+<Callout variant="warning" title="Internal Component">
+  This is primarily an internal component used by Radio and Checkbox. In most cases, you should use the [Checkbox](/components/checkbox) or [Radio](/components/radio) components instead.
+</Callout>
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/base-radio-checkbox
+```
+
+## Component Parts
+
+BaseRadioCheckbox consists of four sub-components:
+
+### BaseRadioCheckboxControl
+
+The visual control box that displays the checked/unchecked state.
+
+```jsx
+import { BaseRadioCheckboxControl } from '@twilio-paste/core/base-radio-checkbox';
+import { CheckIcon } from '@twilio-paste/icons/esm/CheckIcon';
+
+<BaseRadioCheckboxControl disabled={false}>
+  <CheckIcon decorative size="sizeIcon20" />
+</BaseRadioCheckboxControl>
+```
+
+### BaseRadioCheckboxLabel
+
+The label wrapper that connects the label text to the input.
+
+```jsx
+import { BaseRadioCheckboxLabel } from '@twilio-paste/core/base-radio-checkbox';
+
+<BaseRadioCheckboxLabel htmlFor="input-id">
+  Label content
+</BaseRadioCheckboxLabel>
+```
+
+### BaseRadioCheckboxLabelText
+
+The text content within the label.
+
+```jsx
+import { BaseRadioCheckboxLabelText } from '@twilio-paste/core/base-radio-checkbox';
+
+<BaseRadioCheckboxLabelText>
+  Label text
+</BaseRadioCheckboxLabelText>
+```
+
+### BaseRadioCheckboxHelpText
+
+Help text displayed below the control.
+
+```jsx
+import { BaseRadioCheckboxHelpText } from '@twilio-paste/core/base-radio-checkbox';
+
+<BaseRadioCheckboxHelpText helpTextId="help-text-id">
+  Additional information about this option
+</BaseRadioCheckboxHelpText>
+```
+
+## Props
+
+### BaseRadioCheckboxControl
+
+<ParamField path="children" type="ReactNode" required>
+  The icon or content to display inside the control box (e.g., check mark icon).
+</ParamField>
+
+<ParamField path="disabled" type="boolean">
+  Whether the control is disabled.
+</ParamField>
+
+<ParamField path="applyHoverStyles" type="boolean" default="false">
+  Only used in Visual Picker to apply hover styles.
+</ParamField>
+
+<ParamField path="element" type="string" default="BASE_RADIO_CHECKBOX_CONTROL">
+  Overrides the default element name for customization.
+</ParamField>
+
+### BaseRadioCheckboxLabel
+
+<ParamField path="children" type="ReactNode" required>
+  The label content.
+</ParamField>
+
+<ParamField path="htmlFor" type="string">
+  The ID of the associated input element.
+</ParamField>
+
+Extends all standard Label component props.
+
+### BaseRadioCheckboxLabelText
+
+<ParamField path="children" type="ReactNode" required>
+  The text content of the label.
+</ParamField>
+
+<ParamField path="element" type="string" default="BASE_RADIO_CHECKBOX_LABEL_TEXT">
+  Overrides the default element name for customization.
+</ParamField>
+
+### BaseRadioCheckboxHelpText
+
+<ParamField path="children" type="ReactNode" required>
+  The help text content.
+</ParamField>
+
+<ParamField path="helpTextId" type="string" required>
+  Unique identifier for the help text element, used for aria-describedby.
+</ParamField>
+
+<ParamField path="element" type="string" default="BASE_RADIO_CHECKBOX_HELP_TEXT_WRAPPER">
+  Overrides the default element name for customization.
+</ParamField>
+
+## States
+
+The BaseRadioCheckboxControl supports multiple interactive states:
+
+- **Default**: Normal, unchecked state
+- **Hover**: Mouse hover state
+- **Focus**: Keyboard focus state
+- **Active**: Mouse down state
+- **Checked**: Selected state
+- **Disabled**: Non-interactive state
+- **Invalid**: Error state
+- **Checked + Hover**: Checked with mouse hover
+- **Checked + Focus**: Checked with keyboard focus
+- **Checked + Disabled**: Checked but disabled
+- **Invalid + Disabled**: Invalid but disabled
+
+## Best Practices
+
+### Do
+
+- Use this component as a building block for custom radio or checkbox-like controls
+- Maintain consistent spacing and sizing with the base implementation
+- Follow the established pattern for state management
+- Connect labels properly using htmlFor and input IDs
+
+### Don't
+
+- Don't use this for standard checkboxes or radios - use the Checkbox or Radio components
+- Don't modify core interaction states without good reason
+- Don't create controls that don't follow radio/checkbox semantics
+- Don't skip accessibility attributes when building on top of this component
+
+## Accessibility
+
+- Always associate labels with inputs using htmlFor
+- Use helpTextId to connect help text via aria-describedby
+- Ensure all interactive states have appropriate visual indicators
+- Maintain sufficient color contrast in all states
+- Support keyboard navigation (focus states)
+
+## Related Components
+
+- [Checkbox](/components/checkbox) - Standard checkbox input
+- [Radio](/components/radio) - Radio button input
+- [Checkbox Group](/components/checkbox-group) - Group of checkboxes
+- [Radio Group](/components/radio-group) - Group of radio buttons

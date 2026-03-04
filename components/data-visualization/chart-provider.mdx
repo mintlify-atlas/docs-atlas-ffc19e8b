@@ -1,0 +1,252 @@
+---
+title: Chart Provider
+description: ChartProvider is a wrapper component for data visualizations that manages chart state and configuration using Highcharts.
+---
+
+# Chart Provider
+
+ChartProvider wraps individual chart components to provide shared state, configuration, and context. It serves as the foundation for building data visualizations using Paste's charting system powered by Highcharts.
+
+<Callout variant="info" title="Beta Component">
+  Chart Provider is currently in beta. The API may change in future releases.
+</Callout>
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core highcharts
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/chart-provider highcharts
+```
+
+## Usage
+
+```jsx
+import { ChartProvider } from '@twilio-paste/core/chart-provider';
+
+const MyChart = () => (
+  <ChartProvider
+    options={{
+      chart: { type: 'line' },
+      series: [{
+        data: [1, 2, 3, 4, 5]
+      }]
+    }}
+  >
+    {/* Chart components go here */}
+  </ChartProvider>
+);
+```
+
+### With Highcharts Options
+
+Use native Highcharts configuration:
+
+```jsx
+import { ChartProvider } from '@twilio-paste/core/chart-provider';
+import { Chart } from '@twilio-paste/core/data-visualization-library';
+
+<ChartProvider
+  highchartsOptions={{
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Monthly Sales'
+    },
+    xAxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+    },
+    yAxis: {
+      title: {
+        text: 'Revenue ($)'
+      }
+    },
+    series: [{
+      name: 'Revenue',
+      data: [29000, 35000, 42000, 38000, 45000]
+    }]
+  }}
+>
+  <Chart />
+</ChartProvider>
+```
+
+### With Paste Chart Options
+
+Use Paste's simplified chart configuration API:
+
+```jsx
+import { ChartProvider } from '@twilio-paste/core/chart-provider';
+import { Chart } from '@twilio-paste/core/data-visualization-library';
+
+<ChartProvider
+  options={{
+    chart: { type: 'line' },
+    title: 'User Growth',
+    xAxis: {
+      categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4']
+    },
+    series: [{
+      name: 'Active Users',
+      data: [120, 150, 180, 210]
+    }]
+  }}
+>
+  <Chart />
+</ChartProvider>
+```
+
+### Line Chart Example
+
+```jsx
+import { ChartProvider } from '@twilio-paste/core/chart-provider';
+import { Chart } from '@twilio-paste/core/data-visualization-library';
+
+<ChartProvider
+  options={{
+    chart: { type: 'line' },
+    title: 'Response Time',
+    xAxis: {
+      categories: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00']
+    },
+    yAxis: {
+      title: 'Milliseconds'
+    },
+    series: [{
+      name: 'API Response Time',
+      data: [45, 52, 48, 65, 58, 51]
+    }]
+  }}
+>
+  <Chart />
+</ChartProvider>
+```
+
+### Bar Chart Example
+
+```jsx
+import { ChartProvider } from '@twilio-paste/core/chart-provider';
+import { Chart } from '@twilio-paste/core/data-visualization-library';
+
+<ChartProvider
+  options={{
+    chart: { type: 'bar' },
+    title: 'Feature Usage',
+    xAxis: {
+      categories: ['Feature A', 'Feature B', 'Feature C', 'Feature D']
+    },
+    series: [{
+      name: 'Usage Count',
+      data: [850, 620, 430, 290]
+    }]
+  }}
+>
+  <Chart />
+</ChartProvider>
+```
+
+### Pie Chart Example
+
+```jsx
+import { ChartProvider } from '@twilio-paste/core/chart-provider';
+import { Chart } from '@twilio-paste/core/data-visualization-library';
+
+<ChartProvider
+  options={{
+    chart: { type: 'pie' },
+    title: 'Traffic Sources',
+    series: [{
+      name: 'Sources',
+      data: [
+        { name: 'Direct', y: 35 },
+        { name: 'Organic', y: 28 },
+        { name: 'Referral', y: 22 },
+        { name: 'Social', y: 15 }
+      ]
+    }]
+  }}
+>
+  <Chart />
+</ChartProvider>
+```
+
+## Props
+
+<ParamField path="children" type="ReactNode">
+  Chart components that will use the provider's configuration and state.
+</ParamField>
+
+<ParamField path="options" type="ChartTypeOptions">
+  Paste's simplified chart configuration object. Use this OR `highchartsOptions`, not both.
+</ParamField>
+
+<ParamField path="highchartsOptions" type="Highcharts.Options">
+  Native Highcharts configuration object. Use this OR `options`, not both. Provides full control over chart configuration.
+</ParamField>
+
+<ParamField path="element" type="string" default="CHART_PROVIDER">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Chart Context
+
+ChartProvider creates a context that child components can access to:
+
+- Access the Highcharts chart instance
+- Read chart configuration
+- Subscribe to chart updates
+- Interact with the chart programmatically
+
+## Best Practices
+
+### Do
+
+- Use ChartProvider as the wrapper for all Paste chart components
+- Choose either `options` or `highchartsOptions`, not both
+- Keep chart configurations simple and focused
+- Use appropriate chart types for your data
+- Provide meaningful titles and axis labels
+- Test charts with real data volumes
+
+### Don't
+
+- Don't provide both `options` and `highchartsOptions` props
+- Don't create charts without proper labeling
+- Don't use complex chart types when simple ones suffice
+- Don't forget to handle loading and error states
+- Don't display charts without context or description
+
+### Choosing Chart Types
+
+- **Line charts**: Trends over time
+- **Bar/Column charts**: Comparing categories
+- **Pie charts**: Part-to-whole relationships (use sparingly)
+- **Area charts**: Volume over time
+- **Scatter plots**: Correlations between variables
+
+## Accessibility
+
+- Provide descriptive chart titles
+- Ensure sufficient color contrast between data series
+- Don't rely on color alone to convey information
+- Consider providing data tables as alternatives
+- Use patterns or textures in addition to colors when needed
+- Ensure charts are keyboard navigable
+- Provide text descriptions for complex visualizations
+
+## Performance
+
+- Limit data points for better performance (consider data aggregation)
+- Use appropriate update mechanisms for real-time data
+- Consider loading states for async data
+- Optimize re-renders by memoizing chart options
+
+## Related Components
+
+- [Data Grid](/components/data-grid) - Tabular data display
+- [Chart components](/components/data-visualization) - Specific chart implementations

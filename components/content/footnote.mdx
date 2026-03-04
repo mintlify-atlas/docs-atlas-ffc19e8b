@@ -1,0 +1,233 @@
+---
+title: Footnote
+description: Footnote is an inline number used within text to reference citations, additional information, or supplementary details.
+---
+
+# Footnote
+
+Footnote displays a small, numbered indicator inline with text that references related information. It can optionally display additional context in a tooltip when the user hovers over or focuses on it.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/footnote
+```
+
+## Usage
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+
+const MyComponent = () => (
+  <Text as="p">
+    Paste is Twilio's design system<Footnote>1</Footnote> for building consistent user experiences.
+  </Text>
+);
+```
+
+### Basic Footnote
+
+Simple numbered footnote without tooltip:
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+
+<Text as="p">
+  The average response time is 250ms<Footnote>*</Footnote> for API calls.
+</Text>
+```
+
+### With Tooltip
+
+Provide additional context on hover:
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+
+<Text as="p">
+  Service uptime is 99.95%
+  <Footnote tooltipText="Measured over the last 12 months">1</Footnote>
+  across all regions.
+</Text>
+```
+
+### Multiple Footnotes
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+import { Stack } from '@twilio-paste/core/stack';
+
+<Stack orientation="vertical" spacing="space60">
+  <Text as="p">
+    Twilio offers SMS<Footnote tooltipText="Short Message Service">1</Footnote>,
+    Voice<Footnote tooltipText="PSTN and VoIP calling">2</Footnote>, and
+    Video<Footnote tooltipText="WebRTC-based video conferencing">3</Footnote> services.
+  </Text>
+  
+  <Box>
+    <Text as="p" fontSize="fontSize20" color="colorTextWeak">
+      <Footnote>1</Footnote> Short Message Service<br />
+      <Footnote>2</Footnote> PSTN and VoIP calling<br />
+      <Footnote>3</Footnote> WebRTC-based video conferencing
+    </Text>
+  </Box>
+</Stack>
+```
+
+### In Pricing Tables
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+import { Card } from '@twilio-paste/core/card';
+
+<Card>
+  <Text as="h3" fontSize="fontSize60" fontWeight="fontWeightBold">
+    $29/month<Footnote tooltipText="Billed annually">*</Footnote>
+  </Text>
+  <Text as="p">
+    Includes 10,000 API calls<Footnote tooltipText="Additional calls billed at $0.005 each">**</Footnote>
+  </Text>
+</Card>
+```
+
+### Citations
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+
+<Text as="p">
+  According to recent studies, API-first development improves time to market by 35%
+  <Footnote tooltipText="Source: TechResearch 2025">1</Footnote>.
+</Text>
+```
+
+### Symbols Instead of Numbers
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Text } from '@twilio-paste/core/text';
+
+<Text as="p">
+  Starting at $0.01 per message<Footnote tooltipText="Pricing varies by destination">*</Footnote>
+</Text>
+```
+
+### In Data Tables
+
+```jsx
+import { Footnote } from '@twilio-paste/core/footnote';
+import { Table, THead, TBody, Tr, Th, Td } from '@twilio-paste/core/table';
+
+<Table>
+  <THead>
+    <Tr>
+      <Th>Feature</Th>
+      <Th>Availability</Th>
+    </Tr>
+  </THead>
+  <TBody>
+    <Tr>
+      <Td>SMS Delivery<Footnote>1</Footnote></Td>
+      <Td>99.95%</Td>
+    </Tr>
+    <Tr>
+      <Td>Voice Quality<Footnote>2</Footnote></Td>
+      <Td>HD Audio</Td>
+    </Tr>
+  </TBody>
+</Table>
+```
+
+## Props
+
+<ParamField path="children" type="string" required>
+  The footnote marker text. Typically a number ("1", "2") or symbol ("*", "†").
+</ParamField>
+
+<ParamField path="tooltipText" type="string">
+  Optional text to display in a tooltip when hovering over or focusing on the footnote.
+</ParamField>
+
+<ParamField path="element" type="string" default="FOOTNOTE">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+## Best Practices
+
+### Do
+
+- Use footnotes for supplementary information that would disrupt reading flow
+- Keep footnote markers short (1-2 characters)
+- Use sequential numbering for multiple footnotes
+- Provide full explanations in a reference section when not using tooltips
+- Use tooltips for short, helpful context
+- Place footnotes immediately after the word or phrase they reference
+
+### Don't
+
+- Don't use footnotes for essential information - put critical details in the main text
+- Don't overuse footnotes - they can make content harder to read
+- Don't use inconsistent numbering or symbols within the same context
+- Don't make tooltip text too long (keep under 100 characters)
+- Don't rely solely on tooltips for important disclosures (provide reference list)
+- Don't use footnotes for interactive elements or calls to action
+
+### When to Use Footnotes
+
+**Good use cases:**
+- Citations and sources
+- Pricing qualifications ("*Billed annually")
+- Technical specifications
+- Legal disclaimers
+- Product limitations or conditions
+- Data measurement clarifications
+
+**Avoid for:**
+- Primary product information
+- Critical warnings (use Callout instead)
+- Navigation or actions (use Link or Button)
+- Help text (use Help Text component)
+
+## Accessibility
+
+- Footnote uses semantic `<sup>` element
+- When tooltipText is provided, the footnote becomes keyboard accessible
+- Tooltip content is announced to screen readers
+- Focus indicator is clearly visible for keyboard users
+- Consider providing a visible reference list for screen reader users
+- Don't rely on color alone to distinguish footnotes
+
+### Keyboard Interaction
+
+When tooltipText is provided:
+
+- **Tab**: Focus the footnote
+- **Hover/Focus**: Display tooltip
+- **Esc**: Dismiss tooltip
+
+## Styling
+
+- Footnote appears as a small, circular badge slightly elevated from the baseline
+- Background color distinguishes it from surrounding text
+- Consistent sizing ensures readability
+- Shadow provides subtle depth
+- Interactive footnotes (with tooltips) show visual feedback on hover/focus
+
+## Related Components
+
+- [Tooltip](/components/tooltip) - Display contextual information on hover
+- [Help Text](/components/help-text) - Descriptive text for form fields
+- [Callout](/components/callout) - Highlighted content blocks
+- [Anchor](/components/anchor) - Navigation links

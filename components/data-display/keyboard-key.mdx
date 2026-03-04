@@ -1,0 +1,240 @@
+---
+title: Keyboard Key
+description: KeyboardKey distinguishes keyboard commands and shortcuts from other text, with support for combinations and visual states.
+---
+
+# Keyboard Key
+
+KeyboardKey is a component that visually represents keyboard keys and shortcuts. It helps users identify keyboard commands in documentation, tooltips, and UI instructions.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/keyboard-key
+```
+
+## Usage
+
+```jsx
+import { KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+const MyComponent = () => (
+  <p>
+    Press <KeyboardKey>Enter</KeyboardKey> to submit
+  </p>
+);
+```
+
+### Single Keys
+
+Display individual keyboard keys:
+
+```jsx
+import { KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+<p>
+  Press <KeyboardKey>Esc</KeyboardKey> to close the dialog
+</p>
+
+<p>
+  Use <KeyboardKey>Tab</KeyboardKey> to navigate between fields
+</p>
+
+<p>
+  Press <KeyboardKey>?</KeyboardKey> to show keyboard shortcuts
+</p>
+```
+
+### Keyboard Shortcuts with KeyboardKeyGroup
+
+Use KeyboardKeyGroup to display key combinations:
+
+```jsx
+import { KeyboardKeyGroup, KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+<p>
+  Press{' '}
+  <KeyboardKeyGroup>
+    <KeyboardKey>Ctrl</KeyboardKey>
+    <KeyboardKey>C</KeyboardKey>
+  </KeyboardKeyGroup>
+  {' '}to copy
+</p>
+
+<p>
+  Press{' '}
+  <KeyboardKeyGroup>
+    <KeyboardKey>⌘</KeyboardKey>
+    <KeyboardKey>Shift</KeyboardKey>
+    <KeyboardKey>P</KeyboardKey>
+  </KeyboardKeyGroup>
+  {' '}to open the command palette
+</p>
+```
+
+### Interactive States
+
+Show visual feedback when keys are pressed:
+
+```jsx
+import { KeyboardKeyGroup, KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+<KeyboardKeyGroup
+  activeKeys={['ctrl', 's']}
+  enablePressStyles
+>
+  <KeyboardKey keyEvent="ctrl">Ctrl</KeyboardKey>
+  <KeyboardKey keyEvent="s">S</KeyboardKey>
+</KeyboardKeyGroup>
+```
+
+### Disabled State
+
+```jsx
+import { KeyboardKeyGroup, KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+<KeyboardKeyGroup disabled>
+  <KeyboardKey>Ctrl</KeyboardKey>
+  <KeyboardKey>V</KeyboardKey>
+</KeyboardKeyGroup>
+```
+
+### Inverse Variant
+
+Use the inverse variant on dark backgrounds:
+
+```jsx
+import { KeyboardKeyGroup, KeyboardKey } from '@twilio-paste/core/keyboard-key';
+import { Box } from '@twilio-paste/core/box';
+
+<Box backgroundColor="colorBackgroundBodyInverse" padding="space40">
+  <KeyboardKeyGroup variant="inverse">
+    <KeyboardKey>Ctrl</KeyboardKey>
+    <KeyboardKey>K</KeyboardKey>
+  </KeyboardKeyGroup>
+</Box>
+```
+
+## Props
+
+### KeyboardKey
+
+<ParamField path="children" type="ReactNode" required>
+  The keyboard key text to display (e.g., "Enter", "Ctrl", "⌘").
+</ParamField>
+
+<ParamField path="keyEvent" type="string">
+  Sets the key identifier used to determine if the key has press styling. Should match JavaScript KeyboardEvent.key values. See [KeyCode List](https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/) for reference.
+</ParamField>
+
+<ParamField path="element" type="string" default="KEYBOARD_KEY">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+### KeyboardKeyGroup
+
+<ParamField path="children" type="ReactNode" required>
+  Multiple KeyboardKey components representing a key combination.
+</ParamField>
+
+<ParamField path="activeKeys" type="string[]">
+  Array of key identifiers that are currently active/pressed. Keys in this array will receive press styling.
+</ParamField>
+
+<ParamField path="disabled" type="boolean" default="false">
+  Disables the key combination and applies disabled styling.
+</ParamField>
+
+<ParamField path="enablePressStyles" type="boolean" default="false">
+  Enables visual press state styling for keys in the activeKeys array.
+</ParamField>
+
+<ParamField path="variant" type="'default' | 'inverse'" default="default">
+  Visual variant. Use "inverse" for dark backgrounds.
+</ParamField>
+
+<ParamField path="element" type="string" default="KEYBOARD_KEY_GROUP">
+  Overrides the default element name for customization.
+</ParamField>
+
+## Best Practices
+
+### Do
+
+- Use KeyboardKey to make keyboard shortcuts scannable in documentation
+- Use KeyboardKeyGroup for multi-key combinations
+- Keep key labels short and recognizable ("Ctrl" not "Control")
+- Use platform-specific symbols (⌘ for Mac Command key)
+- Show the most common shortcut for each action
+- Group related shortcuts together in documentation
+
+### Don't
+
+- Don't use for text that isn't a keyboard key
+- Don't create overly long key combinations (3-4 keys maximum)
+- Don't use inconsistent key naming across your product
+- Don't rely solely on keyboard shortcuts for critical functionality
+- Don't forget to document platform differences (Mac vs Windows)
+
+## Accessibility
+
+- KeyboardKey uses semantic `<kbd>` HTML element
+- Key combinations are marked up properly for screen readers
+- Visual styling provides clear distinction from body text
+- Disabled state is conveyed through visual styling
+- Consider providing alternative text for symbol keys (⌘, ⌥, etc.)
+
+## Common Key Patterns
+
+### Windows/Linux Shortcuts
+
+```jsx
+import { KeyboardKeyGroup, KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+// Copy
+<KeyboardKeyGroup>
+  <KeyboardKey>Ctrl</KeyboardKey>
+  <KeyboardKey>C</KeyboardKey>
+</KeyboardKeyGroup>
+
+// Paste
+<KeyboardKeyGroup>
+  <KeyboardKey>Ctrl</KeyboardKey>
+  <KeyboardKey>V</KeyboardKey>
+</KeyboardKeyGroup>
+
+// Save
+<KeyboardKeyGroup>
+  <KeyboardKey>Ctrl</KeyboardKey>
+  <KeyboardKey>S</KeyboardKey>
+</KeyboardKeyGroup>
+```
+
+### Mac Shortcuts
+
+```jsx
+import { KeyboardKeyGroup, KeyboardKey } from '@twilio-paste/core/keyboard-key';
+
+// Copy
+<KeyboardKeyGroup>
+  <KeyboardKey>⌘</KeyboardKey>
+  <KeyboardKey>C</KeyboardKey>
+</KeyboardKeyGroup>
+
+// Command palette
+<KeyboardKeyGroup>
+  <KeyboardKey>⌘</KeyboardKey>
+  <KeyboardKey>K</KeyboardKey>
+</KeyboardKeyGroup>
+```
+
+## Related Components
+
+- [Tooltip](/components/tooltip) - Show keyboard shortcuts in tooltips
+- [Inline Code](/components/inline-code) - Display code snippets inline

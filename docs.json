@@ -58,17 +58,22 @@
               "components/layout/grid",
               "components/layout/stack",
               "components/layout/separator",
-              "components/layout/media-object"
+              "components/layout/media-object",
+              "components/layout/aspect-ratio"
             ]
           },
           {
             "group": "Form Elements",
             "pages": [
+              "components/form/form",
               "components/form/input",
+              "components/form/input-box",
               "components/form/textarea",
               "components/form/select",
               "components/form/checkbox",
               "components/form/radio-group",
+              "components/form/radio-button-group",
+              "components/form/base-radio-checkbox",
               "components/form/combobox",
               "components/form/date-picker",
               "components/form/time-picker",
@@ -76,6 +81,7 @@
               "components/form/file-uploader",
               "components/form/switch",
               "components/form/slider",
+              "components/form/inline-control-group",
               "components/form/label",
               "components/form/help-text"
             ]
@@ -111,7 +117,9 @@
               "components/data-display/status",
               "components/data-display/timeline",
               "components/data-display/code-block",
-              "components/data-display/inline-code"
+              "components/data-display/inline-code",
+              "components/data-display/keyboard-key",
+              "components/data-display/corner-ornament"
             ]
           },
           {
@@ -179,6 +187,20 @@
               "components/utilities/visual-picker",
               "components/utilities/display-pill-group",
               "components/utilities/form-pill-group"
+            ]
+          },
+          {
+            "group": "Data Visualization",
+            "pages": [
+              "components/data-visualization/chart-provider",
+              "components/data-visualization/editable-code-block"
+            ]
+          },
+          {
+            "group": "Content",
+            "pages": [
+              "components/content/footnote",
+              "components/content/summary-detail"
             ]
           }
         ]

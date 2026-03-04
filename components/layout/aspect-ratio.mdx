@@ -1,0 +1,134 @@
+---
+title: Aspect Ratio
+description: AspectRatio maintains a consistent width-to-height ratio for media content like videos and images.
+---
+
+# Aspect Ratio
+
+AspectRatio is a layout component that maintains a consistent width-to-height ratio for its children. This is particularly useful for responsive media content like videos, images, and iframes that need to scale proportionally.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/aspect-ratio
+```
+
+## Usage
+
+```jsx
+import { AspectRatio } from '@twilio-paste/core/aspect-ratio';
+
+const MyComponent = () => (
+  <AspectRatio ratio="16:9">
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      title="Video player"
+      allowFullScreen
+    />
+  </AspectRatio>
+);
+```
+
+### Video Embedding
+
+Use AspectRatio to embed responsive videos that maintain their aspect ratio:
+
+```jsx
+import { AspectRatio } from '@twilio-paste/core/aspect-ratio';
+
+<AspectRatio ratio="16:9">
+  <iframe
+    src="https://www.youtube.com/embed/example"
+    title="Embedded video"
+    allowFullScreen
+  />
+</AspectRatio>
+```
+
+### Image Containers
+
+Create consistent image containers with specific aspect ratios:
+
+```jsx
+import { AspectRatio } from '@twilio-paste/core/aspect-ratio';
+import { Box } from '@twilio-paste/core/box';
+
+<AspectRatio ratio="4:3">
+  <img
+    src="/path/to/image.jpg"
+    alt="Description"
+    style={{ objectFit: 'cover' }}
+  />
+</AspectRatio>
+```
+
+### Common Aspect Ratios
+
+```jsx
+import { AspectRatio } from '@twilio-paste/core/aspect-ratio';
+
+// Widescreen video (16:9)
+<AspectRatio ratio="16:9">
+  <video src="video.mp4" />
+</AspectRatio>
+
+// Standard photo (4:3)
+<AspectRatio ratio="4:3">
+  <img src="photo.jpg" alt="Photo" />
+</AspectRatio>
+
+// Square (1:1)
+<AspectRatio ratio="1:1">
+  <div>Square content</div>
+</AspectRatio>
+
+// Portrait (3:4)
+<AspectRatio ratio="3:4">
+  <img src="portrait.jpg" alt="Portrait" />
+</AspectRatio>
+```
+
+## Props
+
+<ParamField path="ratio" type="string" required>
+  The aspect ratio using a colon-separated number pattern (width:height). Examples: "16:9", "4:3", "1:1", "21:9".
+</ParamField>
+
+<ParamField path="children" type="ReactNode" required>
+  The content to maintain at the specified aspect ratio. Commonly used with iframe, video, img, or other media elements.
+</ParamField>
+
+## Best Practices
+
+### Do
+
+- Use AspectRatio for media content that needs to scale responsively
+- Use standard aspect ratios like 16:9 for videos and 4:3 for images
+- Ensure the ratio prop uses the correct format (width:height with colon)
+- Wrap iframes, videos, and images that need consistent proportions
+
+### Don't
+
+- Don't use AspectRatio for content that doesn't need a fixed aspect ratio
+- Don't use invalid ratio formats (the component will throw an error)
+- Don't nest multiple AspectRatio components
+- Don't use for layout containers that should flow naturally
+
+## Accessibility
+
+- AspectRatio is purely a layout component with no accessibility requirements
+- Ensure child elements (iframes, videos, images) have appropriate accessibility attributes
+- Provide descriptive alt text for images
+- Include title attributes for iframes
+- Ensure videos have captions when needed
+
+## Related Components
+
+- [Box](/components/box) - Flexible container component
+- [Media Object](/components/media-object) - Layout for image/icon with text content

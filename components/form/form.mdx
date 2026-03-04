@@ -1,0 +1,353 @@
+---
+title: Form
+description: Form provides a semantic container for grouping form controls with consistent spacing and layout.
+---
+
+# Form
+
+Form is a wrapper component that provides a semantic `<form>` element with automatic spacing between form fields. It ensures consistent layout and accessibility for form structures.
+
+## Installation
+
+```bash
+yarn add @twilio-paste/core
+```
+
+Or if you need just this component:
+
+```bash
+yarn add @twilio-paste/form
+```
+
+## Usage
+
+```jsx
+import { Form } from '@twilio-paste/core/form';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { Button } from '@twilio-paste/core/button';
+
+const MyComponent = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" name="email" type="email" required />
+      
+      <Label htmlFor="password">Password</Label>
+      <Input id="password" name="password" type="password" required />
+      
+      <Button type="submit" variant="primary">Sign In</Button>
+    </Form>
+  );
+};
+```
+
+### Basic Form
+
+```jsx
+import { Form } from '@twilio-paste/core/form';
+import { FormControl } from '@twilio-paste/core/form-control';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { Button } from '@twilio-paste/core/button';
+
+<Form>
+  <FormControl>
+    <Label htmlFor="name" required>
+      Full Name
+    </Label>
+    <Input id="name" name="name" type="text" required />
+  </FormControl>
+
+  <FormControl>
+    <Label htmlFor="email" required>
+      Email Address
+    </Label>
+    <Input id="email" name="email" type="email" required />
+  </FormControl>
+
+  <Button type="submit" variant="primary">
+    Submit
+  </Button>
+</Form>
+```
+
+### With Maximum Width
+
+Constrain form width for better readability:
+
+```jsx
+import { Form } from '@twilio-paste/core/form';
+import { FormControl } from '@twilio-paste/core/form-control';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { TextArea } from '@twilio-paste/core/textarea';
+import { Button } from '@twilio-paste/core/button';
+
+<Form maxWidth="size60">
+  <FormControl>
+    <Label htmlFor="subject">Subject</Label>
+    <Input id="subject" name="subject" type="text" />
+  </FormControl>
+
+  <FormControl>
+    <Label htmlFor="message">Message</Label>
+    <TextArea id="message" name="message" />
+  </FormControl>
+
+  <Button type="submit" variant="primary">
+    Send Message
+  </Button>
+</Form>
+```
+
+### Registration Form
+
+```jsx
+import { Form } from '@twilio-paste/core/form';
+import { FormControl } from '@twilio-paste/core/form-control';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { HelpText } from '@twilio-paste/core/help-text';
+import { Button } from '@twilio-paste/core/button';
+
+<Form maxWidth="size70">
+  <FormControl>
+    <Label htmlFor="username" required>
+      Username
+    </Label>
+    <Input id="username" name="username" type="text" required />
+    <HelpText>Choose a unique username</HelpText>
+  </FormControl>
+
+  <FormControl>
+    <Label htmlFor="email" required>
+      Email
+    </Label>
+    <Input id="email" name="email" type="email" required />
+  </FormControl>
+
+  <FormControl>
+    <Label htmlFor="password" required>
+      Password
+    </Label>
+    <Input id="password" name="password" type="password" required />
+    <HelpText>Must be at least 8 characters</HelpText>
+  </FormControl>
+
+  <FormControl>
+    <Label htmlFor="confirm" required>
+      Confirm Password
+    </Label>
+    <Input id="confirm" name="confirm" type="password" required />
+  </FormControl>
+
+  <Button type="submit" variant="primary" fullWidth>
+    Create Account
+  </Button>
+</Form>
+```
+
+### Form with Validation
+
+```jsx
+import { Form } from '@twilio-paste/core/form';
+import { FormControl } from '@twilio-paste/core/form-control';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { HelpText } from '@twilio-paste/core/help-text';
+import { Button } from '@twilio-paste/core/button';
+
+const [errors, setErrors] = React.useState({});
+
+<Form onSubmit={handleSubmit}>
+  <FormControl>
+    <Label htmlFor="phone" required>
+      Phone Number
+    </Label>
+    <Input
+      id="phone"
+      name="phone"
+      type="tel"
+      required
+      hasError={!!errors.phone}
+    />
+    {errors.phone ? (
+      <HelpText variant="error">{errors.phone}</HelpText>
+    ) : (
+      <HelpText>Include country code</HelpText>
+    )}
+  </FormControl>
+
+  <Button type="submit" variant="primary">
+    Submit
+  </Button>
+</Form>
+```
+
+### Multi-Column Form
+
+```jsx
+import { Form } from '@twilio-paste/core/form';
+import { FormControl } from '@twilio-paste/core/form-control';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { Grid, Column } from '@twilio-paste/core/grid';
+import { Button } from '@twilio-paste/core/button';
+
+<Form>
+  <Grid gutter="space60">
+    <Column span={6}>
+      <FormControl>
+        <Label htmlFor="firstName">First Name</Label>
+        <Input id="firstName" name="firstName" type="text" />
+      </FormControl>
+    </Column>
+    <Column span={6}>
+      <FormControl>
+        <Label htmlFor="lastName">Last Name</Label>
+        <Input id="lastName" name="lastName" type="text" />
+      </FormControl>
+    </Column>
+  </Grid>
+
+  <FormControl>
+    <Label htmlFor="address">Street Address</Label>
+    <Input id="address" name="address" type="text" />
+  </FormControl>
+
+  <Grid gutter="space60">
+    <Column span={6}>
+      <FormControl>
+        <Label htmlFor="city">City</Label>
+        <Input id="city" name="city" type="text" />
+      </FormControl>
+    </Column>
+    <Column span={3}>
+      <FormControl>
+        <Label htmlFor="state">State</Label>
+        <Input id="state" name="state" type="text" />
+      </FormControl>
+    </Column>
+    <Column span={3}>
+      <FormControl>
+        <Label htmlFor="zip">ZIP</Label>
+        <Input id="zip" name="zip" type="text" />
+      </FormControl>
+    </Column>
+  </Grid>
+
+  <Button type="submit" variant="primary">
+    Save Address
+  </Button>
+</Form>
+```
+
+### Form Actions
+
+```jsx
+import { Form, FormActions } from '@twilio-paste/core/form';
+import { FormControl } from '@twilio-paste/core/form-control';
+import { Label } from '@twilio-paste/core/label';
+import { Input } from '@twilio-paste/core/input';
+import { Button } from '@twilio-paste/core/button';
+
+<Form>
+  <FormControl>
+    <Label htmlFor="apiKey">API Key Name</Label>
+    <Input id="apiKey" name="apiKey" type="text" />
+  </FormControl>
+
+  <FormActions>
+    <Button variant="secondary" type="button">
+      Cancel
+    </Button>
+    <Button variant="primary" type="submit">
+      Create API Key
+    </Button>
+  </FormActions>
+</Form>
+```
+
+## Props
+
+<ParamField path="children" type="ReactNode" required>
+  Form controls and content.
+</ParamField>
+
+<ParamField path="maxWidth" type="BoxStyleProps['maxWidth']">
+  Maximum width of the form container. Use Paste size tokens (e.g., "size60", "size70").
+</ParamField>
+
+<ParamField path="element" type="string" default="FORM">
+  Overrides the default element name to apply unique styles with the Customization Provider.
+</ParamField>
+
+<ParamField path="onSubmit" type="FormEventHandler">
+  Form submission handler.
+</ParamField>
+
+Form also accepts all standard HTML form attributes (action, method, encType, etc.).
+
+## Spacing
+
+Form automatically applies vertical spacing between child elements:
+
+- Default gap: `space80` (1.25rem / 20px)
+- Creates consistent spacing without manual margin management
+- Uses CSS flexbox with column direction
+
+## Best Practices
+
+### Do
+
+- Use Form as the container for all form-related inputs
+- Include proper labels for all form fields
+- Use FormControl to group labels with their inputs
+- Handle form submission with onSubmit
+- Provide validation feedback with error messages
+- Use appropriate input types for better mobile UX
+- Set maxWidth for better readability (typically size60-size70)
+
+### Don't
+
+- Don't use Form for non-form content
+- Don't forget to handle form submission (preventDefault)
+- Don't skip labels or rely on placeholder text alone
+- Don't create overly long forms - break into steps if needed
+- Don't use only client-side validation - always validate server-side
+- Don't forget to indicate required fields
+
+## Accessibility
+
+- Uses semantic `<form>` HTML element
+- Properly associates labels with inputs
+- Supports keyboard navigation (Tab, Enter to submit)
+- Error messages are associated with their fields
+- Required fields are properly marked
+- Focus management on validation errors
+- Ensure submit buttons are clearly identified
+
+### Form Validation
+
+- Use HelpText with variant="error" for validation messages
+- Set hasError prop on invalid inputs
+- Move focus to first error on submission
+- Announce errors to screen readers
+- Show inline validation when appropriate
+
+## Related Components
+
+- [FormControl](/components/form-control) - Groups label, input, and help text
+- [FormActions](/components/form-actions) - Container for form action buttons
+- [Input](/components/input) - Text input field
+- [TextArea](/components/textarea) - Multi-line text input
+- [Select](/components/select) - Dropdown selection
+- [Checkbox](/components/checkbox) - Checkbox input
+- [Radio Group](/components/radio-group) - Radio button group
+- [Button](/components/button) - Form submission buttons
